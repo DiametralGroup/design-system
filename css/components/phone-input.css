@@ -36,6 +36,9 @@
 .ds-phone-input:focus-within {
   border-bottom-color: var(--ds-focus-ring);
 }
+.ds-phone-input:has([aria-invalid="true"]) {
+  border-bottom-color: var(--ds-danger-ink);
+}
 .ds-phone-input[data-disabled] {
   pointer-events: none;
   opacity: 0.5;

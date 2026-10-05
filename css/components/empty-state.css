@@ -88,7 +88,7 @@
   text-decoration-line: underline;
 }
 .ds-empty-description > a:hover {
-  color: var(--ds-accent);
+  color: var(--ds-ink-soft);
 }
 
 .ds-empty-content {

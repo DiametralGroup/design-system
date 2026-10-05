@@ -76,8 +76,8 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--ds-radius-none);
-  background: var(--ds-accent);
-  color: var(--ds-on-accent);
+  background: var(--ds-ink);
+  color: var(--ds-bg);
   box-shadow: 0 0 0 2px var(--ds-bg);
   user-select: none;
 }
@@ -110,6 +110,10 @@
 }
 .ds-avatar-group > * + * {
   margin-inline-start: -0.5rem;
+}
+/* Less overlap at sm, so two-letter initials are not clipped. */
+.ds-avatar-group:has(> [data-size="sm"]) > * + * {
+  margin-inline-start: -0.25rem;
 }
 /* Matches the class as well as the slot: hand-written HTML has no data-slot,
    and the ring is what separates one overlapping tile from the next. */

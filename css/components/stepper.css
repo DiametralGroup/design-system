@@ -65,10 +65,10 @@
   line-height: var(--ds-leading-tight);
 }
 
-/* Active step — accent marker, full-ink label */
+/* Active step — ink marker, full-ink label (no default accent colour) */
 .ds-stepper__step.is-active .ds-stepper__marker {
-  border-color: var(--ds-accent);
-  color: var(--ds-accent);
+  border-color: var(--ds-ink);
+  color: var(--ds-ink);
 }
 .ds-stepper__step.is-active .ds-stepper__label {
   color: var(--ds-ink);

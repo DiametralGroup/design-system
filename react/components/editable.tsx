@@ -53,8 +53,13 @@ function Editable({
   placeholder = "Empty",
   disabled = false,
   submitOnBlur = true,
+  // `aria-label` names the field, not the wrapper: it labels the input and
+  // suffixes each button ("Edit Project name"), so several Editables on one
+  // page stay distinguishable.
+  "aria-label": fieldName,
   ...props
 }: EditableProps) {
+  const label = (verb: string) => (fieldName ? `${verb} ${fieldName}` : verb);
   const [committed, setCommitted] = useControllableValue<string>({
     value,
     defaultValue,
@@ -97,6 +102,7 @@ function Editable({
         <Input
           ref={inputRef}
           data-slot="editable-input"
+          aria-label={fieldName}
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
           onKeyDown={(event) => {
@@ -112,7 +118,7 @@ function Editable({
         />
         <IconButton
           size="icon-xs"
-          label="Save"
+          label={label("Save")}
           onMouseDown={(event) => event.preventDefault()}
           onClick={submit}
         >
@@ -120,7 +126,7 @@ function Editable({
         </IconButton>
         <IconButton
           size="icon-xs"
-          label="Cancel"
+          label={label("Cancel")}
           onMouseDown={(event) => event.preventDefault()}
           onClick={cancel}
         >
@@ -142,7 +148,7 @@ function Editable({
       </span>
       <IconButton
         size="icon-xs"
-        label="Edit"
+        label={label("Edit")}
         disabled={disabled}
         onClick={startEditing}
         className="ds-editable-edit-button"

@@ -41,6 +41,7 @@ function Wizard({
   defaultActive = 0,
   onStepChange,
   onFinish,
+  onBeforeNext,
   label = "Progress",
   backLabel = "Back",
   nextLabel = "Next",
@@ -52,6 +53,9 @@ function Wizard({
   defaultActive?: number
   onStepChange?: (index: number) => void
   onFinish?: () => void
+  /** Runs on Next with the current index; resolve `false` to stay put (e.g.
+   *  the step's form failed validation). Next is disabled while it settles. */
+  onBeforeNext?: (index: number) => boolean | Promise<boolean>
   /** Accessible name for the step trail. */
   label?: string
   backLabel?: React.ReactNode
@@ -72,6 +76,19 @@ function Wizard({
   const goTo = (index: number) => {
     const next = Math.max(0, Math.min(count - 1, index))
     if (next !== current) setCurrent(next)
+  }
+
+  const [checking, setChecking] = React.useState(false)
+  const advance = async () => {
+    if (onBeforeNext) {
+      setChecking(true)
+      try {
+        if (!(await onBeforeNext(current))) return
+      } finally {
+        setChecking(false)
+      }
+    }
+    goTo(current + 1)
   }
 
   return (
@@ -117,8 +134,8 @@ function Wizard({
         <Button
           // `disableNext` gates advancing, never finishing: a flow whose last
           // step is unsatisfied should say so rather than trap the reader.
-          disabled={!isLast && Boolean(step?.disableNext)}
-          onClick={() => (isLast ? onFinish?.() : goTo(current + 1))}
+          disabled={checking || (!isLast && Boolean(step?.disableNext))}
+          onClick={() => (isLast ? onFinish?.() : void advance())}
         >
           {isLast ? finishLabel : nextLabel}
         </Button>

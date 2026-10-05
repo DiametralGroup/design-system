@@ -8,7 +8,7 @@ import {
 
 export default function CarouselBasic() {
   return (
-    <div className="w-full max-w-sm px-12">
+    <div className="w-full max-w-sm">
       <Carousel>
         <CarouselContent>
           {Array.from({ length: 4 }, (_, index) => (

@@ -40,7 +40,7 @@
   color: var(--ds-ink-soft);
 }
 .ds-rating-item[data-shape="star"].ds-rating-item--active {
-  color: var(--ds-accent);
+  color: var(--ds-ink);
 }
 
 .ds-rating-item[data-shape="default"] {
@@ -51,7 +51,7 @@
   transition-property: background-color, translate;
 }
 .ds-rating-item[data-shape="default"].ds-rating-item--active {
-  background-color: var(--ds-accent);
+  background-color: var(--ds-ink);
 }
 .ds-rating-item[data-shape="default"].ds-rating-item--hover-lift:hover {
   translate: 0 -1px;

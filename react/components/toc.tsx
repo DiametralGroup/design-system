@@ -64,6 +64,18 @@ function TocItem({
   )
 }
 
+// Under a hash router (`#/route`) a plain `#section` anchor replaces the
+// route, so the link scrolls to its target instead of navigating. Every other
+// app keeps the native anchor jump.
+function scrollUnderHashRouter(event: React.MouseEvent<HTMLAnchorElement>) {
+  const href = event.currentTarget.getAttribute("href")
+  if (!href?.startsWith("#") || !window.location.hash.startsWith("#/")) return
+  const target = document.getElementById(decodeURIComponent(href.slice(1)))
+  if (!target) return
+  event.preventDefault()
+  target.scrollIntoView()
+}
+
 function TocLink({
   className,
   current,
@@ -75,6 +87,7 @@ function TocLink({
     props: mergeProps<"a">(
       {
         "aria-current": current ? ("location" as const) : undefined,
+        onClick: scrollUnderHashRouter,
         className: cx(
           "ds-toc-link",
           current && "ds-toc-link--current",

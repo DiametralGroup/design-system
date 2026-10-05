@@ -49,7 +49,8 @@ function ColorPicker({
   swatches = BRAND_SWATCHES,
   disabled,
   name,
-  "aria-label": ariaLabel = "Colour",
+  id,
+  "aria-label": ariaLabel,
   ...props
 }: Omit<React.ComponentProps<"div">, "onChange" | "defaultValue"> & {
   value?: string
@@ -76,7 +77,9 @@ function ColorPicker({
     <div
       data-slot="color-picker"
       role="group"
-      aria-label={ariaLabel}
+      aria-label={
+        ariaLabel ?? (props["aria-labelledby"] ? undefined : "Colour")
+      }
       className={cx("ds-color-picker", className)}
       {...props}
     >
@@ -107,13 +110,16 @@ function ColorPicker({
       </div>
 
       <div className="ds-color-picker-row">
+        {/* `id` lands on the hex field, the only labelable element, so a
+            FieldLabel's htmlFor names it; aria-label would override that. */}
         <Input
+          id={id}
           value={draft}
           placeholder="#000000"
           spellCheck={false}
           autoComplete="off"
           disabled={disabled}
-          aria-label="Hex colour"
+          aria-label={id ? undefined : "Hex colour"}
           onChange={(event) => {
             const raw = event.target.value
             setDraft(raw)

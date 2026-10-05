@@ -42,7 +42,7 @@
 
 .ds-meter-indicator {
   height: 100%;
-  background: var(--tone, var(--ds-accent));
+  background: var(--tone, var(--ds-ink));
   transition: width var(--ds-transition);
 }
 @media (prefers-reduced-motion: reduce) {

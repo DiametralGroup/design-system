@@ -25,7 +25,11 @@ function DateRangePicker({
   dateFormat = "PP",
   showTime = false,
   numberOfMonths = 2,
-}: {
+  ...props
+}: Omit<
+  React.ComponentProps<typeof PopoverTrigger>,
+  "value" | "defaultValue" | "children" | "render"
+> & {
   value?: DateRange
   defaultValue?: DateRange
   onValueChange?: (value: DateRange) => void
@@ -72,11 +76,9 @@ function DateRangePicker({
       <PopoverTrigger
         data-slot="date-range-picker-trigger"
         render={<Button variant="outline" />}
-        className={cx(
-          "ds-date-range-picker-trigger",
-          showTime ? "w-96" : "w-72",
-          className
-        )}
+        data-time={showTime || undefined}
+        className={cx("ds-date-range-picker-trigger", className)}
+        {...props}
       >
         <span
           className={cx(

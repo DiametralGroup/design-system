@@ -1,7 +1,8 @@
-/* showTime ? w-96 : w-72 stays literal Tailwind on the trigger's own
-   className (see date-range-picker.tsx) — date-range-picker/filter-bar.tsx
-   overrides it with w-56, relying on tailwind-merge to dedupe against
-   whichever of those two literal classes is present. */
+/* The trigger's width, at zero specificity so any class a consumer passes
+   (a filter bar's narrower trigger) wins without tailwind-merge. */
+:where(.ds-date-range-picker-trigger) { inline-size: 18rem; }
+:where(.ds-date-range-picker-trigger[data-time]) { inline-size: 24rem; }
+
 .ds-date-range-picker-trigger {
   justify-content: space-between !important;
   font-weight: 400 !important;
