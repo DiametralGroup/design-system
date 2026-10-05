@@ -54,6 +54,8 @@ function BarChart({
   grid = true,
   legend,
   stacked = false,
+  valueFormatter,
+  valueAxisWidth,
   margin = { top: 8, right: 20, bottom: 0, left: 20 },
   children,
   ...props
@@ -73,12 +75,26 @@ function BarChart({
   legend?: boolean;
   /** Sum the series into one bar instead of grouping them side by side. */
   stacked?: boolean;
+  /** Formats the value axis ticks and the tooltip — `(v) => fmt.format(v)`
+   *  for amounts. Left off, both fall back to `toLocaleString()`. */
+  valueFormatter?: (value: number) => string;
+  /** Width of the value axis when it is the Y axis; widen it for formatted
+   *  amounts. Recharts' default (60) otherwise. */
+  valueAxisWidth?: number;
   margin?: React.ComponentProps<typeof RechartsBarChart>["margin"];
   /** Extra recharts children — a `ReferenceLine`, a second axis. */
   children?: React.ReactNode;
 }) {
   const series = Object.keys(config);
-  const domain: [number, number | "auto"] = [0, max ?? "auto"];
+  // Signed series (variances, results) need the floor to follow the data
+  // below zero; an all-positive series keeps the bars anchored on zero.
+  const signed = data.some((row) =>
+    series.some((key) => typeof row[key] === "number" && (row[key] as number) < 0),
+  );
+  const domain: [number | "auto", number | "auto"] = [
+    signed ? "auto" : 0,
+    max ?? "auto",
+  ];
 
   // Recharts reads `fill` off the datum, which is how a per-row tone reaches
   // one bar without a deprecated <Cell> per entry.
@@ -115,9 +131,22 @@ function BarChart({
   ) : null;
 
   const valueAxis = horizontal ? (
-    <XAxis type="number" domain={domain} tickLine={false} axisLine={false} />
+    <XAxis
+      type="number"
+      domain={domain}
+      tickLine={false}
+      axisLine={false}
+      tickFormatter={valueFormatter}
+    />
   ) : (
-    <YAxis type="number" domain={domain} tickLine={false} axisLine={false} />
+    <YAxis
+      type="number"
+      domain={domain}
+      tickLine={false}
+      axisLine={false}
+      tickFormatter={valueFormatter}
+      width={valueAxisWidth}
+    />
   );
 
   return (
@@ -137,7 +166,9 @@ function BarChart({
         ) : null}
         {categoryAxis}
         {valueAxis}
-        <ChartTooltip content={<ChartTooltipContent />} />
+        <ChartTooltip
+          content={<ChartTooltipContent valueFormatter={valueFormatter} />}
+        />
         {(legend ?? series.length > 1) ? (
           <ChartLegend content={<ChartLegendContent />} />
         ) : null}

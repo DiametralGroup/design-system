@@ -4,6 +4,33 @@ All notable changes to the Diametral Design System are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.md](docs/versioning.md).
 
+## [Unreleased]
+
+Financial-steering readiness, driven by insights360's P&L screen.
+
+### Added
+
+- **Chart value formatting.** `BarChart`, `LineChart` and `AreaChart` take
+  `valueFormatter` (axis ticks + tooltip) and `valueAxisWidth`; `LineChart` and
+  `AreaChart` gain an opt-in `valueAxis`. `ComboChart` takes `leftAxis`
+  (`tickFormatter`, `domain`, `width`) and formats each tooltip value with its
+  own axis' formatter. `WaterfallChart` takes `axisFormatter`, `valueAxisWidth`
+  and `labels` (its tooltip rows were hard-coded English).
+  `ChartTooltipContent` takes `valueFormatter(value, key)`.
+- **`StatCardDelta` `tone`** — `favorable | unfavorable | neutral`, independent
+  of `direction`: a cost or a risk rate going down is good news.
+- **Financial statement grammar for `Table`** — `.ds-table-row--section`,
+  `--total`, `--grand-total`, `.ds-table__code`, `.ds-table__num--favorable`,
+  `--unfavorable`, `--empty`.
+- **Blocks `pnl-01` (restitution) and `pnl-02` (charts)**, written in `.ds-*`
+  classes only — no Tailwind.
+
+### Fixed
+
+- `BarChart` pinned its value axis at zero, clipping negative bars (variances).
+  The floor now follows the data when a series goes below zero.
+- `dashboard-01` drew a falling at-risk rate in red.
+
 ## [5.0.0-beta] — 2026-09-09
 
 **The first absorption beta to actually reach npm.** The version line moves to

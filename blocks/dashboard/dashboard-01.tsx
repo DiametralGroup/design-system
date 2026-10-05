@@ -62,7 +62,7 @@ const NAV = [
 const KPIS = [
   { label: "Active missions", value: "137", delta: "+8 this week", direction: "up" as const },
   { label: "Avg. margin", value: "24.6 %", delta: "+2.1 pts", direction: "up" as const },
-  { label: "At-risk rate", value: "5.2 %", delta: "-0.4 pts", direction: "down" as const },
+  { label: "At-risk rate", value: "5.2 %", delta: "-0.4 pts", direction: "down" as const, tone: "favorable" as const },
 ]
 
 const ENTITIES = [
@@ -123,7 +123,7 @@ export default function Dashboard01() {
               <StatCard key={kpi.label}>
                 <StatCardLabel>{kpi.label}</StatCardLabel>
                 <StatCardValue>{kpi.value}</StatCardValue>
-                <StatCardDelta direction={kpi.direction}>
+                <StatCardDelta direction={kpi.direction} tone={"tone" in kpi ? kpi.tone : undefined}>
                   {kpi.delta}
                 </StatCardDelta>
               </StatCard>

@@ -43,6 +43,16 @@
 .ds-stat-card-delta--down {
   color: var(--ds-danger-ink);
 }
+/* Tone overrides direction: declared after it, same specificity. */
+.ds-stat-card-delta--favorable {
+  color: var(--ds-success-ink);
+}
+.ds-stat-card-delta--unfavorable {
+  color: var(--ds-danger-ink);
+}
+.ds-stat-card-delta--neutral {
+  color: var(--ds-ink-soft);
+}
 
 .ds-stat-card-spark {
   margin-top: 0.75rem;

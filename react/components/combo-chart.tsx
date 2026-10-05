@@ -63,6 +63,7 @@ function ComboChart({
   data,
   xAxisKey,
   series,
+  leftAxis,
   rightAxis,
   grid = true,
   legend,
@@ -75,11 +76,20 @@ function ComboChart({
   /** Row field the x axis reads its categories from. */
   xAxisKey?: string;
   series: ComboSeries[];
+  /** The primary scale. Its `tickFormatter` also formats the tooltip value of
+   *  every series on it — set it for amounts. */
+  leftAxis?: {
+    tickFormatter?: (value: number) => string;
+    domain?: [number, number];
+    /** Widen past the 44px default for formatted amounts. */
+    width?: number;
+  };
   /** The second scale. Left off, every series shares the left one. */
   rightAxis?: {
     label?: string;
     tickFormatter?: (value: number) => string;
     domain?: [number, number];
+    width?: number;
   };
   grid?: boolean;
   /** Defaults on once `series` names more than one entry. */
@@ -93,6 +103,13 @@ function ComboChart({
   // axis and drop out of the chart entirely, so it falls back to the left one.
   const axisOf = (mark: ComboSeries) =>
     rightAxis && mark.axis === "right" ? "right" : "left";
+  // The tooltip formats each value with its own axis' formatter, so a rate on
+  // the right reads "28 %" while the amounts on the left read in euros.
+  const tooltipFormatter = (value: number, key: string) => {
+    const mark = series.find((s) => s.key === key);
+    const axis = mark && axisOf(mark) === "right" ? rightAxis : leftAxis;
+    return axis?.tickFormatter?.(value) ?? value.toLocaleString();
+  };
 
   return (
     <ChartContainer
@@ -112,7 +129,14 @@ function ComboChart({
             minTickGap={16}
           />
         ) : null}
-        <YAxis yAxisId="left" tickLine={false} axisLine={false} width={44} />
+        <YAxis
+          yAxisId="left"
+          domain={leftAxis?.domain}
+          tickFormatter={leftAxis?.tickFormatter}
+          tickLine={false}
+          axisLine={false}
+          width={leftAxis?.width ?? 44}
+        />
         {rightAxis ? (
           <YAxis
             yAxisId="right"
@@ -121,7 +145,7 @@ function ComboChart({
             tickFormatter={rightAxis.tickFormatter}
             tickLine={false}
             axisLine={false}
-            width={44}
+            width={rightAxis.width ?? 44}
             label={
               rightAxis.label
                 ? {
@@ -134,7 +158,9 @@ function ComboChart({
             }
           />
         ) : null}
-        <ChartTooltip content={<ChartTooltipContent />} />
+        <ChartTooltip
+          content={<ChartTooltipContent valueFormatter={tooltipFormatter} />}
+        />
         {(legend ?? series.length > 1) ? (
           <ChartLegend content={<ChartLegendContent />} />
         ) : null}

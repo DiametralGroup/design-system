@@ -128,6 +128,9 @@ function WaterfallChart({
   connectors = true,
   grid = true,
   formatValue = (value) => value.toLocaleString(),
+  axisFormatter,
+  valueAxisWidth = 52,
+  labels,
   margin = { top: 8, right: 20, bottom: 0, left: 20 },
   children,
   ...props
@@ -146,6 +149,13 @@ function WaterfallChart({
   grid?: boolean;
   /** How figures are printed in the tooltip. Signs are added for you. */
   formatValue?: (value: number) => string;
+  /** How the value axis prints its ticks — usually a compact form of
+   *  `formatValue` ("1,2 M€"). Defaults to `formatValue`. */
+  axisFormatter?: (value: number) => string;
+  /** Width of the value axis; widen it for formatted amounts. */
+  valueAxisWidth?: number;
+  /** The tooltip's row labels, for a non-English interface. */
+  labels?: { total?: string; change?: string; running?: string };
   margin?: React.ComponentProps<typeof ComposedChart>["margin"];
   /** Extra recharts children — a `ReferenceLine`, a `Label`. */
   children?: React.ReactNode;
@@ -172,7 +182,12 @@ function WaterfallChart({
           tickMargin={8}
           interval={0}
         />
-        <YAxis tickLine={false} axisLine={false} width={52} />
+        <YAxis
+          tickLine={false}
+          axisLine={false}
+          width={valueAxisWidth}
+          tickFormatter={axisFormatter ?? formatValue}
+        />
         <ChartTooltip
           content={
             <ChartTooltipContent
@@ -186,7 +201,9 @@ function WaterfallChart({
                   <div className="ds-waterfall-chart-tooltip">
                     <div className="ds-waterfall-chart-tooltip-row">
                       <span className="ds-waterfall-chart-tooltip-label">
-                        {step.isTotal ? "Total" : "Change"}
+                        {step.isTotal
+                          ? (labels?.total ?? "Total")
+                          : (labels?.change ?? "Change")}
                       </span>
                       <span className="ds-waterfall-chart-tooltip-value">
                         {signedLabel(step)}
@@ -195,7 +212,7 @@ function WaterfallChart({
                     {step.isTotal ? null : (
                       <div className="ds-waterfall-chart-tooltip-row">
                         <span className="ds-waterfall-chart-tooltip-label">
-                          Running
+                          {labels?.running ?? "Running"}
                         </span>
                         <span className="ds-waterfall-chart-tooltip-value-muted">
                           {formatValue(step.running)}
