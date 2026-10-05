@@ -153,11 +153,11 @@
   padding: 0;
   border-color: transparent;
   background: transparent;
-  color: var(--ds-accent-ink);
+  color: var(--ds-ink);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.ds-button--link:hover { background: transparent; color: var(--ds-accent); }
+.ds-button--link:hover { background: transparent; color: var(--ds-ink-soft); }
 
 /* ---- Tone axis ----------------------------------------------------------- */
 /* Sets the fill and its contrast pair; every variant above composes off these

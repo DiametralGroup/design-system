@@ -63,6 +63,8 @@ declare module "@tanstack/react-table" {
     editable?: boolean
     /** Start hidden. v1's DataGridColumn carried the same flag. */
     hidden?: boolean
+    /** Name in the column menu. Defaults to a string `header`, then the id. */
+    label?: string
   }
 }
 
@@ -285,7 +287,8 @@ function DataTable<TData, TValue>({
   pageSize?: number
   searchColumn?: string
   searchPlaceholder?: string
-  emptyMessage?: string
+  /** A string, or a whole node such as an `<Empty>` state. */
+  emptyMessage?: React.ReactNode
   className?: string
   /** Prepend a checkbox column. */
   selectable?: boolean
@@ -630,7 +633,10 @@ function DataTable<TData, TValue>({
                             column.toggleVisibility(checked === true)
                           }
                         >
-                          {column.id}
+                          {column.columnDef.meta?.label ??
+                            (typeof column.columnDef.header === "string"
+                              ? column.columnDef.header
+                              : column.id)}
                         </DropdownMenuCheckboxItem>
                       ))}
                   </DropdownMenuGroup>

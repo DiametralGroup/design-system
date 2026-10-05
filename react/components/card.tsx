@@ -1,5 +1,7 @@
 "use client"
 
+import { mergeProps } from "@base-ui/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
 import * as React from "react"
 
 import { cx } from "../lib/cx.js"
@@ -87,10 +89,22 @@ function CardHeader({
   )
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div data-slot="card-title" className={cx("ds-card__title", className)} {...props} />
-  )
+// A real heading, so a page of cards has an outline. h2 because cards usually
+// sit straight under the page's h1; nest one level deeper with render={<h3 />}.
+function CardTitle({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"h2">) {
+  return useRender({
+    defaultTagName: "h2",
+    props: mergeProps<"h2">(
+      { className: cx("ds-card__title", className) },
+      props,
+    ),
+    render,
+    state: { slot: "card-title" },
+  })
 }
 
 function CardDescription({ className, ...props }: React.ComponentProps<"p">) {

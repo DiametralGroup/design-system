@@ -13,8 +13,9 @@
      rather than repeated at every `var(--sidebar-*)` use below. */
   --sidebar: var(--ds-bg-alt);
   --sidebar-foreground: var(--ds-ink);
-  --sidebar-primary: var(--ds-accent);
-  --sidebar-primary-foreground: var(--ds-on-accent);
+  /* Ink, not the accent: no default accent colour (inverts on dark). */
+  --sidebar-primary: var(--ds-ink);
+  --sidebar-primary-foreground: var(--ds-bg);
   --sidebar-accent: var(--ds-rule-soft);
   --sidebar-accent-foreground: var(--ds-ink);
   --sidebar-border: var(--ds-rule);

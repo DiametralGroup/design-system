@@ -8,7 +8,7 @@ import {
 
 export default function CarouselMultiple() {
   return (
-    <div className="w-full max-w-md px-12">
+    <div className="w-full max-w-md">
       <Carousel opts={{ align: "start" }}>
         <CarouselContent>
           {Array.from({ length: 7 }, (_, index) => (

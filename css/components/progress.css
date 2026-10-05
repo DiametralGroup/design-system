@@ -44,7 +44,7 @@
 
 .ds-progress-indicator {
   height: 100%;
-  background-color: var(--tone, var(--ds-accent));
+  background-color: var(--tone, var(--ds-ink));
   transition: all var(--ds-transition);
 }
 @media (prefers-reduced-motion: reduce) {

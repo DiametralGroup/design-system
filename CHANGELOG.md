@@ -4,6 +4,48 @@ All notable changes to the Diametral Design System are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.md](docs/versioning.md).
 
+## [Unreleased]
+
+Ports the fixes made in `diamorval/design-system-diametral` (`diametral-ds`
+0.1.0-rc.1 → 0.3.0, 2026-09-24/25) after the absorption, so this package is the
+only Diametral design system. They come from building a full example app on it.
+
+### Changed
+
+- **No default accent colour.** Checked, selected and active states are ink and
+  invert on dark: the calendar's selected day and range ends, the sidebar's
+  primary slot, the active stepper marker, completed/active timeline items, the
+  rating, and progress/meter fills without a tone. `link` buttons are ink. Red
+  stays opt-in through a tone (`--tone`, `variant="tinted"`, `.ds-tag--accent`…).
+- **`CardTitle` is a real heading** (`<h2>`; nest with `render={<h3 />}`), so a
+  page of cards has an outline. Same look.
+- **Carousel arrows sit inside the slides.** The wrapper no longer needs 48px of
+  padding on each side to show them.
+
+### Added
+
+- `PhoneInput`, `DateRangePicker` and `ColorPicker` forward `id` and the
+  `aria-*` props, so a `FieldLabel` names them; their built-in English names
+  apply only when nothing else labels them. `PhoneInput` shows `aria-invalid`.
+- `Editable` derives its button names from `aria-label` ("Edit Project name").
+- `Wizard` `onBeforeNext(index)` — return or resolve `false` to stay on the
+  step; Next is disabled while it settles.
+- `TimelineTime` takes `render`, so a `RelativeTime` replaces it instead of
+  nesting a second `<time>`.
+- `TocLink` scrolls to its target under a hash router instead of navigating.
+- `DataTable` `emptyMessage` takes a node (an `<Empty>` state); the column menu
+  names columns by `meta.label`, then a string `header`, then the id.
+- `react-is` is a dependency, so recharts works under pnpm/yarn and React 18
+  without an extra install.
+
+### Fixed
+
+- `AvatarGroup` overlaps less at `size="sm"`, so two-letter initials are not
+  clipped.
+- `DateRangePicker`'s width was two Tailwind classes this package does not
+  ship; it is now in its stylesheet, at zero specificity so a consumer class
+  still wins.
+
 ## [5.0.0-beta.1] — 2026-10-05
 
 Financial-steering readiness, driven by insights360's P&L screen.

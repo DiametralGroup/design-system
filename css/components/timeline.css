@@ -54,12 +54,12 @@
   display: none;
 }
 
-.ds-timeline-item--neutral  { --tone: var(--ds-neutral-solid); }
-.ds-timeline-item--info     { --tone: var(--ds-info-solid); }
-.ds-timeline-item--success  { --tone: var(--ds-success-solid); }
-.ds-timeline-item--warning  { --tone: var(--ds-warning-solid); }
-.ds-timeline-item--danger   { --tone: var(--ds-danger-solid); }
-.ds-timeline-item--critical { --tone: var(--ds-critical-solid); }
+.ds-timeline-item--neutral  { --tone: var(--ds-neutral-solid); --tone-on: var(--ds-on-status); }
+.ds-timeline-item--info     { --tone: var(--ds-info-solid); --tone-on: var(--ds-on-status); }
+.ds-timeline-item--success  { --tone: var(--ds-success-solid); --tone-on: var(--ds-on-status); }
+.ds-timeline-item--warning  { --tone: var(--ds-warning-solid); --tone-on: var(--ds-on-status); }
+.ds-timeline-item--danger   { --tone: var(--ds-danger-solid); --tone-on: var(--ds-on-status); }
+.ds-timeline-item--critical { --tone: var(--ds-critical-solid); --tone-on: var(--ds-on-status); }
 
 .ds-timeline-indicator {
   z-index: 10;
@@ -81,12 +81,13 @@
   height: 0.75rem;
 }
 .ds-timeline-item[data-state="completed"] .ds-timeline-indicator {
-  border-color: var(--tone, var(--ds-accent));
-  background: var(--tone, var(--ds-accent));
-  color: var(--ds-on-accent);
+  border-color: var(--tone, var(--ds-ink));
+  background: var(--tone, var(--ds-ink));
+  /* White on a solid status tone; the inverse of ink otherwise. */
+  color: var(--tone-on, var(--ds-bg));
 }
 .ds-timeline-item[data-state="active"] .ds-timeline-indicator {
-  border-color: var(--tone, var(--ds-accent));
+  border-color: var(--tone, var(--ds-ink));
   color: var(--ds-ink);
 }
 

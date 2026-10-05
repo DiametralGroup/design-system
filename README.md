@@ -15,8 +15,10 @@
 
 Diametral is a flat, sharp visual language: **1px rules, no shadows, no border-radius**,
 white / whitesmoke surfaces, black ink, **Ufficio** Light 300 titles over **Geist** body,
-uppercase labels at `0.08em`, tabular numerals. It is deliberately away from the typical
-color codes of tech and consulting — refined and structured.
+uppercase labels at `0.08em`, tabular numerals. There is no default accent colour: checked,
+selected and active states are ink (and invert on dark); the brand red is opt-in per
+instance, through a tone. It is deliberately away from the typical color codes of tech and
+consulting — refined and structured.
 
 It ships as:
 

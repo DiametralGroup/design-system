@@ -67,7 +67,16 @@ function splitValue(phone: string, fallback: CountryCode) {
   return { country: match.code, national: phone.slice(match.dialCode.length) };
 }
 
-export interface PhoneInputProps {
+export interface PhoneInputProps
+  extends Pick<
+    React.ComponentProps<"input">,
+    | "id"
+    | "name"
+    | "aria-label"
+    | "aria-labelledby"
+    | "aria-describedby"
+    | "aria-invalid"
+  > {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -85,6 +94,7 @@ function PhoneInput({
   defaultCountry = "FR",
   disabled = false,
   placeholder = "6 12 34 56 78",
+  ...inputProps
 }: PhoneInputProps) {
   const [phone, setPhone] = useControllableValue<string>({
     value,
@@ -139,7 +149,14 @@ function PhoneInput({
         data-slot="phone-input-number"
         type="tel"
         inputMode="tel"
-        aria-label="Phone number"
+        // The hard-coded name only applies when nothing else labels the field,
+        // so a FieldLabel's htmlFor (via `id`) names it.
+        aria-label={
+          inputProps.id || inputProps["aria-labelledby"]
+            ? undefined
+            : "Phone number"
+        }
+        {...inputProps}
         className="ds-phone-input__number"
         value={national}
         disabled={disabled}

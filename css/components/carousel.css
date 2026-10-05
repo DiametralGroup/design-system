@@ -79,17 +79,19 @@
 :where([dir="rtl"], [dir="rtl"] *).ds-carousel-control[data-orientation="vertical"] {
   translate: 50%;
 }
+/* Inside the slides, so the carousel needs no padding around it to show its
+   arrows (they used to sit 48px outside and every consumer padded for them). */
 .ds-carousel-control[data-slot="carousel-previous"][data-orientation="horizontal"] {
-  inset-inline-start: -48px;
+  inset-inline-start: 0.5rem;
 }
 .ds-carousel-control[data-slot="carousel-next"][data-orientation="horizontal"] {
-  inset-inline-end: -48px;
+  inset-inline-end: 0.5rem;
 }
 .ds-carousel-control[data-slot="carousel-previous"][data-orientation="vertical"] {
-  top: -48px;
+  top: 0.5rem;
 }
 .ds-carousel-control[data-slot="carousel-next"][data-orientation="vertical"] {
-  bottom: -48px;
+  bottom: 0.5rem;
 }
 
 .ds-carousel-control-icon {
