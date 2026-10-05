@@ -13,9 +13,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LittleBigCode/design-system.git"
+    "url": "git+https://github.com/DiametralGroup/design-system.git"
   },
-  "homepage": "https://littlebigcode.github.io/design-system/",
+  "homepage": "https://diametralgroup.github.io/design-system/",
   "publishConfig": {
     "access": "public"
   },

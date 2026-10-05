@@ -21,7 +21,7 @@ const OUT = "docs/agent-index.json";
 const FOR_CLAUDE = "docs/for-claude.md";
 const BLOCKS_TABLE_START = "<!-- blocks-table:start -->";
 const BLOCKS_TABLE_END = "<!-- blocks-table:end -->";
-const SITE = "https://littlebigcode.github.io/design-system";
+const SITE = "https://diametralgroup.github.io/design-system";
 
 /**
  * Each entry starts at `  {\n    slug: "...`. Slicing between consecutive

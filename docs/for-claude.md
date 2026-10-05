@@ -27,7 +27,7 @@ that gap bites hardest, with the real hook to drive, not "add JavaScript":
 | Data table | Cycle a sortable header none→asc→desc, derive the select-all checkbox's checked/indeterminate state from its rows, toggle `aria-expanded` on each row's disclosure, and commit inline edits on blur/Enter. |
 
 Every component page carries its own wiring note in full, e.g.
-https://littlebigcode.github.io/design-system/docs/sidebar
+https://diametralgroup.github.io/design-system/docs/sidebar
 
 ## Setup — always include this
 
@@ -324,4 +324,4 @@ already obeyed by a file in this repo, named beside it.
 - ❌ inventing `.ds-*` names or restyling existing ones — compose with inline layout instead.
 - ❌ raw hex when a token exists.
 
-The full component catalogue, live: https://littlebigcode.github.io/design-system/
+The full component catalogue, live: https://diametralgroup.github.io/design-system/

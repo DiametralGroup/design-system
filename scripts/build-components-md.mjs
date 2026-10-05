@@ -18,7 +18,7 @@ const REGISTRY = "site/src/registry/registry.ts";
 const TARGET = "docs/components.md";
 const BEGIN = "<!-- BEGIN generated: react-components (npm run build) -->";
 const END = "<!-- END generated: react-components -->";
-const SITE = "https://littlebigcode.github.io/design-system";
+const SITE = "https://diametralgroup.github.io/design-system";
 
 /** The COMPONENTS array only — PENDING holds entries for unlanded batches. */
 export function componentsBlock(source) {

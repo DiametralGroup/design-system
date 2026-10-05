@@ -1,7 +1,7 @@
 # React
 
 Real React components live in [`react/`](../react/) and are documented on the live
-[component pages](https://littlebigcode.github.io/design-system/). A live, buildless demo
+[component pages](https://diametralgroup.github.io/design-system/). A live, buildless demo
 is at [`examples/react.html`](../examples/react.html).
 
 ## Install
@@ -126,4 +126,4 @@ import map that omits these resolves nothing:
 </script>
 ```
 
-Browse every component on the [live showcase](https://littlebigcode.github.io/design-system/).
+Browse every component on the [live showcase](https://diametralgroup.github.io/design-system/).

@@ -11,7 +11,7 @@
       ],
       "description": "A floating button that fans out two to four actions when opened. Use it for the one main action of a view.",
       "css": "css/components/speed-dial.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/speed-dial",
+      "url": "https://diametralgroup.github.io/design-system/docs/speed-dial",
       "examples": [
         {
           "demo": "speed-dial/basic",
@@ -35,7 +35,7 @@
         "SplitButton"
       ],
       "description": "A main button with a caret beside it for its variants. Use it when there is a clear default action and a few alternatives.",
-      "url": "https://littlebigcode.github.io/design-system/docs/split-button",
+      "url": "https://diametralgroup.github.io/design-system/docs/split-button",
       "examples": [
         {
           "demo": "split-button/basic",
@@ -53,7 +53,7 @@
         "type SegmentedItem"
       ],
       "description": "A short row of options where only one can be selected. Best for two to five choices that switch a view.",
-      "url": "https://littlebigcode.github.io/design-system/docs/toggle-group",
+      "url": "https://diametralgroup.github.io/design-system/docs/toggle-group",
       "examples": [
         {
           "demo": "toggle-group/basic",
@@ -70,7 +70,7 @@
         "ToggleGroupItem"
       ],
       "description": "Base UI's toggle group, composed from parts. Use it when the row needs multi-select or a shape `Segmented` doesn't cover.",
-      "url": "https://littlebigcode.github.io/design-system/docs/toggle-group-primitive",
+      "url": "https://diametralgroup.github.io/design-system/docs/toggle-group-primitive",
       "examples": [
         {
           "demo": "toggle-group-primitive/single",
@@ -96,7 +96,7 @@
       ],
       "description": "An ordered sequence of steps with the progress and navigation built in. Use it when a later step depends on an earlier one.",
       "css": "css/components/wizard.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/wizard",
+      "url": "https://diametralgroup.github.io/design-system/docs/wizard",
       "examples": [
         {
           "demo": "wizard/basic",
@@ -116,7 +116,7 @@
       ],
       "description": "Joins related buttons into one segmented control with shared borders.",
       "css": "css/components/button-group.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/button-group",
+      "url": "https://diametralgroup.github.io/design-system/docs/button-group",
       "examples": [
         {
           "demo": "button-group/basic",
@@ -144,7 +144,7 @@
         "IconButton"
       ],
       "description": "A square `Button` for a single icon. The `label` prop is required, since the icon carries no text.",
-      "url": "https://littlebigcode.github.io/design-system/docs/icon-button",
+      "url": "https://diametralgroup.github.io/design-system/docs/icon-button",
       "examples": [
         {
           "demo": "icon-button/toolbar",
@@ -170,7 +170,7 @@
       ],
       "description": "A button that stays pressed, for on/off controls like bold or mute. Use `Switch` or `Checkbox` for values a form submits.",
       "css": "css/components/toggle.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/toggle",
+      "url": "https://diametralgroup.github.io/design-system/docs/toggle",
       "examples": [
         {
           "demo": "toggle/basic",
@@ -210,7 +210,7 @@
       ],
       "description": "A text input with suggestions, where the typed value doesn't have to come from the list. Use `Combobox` when it must.",
       "css": "css/components/autocomplete.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/autocomplete",
+      "url": "https://diametralgroup.github.io/design-system/docs/autocomplete",
       "examples": [
         {
           "demo": "autocomplete/basic",
@@ -239,7 +239,7 @@
         "CalendarDayButton"
       ],
       "description": "A month grid, built on react-day-picker. Use it when the reader needs to see the days; use `DatePicker` to just collect a date.",
-      "url": "https://littlebigcode.github.io/design-system/docs/calendar",
+      "url": "https://diametralgroup.github.io/design-system/docs/calendar",
       "examples": [
         {
           "demo": "calendar/basic",
@@ -257,7 +257,7 @@
       ],
       "description": "Swatches for the brand palette with a hex field beside them. Pass `swatches` to narrow the choices.",
       "css": "css/components/color-picker.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/color-picker",
+      "url": "https://diametralgroup.github.io/design-system/docs/color-picker",
       "examples": [
         {
           "demo": "color-picker/basic",
@@ -289,7 +289,7 @@
       ],
       "description": "A text field that filters a list as you type and settles on one value. Use `Select` under about seven options.",
       "css": "css/components/combobox.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/combobox",
+      "url": "https://diametralgroup.github.io/design-system/docs/combobox",
       "examples": [
         {
           "demo": "combobox/basic",
@@ -316,7 +316,7 @@
       ],
       "description": "A field with a calendar in a popover, for picking one date.",
       "css": "css/components/date-picker.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/date-picker",
+      "url": "https://diametralgroup.github.io/design-system/docs/date-picker",
       "examples": [
         {
           "demo": "date-picker/basic",
@@ -333,7 +333,7 @@
         "type DateRange"
       ],
       "description": "A start and end date picked in one calendar. The value is `{ from, to }`.",
-      "url": "https://littlebigcode.github.io/design-system/docs/date-range-picker",
+      "url": "https://diametralgroup.github.io/design-system/docs/date-range-picker",
       "examples": [
         {
           "demo": "date-range-picker/basic",
@@ -349,7 +349,7 @@
         "DateTimePicker"
       ],
       "description": "A calendar and a time picker combined into one `Date` value.",
-      "url": "https://littlebigcode.github.io/design-system/docs/date-time-picker",
+      "url": "https://diametralgroup.github.io/design-system/docs/date-time-picker",
       "examples": [
         {
           "demo": "date-time-picker/basic",
@@ -369,7 +369,7 @@
       ],
       "description": "A drop zone that also works as a file button. `accept` filters the picker but is not validation — check the files again on `onFiles`.",
       "css": "css/components/file-upload.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/file-upload",
+      "url": "https://diametralgroup.github.io/design-system/docs/file-upload",
       "examples": [
         {
           "demo": "file-upload/basic",
@@ -387,7 +387,7 @@
       ],
       "description": "Several values from a fixed list, shown as removable chips. Use checkboxes under about five options.",
       "css": "css/components/multi-select.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/multi-select",
+      "url": "https://diametralgroup.github.io/design-system/docs/multi-select",
       "examples": [
         {
           "demo": "multi-select/basic",
@@ -408,7 +408,7 @@
         "NumberFieldScrubArea"
       ],
       "description": "A numeric field with stepper buttons. The value is `number | null`, so an empty field is never mistaken for zero.",
-      "url": "https://littlebigcode.github.io/design-system/docs/number-field",
+      "url": "https://diametralgroup.github.io/design-system/docs/number-field",
       "examples": [
         {
           "demo": "number-field/basic",
@@ -429,7 +429,7 @@
         "RadioGroupItem"
       ],
       "description": "One choice from a few, over native radio inputs. Best for two to five options; past that use `Select`.",
-      "url": "https://littlebigcode.github.io/design-system/docs/radio-group",
+      "url": "https://diametralgroup.github.io/design-system/docs/radio-group",
       "examples": [
         {
           "demo": "radio-group/basic",
@@ -446,7 +446,7 @@
       ],
       "description": "A star scale, as an input or, with `readOnly`, as a display.",
       "css": "css/components/rating.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/rating",
+      "url": "https://diametralgroup.github.io/design-system/docs/rating",
       "examples": [
         {
           "demo": "rating/basic",
@@ -462,7 +462,7 @@
         "TagsInput"
       ],
       "description": "Free-form labels typed one at a time and shown as removable chips. Use `MultiSelect` when the list is fixed.",
-      "url": "https://littlebigcode.github.io/design-system/docs/tags-input",
+      "url": "https://diametralgroup.github.io/design-system/docs/tags-input",
       "examples": [
         {
           "demo": "tags-input/basic",
@@ -480,7 +480,7 @@
       ],
       "description": "A time of day, from segmented hour and minute fields plus a dial. The value is `{ hours, minutes, seconds? }`, with no date attached.",
       "css": "css/components/time-picker.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/time-picker",
+      "url": "https://diametralgroup.github.io/design-system/docs/time-picker",
       "examples": [
         {
           "demo": "time-picker/basic",
@@ -497,7 +497,7 @@
       ],
       "description": "An accessible label for a control, paired with `htmlFor`. Use it when the label and the control are separate elements.",
       "css": "css/components/label.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/label",
+      "url": "https://diametralgroup.github.io/design-system/docs/label",
       "examples": [
         {
           "demo": "label/basic",
@@ -526,7 +526,7 @@
       ],
       "description": "The page-level `<form>` element and its vertical spacing. `Field` handles everything inside it.",
       "css": "css/components/form.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/form",
+      "url": "https://diametralgroup.github.io/design-system/docs/form",
       "examples": [
         {
           "demo": "form/pending",
@@ -560,7 +560,7 @@
       ],
       "description": "Repeated entries for an array of objects — one removable block each, with an add button under the stack.",
       "css": "css/components/field-array.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/field-array",
+      "url": "https://diametralgroup.github.io/design-system/docs/field-array",
       "examples": [
         {
           "demo": "field-array/basic",
@@ -588,7 +588,7 @@
       ],
       "description": "A one-time-code field with one slot per character. Use it when the code length is fixed.",
       "css": "css/components/input-otp.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/input-otp",
+      "url": "https://diametralgroup.github.io/design-system/docs/input-otp",
       "examples": [
         {
           "demo": "input-otp/basic",
@@ -617,7 +617,7 @@
       ],
       "description": "A country dial-code select next to a national-number field, returning one string like `+33612345678`.",
       "css": "css/components/phone-input.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/phone-input",
+      "url": "https://diametralgroup.github.io/design-system/docs/phone-input",
       "examples": [
         {
           "demo": "phone-input/basic",
@@ -642,7 +642,7 @@
       ],
       "description": "Click-to-edit text: a preview that swaps to a field, saved on Enter or blur and discarded on Escape.",
       "css": "css/components/editable.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/editable",
+      "url": "https://diametralgroup.github.io/design-system/docs/editable",
       "examples": [
         {
           "demo": "editable/basic",
@@ -675,7 +675,7 @@
       ],
       "description": "A code snippet with a filename strip and a copy button.",
       "css": "css/components/code-block.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/code-block",
+      "url": "https://diametralgroup.github.io/design-system/docs/code-block",
       "examples": [
         {
           "demo": "code-block/basic",
@@ -693,7 +693,7 @@
         "type ColumnDef"
       ],
       "description": "A table with sorting, selection, inline edit and paging, over `@tanstack/react-table`. Use `Table` when the rows only need displaying.",
-      "url": "https://littlebigcode.github.io/design-system/docs/data-table",
+      "url": "https://diametralgroup.github.io/design-system/docs/data-table",
       "examples": [
         {
           "demo": "data-table/editable",
@@ -719,7 +719,7 @@
       ],
       "description": "A nested, expandable hierarchy for files, org units or categories. Use a list with headings when the nesting is only grouping.",
       "css": "css/components/tree.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/tree",
+      "url": "https://diametralgroup.github.io/design-system/docs/tree",
       "examples": [
         {
           "demo": "tree/basic",
@@ -745,7 +745,7 @@
       ],
       "description": "A list row with media, content and action slots. Lighter than a `Card` for rows that repeat.",
       "css": "css/components/item.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/item",
+      "url": "https://diametralgroup.github.io/design-system/docs/item",
       "examples": [
         {
           "demo": "item/variants",
@@ -777,7 +777,7 @@
       ],
       "description": "A small label pairing an icon with text, for titling a group of rows.",
       "css": "css/components/marker.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/marker",
+      "url": "https://diametralgroup.github.io/design-system/docs/marker",
       "examples": [
         {
           "demo": "marker/variants",
@@ -806,7 +806,7 @@
       ],
       "description": "A one-line copyable command or value. Use `Code Block` for multi-line samples.",
       "css": "css/components/snippet.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/snippet",
+      "url": "https://diametralgroup.github.io/design-system/docs/snippet",
       "examples": [
         {
           "demo": "snippet/basic",
@@ -828,7 +828,7 @@
       ],
       "description": "Renders a QR code as inline SVG. No dependency and no network — pass a `value`.",
       "css": "css/components/qr-code.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/qr-code",
+      "url": "https://diametralgroup.github.io/design-system/docs/qr-code",
       "examples": [
         {
           "demo": "qr-code/basic",
@@ -858,7 +858,7 @@
       ],
       "description": "Shows how full something is within a known range, like disk or budget. Use `Progress` for work advancing towards done.",
       "css": "css/components/meter.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/meter",
+      "url": "https://diametralgroup.github.io/design-system/docs/meter",
       "examples": [
         {
           "demo": "meter/basic",
@@ -884,7 +884,7 @@
       ],
       "description": "Renders \"3 hours ago\" from a date inside a `time` element, and keeps it updating. Past a week it shows the date instead.",
       "css": "css/components/relative-time.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/relative-time",
+      "url": "https://diametralgroup.github.io/design-system/docs/relative-time",
       "examples": [
         {
           "demo": "relative-time/basic",
@@ -920,7 +920,7 @@
         "CommandSeparator"
       ],
       "description": "The ⌘K palette: a filtered, grouped list of commands, built on `cmdk`.",
-      "url": "https://littlebigcode.github.io/design-system/docs/command",
+      "url": "https://diametralgroup.github.io/design-system/docs/command",
       "examples": [
         {
           "demo": "command/basic",
@@ -956,7 +956,7 @@
       ],
       "description": "A desktop-style application menu bar — File, Edit, View — with keyboard traversal.",
       "css": "css/components/menubar.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/menubar",
+      "url": "https://diametralgroup.github.io/design-system/docs/menubar",
       "examples": [
         {
           "demo": "menubar/basic",
@@ -993,7 +993,7 @@
       ],
       "description": "A horizontal site menu, with optional dropdown panels for richer links.",
       "css": "css/components/navigation-menu.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/navigation-menu",
+      "url": "https://diametralgroup.github.io/design-system/docs/navigation-menu",
       "examples": [
         {
           "demo": "navigation-menu/basic",
@@ -1045,7 +1045,7 @@
       ],
       "description": "The app's navigation column, composed from parts and nestable to any depth.",
       "css": "css/components/sidebar.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/sidebar",
+      "url": "https://diametralgroup.github.io/design-system/docs/sidebar",
       "examples": [
         {
           "demo": "sidebar/shell",
@@ -1073,7 +1073,7 @@
       ],
       "description": "Sibling views of one subject, one visible at a time. Use `Wizard` for steps that have an order.",
       "css": "css/components/tabs.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/tabs",
+      "url": "https://diametralgroup.github.io/design-system/docs/tabs",
       "examples": [
         {
           "demo": "tabs/basic",
@@ -1092,7 +1092,7 @@
         "TabsContent"
       ],
       "description": "Base UI's tabs, composed from parts instead of configured with an `items` array.",
-      "url": "https://littlebigcode.github.io/design-system/docs/tabs-primitive",
+      "url": "https://diametralgroup.github.io/design-system/docs/tabs-primitive",
       "examples": [
         {
           "demo": "tabs-primitive/basic",
@@ -1125,7 +1125,7 @@
       ],
       "description": "A sticky list of the sections on the current page, for jumping around a long document.",
       "css": "css/components/toc.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/toc",
+      "url": "https://diametralgroup.github.io/design-system/docs/toc",
       "examples": [
         {
           "demo": "toc/basic",
@@ -1154,7 +1154,7 @@
       ],
       "description": "Holds content at a fixed width-to-height ratio, so the height follows the width.",
       "css": "css/components/aspect-ratio.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/aspect-ratio",
+      "url": "https://diametralgroup.github.io/design-system/docs/aspect-ratio",
       "examples": [
         {
           "demo": "aspect-ratio/basic",
@@ -1183,7 +1183,7 @@
       ],
       "description": "A rule between content. Note Base UI's orientation semantics: a horizontal group takes vertical separators.",
       "css": "css/components/separator.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/separator",
+      "url": "https://diametralgroup.github.io/design-system/docs/separator",
       "examples": [
         {
           "demo": "separator/basic",
@@ -1213,7 +1213,7 @@
       ],
       "description": "A scrollable region with styled overlay scrollbars. The root needs a height to scroll inside.",
       "css": "css/components/scroll-area.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/scroll-area",
+      "url": "https://diametralgroup.github.io/design-system/docs/scroll-area",
       "examples": [
         {
           "demo": "scroll-area/basic",
@@ -1240,7 +1240,7 @@
       ],
       "description": "Panels split by draggable handles, over `react-resizable-panels`.",
       "css": "css/components/resizable.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/resizable",
+      "url": "https://diametralgroup.github.io/design-system/docs/resizable",
       "examples": [
         {
           "demo": "resizable/basic",
@@ -1265,7 +1265,7 @@
       ],
       "description": "A multi-column layout that balances items of uneven height, using CSS columns.",
       "css": "css/components/masonry.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/masonry",
+      "url": "https://diametralgroup.github.io/design-system/docs/masonry",
       "examples": [
         {
           "demo": "masonry/basic",
@@ -1291,7 +1291,7 @@
       ],
       "description": "A light, dark and system control in three forms. Fully controlled — the app owns the theme state.",
       "css": "css/components/theme-switcher.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/theme-switcher",
+      "url": "https://diametralgroup.github.io/design-system/docs/theme-switcher",
       "examples": [
         {
           "demo": "theme-switcher/basic",
@@ -1329,7 +1329,7 @@
       ],
       "description": "A paged slide viewport with previous and next controls, over `embla-carousel-react`.",
       "css": "css/components/carousel.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/carousel",
+      "url": "https://diametralgroup.github.io/design-system/docs/carousel",
       "examples": [
         {
           "demo": "carousel/basic",
@@ -1355,7 +1355,7 @@
       ],
       "description": "The Diametral logo as inline JSX, so it recolours with the surrounding text. Two lockups: horizontal and square.",
       "css": "css/components/wordmark.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/wordmark",
+      "url": "https://diametralgroup.github.io/design-system/docs/wordmark",
       "examples": [
         {
           "demo": "wordmark/basic",
@@ -1383,7 +1383,7 @@
       ],
       "description": "A stack of disclosure rows, one section per `AccordionItem`.",
       "css": "css/components/accordion.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/accordion",
+      "url": "https://diametralgroup.github.io/design-system/docs/accordion",
       "examples": [
         {
           "demo": "accordion/basic",
@@ -1401,7 +1401,7 @@
         "CollapsibleContent"
       ],
       "description": "One region that shows and hides. Use `Accordion` for several titled sections that stack.",
-      "url": "https://littlebigcode.github.io/design-system/docs/collapsible",
+      "url": "https://diametralgroup.github.io/design-system/docs/collapsible",
       "examples": [
         {
           "demo": "collapsible/basic",
@@ -1430,7 +1430,7 @@
         "type ModalProps"
       ],
       "description": "The destructive-confirmation form of `Modal`: a heading, the consequence, and two buttons. Label the confirm button with the verb.",
-      "url": "https://littlebigcode.github.io/design-system/docs/alert-dialog",
+      "url": "https://diametralgroup.github.io/design-system/docs/alert-dialog",
       "examples": [
         {
           "demo": "alert-dialog/basic",
@@ -1455,7 +1455,7 @@
         "AlertDialogCancel"
       ],
       "description": "Base UI's alert dialog, composed from parts. `Modal` stays the default for a confirmation.",
-      "url": "https://littlebigcode.github.io/design-system/docs/alert-dialog-primitive",
+      "url": "https://diametralgroup.github.io/design-system/docs/alert-dialog-primitive",
       "examples": [
         {
           "demo": "alert-dialog-primitive/basic",
@@ -1498,7 +1498,7 @@
       ],
       "description": "A right-click menu that opens at the pointer, for actions belonging to the item clicked.",
       "css": "css/components/context-menu.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/context-menu",
+      "url": "https://diametralgroup.github.io/design-system/docs/context-menu",
       "examples": [
         {
           "demo": "context-menu/basic",
@@ -1527,7 +1527,7 @@
         "type ModalProps"
       ],
       "description": "A focused task on top of the page: heading, body, footer actions. Always controlled through `open` and `onClose`.",
-      "url": "https://littlebigcode.github.io/design-system/docs/dialog",
+      "url": "https://diametralgroup.github.io/design-system/docs/dialog",
       "examples": [
         {
           "demo": "dialog/basic",
@@ -1550,7 +1550,7 @@
         "DialogClose"
       ],
       "description": "Base UI's dialog, composed from parts. `Modal` stays the default for a focused task.",
-      "url": "https://littlebigcode.github.io/design-system/docs/dialog-primitive",
+      "url": "https://diametralgroup.github.io/design-system/docs/dialog-primitive",
       "examples": [
         {
           "demo": "dialog-primitive/basic",
@@ -1592,7 +1592,7 @@
         "DropdownMenuSubContent"
       ],
       "description": "A menu of actions hanging off a trigger.",
-      "url": "https://littlebigcode.github.io/design-system/docs/dropdown-menu",
+      "url": "https://diametralgroup.github.io/design-system/docs/dropdown-menu",
       "examples": [
         {
           "demo": "dropdown-menu/basic",
@@ -1615,7 +1615,7 @@
       ],
       "description": "A preview panel shown on hover, for links and mentions. Keep anything essential on the page, since touch users never hover.",
       "css": "css/components/hover-card.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/hover-card",
+      "url": "https://diametralgroup.github.io/design-system/docs/hover-card",
       "examples": [
         {
           "demo": "hover-card/basic",
@@ -1645,7 +1645,7 @@
       ],
       "description": "A small panel anchored to a trigger. Use it when the content is interactive; use `Tooltip` for a plain label.",
       "css": "css/components/popover.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/popover",
+      "url": "https://diametralgroup.github.io/design-system/docs/popover",
       "examples": [
         {
           "demo": "popover/basic",
@@ -1666,7 +1666,7 @@
       ],
       "description": "An inline message about the content next to it. Use `Toast` for the result of an action.",
       "css": "css/components/alert.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/alert",
+      "url": "https://diametralgroup.github.io/design-system/docs/alert",
       "examples": [
         {
           "demo": "alert/basic",
@@ -1695,7 +1695,7 @@
       ],
       "description": "A short confirmation that an action landed, raised from anywhere with `toast`. Mount `Toaster` once at the app root.",
       "css": "css/components/toast.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/toast",
+      "url": "https://diametralgroup.github.io/design-system/docs/toast",
       "examples": [
         {
           "demo": "toast/basic",
@@ -1716,7 +1716,7 @@
       ],
       "description": "Chat bubbles grouped by author. Use `Message` when a turn also needs an avatar or a timestamp.",
       "css": "css/components/bubble.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/bubble",
+      "url": "https://diametralgroup.github.io/design-system/docs/bubble",
       "examples": [
         {
           "demo": "bubble/variants",
@@ -1750,7 +1750,7 @@
       ],
       "description": "A conversation row with an avatar on one side and the content on the other, plus an optional header and footer.",
       "css": "css/components/message.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/message",
+      "url": "https://diametralgroup.github.io/design-system/docs/message",
       "examples": [
         {
           "demo": "message/basic",
@@ -1777,7 +1777,7 @@
       "exports": [],
       "description": "A transcript viewport that stays pinned to the newest message. Stylesheet only — the pinning needs your own binding.",
       "css": "css/components/message-scroller.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/message-scroller",
+      "url": "https://diametralgroup.github.io/design-system/docs/message-scroller",
       "examples": [
         {
           "demo": "message-scroller/basic",
@@ -1803,7 +1803,7 @@
       ],
       "description": "A chip showing a file's thumbnail, name and metadata. Display only; use `File Upload` to pick files.",
       "css": "css/components/attachment.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/attachment",
+      "url": "https://diametralgroup.github.io/design-system/docs/attachment",
       "examples": [
         {
           "demo": "attachment/basic",
@@ -1832,7 +1832,7 @@
         "useDirection"
       ],
       "description": "A provider that sets text direction (LTR or RTL) for every Base UI component beneath it. Mount it once at the app root.",
-      "url": "https://littlebigcode.github.io/design-system/docs/direction",
+      "url": "https://diametralgroup.github.io/design-system/docs/direction",
       "examples": [
         {
           "demo": "direction/rtl",
@@ -1862,7 +1862,7 @@
       ],
       "description": "A thin frame around Recharts: series colours come from a `ChartConfig` and resolve to brand tokens.",
       "css": "css/components/chart.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/chart",
       "examples": [
         {
           "demo": "chart/composed",
@@ -1882,7 +1882,7 @@
         "LineChart"
       ],
       "description": "A ready-made line chart — grid, axis, tooltip and legend wired from one `config`. Best for a value over time.",
-      "url": "https://littlebigcode.github.io/design-system/docs/line-chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/line-chart",
       "examples": [
         {
           "demo": "line-chart/basic",
@@ -1910,7 +1910,7 @@
         "AreaChart"
       ],
       "description": "`Line Chart` with a filled band under each series, for when the size of the quantity matters. Same props.",
-      "url": "https://littlebigcode.github.io/design-system/docs/area-chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/area-chart",
       "examples": [
         {
           "demo": "area-chart/basic",
@@ -1934,7 +1934,7 @@
         "BarChart"
       ],
       "description": "Bars comparing discrete categories, like revenue by quarter. Use `Line Chart` when the x axis is time.",
-      "url": "https://littlebigcode.github.io/design-system/docs/bar-chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/bar-chart",
       "examples": [
         {
           "demo": "bar-chart/basic",
@@ -1963,7 +1963,7 @@
       ],
       "description": "Bars normalised to their own total, so the eye compares splits rather than sizes.",
       "css": "css/components/stacked-bar.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/stacked-bar",
+      "url": "https://diametralgroup.github.io/design-system/docs/stacked-bar",
       "examples": [
         {
           "demo": "stacked-bar/basic",
@@ -1988,7 +1988,7 @@
       ],
       "description": "A whole split into slices. Keep it to five or six; past that use `Bar Chart`.",
       "css": "css/components/pie-chart.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/pie-chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/pie-chart",
       "examples": [
         {
           "demo": "pie-chart/basic",
@@ -2013,7 +2013,7 @@
       ],
       "description": "`Pie Chart` with the middle cut out, so a headline figure can sit in the hole.",
       "css": "css/components/donut-chart.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/donut-chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/donut-chart",
       "examples": [
         {
           "demo": "donut-chart/basic",
@@ -2039,7 +2039,7 @@
       ],
       "description": "A radial dial for one bounded value, with optional thresholds that recolour the arc.",
       "css": "css/components/gauge.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/gauge",
+      "url": "https://diametralgroup.github.io/design-system/docs/gauge",
       "examples": [
         {
           "demo": "gauge/basic",
@@ -2064,7 +2064,7 @@
       ],
       "description": "A tiny inline line chart with no axes, small enough to sit in every row of a table.",
       "css": "css/components/sparkline.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/sparkline",
+      "url": "https://diametralgroup.github.io/design-system/docs/sparkline",
       "examples": [
         {
           "demo": "sparkline/basic",
@@ -2093,7 +2093,7 @@
       ],
       "description": "A spider chart comparing two or three entities across many dimensions at once.",
       "css": "css/components/radar-chart.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/radar-chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/radar-chart",
       "examples": [
         {
           "demo": "radar-chart/basic",
@@ -2122,7 +2122,7 @@
         "type ComboSeries"
       ],
       "description": "Bars and a line on one x axis with a second Y scale — a volume series next to a rate.",
-      "url": "https://littlebigcode.github.io/design-system/docs/combo-chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/combo-chart",
       "examples": [
         {
           "demo": "combo-chart/revenue-margin",
@@ -2152,7 +2152,7 @@
       ],
       "description": "Ordered conversion stages, with the drop-off computed from raw counts.",
       "css": "css/components/funnel-chart.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/funnel-chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/funnel-chart",
       "examples": [
         {
           "demo": "funnel-chart/signup",
@@ -2181,7 +2181,7 @@
       ],
       "description": "One quantity plotted against another, with optional bubble sizing for a third.",
       "css": "css/components/scatter-chart.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/scatter-chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/scatter-chart",
       "examples": [
         {
           "demo": "scatter-chart/correlation",
@@ -2211,7 +2211,7 @@
       ],
       "description": "A weighted hierarchy as nested areas. Use it where a pie has too many slices.",
       "css": "css/components/treemap.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/treemap",
+      "url": "https://diametralgroup.github.io/design-system/docs/treemap",
       "examples": [
         {
           "demo": "treemap/spend",
@@ -2240,7 +2240,7 @@
       ],
       "description": "Signed deltas accumulating from a starting value to a total.",
       "css": "css/components/waterfall-chart.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/waterfall-chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/waterfall-chart",
       "examples": [
         {
           "demo": "waterfall-chart/arr-bridge",
@@ -2271,7 +2271,7 @@
       ],
       "description": "Density across two axes shown as colour, built on CSS grid rather than a chart library.",
       "css": "css/components/heatmap.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/heatmap",
+      "url": "https://diametralgroup.github.io/design-system/docs/heatmap",
       "examples": [
         {
           "demo": "heatmap/activity",
@@ -2301,7 +2301,7 @@
       ],
       "description": "A value against its target, with two or three qualitative bands behind it.",
       "css": "css/components/bullet-chart.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/bullet-chart",
+      "url": "https://diametralgroup.github.io/design-system/docs/bullet-chart",
       "examples": [
         {
           "demo": "bullet-chart/quota",
@@ -2335,7 +2335,7 @@
       ],
       "description": "The step rail of a multi-step flow: the steps, the one you are on, and how much is left.",
       "css": "css/components/stepper.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/stepper",
+      "url": "https://diametralgroup.github.io/design-system/docs/stepper",
       "examples": [
         {
           "demo": "stepper/basic",
@@ -2370,7 +2370,7 @@
       ],
       "description": "A vertical sequence of events, each completed, active or inactive.",
       "css": "css/components/timeline.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/timeline",
+      "url": "https://diametralgroup.github.io/design-system/docs/timeline",
       "examples": [
         {
           "demo": "timeline/basic",
@@ -2404,7 +2404,7 @@
       ],
       "description": "A user image with initials behind it, plus a group form with an overflow count.",
       "css": "css/components/avatar.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/avatar",
+      "url": "https://diametralgroup.github.io/design-system/docs/avatar",
       "examples": [
         {
           "demo": "avatar/basic",
@@ -2440,7 +2440,7 @@
       ],
       "description": "Page links with previous, next and an ellipsis.",
       "css": "css/components/pagination.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/pagination",
+      "url": "https://diametralgroup.github.io/design-system/docs/pagination",
       "examples": [
         {
           "demo": "pagination/basic",
@@ -2469,7 +2469,7 @@
       ],
       "description": "Events sorted by day and time, grouped under day headings. Use it for what is coming up.",
       "css": "css/components/agenda.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/agenda",
+      "url": "https://diametralgroup.github.io/design-system/docs/agenda",
       "examples": [
         {
           "demo": "agenda/basic",
@@ -2501,7 +2501,7 @@
       ],
       "description": "The styled HTML table primitives, with no data layer. Use `Data Table` for sorting, filtering and paging.",
       "css": "css/components/table.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/table",
+      "url": "https://diametralgroup.github.io/design-system/docs/table",
       "examples": [
         {
           "demo": "table/basic",
@@ -2536,7 +2536,7 @@
       ],
       "description": "The trail to the current page, with the last item as plain text.",
       "css": "css/components/breadcrumb.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/breadcrumb",
+      "url": "https://diametralgroup.github.io/design-system/docs/breadcrumb",
       "examples": [
         {
           "demo": "breadcrumb/basic",
@@ -2565,7 +2565,7 @@
         "EmptyContent"
       ],
       "description": "The empty-state block: media, title, description and an action.",
-      "url": "https://littlebigcode.github.io/design-system/docs/empty",
+      "url": "https://diametralgroup.github.io/design-system/docs/empty",
       "examples": [
         {
           "demo": "empty/basic",
@@ -2599,7 +2599,7 @@
       ],
       "description": "A strip of grouped buttons, inputs and separators. It is one tab stop, with the arrow keys moving inside it.",
       "css": "css/components/toolbar.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/toolbar",
+      "url": "https://diametralgroup.github.io/design-system/docs/toolbar",
       "examples": [
         {
           "demo": "toolbar/basic",
@@ -2628,7 +2628,7 @@
       ],
       "description": "A full-width, tone-coloured message bar for a whole page or section. Use `Alert` inside content.",
       "css": "css/components/banner.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/banner",
+      "url": "https://diametralgroup.github.io/design-system/docs/banner",
       "examples": [
         {
           "demo": "banner/basic",
@@ -2657,7 +2657,7 @@
       ],
       "description": "Task completion advancing towards done, with optional label and value. `value={null}` is the indeterminate state.",
       "css": "css/components/progress.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/progress",
+      "url": "https://diametralgroup.github.io/design-system/docs/progress",
       "examples": [
         {
           "demo": "progress/basic",
@@ -2688,7 +2688,7 @@
       ],
       "description": "The top of a page: breadcrumb, title, description, actions, and an optional tab strip.",
       "css": "css/components/page-header.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/page-header",
+      "url": "https://diametralgroup.github.io/design-system/docs/page-header",
       "examples": [
         {
           "demo": "page-header/basic",
@@ -2715,7 +2715,7 @@
       ],
       "description": "Term and detail pairs in a real `dl`, for record summaries.",
       "css": "css/components/description-list.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/description-list",
+      "url": "https://diametralgroup.github.io/design-system/docs/description-list",
       "examples": [
         {
           "demo": "description-list/basic",
@@ -2741,7 +2741,7 @@
       ],
       "description": "Renders a keyboard key inline, sized to the text around it. Use `KbdGroup` for a chord.",
       "css": "css/components/kbd.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/kbd",
+      "url": "https://diametralgroup.github.io/design-system/docs/kbd",
       "examples": [
         {
           "demo": "kbd/basic",
@@ -2766,7 +2766,7 @@
       ],
       "description": "An indeterminate loading indicator sized to the surrounding text. Use `Skeleton` when the shape of the content is known.",
       "css": "css/components/spinner.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/spinner",
+      "url": "https://diametralgroup.github.io/design-system/docs/spinner",
       "examples": [
         {
           "demo": "spinner/basic",
@@ -2800,7 +2800,7 @@
       ],
       "description": "The built-in glyph set: 34 Phosphor icons keyed by name. Import from `@phosphor-icons/react` for anything outside it.",
       "css": "css/components/icon.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/icon",
+      "url": "https://diametralgroup.github.io/design-system/docs/icon",
       "examples": [
         {
           "demo": "icon/basic",
@@ -2826,7 +2826,7 @@
       ],
       "description": "The main action trigger. Eight variants and eight brand tones that combine freely.",
       "css": "css/components/button.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/button",
+      "url": "https://diametralgroup.github.io/design-system/docs/button",
       "examples": [
         {
           "demo": "button/variants",
@@ -2859,7 +2859,7 @@
       ],
       "description": "The single-line text field, and the base the other text controls borrow their focus and invalid styling from.",
       "css": "css/components/input.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/input",
+      "url": "https://diametralgroup.github.io/design-system/docs/input",
       "examples": [
         {
           "demo": "input/types",
@@ -2893,7 +2893,7 @@
       ],
       "description": "A multi-line text field, measured in rows and sharing Input's focus and invalid states.",
       "css": "css/components/textarea.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/textarea",
+      "url": "https://diametralgroup.github.io/design-system/docs/textarea",
       "examples": [
         {
           "demo": "textarea/basic",
@@ -2931,7 +2931,7 @@
       ],
       "description": "The form row: label, control, description and error in one accessible group. Use it for every labelled control.",
       "css": "css/components/field.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/field",
+      "url": "https://diametralgroup.github.io/design-system/docs/field",
       "examples": [
         {
           "demo": "field/basic",
@@ -2971,7 +2971,7 @@
       ],
       "description": "A closed list for choosing one option, with a trigger and a portalled popup. Use `Combobox` once the list gets long.",
       "css": "css/components/select.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/select",
+      "url": "https://diametralgroup.github.io/design-system/docs/select",
       "examples": [
         {
           "demo": "select/status",
@@ -3005,7 +3005,7 @@
       ],
       "description": "A single yes-or-no control for a value a form submits. Use `Switch` for a setting that applies immediately.",
       "css": "css/components/checkbox.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/checkbox",
+      "url": "https://diametralgroup.github.io/design-system/docs/checkbox",
       "examples": [
         {
           "demo": "checkbox/basic",
@@ -3034,7 +3034,7 @@
       ],
       "description": "Holds the array of values behind a set of checkboxes, including the select-all parent.",
       "css": "css/components/checkbox-group.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/checkbox-group",
+      "url": "https://diametralgroup.github.io/design-system/docs/checkbox-group",
       "examples": [
         {
           "demo": "checkbox-group/basic",
@@ -3063,7 +3063,7 @@
       ],
       "description": "An on/off toggle for a setting that applies as soon as it changes.",
       "css": "css/components/switch.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/switch",
+      "url": "https://diametralgroup.github.io/design-system/docs/switch",
       "examples": [
         {
           "demo": "switch/basic",
@@ -3092,7 +3092,7 @@
       ],
       "description": "Picks a number, or a range, by dragging along a track. Use `Number Field` when the exact figure matters.",
       "css": "css/components/slider.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/slider",
+      "url": "https://diametralgroup.github.io/design-system/docs/slider",
       "examples": [
         {
           "demo": "slider/basic",
@@ -3127,7 +3127,7 @@
       ],
       "description": "Puts icons, addons and buttons inside an input's own border.",
       "css": "css/components/input-group.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/input-group",
+      "url": "https://diametralgroup.github.io/design-system/docs/input-group",
       "examples": [
         {
           "demo": "input-group/addons",
@@ -3164,7 +3164,7 @@
       ],
       "description": "A bordered surface with header, content and footer slots. Use `Panel` for a flat region that belongs to the page.",
       "css": "css/components/card.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/card",
+      "url": "https://diametralgroup.github.io/design-system/docs/card",
       "examples": [
         {
           "demo": "card/with-chart",
@@ -3203,7 +3203,7 @@
       ],
       "description": "A compact, uppercase status or category label with no box. `Tag` is the boxed, tinted version.",
       "css": "css/components/badge.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/badge",
+      "url": "https://diametralgroup.github.io/design-system/docs/badge",
       "examples": [
         {
           "demo": "badge/variants",
@@ -3232,7 +3232,7 @@
         "statusVariants"
       ],
       "description": "A coloured dot and a word, for the state of one thing. Six tones.",
-      "url": "https://littlebigcode.github.io/design-system/docs/status",
+      "url": "https://diametralgroup.github.io/design-system/docs/status",
       "examples": [
         {
           "demo": "status/tones",
@@ -3262,7 +3262,7 @@
       ],
       "description": "A boxed, tinted label in six tones. Absorbs v1's Chip, whose `warn` boolean is now `tone=\"warning\"`.",
       "css": "css/components/tag.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/tag",
+      "url": "https://diametralgroup.github.io/design-system/docs/tag",
       "examples": [
         {
           "demo": "tag/tones",
@@ -3292,7 +3292,7 @@
       ],
       "description": "A flat, bordered section container — Card without the elevation — plus a row part for settings lists.",
       "css": "css/components/panel.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/panel",
+      "url": "https://diametralgroup.github.io/design-system/docs/panel",
       "examples": [
         {
           "demo": "panel/basic",
@@ -3318,7 +3318,7 @@
       ],
       "description": "A board of columns whose cards move between them by drag or by arrow key.",
       "css": "css/components/kanban.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/kanban",
+      "url": "https://diametralgroup.github.io/design-system/docs/kanban",
       "examples": [
         {
           "demo": "kanban/card-content",
@@ -3344,7 +3344,7 @@
       ],
       "description": "A pulsing placeholder block for content that has not loaded yet.",
       "css": "css/components/skeleton.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/skeleton",
+      "url": "https://diametralgroup.github.io/design-system/docs/skeleton",
       "examples": [
         {
           "demo": "skeleton/basic",
@@ -3380,7 +3380,7 @@
       ],
       "description": "A panel that slides in from an edge, with Dialog's modal behaviour.",
       "css": "css/components/sheet.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/sheet",
+      "url": "https://diametralgroup.github.io/design-system/docs/sheet",
       "examples": [
         {
           "demo": "sheet/sides",
@@ -3419,7 +3419,7 @@
       ],
       "description": "A bottom sheet that follows the finger, with drag-to-dismiss and snap points. Tuned for touch.",
       "css": "css/components/drawer.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/drawer",
+      "url": "https://diametralgroup.github.io/design-system/docs/drawer",
       "examples": [
         {
           "demo": "drawer/basic",
@@ -3451,7 +3451,7 @@
       ],
       "description": "A short label shown on hover or focus. Never put interactive content in one.",
       "css": "css/components/tooltip.css",
-      "url": "https://littlebigcode.github.io/design-system/docs/tooltip",
+      "url": "https://diametralgroup.github.io/design-system/docs/tooltip",
       "examples": [
         {
           "demo": "tooltip/basic",
@@ -3474,203 +3474,203 @@
       "category": "activity",
       "description": "Five typed events with an icon indicator, a time and a detail line.",
       "path": "blocks/activity/activity-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/activity/activity-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/activity/activity-01/preview"
     },
     {
       "slug": "app-shell-01",
       "category": "app-shell",
       "description": "Search header, badged menu with hover actions, account row in the footer.",
       "path": "blocks/app-shell/app-shell-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/app-shell/app-shell-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/app-shell/app-shell-01/preview"
     },
     {
       "slug": "confirm-01",
       "category": "confirm",
       "description": "A danger-zone card whose button opens a two-action confirmation.",
       "path": "blocks/confirm/confirm-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/confirm/confirm-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/confirm/confirm-01/preview"
     },
     {
       "slug": "dashboard-01",
       "category": "dashboard",
       "description": "Sidebar nav, page header, three KPI cards and a sparkline table.",
       "path": "blocks/dashboard/dashboard-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/dashboard/dashboard-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/dashboard/dashboard-01/preview"
     },
     {
       "slug": "detail-01",
       "category": "detail",
       "description": "A wide body card next to a 320px description-list sidebar.",
       "path": "blocks/detail/detail-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/detail/detail-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/detail/detail-01/preview"
     },
     {
       "slug": "empty-01",
       "category": "empty",
       "description": "Icon, title, explanation and a single primary action, inside a card.",
       "path": "blocks/empty/empty-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/empty/empty-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/empty/empty-01/preview"
     },
     {
       "slug": "error-01",
       "category": "error",
       "description": "404 — the empty-state pattern scaled up and centred on the page.",
       "path": "blocks/error/error-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/error/error-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/error/error-01/preview"
     },
     {
       "slug": "faceted-filter-01",
       "category": "faceted-filter",
       "description": "Checkbox statuses and tag disciplines beside an item list.",
       "path": "blocks/faceted-filter/faceted-filter-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/faceted-filter/faceted-filter-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/faceted-filter/faceted-filter-01/preview"
     },
     {
       "slug": "features-01",
       "category": "features",
       "description": "Three ruled columns, each led by a ticked grid label.",
       "path": "blocks/features/features-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/features/features-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/features/features-01/preview"
     },
     {
       "slug": "filter-bar-01",
       "category": "filter-bar",
       "description": "Removable tags and a result count on the left, selects and clear on the right.",
       "path": "blocks/filter-bar/filter-bar-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/filter-bar/filter-bar-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/filter-bar/filter-bar-01/preview"
     },
     {
       "slug": "footer-01",
       "category": "footer",
       "description": "A registration-marked CTA over an accent rule and four link columns.",
       "path": "blocks/footer/footer-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/footer/footer-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/footer/footer-01/preview"
     },
     {
       "slug": "forgot-password-01",
       "category": "forgot-password",
       "description": "One email field, a full-width send, and the way back to sign in.",
       "path": "blocks/forgot-password/forgot-password-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/forgot-password/forgot-password-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/forgot-password/forgot-password-01/preview"
     },
     {
       "slug": "hero-01",
       "category": "hero",
       "description": "A six-column gridlines band with a kicker, title, lede and two actions.",
       "path": "blocks/hero/hero-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/hero/hero-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/hero/hero-01/preview"
     },
     {
       "slug": "login-01",
       "category": "login",
       "description": "The card alone — drop it into a layout you already have.",
       "path": "blocks/login/login-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/login/login-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/login/login-01/preview"
     },
     {
       "slug": "login-02",
       "category": "login",
       "description": "The whole screen: the same form centred on the brand background.",
       "path": "blocks/login/login-02.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/login/login-02/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/login/login-02/preview"
     },
     {
       "slug": "login-03",
       "category": "login",
       "description": "The whole screen, split: a brand panel beside the form, stacking to a header band on mobile.",
       "path": "blocks/login/login-03.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/login/login-03/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/login/login-03/preview"
     },
     {
       "slug": "otp-01",
       "category": "otp",
       "description": "Six OTP slots with the verify action disabled until the code is complete.",
       "path": "blocks/otp/otp-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/otp/otp-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/otp/otp-01/preview"
     },
     {
       "slug": "page-header-01",
       "category": "page-header",
       "description": "Breadcrumb, title with actions, and a tab strip flush to the rule.",
       "path": "blocks/page-header/page-header-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/page-header/page-header-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/page-header/page-header-01/preview"
     },
     {
       "slug": "pnl-01",
       "category": "pnl",
       "description": "Restitution — filter row, a headline band toned by variance, and the statement with section and total rows.",
       "path": "blocks/pnl/pnl-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/pnl/pnl-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/pnl/pnl-01/preview"
     },
     {
       "slug": "pnl-02",
       "category": "pnl",
       "description": "Graphiques — EBITDA bridge, monthly revenue vs budget with margin rate, variance by entity, targets, rolling trend.",
       "path": "blocks/pnl/pnl-02.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/pnl/pnl-02/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/pnl/pnl-02/preview"
     },
     {
       "slug": "pricing-01",
       "category": "pricing",
       "description": "Three columns with the middle one framed in accent and badged.",
       "path": "blocks/pricing/pricing-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/pricing/pricing-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/pricing/pricing-01/preview"
     },
     {
       "slug": "sidebar-01",
       "category": "sidebar",
       "description": "Flat — four rows, no groups. Right up to about six destinations.",
       "path": "blocks/sidebar/sidebar-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/sidebar/sidebar-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/sidebar/sidebar-01/preview"
     },
     {
       "slug": "sidebar-02",
       "category": "sidebar",
       "description": "Grouped and labelled, with a per-group action and a rule between.",
       "path": "blocks/sidebar/sidebar-02.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/sidebar/sidebar-02/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/sidebar/sidebar-02/preview"
     },
     {
       "slug": "sidebar-03",
       "category": "sidebar",
       "description": "Nested: collapsible parents over sub-rows, plus a count badge.",
       "path": "blocks/sidebar/sidebar-03.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/sidebar/sidebar-03/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/sidebar/sidebar-03/preview"
     },
     {
       "slug": "sidebar-04",
       "category": "sidebar",
       "description": "Collapsible: a rail toggle drops it to a 3rem icon strip, off-canvas below 48rem.",
       "path": "blocks/sidebar/sidebar-04.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/sidebar/sidebar-04/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/sidebar/sidebar-04/preview"
     },
     {
       "slug": "signup-01",
       "category": "signup",
       "description": "Name, email and password over a full-width create action.",
       "path": "blocks/signup/signup-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/signup/signup-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/signup/signup-01/preview"
     },
     {
       "slug": "stat-band-01",
       "category": "stat-band",
       "description": "Bare — four cells sitting directly under application chrome.",
       "path": "blocks/stat-band/stat-band-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/stat-band/stat-band-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/stat-band/stat-band-01/preview"
     },
     {
       "slug": "stat-band-02",
       "category": "stat-band",
       "description": "The marketing version: the same grid, framed and led by a kicker.",
       "path": "blocks/stat-band/stat-band-02.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/stat-band/stat-band-02/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/stat-band/stat-band-02/preview"
     },
     {
       "slug": "toolbar-01",
       "category": "toolbar",
       "description": "Search on the left, a separator, and three actions on the right.",
       "path": "blocks/toolbar/toolbar-01.tsx",
-      "url": "https://littlebigcode.github.io/design-system/blocks/toolbar/toolbar-01/preview"
+      "url": "https://diametralgroup.github.io/design-system/blocks/toolbar/toolbar-01/preview"
     }
   ]
 }

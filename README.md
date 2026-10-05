@@ -7,7 +7,7 @@
 
 **Minimal · Enduring · Elegant**
 
-🔗 **Live showcase:** https://littlebigcode.github.io/design-system/
+🔗 **Live showcase:** https://diametralgroup.github.io/design-system/
 
 </div>
 
@@ -30,7 +30,7 @@ There is **no build step required to use it**.
 The library spans **115 components** — actions, forms, **data display (including a lazy-loading
 data grid)**, feedback, navigation, overlays, data-viz and utilities — every one with a matching
 React component, plus ready-made **page templates** (login, dashboard, 404). Browse them all in
-the [live showcase](https://littlebigcode.github.io/design-system/).
+the [live showcase](https://diametralgroup.github.io/design-system/).
 
 ## Quick start
 
@@ -86,7 +86,7 @@ import { Button, Status, Metric } from "@diametral/design-system/react";
 ```
 
 See [`docs/react.md`](docs/react.md) and the live docs site at
-[littlebigcode.github.io/design-system](https://littlebigcode.github.io/design-system/).
+[diametralgroup.github.io/design-system](https://diametralgroup.github.io/design-system/).
 
 > The system is pure CSS + fonts + SVG + a sprinkle of vanilla JS for the Web Components.
 > **No bundler, transpiler, or framework is needed to consume it.**
@@ -168,7 +168,7 @@ Diametral CSS in a `<style>` instead of the `<link>`"* — that renders everywhe
 ## Live showcase
 
 The docs site that dogfoods the system lives in [`site/`](site/) and is deployed at
-[littlebigcode.github.io/design-system](https://littlebigcode.github.io/design-system/).
+[diametralgroup.github.io/design-system](https://diametralgroup.github.io/design-system/).
 
 ```bash
 npm run build     # from the repo root — site/'s file:.. install needs dist/

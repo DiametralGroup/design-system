@@ -65,5 +65,5 @@ Import React components from the `/react` entry; the CSS is already loaded in
 import { Button, Callout } from "@diametral/design-system/react";
 ```
 
-See the [design-system docs](https://littlebigcode.github.io/design-system/) for
+See the [design-system docs](https://diametralgroup.github.io/design-system/) for
 the full catalogue and theming options.

@@ -96,7 +96,7 @@ st.markdown("""
 st.markdown('<div class="ds-card" style="padding:18px 20px">On track <span class="ds-tag ds-tag--success">Run</span></div>', unsafe_allow_html=True)
 ```
 
-Browse [the showcase](https://littlebigcode.github.io/design-system/) for the full
+Browse [the showcase](https://diametralgroup.github.io/design-system/) for the full
 class list — any static `.ds-*` component (cards, badges, tags, callouts, tables,
 the grid system, the stat band) works this way.
 

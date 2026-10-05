@@ -27,7 +27,7 @@ import { Sidebar, DataTable } from "@diametral/design-system/react";
 - [Components](docs/components.md): full component catalogue.
 - [Foundations](docs/foundations.md): color, type, spacing, layout, borders, motion.
 - [Recipes](docs/recipes.md): whole screens in React — app shell, CRUD list+detail, dashboard, auth gate.
-- [Blocks](https://littlebigcode.github.io/design-system/blocks): 25 whole sections and screens — login, sidebar, hero, pricing, dashboard… Each one is a React file under `blocks/` in this package; copy it and own it.
+- [Blocks](https://diametralgroup.github.io/design-system/blocks): 25 whole sections and screens — login, sidebar, hero, pricing, dashboard… Each one is a React file under `blocks/` in this package; copy it and own it.
 - [Agent index](docs/agent-index.json): every component, its category, its CSS file, and its examples richest-first, plus every block variant and the path to its source — machine-readable.
 
 ## Rules (must follow)
