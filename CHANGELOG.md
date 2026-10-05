@@ -4,7 +4,7 @@ All notable changes to the Diametral Design System are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.md](docs/versioning.md).
 
-## [Unreleased]
+## [5.0.0-beta.1] — 2026-10-05
 
 Financial-steering readiness, driven by insights360's P&L screen.
 
