@@ -2,8 +2,8 @@ name: Publish to npm (public)
 
 # Publishes @diametral/design-system to the PUBLIC npm registry
 # (registry.npmjs.org) so anyone can `npm i @diametral/design-system` with
-# no auth. Requires an NPM_TOKEN repo secret (an npm automation token for an
-# account that owns the @diametral scope/org). Triggered by publishing a
+# no auth. Authenticates through npm Trusted Publishing (OIDC) — no token
+# secret. Triggered by publishing a
 # GitHub Release, or manually. See RELEASE.md.
 #
 # DIST-TAG. A prerelease version (one carrying a `-` — `1.0.0-beta.3`) publishes
@@ -30,9 +30,8 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    # NPM_TOKEN is stored as an *environment* secret, so the job must target that
-    # environment to read it. (If you move NPM_TOKEN to a Repository secret, drop
-    # this line.)
+    # The npm Trusted Publisher is bound to this environment name: renaming or
+    # dropping it breaks the publish.
     environment: default
     steps:
       - uses: actions/checkout@v4
@@ -64,7 +63,14 @@ jobs:
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
           echo "::notice::Publishing $version to dist-tag '$tag'."
 
+      # Trusted Publishing (OIDC): npm trusts this workflow of
+      # DiametralGroup/design-system directly, so no NPM_TOKEN is involved —
+      # the @diametral scope requires 2FA, which a token cannot carry, and
+      # tokens expire. Configured on npmjs.com under the package's Settings →
+      # Trusted Publisher (workflow publish-npm.yml, environment default).
+      # Needs npm >= 11.5.1; node 20 ships npm 10.
+      - name: Install an npm that supports trusted publishing
+        run: npm install -g npm@11
+
       - name: Publish (public, with provenance)
         run: npm publish --access public --provenance --tag "${{ steps.disttag.outputs.tag }}"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

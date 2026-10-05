@@ -111,3 +111,7 @@ tree.
   hook, plausible-looking file lists may be synthesized. `git status
   --porcelain=v2 --branch` and `git for-each-ref` proved trustworthy;
   `git diff --stat` did not.
+- **Auth is npm Trusted Publishing (OIDC), not a token.** An `E404` on the PUT
+  means the trusted-publisher binding (repo, workflow file name, environment
+  `default`) no longer matches; an `E422` provenance error means
+  `package.json` `repository.url` does not name `DiametralGroup/design-system`.

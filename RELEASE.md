@@ -8,10 +8,12 @@ without the steps below.
 
 1. **Own the scope.** The `@diametral` npm org must exist and the publishing account must
    have publish rights on it.
-2. **Add the token.** Create an npm **automation** access token, then add it to the repo:
-   GitHub → Settings → Secrets and variables → Actions → **New repository secret**,
-   named `NPM_TOKEN`. It is stored as an *environment* secret on `default`, which is why
-   the publish job targets that environment.
+2. **Trust the workflow — no token.** On npmjs.com, the package's **Settings → Trusted
+   Publisher → GitHub Actions**: organization `DiametralGroup`, repository
+   `design-system`, workflow `publish-npm.yml`, environment `default`. The publish job
+   authenticates through OIDC, so there is no secret to store or renew. A token is not an
+   option: the `@diametral` scope requires 2FA to publish, and npm only lets a 2FA-bypass
+   token *stage* a version (`E_STAGE_REQUIRED`).
 
 ## The dist-tag
 
