@@ -4,7 +4,7 @@ All notable changes to the Diametral Design System are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.md](docs/versioning.md).
 
-## [Unreleased]
+## [5.0.0-beta.2] — 2026-10-05
 
 Ports the fixes made in `diamorval/design-system-diametral` (`diametral-ds`
 0.1.0-rc.1 → 0.3.0, 2026-09-24/25) after the absorption, so this package is the
