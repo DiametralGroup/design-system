@@ -30,6 +30,11 @@ Financial-steering readiness, driven by insights360's P&L screen.
 - `BarChart` pinned its value axis at zero, clipping negative bars (variances).
   The floor now follows the data when a series goes below zero.
 - `dashboard-01` drew a falling at-risk rate in red.
+- **Shipped blocks no longer depend on Tailwind** (#63). Their ~255 utility
+  classes are replaced by `.ds-block-*` classes in the new `css/blocks.css`
+  (bundled in `diametral.css`, in `@layer ds-blocks` so component rules and a
+  consumer's own CSS still win). `check-contracts` gains a `blocks-no-tailwind`
+  check.
 
 ## [5.0.0-beta] — 2026-09-09
 

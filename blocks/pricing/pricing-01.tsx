@@ -43,12 +43,14 @@ const PLANS = [
 
 export default function Pricing01() {
   return (
-    <div className="grid w-full sm:grid-cols-3">
+    <div className="ds-block-pricing-01">
       {PLANS.map((plan) => (
         <Card
           key={plan.name}
           className={
-            plan.featured ? "ds-frame--accent" : "border-s-0 first:border-s"
+            plan.featured
+              ? "ds-frame--accent ds-block-pricing-01__plan"
+              : "ds-block-pricing-01__plan"
           }
         >
           <CardHeader>
@@ -57,15 +59,15 @@ export default function Pricing01() {
             ) : (
               <span className="ds-gridlabel">{plan.name}</span>
             )}
-            <p className="font-heading mt-1 text-4xl tracking-tight">
+            <p className="ds-block-pricing-01__price">
               {plan.price}
-              <small className="ms-1 text-sm text-muted-foreground">/ mo</small>
+              <small className="ds-block-pricing-01__period">/ mo</small>
             </p>
           </CardHeader>
           <CardContent>
-            <ul className="divide-y divide-border text-sm text-muted-foreground">
+            <ul className="ds-block-pricing-01__features">
               {plan.features.map((feature) => (
-                <li key={feature} className="py-2.5">
+                <li key={feature} className="ds-block-pricing-01__feature">
                   {feature}
                 </li>
               ))}

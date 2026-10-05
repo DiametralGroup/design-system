@@ -16,7 +16,7 @@ export default function Confirm01() {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <div className="mx-auto w-full max-w-2xl p-6">
+    <div className="ds-block-confirm-01">
       <Card>
         <CardHeader>
           <CardTitle>Danger zone</CardTitle>

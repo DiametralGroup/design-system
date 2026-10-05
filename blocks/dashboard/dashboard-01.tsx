@@ -75,8 +75,8 @@ const ENTITIES = [
 
 export default function Dashboard01() {
   return (
-    <SidebarProvider className="min-h-svh">
-      <Sidebar collapsible="none" className="w-56">
+    <SidebarProvider className="ds-block-dashboard-01">
+      <Sidebar collapsible="none" className="ds-block-dashboard-01__sidebar">
         <SidebarHeader>
           <Wordmark variant="square" name="Diametral" sub="Console" />
         </SidebarHeader>
@@ -103,7 +103,7 @@ export default function Dashboard01() {
       <SidebarInset>
         <PageHeader>
           <PageHeaderHeading>
-            <div className="flex flex-col gap-1">
+            <div className="ds-flex ds-flex-col ds-gap-1">
               <PageHeaderTitle>Dashboard</PageHeaderTitle>
               <PageHeaderDescription>
                 Pricing performance across all entities · Q2 2026
@@ -117,8 +117,8 @@ export default function Dashboard01() {
           </PageHeaderHeading>
         </PageHeader>
 
-        <div className="flex flex-col gap-5 p-6">
-          <div className="grid gap-4 sm:grid-cols-3">
+        <div className="ds-block-dashboard-01__body">
+          <div className="ds-block-dashboard-01__kpis">
             {KPIS.map((kpi) => (
               <StatCard key={kpi.label}>
                 <StatCardLabel>{kpi.label}</StatCardLabel>
@@ -148,7 +148,7 @@ export default function Dashboard01() {
                   {ENTITIES.map((entity) => (
                     <TableRow key={entity.name}>
                       <TableCell>{entity.name}</TableCell>
-                      <TableCell className="tabular-nums">
+                      <TableCell className="ds-block-dashboard-01__figure">
                         {entity.margin}
                       </TableCell>
                       <TableCell>

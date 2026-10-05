@@ -18,15 +18,15 @@ import {
  *  background and the page has no chrome around it. */
 export default function Login02() {
   return (
-    <div className="flex min-h-svh items-center justify-center bg-background p-6">
-      <Card className="w-full max-w-95">
-        <CardHeader className="flex flex-col items-center gap-3.5">
-          <Wordmark variant="square" className="size-10" />
+    <div className="ds-block-login-02">
+      <Card className="ds-block-login-02__card">
+        <CardHeader className="ds-block-login-02__header">
+          <Wordmark variant="square" className="ds-block-login-02__mark" />
           <CardTitle>Sign in</CardTitle>
         </CardHeader>
         <CardContent>
           <form
-            className="flex flex-col gap-4"
+            className="ds-block-login-02__form"
             onSubmit={(event) => event.preventDefault()}
           >
             <Field>
@@ -52,7 +52,7 @@ export default function Login02() {
             <Button type="submit" variant="primary" block>
               Sign in
             </Button>
-            <FieldDescription className="text-end">
+            <FieldDescription className="ds-block-login-02__hint">
               <a href="#login-02">Forgot your password?</a>
             </FieldDescription>
             <FieldSeparator>or</FieldSeparator>

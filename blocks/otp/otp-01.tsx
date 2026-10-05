@@ -21,7 +21,7 @@ export default function Otp01() {
   const [code, setCode] = React.useState("")
 
   return (
-    <div className="mx-auto w-full max-w-90 p-6">
+    <div className="ds-block-otp-01">
       <Card>
         <CardHeader>
           <CardTitle>Verify it's you</CardTitle>
@@ -29,7 +29,7 @@ export default function Otp01() {
             Enter the 6-digit code from your authenticator app.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-4">
+        <CardContent className="ds-block-otp-01__content">
           <Field>
             <FieldLabel htmlFor="otp-01-code">Code</FieldLabel>
             <InputOTP
@@ -52,7 +52,7 @@ export default function Otp01() {
           >
             Verify
           </Button>
-          <FieldDescription className="text-center">
+          <FieldDescription className="ds-block-otp-01__hint">
             <a href="#otp-01">Use a recovery code instead</a>
           </FieldDescription>
         </CardContent>

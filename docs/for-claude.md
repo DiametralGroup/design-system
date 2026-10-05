@@ -58,6 +58,10 @@ https://littlebigcode.github.io/design-system/docs/sidebar
 Do not assemble a screen out of the primitives below. Find the row that matches
 what you are building, read that source, and start from it.
 
+Blocks need no Tailwind: their layout is the `.ds-block-<variant>__<part>`
+classes in `css/blocks.css`, shipped in `diametral.css`. Keep those classes
+when you copy a block; rename them to your own if you restyle it.
+
 <!-- blocks-table:start -->
 
 | Building | Copy | Live |

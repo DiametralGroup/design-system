@@ -212,6 +212,10 @@
 @import url("./themes/dark.css");
 @import url("./themes/sepia.css");
 
+/* Block layout — the .ds-block-* classes the shipped blocks/ variants use in
+   place of Tailwind utilities (#63). Layered: see the file's header. */
+@import url("./blocks.css");
+
 /* Batch 10 — the .ds-* utility layer (1.0.0-beta.10)
    Loads last so a layout utility on a demo wrapper always wins over a
    component's own single-class rule of equal specificity. */

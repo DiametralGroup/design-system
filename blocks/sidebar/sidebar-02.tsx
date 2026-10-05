@@ -22,8 +22,8 @@ import {
 
 export default function Sidebar02() {
   return (
-    <SidebarProvider className="min-h-svh">
-      <Sidebar collapsible="none" className="w-60">
+    <SidebarProvider className="ds-block-sidebar-02">
+      <Sidebar collapsible="none" className="ds-block-sidebar-02__sidebar">
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>Workspace</SidebarGroupLabel>
@@ -62,8 +62,8 @@ export default function Sidebar02() {
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
-      <SidebarInset className="p-6">
-        <p className="text-sm text-muted-foreground">
+      <SidebarInset className="ds-block-sidebar-02__inset">
+        <p className="ds-block-sidebar-02__lede">
           Every group carries a label, and every row an icon.
         </p>
       </SidebarInset>

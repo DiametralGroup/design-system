@@ -11,7 +11,7 @@ import {
 
 export default function Toolbar01() {
   return (
-    <Toolbar className="w-full">
+    <Toolbar className="ds-block-toolbar-01">
       <ToolbarButton aria-label="Search">
         <MagnifyingGlassIcon />
       </ToolbarButton>
@@ -19,7 +19,7 @@ export default function Toolbar01() {
 
       <ToolbarSeparator />
 
-      <ToolbarGroup className="ms-auto">
+      <ToolbarGroup className="ds-block-toolbar-01__end">
         <Button>Columns</Button>
         <Button>Export</Button>
         <Button variant="primary">New rate</Button>

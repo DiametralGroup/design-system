@@ -1,7 +1,7 @@
 /* ============================================================================
    check-contracts.mjs — the release-blocking contract checks.
 
-   Five assertions, all cheap, all zero-dependency. They exist because each one
+   Six assertions, all cheap, all zero-dependency. They exist because each one
    guards a failure that is invisible in a diff and only shows up in a consumer's
    browser:
 
@@ -20,8 +20,8 @@
         shipped CSS. The `@layer utilities` strip is paid once upstream on
         `migration-source-v1`, so this is not an enforcement mechanism forcing
         every batch to strip: it is an invariant guard that should never fire.
-        The one exception is `@layer base` in `css/base/reset.css`, which the
-        bundle needs — see the rationale at the check itself.
+        The exceptions are `@layer base` in `css/base/reset.css` and
+        `@layer ds-blocks` in `css/blocks.css` — see the rationale at the check.
 
      4. use-client — every file in react/components/ starts with a `"use client"`
         directive. Without this, a Next App Router consumer's server-component
@@ -31,6 +31,10 @@
         something package.json's own "files" field publishes or known repo
         scaffolding (issue #47). Without this, site content quietly creeps
         back onto root instead of living under site/.
+
+     6. blocks-no-tailwind — every class a shipped block writes is a `ds-*`
+        class or one the block styles in its own inline <style>. Blocks are
+        copied into apps with no Tailwind (#63), where a utility is inert.
 
    Usage: node scripts/check-contracts.mjs   (run `npm run build` first)
    Exits 1 on any failure.
@@ -124,12 +128,41 @@ const sources = [
   ...walk(join(root, "emails"), [".js"]),
 ];
 
+const BLOCKS_DIR = join(root, "blocks");
+
 for (const file of sources) {
   const src = stripComments(readFileSync(file, "utf8"));
   const where = relative(root, file);
+  const isBlock = file.startsWith(BLOCKS_DIR);
 
   for (const m of src.matchAll(/className\s*[:=]/g)) {
     const expr = classNameExpr(src, m.index + m[0].length);
+
+    // blocks-no-tailwind (#63): a block is copied into apps without Tailwind,
+    // so every class it writes is either a shipped `ds-*` class (checked below)
+    // or one the block styles itself in its own inline `<style>` (login-03).
+    // Anything else — `p-6`, `sm:grid-cols-3` — is an inert utility.
+    if (isBlock) {
+      // A plain `className="…"` attribute is that one string; the expression
+      // scan runs on to the end of the line and would pick up `style` values.
+      const strings = /^\s*["']/.test(expr)
+        ? [...expr.matchAll(STRING)].slice(0, 1)
+        : [...expr.matchAll(STRING)];
+      for (const [, , body] of strings) {
+        for (const token of body.split(/\s+/)) {
+          if (!token || token.startsWith("ds-") || token.includes("${")) continue;
+          if (!/^[a-z][\w-]*$/.test(token)) {
+            if (/[:\[\]/]/.test(token)) {
+              fail("blocks-no-tailwind", `${where}: "${token}" is a Tailwind utility — use a ds-block-* class in css/blocks.css`);
+            }
+            continue;
+          }
+          if (!new RegExp(`\\.${token}(?![\\w-])`).test(src)) {
+            fail("blocks-no-tailwind", `${where}: "${token}" is neither a ds-* class nor styled by the block itself — use a ds-block-* class in css/blocks.css`);
+          }
+        }
+      }
+    }
 
     const prefixes = new Set(
       [...expr.matchAll(INTERPOLATED)]
@@ -215,10 +248,14 @@ for (const file of [
    is now scoped to the layers it was actually written to catch, and `base` is
    allowed only in the reset. See docs/absorption/corrections.md. */
 const RESET = join(root, "css", "base", "reset.css");
+const BLOCKS_CSS = join(root, "css", "blocks.css");
 for (const file of walk(join(root, "css"), [".css"])) {
   const src = readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
   for (const [, name] of src.matchAll(/@layer\s+([A-Za-z0-9_-]*)/g)) {
     if (name === "base" && file === RESET) continue;
+    // css/blocks.css keeps the precedence the blocks were drawn with: layered,
+    // so a component's own unlayered rule always wins (see its header).
+    if (name === "ds-blocks" && file === BLOCKS_CSS) continue;
     fail(
       "no-cascade-layers",
       `${relative(root, file)}: contains @layer ${name || "(anonymous)"} — the strip is paid upstream; only @layer base in css/base/reset.css is allowed`,

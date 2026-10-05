@@ -13,13 +13,13 @@ import {
 
 export default function Login01() {
   return (
-    <div className="mx-auto w-full max-w-90 p-6">
+    <div className="ds-block-login-01">
       <Card>
-        <CardHeader className="flex flex-col items-center gap-3.5">
-          <Wordmark variant="square" className="size-10" />
+        <CardHeader className="ds-block-login-01__header">
+          <Wordmark variant="square" className="ds-block-login-01__mark" />
           <CardTitle>Sign in</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col gap-4">
+        <CardContent className="ds-block-login-01__content">
           <Field>
             <FieldLabel htmlFor="login-01-email">Email</FieldLabel>
             <Input
@@ -42,7 +42,7 @@ export default function Login01() {
             Sign in
           </Button>
           <Button block>Continue with SSO</Button>
-          <FieldDescription className="text-end">
+          <FieldDescription className="ds-block-login-01__hint">
             <a href="#login-01">Forgot your password?</a>
           </FieldDescription>
         </CardContent>
