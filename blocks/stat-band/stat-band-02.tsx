@@ -9,9 +9,9 @@ const STATS = [
  *  led by a kicker instead of sitting bare under app chrome. */
 export default function StatBand02() {
   return (
-    <section className="w-full px-8 py-14">
+    <section className="ds-block-stat-band-02">
       <p className="ds-kicker">Impact in numbers</p>
-      <div className="ds-statgrid mt-6 w-full">
+      <div className="ds-statgrid ds-block-stat-band-02__grid">
         {STATS.map((stat) => (
           <div key={stat.label} className="ds-statgrid__cell">
             <div className="ds-statgrid__label">{stat.label}</div>

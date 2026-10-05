@@ -34,8 +34,8 @@ const WORKSPACE = [
 
 export default function AppShell01() {
   return (
-    <SidebarProvider className="min-h-svh">
-      <Sidebar collapsible="none" className="w-60">
+    <SidebarProvider className="ds-block-app-shell-01">
+      <Sidebar collapsible="none" className="ds-block-app-shell-01__sidebar">
         <SidebarHeader>
           <SidebarInput
             aria-label="Search the workspace"
@@ -55,7 +55,7 @@ export default function AppShell01() {
                     {/* Badge and action share the end of the row, so the count
                         gives way to the menu on hover. */}
                     {item.count ? (
-                      <SidebarMenuBadge className="transition-opacity group-hover/menu-item:opacity-0">
+                      <SidebarMenuBadge className="ds-block-app-shell-01__badge">
                         {item.count}
                       </SidebarMenuBadge>
                     ) : null}
@@ -75,26 +75,26 @@ export default function AppShell01() {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg">
-                <Avatar className="size-7">
+                <Avatar className="ds-block-app-shell-01__avatar">
                   <AvatarFallback>CR</AvatarFallback>
                 </Avatar>
-                <span className="flex min-w-0 flex-col text-start">
-                  <span className="truncate">Camille Roux</span>
-                  <span className="truncate text-xs text-muted-foreground">
+                <span className="ds-flex ds-flex-col ds-block-app-shell-01__account">
+                  <span className="ds-block-app-shell-01__truncate">Camille Roux</span>
+                  <span className="ds-block-app-shell-01__email">
                     camille@diametral.fr
                   </span>
                 </span>
-                <CaretUpDownIcon className="ms-auto text-muted-foreground" />
+                <CaretUpDownIcon className="ds-block-app-shell-01__caret" />
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset className="p-6">
-        <h1 className="font-heading text-2xl font-light tracking-tight">
+      <SidebarInset className="ds-block-app-shell-01__inset">
+        <h1 className="ds-block-app-shell-01__title">
           Dashboard
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="ds-block-app-shell-01__lede">
           Nine documents updated since Monday.
         </p>
       </SidebarInset>

@@ -14,10 +14,10 @@ import {
  *  background, its own frame rather than an application's chrome. */
 export default function Error01() {
   return (
-    <div className="flex min-h-svh items-center justify-center bg-background p-6">
+    <div className="ds-block-error-01">
       <Empty>
         <EmptyHeader>
-          <EmptyMedia variant="icon" className="text-5xl">
+          <EmptyMedia variant="icon" className="ds-block-error-01__media">
             <MagnifyingGlassIcon />
           </EmptyMedia>
           <EmptyTitle>Page not found</EmptyTitle>

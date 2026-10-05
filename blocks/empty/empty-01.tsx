@@ -13,7 +13,7 @@ import {
 
 export default function Empty01() {
   return (
-    <div className="w-full p-6">
+    <div className="ds-block-empty-01">
       <Card>
         <Empty>
           <EmptyHeader>

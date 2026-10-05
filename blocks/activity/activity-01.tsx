@@ -55,7 +55,7 @@ const EVENTS = [
 
 export default function Activity01() {
   return (
-    <div className="w-full p-6">
+    <div className="ds-block-activity-01">
       <Timeline>
         {EVENTS.map(({ icon: Icon, ...event }) => (
           <TimelineItem key={event.title} tone={event.tone}>

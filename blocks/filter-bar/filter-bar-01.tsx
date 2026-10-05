@@ -14,12 +14,12 @@ const SORTS = { "rate-asc": "Rate ↑", "rate-desc": "Rate ↓" }
 
 export default function FilterBar01() {
   return (
-    <div className="flex w-full flex-wrap items-center gap-3 border border-border p-3.5">
+    <div className="ds-block-filter-bar-01">
       <Tag onRemove={() => {}}>Region: EU</Tag>
       <Tag onRemove={() => {}}>Active</Tag>
       <Badge variant="secondary">24 results</Badge>
 
-      <div className="flex-1" />
+      <div className="ds-block-filter-bar-01__spacer" />
 
       <Select items={PROFILES} defaultValue="all">
         <SelectTrigger aria-label="Profile">

@@ -25,8 +25,8 @@ const NAV = [
 
 export default function Sidebar01() {
   return (
-    <SidebarProvider className="min-h-svh">
-      <Sidebar collapsible="none" className="w-60">
+    <SidebarProvider className="ds-block-sidebar-01">
+      <Sidebar collapsible="none" className="ds-block-sidebar-01__sidebar">
         <SidebarContent>
           <SidebarGroup>
             <SidebarMenu>
@@ -41,8 +41,8 @@ export default function Sidebar01() {
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
-      <SidebarInset className="p-6">
-        <p className="text-sm text-muted-foreground">
+      <SidebarInset className="ds-block-sidebar-01__inset">
+        <p className="ds-block-sidebar-01__lede">
           Nine documents updated since Monday.
         </p>
       </SidebarInset>

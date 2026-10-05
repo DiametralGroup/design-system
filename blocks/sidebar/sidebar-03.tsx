@@ -27,8 +27,8 @@ const REPORTS = ["Traffic", "Conversion", "Retention"]
 
 export default function Sidebar03() {
   return (
-    <SidebarProvider className="min-h-svh">
-      <Sidebar collapsible="none" className="w-60">
+    <SidebarProvider className="ds-block-sidebar-03">
+      <Sidebar collapsible="none" className="ds-block-sidebar-03__sidebar">
         <SidebarContent>
           <SidebarGroup>
             <SidebarMenu>
@@ -36,10 +36,10 @@ export default function Sidebar03() {
                 <SidebarMenuButton
                   isActive
                   render={<CollapsibleTrigger />}
-                  className="group/collapsible"
+                  className="ds-block-sidebar-03__trigger"
                 >
                   <ChartLineIcon /> Reports
-                  <CaretRightIcon className="ms-auto transition-[rotate] group-aria-expanded/collapsible:rotate-90" />
+                  <CaretRightIcon className="ds-block-sidebar-03__caret" />
                 </SidebarMenuButton>
                 <CollapsibleContent>
                   <SidebarMenuSub>
@@ -59,10 +59,10 @@ export default function Sidebar03() {
               <Collapsible render={<SidebarMenuItem />}>
                 <SidebarMenuButton
                   render={<CollapsibleTrigger />}
-                  className="group/collapsible"
+                  className="ds-block-sidebar-03__trigger"
                 >
                   <GearIcon /> Settings
-                  <CaretRightIcon className="ms-auto transition-[rotate] group-aria-expanded/collapsible:rotate-90" />
+                  <CaretRightIcon className="ds-block-sidebar-03__caret" />
                 </SidebarMenuButton>
                 <CollapsibleContent>
                   <SidebarMenuSub>
@@ -85,8 +85,8 @@ export default function Sidebar03() {
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
-      <SidebarInset className="p-6">
-        <p className="text-sm text-muted-foreground">
+      <SidebarInset className="ds-block-sidebar-03__inset">
+        <p className="ds-block-sidebar-03__lede">
           Traffic — 24 180 sessions this week.
         </p>
       </SidebarInset>

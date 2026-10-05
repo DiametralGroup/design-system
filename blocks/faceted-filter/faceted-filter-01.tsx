@@ -24,15 +24,15 @@ const RESULTS = [
 
 export default function FacetedFilter01() {
   return (
-    <div className="grid w-full gap-5 p-6 sm:grid-cols-[240px_1fr]">
+    <div className="ds-block-faceted-filter-01">
       <Card>
         <CardBlock>
-          <p className="mb-3 text-[11px] tracking-wider text-muted-foreground uppercase">
+          <p className="ds-block-faceted-filter-01__label">
             Status
           </p>
-          <div className="flex flex-col gap-2.5">
+          <div className="ds-block-faceted-filter-01__statuses">
             {STATUSES.map((status) => (
-              <div key={status.id} className="flex items-center gap-2.5">
+              <div key={status.id} className="ds-block-faceted-filter-01__status">
                 <Checkbox
                   id={`faceted-filter-01-${status.id}`}
                   defaultChecked={status.checked}
@@ -45,10 +45,10 @@ export default function FacetedFilter01() {
           </div>
         </CardBlock>
         <CardBlock>
-          <p className="mb-3 text-[11px] tracking-wider text-muted-foreground uppercase">
+          <p className="ds-block-faceted-filter-01__label">
             Discipline
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="ds-flex ds-flex-wrap ds-gap-2">
             <Tag tone="info">Data</Tag>
             <Tag>Design</Tag>
             <Tag>Ops</Tag>
@@ -62,7 +62,7 @@ export default function FacetedFilter01() {
             <ItemContent>
               <ItemTitle>{result.name}</ItemTitle>
             </ItemContent>
-            <span className="text-sm text-muted-foreground tabular-nums">
+            <span className="ds-block-faceted-filter-01__count">
               {result.rate}
             </span>
           </Item>

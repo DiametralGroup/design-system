@@ -8,13 +8,13 @@ const COLUMNS = [
 
 export default function Footer01() {
   return (
-    <div className="w-full px-8 py-6">
-      <div className="ds-marks px-8 py-14 text-center">
+    <div className="ds-block-footer-01">
+      <div className="ds-marks ds-block-footer-01__cta">
         <p className="ds-kicker">Get started</p>
-        <h2 className="ds-title mt-3.5 text-4xl">
+        <h2 className="ds-title ds-block-footer-01__title">
           Bring structure to your pricing.
         </h2>
-        <p className="mx-auto mt-3.5 mb-6 max-w-[46ch] leading-relaxed text-muted-foreground">
+        <p className="ds-block-footer-01__lede">
           Stand up your first pricing matrix in minutes — no build step, no
           black box.
         </p>
@@ -25,25 +25,25 @@ export default function Footer01() {
 
       <hr className="ds-rule-x ds-rule-x--accent" />
 
-      <footer className="grid gap-8 pt-7 sm:grid-cols-[2fr_1fr_1fr_1fr]">
+      <footer className="ds-block-footer-01__columns">
         <div>
           <Wordmark />
-          <p className="mt-2 max-w-[34ch] leading-relaxed text-muted-foreground">
+          <p className="ds-block-footer-01__tagline">
             Minimal · Enduring · Elegant. Pricing intelligence on a visible
             grid.
           </p>
         </div>
         {COLUMNS.map((column) => (
           <nav key={column.heading} aria-label={column.heading}>
-            <h3 className="mb-3 text-[11px] tracking-wider text-muted-foreground uppercase">
+            <h3 className="ds-block-footer-01__heading">
               {column.heading}
             </h3>
-            <ul className="flex flex-col gap-1.5">
+            <ul className="ds-block-footer-01__links">
               {column.links.map((link) => (
                 <li key={link}>
                   <a
                     href="#footer-01"
-                    className="text-sm text-muted-foreground no-underline hover:text-accent"
+                    className="ds-block-footer-01__link"
                   >
                     {link}
                   </a>

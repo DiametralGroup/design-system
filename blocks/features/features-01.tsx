@@ -18,14 +18,14 @@ const FEATURES = [
 
 export default function Features01() {
   return (
-    <div className="ds-ruled w-full">
+    <div className="ds-ruled ds-block-features-01">
       {FEATURES.map((feature) => (
         <div key={feature.label} className="ds-ruled__col">
           <span className="ds-gridlabel">{feature.label}</span>
-          <h3 className="font-heading mt-3 mb-1.5 text-lg font-light">
+          <h3 className="ds-block-features-01__title">
             {feature.title}
           </h3>
-          <p className="leading-relaxed text-muted-foreground">
+          <p className="ds-block-features-01__copy">
             {feature.copy}
           </p>
         </div>

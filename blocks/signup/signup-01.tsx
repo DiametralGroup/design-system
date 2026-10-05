@@ -12,12 +12,12 @@ import {
 
 export default function Signup01() {
   return (
-    <div className="mx-auto w-full max-w-90 p-6">
+    <div className="ds-block-signup-01">
       <Card>
         <CardHeader>
           <CardTitle>Create your account</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col gap-4">
+        <CardContent className="ds-block-signup-01__content">
           <Field>
             <FieldLabel htmlFor="signup-01-name">Name</FieldLabel>
             <Input

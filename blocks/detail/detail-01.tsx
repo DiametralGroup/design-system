@@ -12,7 +12,7 @@ import {
 
 export default function Detail01() {
   return (
-    <div className="grid w-full gap-5 p-6 sm:grid-cols-[1fr_320px]">
+    <div className="ds-block-detail-01">
       <Card>
         <CardHeader>
           <CardTitle>Acme Consulting — Senior data engineer</CardTitle>

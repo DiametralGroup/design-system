@@ -9,7 +9,7 @@ const STATS = [
  *  component. */
 export default function StatBand01() {
   return (
-    <div className="ds-statgrid w-full">
+    <div className="ds-statgrid ds-block-stat-band-01">
       {STATS.map((stat) => (
         <div key={stat.label} className="ds-statgrid__cell">
           <div className="ds-statgrid__label">{stat.label}</div>
