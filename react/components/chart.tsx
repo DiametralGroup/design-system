@@ -153,6 +153,7 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
+  valueFormatter,
 }: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
   React.ComponentProps<"div"> & {
     hideLabel?: boolean;
@@ -160,6 +161,11 @@ function ChartTooltipContent({
     indicator?: "line" | "dot" | "dashed";
     nameKey?: string;
     labelKey?: string;
+    /** Formats a numeric value while keeping the default row layout —
+     *  `formatter` replaces the whole row. Receives the series key, so a
+     *  chart mixing amounts and rates can format each its own way. Defaults
+     *  to `toLocaleString()`. */
+    valueFormatter?: (value: number, key: string) => string;
   } & Omit<
     RechartsPrimitive.DefaultTooltipContentProps<
       TooltipValueType,
@@ -265,7 +271,11 @@ function ChartTooltipContent({
                       {item.value != null && (
                         <span className="ds-chart-tooltip-content-item-value">
                           {typeof item.value === "number"
-                            ? item.value.toLocaleString()
+                            ? (valueFormatter?.(
+                                item.value,
+                                String(item.dataKey ?? item.name ?? key),
+                              ) ??
+                              item.value.toLocaleString())
                             : String(item.value)}
                         </span>
                       )}

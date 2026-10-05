@@ -6,6 +6,7 @@ import {
   AreaChart as RechartsAreaChart,
   CartesianGrid,
   XAxis,
+  YAxis,
 } from "recharts";
 
 import { seriesColor } from "../lib/chart-series.js";
@@ -33,6 +34,9 @@ function AreaChart({
   grid = true,
   dots = false,
   legend,
+  valueAxis = false,
+  valueFormatter,
+  valueAxisWidth,
   stacked = false,
   margin = { top: 8, right: 20, bottom: 0, left: 20 },
   children,
@@ -50,6 +54,13 @@ function AreaChart({
   /** Sum the series into one band instead of overlaying them. */
   stacked?: boolean;
   margin?: React.ComponentProps<typeof RechartsAreaChart>["margin"];
+  /** Draw a value (Y) axis. Off by default: the tooltip carries the figure. */
+  valueAxis?: boolean;
+  /** Formats the value axis ticks and the tooltip — `(v) => fmt.format(v)`
+   *  for amounts. Left off, both fall back to `toLocaleString()`. */
+  valueFormatter?: (value: number) => string;
+  /** Width of the value axis; widen it for formatted amounts. */
+  valueAxisWidth?: number;
   /** Extra recharts children — a `ReferenceLine`, a second axis. */
   children?: React.ReactNode;
 }) {
@@ -73,7 +84,17 @@ function AreaChart({
             minTickGap={16}
           />
         ) : null}
-        <ChartTooltip content={<ChartTooltipContent />} />
+        {valueAxis ? (
+          <YAxis
+            tickLine={false}
+            axisLine={false}
+            tickFormatter={valueFormatter}
+            width={valueAxisWidth}
+          />
+        ) : null}
+        <ChartTooltip
+          content={<ChartTooltipContent valueFormatter={valueFormatter} />}
+        />
         {(legend ?? series.length > 1) ? (
           <ChartLegend content={<ChartLegendContent />} />
         ) : null}

@@ -77,12 +77,16 @@ what you are building, read that source, and start from it.
 | A six-column gridlines band with a kicker, title, lede and two actions. | `blocks/hero/hero-01.tsx` | /blocks/hero |
 | The card alone — drop it into a layout you already have. | `blocks/login/login-01.tsx` | /blocks/login |
 | The whole screen: the same form centred on the brand background. | `blocks/login/login-02.tsx` | /blocks/login |
+| The whole screen, split: a brand panel beside the form, stacking to a header band on mobile. | `blocks/login/login-03.tsx` | /blocks/login |
 | Six OTP slots with the verify action disabled until the code is complete. | `blocks/otp/otp-01.tsx` | /blocks/otp |
 | Breadcrumb, title with actions, and a tab strip flush to the rule. | `blocks/page-header/page-header-01.tsx` | /blocks/page-header |
+| Restitution — filter row, a headline band toned by variance, and the statement with section and total rows. | `blocks/pnl/pnl-01.tsx` | /blocks/pnl |
+| Graphiques — EBITDA bridge, monthly revenue vs budget with margin rate, variance by entity, targets, rolling trend. | `blocks/pnl/pnl-02.tsx` | /blocks/pnl |
 | Three columns with the middle one framed in accent and badged. | `blocks/pricing/pricing-01.tsx` | /blocks/pricing |
 | Flat — four rows, no groups. Right up to about six destinations. | `blocks/sidebar/sidebar-01.tsx` | /blocks/sidebar |
 | Grouped and labelled, with a per-group action and a rule between. | `blocks/sidebar/sidebar-02.tsx` | /blocks/sidebar |
 | Nested: collapsible parents over sub-rows, plus a count badge. | `blocks/sidebar/sidebar-03.tsx` | /blocks/sidebar |
+| Collapsible: a rail toggle drops it to a 3rem icon strip, off-canvas below 48rem. | `blocks/sidebar/sidebar-04.tsx` | /blocks/sidebar |
 | Name, email and password over a full-width create action. | `blocks/signup/signup-01.tsx` | /blocks/signup |
 | Bare — four cells sitting directly under application chrome. | `blocks/stat-band/stat-band-01.tsx` | /blocks/stat-band |
 | The marketing version: the same grid, framed and led by a kicker. | `blocks/stat-band/stat-band-02.tsx` | /blocks/stat-band |

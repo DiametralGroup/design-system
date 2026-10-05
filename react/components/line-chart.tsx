@@ -6,6 +6,7 @@ import {
   Line,
   LineChart as RechartsLineChart,
   XAxis,
+  YAxis,
 } from "recharts";
 
 import { seriesColor } from "../lib/chart-series.js";
@@ -44,6 +45,9 @@ function LineChart({
   grid = true,
   dots = true,
   legend,
+  valueAxis = false,
+  valueFormatter,
+  valueAxisWidth,
   margin = { top: 8, right: 20, bottom: 0, left: 20 },
   children,
   ...props
@@ -57,6 +61,13 @@ function LineChart({
   margin?: React.ComponentProps<typeof RechartsLineChart>["margin"];
   /** Defaults on once `config` names more than one series. */
   legend?: boolean;
+  /** Draw a value (Y) axis. Off by default: the tooltip carries the figure. */
+  valueAxis?: boolean;
+  /** Formats the value axis ticks and the tooltip — `(v) => fmt.format(v)`
+   *  for amounts. Left off, both fall back to `toLocaleString()`. */
+  valueFormatter?: (value: number) => string;
+  /** Width of the value axis; widen it for formatted amounts. */
+  valueAxisWidth?: number;
   /** Extra recharts children — a `ReferenceLine`, a second axis. */
   children?: React.ReactNode;
 }) {
@@ -87,7 +98,17 @@ function LineChart({
             minTickGap={16}
           />
         ) : null}
-        <ChartTooltip content={<ChartTooltipContent />} />
+        {valueAxis ? (
+          <YAxis
+            tickLine={false}
+            axisLine={false}
+            tickFormatter={valueFormatter}
+            width={valueAxisWidth}
+          />
+        ) : null}
+        <ChartTooltip
+          content={<ChartTooltipContent valueFormatter={valueFormatter} />}
+        />
         {(legend ?? series.length > 1) ? (
           <ChartLegend content={<ChartLegendContent />} />
         ) : null}

@@ -3575,6 +3575,13 @@
       "url": "https://littlebigcode.github.io/design-system/blocks/login/login-02/preview"
     },
     {
+      "slug": "login-03",
+      "category": "login",
+      "description": "The whole screen, split: a brand panel beside the form, stacking to a header band on mobile.",
+      "path": "blocks/login/login-03.tsx",
+      "url": "https://littlebigcode.github.io/design-system/blocks/login/login-03/preview"
+    },
+    {
       "slug": "otp-01",
       "category": "otp",
       "description": "Six OTP slots with the verify action disabled until the code is complete.",
@@ -3587,6 +3594,20 @@
       "description": "Breadcrumb, title with actions, and a tab strip flush to the rule.",
       "path": "blocks/page-header/page-header-01.tsx",
       "url": "https://littlebigcode.github.io/design-system/blocks/page-header/page-header-01/preview"
+    },
+    {
+      "slug": "pnl-01",
+      "category": "pnl",
+      "description": "Restitution — filter row, a headline band toned by variance, and the statement with section and total rows.",
+      "path": "blocks/pnl/pnl-01.tsx",
+      "url": "https://littlebigcode.github.io/design-system/blocks/pnl/pnl-01/preview"
+    },
+    {
+      "slug": "pnl-02",
+      "category": "pnl",
+      "description": "Graphiques — EBITDA bridge, monthly revenue vs budget with margin rate, variance by entity, targets, rolling trend.",
+      "path": "blocks/pnl/pnl-02.tsx",
+      "url": "https://littlebigcode.github.io/design-system/blocks/pnl/pnl-02/preview"
     },
     {
       "slug": "pricing-01",
@@ -3615,6 +3636,13 @@
       "description": "Nested: collapsible parents over sub-rows, plus a count badge.",
       "path": "blocks/sidebar/sidebar-03.tsx",
       "url": "https://littlebigcode.github.io/design-system/blocks/sidebar/sidebar-03/preview"
+    },
+    {
+      "slug": "sidebar-04",
+      "category": "sidebar",
+      "description": "Collapsible: a rail toggle drops it to a 3rem icon strip, off-canvas below 48rem.",
+      "path": "blocks/sidebar/sidebar-04.tsx",
+      "url": "https://littlebigcode.github.io/design-system/blocks/sidebar/sidebar-04/preview"
     },
     {
       "slug": "signup-01",

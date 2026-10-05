@@ -70,6 +70,10 @@ export const BLOCKS = [
   ["page-header", "Page header", "The title block at the top of an application view.", [
     ["page-header-01", "Breadcrumb, title with actions, and a tab strip flush to the rule."],
   ]],
+  ["pnl", "P&L", "Financial steering: a statement read against budget, and its charts.", [
+    ["pnl-01", "Restitution — filter row, a headline band toned by variance, and the statement with section and total rows."],
+    ["pnl-02", "Graphiques — EBITDA bridge, monthly revenue vs budget with margin rate, variance by entity, targets, rolling trend."],
+  ]],
   ["pricing", "Pricing", "The plan comparison on a marketing page.", [
     ["pricing-01", "Three columns with the middle one framed in accent and badged."],
   ]],

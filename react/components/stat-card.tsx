@@ -47,19 +47,31 @@ const statCardDeltaVariants = variants("ds-stat-card-delta", {
       up: "ds-stat-card-delta--up",
       down: "ds-stat-card-delta--down",
     },
+    // Whether the move is good news, independent of its direction: a cost or
+    // an at-risk rate going down is favourable. Set, it wins over the colour
+    // `direction` implies, which then only draws the arrow.
+    tone: {
+      favorable: "ds-stat-card-delta--favorable",
+      unfavorable: "ds-stat-card-delta--unfavorable",
+      neutral: "ds-stat-card-delta--neutral",
+    },
   },
 })
 
 function StatCardDelta({
   className,
   direction,
+  tone,
   children,
   ...props
-}: React.ComponentProps<"div"> & { direction?: "up" | "down" }) {
+}: React.ComponentProps<"div"> & {
+  direction?: "up" | "down";
+  tone?: "favorable" | "unfavorable" | "neutral";
+}) {
   return (
     <div
       data-slot="stat-card-delta"
-      className={statCardDeltaVariants({ direction, className })}
+      className={statCardDeltaVariants({ direction, tone, className })}
       {...props}
     >
       {direction && (
