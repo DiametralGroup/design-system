@@ -17,6 +17,11 @@ adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.m
   (`css/components/signal.css`, `react/components/signal.tsx`). Visual baselines for the two new
   demos are generated in CI.
 
+### Fixed
+
+- **Sepia theme** now sets `--ds-accent-ink` (`#7a6548`, 5.4:1 on the sepia page): links and
+  accent text inherited the light theme's red, which clashed with the brown accent.
+
 ## [5.0.0-beta.2] — 2026-10-05
 
 Ports the fixes made in `diamorval/design-system-diametral` (`diametral-ds`
