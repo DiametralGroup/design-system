@@ -23,8 +23,8 @@
   /* Accent — the brand marron */
   --ds-accent:    var(--ds-marron);
   --ds-accent-bg: #efe9dd;
-  /* Text in the accent (links, kicker, summaries): a deeper marron, since raw marron is 3.4:1 on
-     this page and the light theme's red accent-ink would clash with the brown accent. 5.4:1. */
+  /* Text in the accent (links, kicker, summaries): a deeper marron, since raw marron is 3.25:1 on
+     this page and the light theme's red accent-ink would clash with the brown accent. 5.2:1. */
   --ds-accent-ink: #7a6548;
 
   /* Status tints warmed to sit on the beige base (hues kept for legibility) */

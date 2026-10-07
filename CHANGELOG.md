@@ -19,7 +19,7 @@ adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.m
 
 ### Fixed
 
-- **Sepia theme** now sets `--ds-accent-ink` (`#7a6548`, 5.4:1 on the sepia page): links and
+- **Sepia theme** now sets `--ds-accent-ink` (`#7a6548`, 5.2:1 on the sepia page): links and
   accent text inherited the light theme's red, which clashed with the brown accent.
 
 ## [5.0.0-beta.2] — 2026-10-05
