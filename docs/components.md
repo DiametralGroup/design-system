@@ -9,7 +9,7 @@ showcase page.
 
 ## React components
 
-The 122 components exported from [`@diametral/design-system/react`](react.md). Every row has a live page with runnable examples, and every page is what the visual and accessibility gates drive — so this table and the tested surface cannot disagree.
+The 123 components exported from [`@diametral/design-system/react`](react.md). Every row has a live page with runnable examples, and every page is what the visual and accessibility gates drive — so this table and the tested surface cannot disagree.
 
 > Generated from `site/src/registry/registry.ts` by `scripts/build-components-md.mjs`. Edit the registry, then run `npm run build`.
 
@@ -95,6 +95,7 @@ The 122 components exported from [`@diametral/design-system/react`](react.md). E
 | [Radar Chart](https://diametralgroup.github.io/design-system/docs/radar-chart) | `RadarChart` | A spider chart comparing two or three entities across many dimensions at once. |
 | [Relative Time](https://diametralgroup.github.io/design-system/docs/relative-time) | `RelativeTime`, `formatRelativeTime` | Renders "3 hours ago" from a date inside a `time` element, and keeps it updating. Past a week it shows the date instead. |
 | [Scatter Chart](https://diametralgroup.github.io/design-system/docs/scatter-chart) | `ScatterChart` | One quantity plotted against another, with optional bubble sizing for a third. |
+| [Signal](https://diametralgroup.github.io/design-system/docs/signal) | `Signal`, `SignalRow`, `SignalBar` | A status dot in front of its label, and a share bar that splits a population by the same tones — the pilotage vocabulary for portfolio dashboards. |
 | [Skeleton](https://diametralgroup.github.io/design-system/docs/skeleton) | `Skeleton` | A pulsing placeholder block for content that has not loaded yet. |
 | [Snippet](https://diametralgroup.github.io/design-system/docs/snippet) | `Snippet` | A one-line copyable command or value. Use `Code Block` for multi-line samples. |
 | [Sparkline](https://diametralgroup.github.io/design-system/docs/sparkline) | `Sparkline` | A tiny inline line chart with no axes, small enough to sit in every row of a table. |
@@ -2397,6 +2398,42 @@ and `<div>` attributes.
 ```
 
 Live: [../examples/components/code-block.html](../examples/components/code-block.html)
+
+## Signal
+
+The pilotage vocabulary: a small coloured dot in front of a status label, a row of bare dots for a
+table cell, and a flat 12px share bar that splits a population by the same tones. Tones read the
+Tier-2 `--ds-signal-*` tokens — deeper cuts of the charter secondaries on light pages, the charter
+values themselves under the dark theme. The dot is a marker (round, like a radio); `--square` is
+the flat variant for a second axis on the same row.
+
+```html
+<span class="ds-signal ds-signal--progress"><span class="ds-signal__dot" aria-hidden="true"></span>In progress</span>
+<span class="ds-signal ds-signal--blocked"><span class="ds-signal__dot" aria-hidden="true"></span>Blocked</span>
+
+<div class="ds-signal-bar" role="img" aria-label="Blocked 2, In progress 7, Done 3">
+  <span class="ds-signal-bar__seg ds-signal--blocked" style="inline-size:16.7%"></span>
+  <span class="ds-signal-bar__seg ds-signal--progress" style="inline-size:58.3%"></span>
+  <span class="ds-signal-bar__seg ds-signal--done" style="inline-size:25%"></span>
+</div>
+```
+
+**Tones:** `--done`, `--progress`, `--blocked`, `--warn`, `--idle` (hollow ring: not started),
+`--empty` (dashed ring: no status yet). **Parts:** `.ds-signal__dot`, `.ds-signal-row`,
+`.ds-signal-bar` / `__seg`, `.ds-signal-legend` with `.ds-signal__count`.
+
+Colour is never the only cue: the label next to a dot carries the meaning and the dot is
+`aria-hidden`; a bare dot needs a `title`; the bar is one `role="img"` whose label spells the split.
+The signal tokens are **fills only** — never use them for text.
+
+**React** — `<Signal tone square>`, `<SignalRow>`, `<SignalBar segments legend>`.
+
+```jsx
+<Signal tone="blocked">Blocked</Signal>
+<SignalBar segments={[{ tone: "progress", value: 7, label: "In progress" }, { tone: "done", value: 3, label: "Done" }]} />
+```
+
+---
 
 ## Kbd
 

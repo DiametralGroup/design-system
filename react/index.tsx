@@ -224,6 +224,7 @@ export * from "./components/drawer.js";
 export * from "./components/sheet.js";
 export * from "./components/command.js";
 export * from "./components/stat-card.js";
+export * from "./components/signal.js";
 export * from "./components/rating.js";
 export * from "./components/date-range-picker.js";
 export * from "./components/color-picker.js";

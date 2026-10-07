@@ -3572,6 +3572,36 @@ export const COMPONENTS: ComponentDoc[] = [
   },
 
   {
+    slug: "signal",
+    name: "Signal",
+    category: "Data display",
+    exports: ["Signal", "SignalRow", "SignalBar"],
+    description:
+      "A status dot in front of its label, and a share bar that splits a population by the same tones — the pilotage vocabulary for portfolio dashboards.",
+    examples: [
+      {
+        demo: "signal/basic",
+        title: "Tones",
+        description:
+          "Five tones read the `--ds-signal-*` tokens: vivid charter fills, deeper on light pages. `idle` is a hollow ring and `empty` a dashed one, so a missing status reads as missing. `square` is the second axis on the same row.",
+      },
+      {
+        demo: "signal/share-bar",
+        title: "Share bar and dot row",
+        description:
+          "The bar is one `role=\"img\"` whose label spells the split; its legend repeats it as text. A `SignalRow` of bare dots needs a `title` on each.",
+      },
+    ],
+    parts: {
+      Signal:
+        "The dot is `aria-hidden` — the label carries the meaning, colour is never the only cue. With no children it becomes a bare `role=\"img\"` dot and takes its name from `title`.",
+      SignalRow: "A wrapping row of bare dots with a 3px gap, for a table cell.",
+      SignalBar:
+        "12px, flat, on `--ds-bg-alt`. Zero-value segments are dropped from the bar but kept in the legend.",
+    },
+  },
+
+  {
     slug: "spinner",
     name: "Spinner",
     category: "Data display",

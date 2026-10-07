@@ -1,0 +1,88 @@
+/* ============================================================================
+   Signal — .ds-signal, .ds-signal-bar
+   ----------------------------------------------------------------------------
+   The pilotage vocabulary: a small coloured dot in front of a status label
+   ("En cours", "Bloqué"), and a thin share bar that splits a population by
+   those same statuses. Built for portfolio dashboards where dozens of rows
+   each carry a state and the eye has to find the red one fast.
+
+   The dot is a MARKER, like a radio or a stepper circle, so it is round — the
+   no-radius rule governs surfaces, not markers. `--square` gives the flat
+   variant for a second axis on the same row (e.g. a weather next to a status).
+
+   Colour never carries the meaning alone: the label next to the dot does, and
+   the dot is aria-hidden. The share bar is one role="img" with an aria-label
+   that spells the split out; its legend repeats it as text.
+
+   Tones read --ds-signal-* (Tier 2). `--idle` is the hollow "not started"
+   ring, `--empty` the dashed "no status yet" ring — both outline-only, so a
+   missing status reads as missing rather than as a grey state.
+   ============================================================================ */
+.ds-signal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  white-space: nowrap;
+  color: var(--ds-ink-soft);
+  font-size: var(--ds-text-sm);
+}
+
+.ds-signal__dot {
+  inline-size: 9px;
+  block-size: 9px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--tone, var(--ds-signal-idle));
+}
+.ds-signal--square .ds-signal__dot { border-radius: var(--ds-radius-none); }
+
+.ds-signal--done     { --tone: var(--ds-signal-done); }
+.ds-signal--progress { --tone: var(--ds-signal-progress); }
+.ds-signal--blocked  { --tone: var(--ds-signal-blocked); }
+.ds-signal--warn     { --tone: var(--ds-signal-warn); }
+.ds-signal--idle .ds-signal__dot {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--ds-signal-idle);
+}
+.ds-signal--empty .ds-signal__dot {
+  background: transparent;
+  outline: 1.5px dashed var(--ds-signal-idle);
+  outline-offset: -1.5px;
+}
+
+/* A row of bare dots (one per item, label in a title/tooltip) — the compact
+   form for a table cell: "this project's 7 streams at a glance". */
+.ds-signal-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+/* ---- Share bar ----------------------------------------------------------- */
+.ds-signal-bar {
+  display: flex;
+  inline-size: 100%;
+  block-size: 12px;
+  background: var(--ds-bg-alt);
+  border-radius: var(--ds-radius-none);
+  overflow: hidden;
+}
+.ds-signal-bar__seg {
+  block-size: 100%;
+  background: var(--tone, var(--ds-signal-idle));
+}
+.ds-signal-bar__seg.ds-signal--empty { background: var(--ds-rule); }
+
+.ds-signal-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem 1rem;
+  margin-block-start: 0.75rem;
+  font-size: var(--ds-text-sm);
+  color: var(--ds-ink-soft);
+}
+.ds-signal-legend .ds-signal__count {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--ds-ink);
+}

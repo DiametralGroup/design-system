@@ -4,6 +4,19 @@ All notable changes to the Diametral Design System are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.md](docs/versioning.md).
 
+## [Unreleased]
+
+### Added
+
+- **Signal tokens** — `--ds-signal-done`, `-progress`, `-blocked`, `-warn`, `-idle` (Tier 2): the
+  vivid status fills of a pilotage dashboard. Deeper cuts of the charter Vert, Bleu and Jaune vif on
+  light pages (`#2dbe3c`, `#14b8d4`, `#e8c400`), Rouge and Kaki as is; the dark theme swaps in the
+  charter values themselves. Fills only, always paired with a text label.
+- **Signal** — `.ds-signal` status dot + label, `.ds-signal-row` of bare dots, `.ds-signal-bar`
+  share bar with `.ds-signal-legend`; React `Signal`, `SignalRow`, `SignalBar`
+  (`css/components/signal.css`, `react/components/signal.tsx`). Visual baselines for the two new
+  demos are generated in CI.
+
 ## [5.0.0-beta.2] — 2026-10-05
 
 Ports the fixes made in `diamorval/design-system-diametral` (`diametral-ds`

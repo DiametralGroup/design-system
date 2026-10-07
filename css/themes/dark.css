@@ -58,6 +58,13 @@
      mirror shade, clearing 4.5:1 on --ds-bg and --ds-surface. */
   --ds-accent-ink:  #ff8a6e;
 
+  /* Signal fills: on a dark page the charter secondaries themselves pop. */
+  --ds-signal-done:     var(--ds-vert);
+  --ds-signal-progress: var(--ds-bleu);
+  --ds-signal-blocked:  #ff4a24;
+  --ds-signal-warn:     var(--ds-jaune-vif);
+  --ds-signal-idle:     #6f746c;
+
   /* The one primitive this theme overrides. A sequential ramp encodes magnitude
      as colour, so "more" has to mean *further from the page* — on dark that is
      brighter, and the light ramp's darkest step would sink into the background
@@ -103,6 +110,11 @@
     --ds-info-ink:     #6fd0e8;
     --ds-critical-ink: #ff5535;
     --ds-accent-ink:   #ff8a6e;
+    --ds-signal-done:     var(--ds-vert);
+    --ds-signal-progress: var(--ds-bleu);
+    --ds-signal-blocked:  #ff4a24;
+    --ds-signal-warn:     var(--ds-jaune-vif);
+    --ds-signal-idle:     #6f746c;
     --ds-heat-1: #1d4250;
     --ds-heat-2: #275f73;
     --ds-heat-3: #327f99;
