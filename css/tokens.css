@@ -155,6 +155,18 @@
   --ds-critical-ink: #c81f00;
   --ds-neutral-ink:  var(--ds-ink-soft);
 
+  /* SIGNAL — the vivid status dots and share-bar segments of a pilotage view
+     (done / in progress / blocked / watch / not started). Deeper cuts of the
+     charter secondaries (vert, bleu, jaune vif) so a 9px dot holds on a pale
+     page; Rouge and Kaki as is. FILLS ONLY: always next to a text label, never
+     as text and never the only cue — a dot is decorative, the label carries
+     the meaning. The dark theme swaps in the charter values themselves. */
+  --ds-signal-done:     #2dbe3c;
+  --ds-signal-progress: #14b8d4;
+  --ds-signal-blocked:  var(--ds-rouge);
+  --ds-signal-warn:     #e8c400;
+  --ds-signal-idle:     var(--ds-kaki);
+
   /* ===== TIER 3 — SCALE =================================================== */
 
   /* Spacing scale (px values lifted from the app) */

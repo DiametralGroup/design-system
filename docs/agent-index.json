@@ -2758,6 +2758,29 @@
       ]
     },
     {
+      "slug": "signal",
+      "name": "Signal",
+      "category": "Data display",
+      "exports": [
+        "Signal",
+        "SignalRow",
+        "SignalBar"
+      ],
+      "description": "A status dot in front of its label, and a share bar that splits a population by the same tones — the pilotage vocabulary for portfolio dashboards.",
+      "css": "css/components/signal.css",
+      "url": "https://diametralgroup.github.io/design-system/docs/signal",
+      "examples": [
+        {
+          "demo": "signal/basic",
+          "title": "Tones"
+        },
+        {
+          "demo": "signal/share-bar",
+          "title": "Share bar and dot row"
+        }
+      ]
+    },
+    {
       "slug": "spinner",
       "name": "Spinner",
       "category": "Data display",
