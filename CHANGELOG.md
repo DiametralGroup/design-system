@@ -4,7 +4,10 @@ All notable changes to the Diametral Design System are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.md](docs/versioning.md).
 
-## [Unreleased]
+## [5.0.0-beta.3] — 2026-10-07
+
+Status signals for pilotage dashboards (first consumer: ada, the DAR dashboard), and the sepia
+accent ink.
 
 ### Added
 
@@ -14,8 +17,8 @@ adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.m
   charter values themselves. Fills only, always paired with a text label.
 - **Signal** — `.ds-signal` status dot + label, `.ds-signal-row` of bare dots, `.ds-signal-bar`
   share bar with `.ds-signal-legend`; React `Signal`, `SignalRow`, `SignalBar`
-  (`css/components/signal.css`, `react/components/signal.tsx`). Visual baselines for the two new
-  demos are generated in CI.
+  (`css/components/signal.css`, `react/components/signal.tsx`). The overview baselines are
+  regenerated in CI to include the Signal section.
 
 ### Fixed
 
