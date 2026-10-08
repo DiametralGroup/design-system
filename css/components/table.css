@@ -102,10 +102,14 @@
   padding-inline-end: 0;
 }
 
+/* A cell wraps like a paragraph. `nowrap` on every cell sized each column to its longest value,
+   so one long title pushed a table into horizontal scroll at laptop width. Headers keep `nowrap`;
+   a cell that must stay on one line (a date, an amount) opts in with `.ds-nowrap`. */
 .ds-table-cell {
   padding: 0.75rem;
   vertical-align: middle;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 .ds-table-cell:has([role="checkbox"]) {
   padding-inline-end: 0;

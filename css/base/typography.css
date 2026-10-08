@@ -42,6 +42,8 @@
 
 /* Tabular figures — align columns of numbers. */
 .ds-numeric { font-variant-numeric: tabular-nums; }
+/* Keep a value on one line (a date, an amount in a table cell). */
+.ds-nowrap { white-space: nowrap; }
 
 /* Prose — sensible defaults for a block of rich/markdown content. */
 .ds-prose { color: var(--ds-ink); line-height: var(--ds-leading-normal); }

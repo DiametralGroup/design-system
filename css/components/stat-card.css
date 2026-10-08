@@ -16,13 +16,14 @@
   text-transform: uppercase;
 }
 
+/* A key figure is a title: light, no added tracking (charter). */
 .ds-stat-card-value {
   margin-top: 0.5rem;
   font-family: var(--ds-font-title);
-  font-size: 1.5rem;
-  line-height: calc(2 / 1.5);
-  font-weight: 600;
-  letter-spacing: -0.025em;
+  font-size: 2.125rem;
+  line-height: 1.05;
+  font-weight: var(--ds-font-weight-title);
+  letter-spacing: 0;
   font-variant-numeric: tabular-nums;
 }
 
