@@ -43,13 +43,16 @@
   height: 1.5rem;
 }
 
+/* The charter sets titles in Ufficio Light 300 with no added tracking. The page title is the
+   largest on the screen, above a section heading (--ds-text-xl). */
 .ds-page-header-title {
   margin: 0;
   font-family: var(--ds-font-title);
-  font-size: var(--ds-text-xl);
-  line-height: calc(2 / 1.5);
-  font-weight: 600;
-  letter-spacing: 0.025em;
+  font-size: clamp(1.875rem, 1.2rem + 2.2vw, 2.75rem);
+  line-height: 1.08;
+  font-weight: var(--ds-font-weight-title);
+  letter-spacing: 0;
+  text-wrap: balance;
 }
 
 .ds-page-header-description {

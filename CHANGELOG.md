@@ -4,6 +4,23 @@ All notable changes to the Diametral Design System are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.md](docs/versioning.md).
 
+## [5.0.0-beta.5] — 2026-10-08
+
+Titles in the charter's weight, and tables that fit their page (first consumer: ada).
+
+### Changed
+
+- **Page header title** — Ufficio Light 300 (`--ds-font-weight-title`), no added tracking, and
+  fluid from 30 to 44px: it was 600 with `0.025em`, at 24px, smaller than a section heading.
+- **Stat card value** — light 300, 34px, no tracking: a key figure is a title.
+- **Table cells wrap** — `.ds-table-cell` is `white-space: normal` (was `nowrap`). Every cell sized
+  its column to its longest value, so one long title sent a table into horizontal scroll at laptop
+  width. Headers keep `nowrap`.
+
+### Added
+
+- **`.ds-nowrap`** — keeps a value on one line, for a date or an amount in a table cell.
+
 ## [5.0.0-beta.4] — 2026-10-07
 
 `5.0.0-beta.3` is skipped: npm holds a staged, unapproved upload under that number.
