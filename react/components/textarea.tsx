@@ -2,44 +2,38 @@
 
 import * as React from "react"
 
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 
-/* Textarea — a multi-line field that grows with what is typed.
-   ---------------------------------------------------------------------------
-   `field-sizing: content` is what the source brings and it is the whole point:
-   the box follows the text instead of holding a fixed six rows and scrolling.
-   `textarea.css` keeps 0.11's `min-height` as the floor and its `resize:
-   vertical` grip, which the source dropped — on a published class that would
-   have taken away an affordance the docs teach.
+// DiametralGroup addition: the props type, named for callers.
+export type TextareaProps = React.ComponentProps<"textarea">
 
-   `rows` still works, and has to be re-created rather than passed through:
-   `field-sizing: content` makes the browser ignore it, so it becomes a
-   `min-height` of that many line boxes plus the element's own vertical chrome.
-   `--ds-textarea-chrome` is that chrome; `input-group.css` re-declares it,
-   because an input-group textarea has different padding. */
-
-export interface TextareaProps extends React.ComponentProps<"textarea"> {}
-
+// DiametralGroup addition: forwardRef, so a ref reaches the <textarea> on
+// React 18 (the peer range starts there).
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea({ className, rows, style, ...props }, ref) {
-    return (
-      <textarea
-        ref={ref}
-        data-slot="textarea"
-        rows={rows}
-        style={
-          rows
-            ? {
-                minHeight: `calc(${rows} * 1lh + var(--ds-textarea-chrome, 22px))`,
-                ...style,
-              }
-            : style
-        }
-        className={cx("ds-textarea", className)}
-        {...props}
-      />
-    )
-  }
-)
+  return (
+    <textarea
+      ref={ref}
+      data-slot="textarea"
+      rows={rows}
+      // field-sizing-content makes the browser ignore `rows`, so re-create it as a
+      // floor: `rows` line boxes plus --textarea-chrome (this element's own vertical
+      // padding + border, which border-box min-height has to account for).
+      style={
+        rows
+          ? {
+              minHeight: `calc(${rows} * 1lh + var(--textarea-chrome))`,
+              ...style,
+            }
+          : style
+      }
+      className={cn(
+        "ds-textarea border border-transparent border-b-input py-3 [--textarea-chrome:calc(1.5rem+2px)]",
+        className
+      )}
+      {...props}
+    />
+  )
+})
 
 export { Textarea }

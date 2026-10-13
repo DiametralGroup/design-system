@@ -3,24 +3,15 @@
 import * as React from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { cx } from "../lib/cx.js"
-import { variants } from "../lib/variants.js"
+import { cn } from "../lib/utils.js"
 
-/* Timeline — an ordered list of events on a rail.
-   ---------------------------------------------------------------------------
-   0.x took an `items` array with `time`/`title`/`body`. These are parts, which
-   is what lets an item's content be a Card, a diff, an avatar row.
-
-   Tone sits on the item, not the indicator: a timeline's semantics are
-   per-event ("this deploy failed"), and the indicator is the only slot that can
-   carry colour without competing with the content's own type styles. Unset
-   leaves the rail on --ds-accent.
-
-   The source kept `pb-8` and `last:pb-0` literal Tailwind classes so a demo
-   could override them with `pb-4`. Baked into timeline.css; the override is
-   --ds-timeline-gap, settable on an item or on the list. */
-const timelineItemVariants = variants("ds-timeline-item", {
+// Tone sits on the item, not the indicator: a timeline's semantics are
+// per-event ("this deploy failed"), and the indicator is the only slot that
+// can carry colour without competing with the content's own type styles.
+// Unset leaves the rail on --primary, which is what every existing demo shows.
+const timelineItemVariants = cva("ds-timeline-item pb-8 last:pb-0", {
   variants: {
     tone: {
       neutral: "ds-timeline-item--neutral",
@@ -33,19 +24,11 @@ const timelineItemVariants = variants("ds-timeline-item", {
   },
 })
 
-type TimelineTone =
-  | "neutral"
-  | "info"
-  | "success"
-  | "warning"
-  | "danger"
-  | "critical"
-
 function Timeline({ className, ...props }: React.ComponentProps<"ol">) {
   return (
     <ol
       data-slot="timeline"
-      className={cx("ds-timeline", className)}
+      className={cn("ds-timeline", className)}
       {...props}
     />
   )
@@ -55,21 +38,24 @@ function TimelineItem({
   className,
   tone,
   ...props
-}: React.ComponentProps<"li"> & { tone?: TimelineTone }) {
+}: React.ComponentProps<"li"> & VariantProps<typeof timelineItemVariants>) {
   return (
     <li
       data-slot="timeline-item"
-      className={timelineItemVariants({ tone, className })}
+      className={cn(timelineItemVariants({ tone }), className)}
       {...props}
     />
   )
 }
 
-function TimelineIndicator({ className, ...props }: React.ComponentProps<"div">) {
+function TimelineIndicator({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="timeline-indicator"
-      className={cx("ds-timeline-indicator", className)}
+      className={cn("ds-timeline-indicator", className)}
       {...props}
     />
   )
@@ -79,7 +65,7 @@ function TimelineContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="timeline-content"
-      className={cx("ds-timeline-content", className)}
+      className={cn("ds-timeline-content", className)}
       {...props}
     />
   )
@@ -89,17 +75,20 @@ function TimelineTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="timeline-title"
-      className={cx("ds-timeline-title", className)}
+      className={cn("ds-timeline-title", className)}
       {...props}
     />
   )
 }
 
-function TimelineDescription({ className, ...props }: React.ComponentProps<"p">) {
+function TimelineDescription({
+  className,
+  ...props
+}: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="timeline-description"
-      className={cx("ds-timeline-description", className)}
+      className={cn("ds-timeline-description", className)}
       {...props}
     />
   )
@@ -115,11 +104,13 @@ function TimelineTime({
   return useRender({
     defaultTagName: "time",
     props: mergeProps<"time">(
-      { className: cx("ds-timeline-time", className) },
-      props,
+      { className: cn("ds-timeline-time", className) },
+      props
     ),
     render,
-    state: { slot: "timeline-time" },
+    state: {
+      slot: "timeline-time",
+    },
   })
 }
 
@@ -133,4 +124,7 @@ export {
   TimelineTime,
   timelineItemVariants,
 }
+
+// DiametralGroup addition: the tone union, named for callers.
+type TimelineTone = NonNullable<VariantProps<typeof timelineItemVariants>["tone"]>
 export type { TimelineTone }

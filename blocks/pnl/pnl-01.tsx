@@ -19,7 +19,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  Tabs,
+  ItemTabs,
   Wordmark,
 } from "@diametral/design-system/react"
 
@@ -110,7 +110,7 @@ export default function Pnl01() {
       </header>
 
       <div style={{ paddingInline: 32 }}>
-        <Tabs items={VIEWS.map((v) => ({ id: v, label: v }))} defaultValue="Restitution" />
+        <ItemTabs items={VIEWS.map((v) => ({ id: v, label: v }))} defaultValue="Restitution" />
       </div>
 
       <main className="ds-flex ds-flex-col ds-gap-5" style={{ padding: "18px 32px 48px" }}>

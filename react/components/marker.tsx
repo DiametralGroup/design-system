@@ -3,26 +3,17 @@
 import * as React from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { cx } from "../lib/cx.js"
-import { variants } from "../lib/variants.js"
+import { cn } from "../lib/utils.js"
 
-/* Marker — a small uppercase label that marks a position in a stream: "Today",
-   "Unread", "3 new". Polymorphic through Base UI's useRender, so the same
-   marker can be a div, a heading or a link.
-
-   `markerVariants` is exported, so it survives the drop of
-   class-variance-authority: every option value was an empty string — the
-   styling is keyed off `data-variant`, which useRender derives from `state`
-   below — so cva bought nothing here, and `variants()` (react/lib/variants.ts)
-   keeps the export callable and the axes readable by the docs site's
-   build-time playground extractor. Same call batch 1 made for
-   navigation-menu. */
-const markerVariants = variants("ds-marker", {
+// The variant classes are applied via the `data-variant` attribute selector
+// in marker.css, so cva only needs the shape (its variant keys) for
+// apps/web's build-time playground extraction.
+const markerVariants = cva("ds-marker", {
   variants: {
     variant: { default: "", separator: "", border: "" },
   },
-  defaultVariants: { variant: "default" },
 })
 
 function Marker({
@@ -30,16 +21,14 @@ function Marker({
   variant = "default",
   render,
   ...props
-}: useRender.ComponentProps<"div"> & {
-  variant?: "default" | "separator" | "border"
-}) {
+}: useRender.ComponentProps<"div"> & VariantProps<typeof markerVariants>) {
   return useRender({
     defaultTagName: "div",
     props: mergeProps<"div">(
       {
-        className: markerVariants({ variant, className }),
+        className: cn(markerVariants({ variant, className })),
       },
-      props,
+      props
     ),
     render,
     state: {
@@ -54,7 +43,7 @@ function MarkerIcon({ className, ...props }: React.ComponentProps<"span">) {
     <span
       data-slot="marker-icon"
       aria-hidden="true"
-      className={cx("ds-marker-icon", className)}
+      className={cn("ds-marker-icon", className)}
       {...props}
     />
   )
@@ -64,7 +53,7 @@ function MarkerContent({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
       data-slot="marker-content"
-      className={cx("ds-marker-content", className)}
+      className={cn("ds-marker-content", className)}
       {...props}
     />
   )

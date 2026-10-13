@@ -1,0 +1,55 @@
+/* Tailwind v4 theme for @diametral/design-system — the @theme block of
+   @diametral/ui's globals.css, with each shadcn slot resolved to the --ds-*
+   token incoming's own :root points it at. `inline` keeps every utility a
+   live var() reference, so the dark theme repaints them. */
+
+/* Incoming's dark variant is `.dark` alone; this package also activates its
+   dark theme under [data-theme="dark"] and .dark-theme. */
+@custom-variant dark (&:is(.dark *, [data-theme="dark"] *, .dark-theme *));
+
+@theme inline {
+  --font-heading: var(--ds-font-title);
+  --font-sans: "Geist Variable", sans-serif;
+  --font-serif: "Geist Variable", sans-serif;
+  --font-mono: "Geist Mono Variable", monospace;
+
+  --color-background: var(--ds-bg);
+  --color-foreground: var(--ds-ink);
+  --color-card: var(--ds-surface);
+  --color-card-foreground: var(--ds-ink);
+  --color-popover: var(--ds-surface);
+  --color-popover-foreground: var(--ds-ink);
+  --color-primary: var(--ds-ink);
+  --color-primary-foreground: var(--ds-bg);
+  --color-secondary: var(--ds-bg-alt);
+  --color-secondary-foreground: var(--ds-ink);
+  --color-muted: var(--ds-bg-alt);
+  --color-muted-foreground: var(--ds-ink-faint);
+  --color-accent: var(--ds-bg-alt);
+  --color-accent-foreground: var(--ds-ink);
+  --color-destructive: var(--ds-danger);
+  --color-border: var(--ds-rule);
+  --color-input: var(--ds-rule);
+  --color-ring: var(--ds-focus-ring);
+  --color-chart-1: var(--ds-chart-1);
+  --color-chart-2: var(--ds-chart-2);
+  --color-chart-3: var(--ds-chart-3);
+  --color-chart-4: var(--ds-chart-4);
+  --color-chart-5: var(--ds-chart-5);
+  --color-sidebar: var(--ds-bg-alt);
+  --color-sidebar-foreground: var(--ds-ink);
+  --color-sidebar-primary: var(--ds-ink);
+  --color-sidebar-primary-foreground: var(--ds-bg);
+  --color-sidebar-accent: var(--ds-rule-soft);
+  --color-sidebar-accent-foreground: var(--ds-ink);
+  --color-sidebar-border: var(--ds-rule);
+  --color-sidebar-ring: var(--ds-focus-ring);
+
+  --radius-sm: calc(var(--ds-radius) * 0.6);
+  --radius-md: calc(var(--ds-radius) * 0.8);
+  --radius-lg: var(--ds-radius);
+  --radius-xl: calc(var(--ds-radius) * 1.4);
+  --radius-2xl: calc(var(--ds-radius) * 1.8);
+  --radius-3xl: calc(var(--ds-radius) * 2.2);
+  --radius-4xl: calc(var(--ds-radius) * 2.6);
+}

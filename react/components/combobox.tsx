@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Combobox as ComboboxPrimitive } from "@base-ui/react"
 
-import { cx, type WithClassName } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 import { Button } from "./button.js"
 import {
   InputGroup,
@@ -24,12 +24,12 @@ function ComboboxTrigger({
   children,
   "aria-label": ariaLabel = "Toggle options",
   ...props
-}: WithClassName<ComboboxPrimitive.Trigger.Props>) {
+}: ComboboxPrimitive.Trigger.Props) {
   return (
     <ComboboxPrimitive.Trigger
       data-slot="combobox-trigger"
       aria-label={ariaLabel}
-      className={cx("ds-combobox-trigger", className)}
+      className={cn("ds-combobox-trigger", className)}
       {...props}
     >
       {children}
@@ -42,13 +42,13 @@ function ComboboxClear({
   className,
   "aria-label": ariaLabel = "Clear",
   ...props
-}: WithClassName<ComboboxPrimitive.Clear.Props>) {
+}: ComboboxPrimitive.Clear.Props) {
   return (
     <ComboboxPrimitive.Clear
       data-slot="combobox-clear"
       render={<InputGroupButton variant="ghost" size="icon-xs" />}
       aria-label={ariaLabel}
-      className={cx(className)}
+      className={cn(className)}
       {...props}
     >
       <XIcon className="ds-combobox-clear-icon" />
@@ -63,12 +63,12 @@ function ComboboxInput({
   showTrigger = true,
   showClear = false,
   ...props
-}: WithClassName<ComboboxPrimitive.Input.Props> & {
+}: ComboboxPrimitive.Input.Props & {
   showTrigger?: boolean
   showClear?: boolean
 }) {
   return (
-    <InputGroup className={cx("w-auto", className)}>
+    <InputGroup className={cn("w-auto", className)}>
       <ComboboxPrimitive.Input
         render={<InputGroupInput disabled={disabled} />}
         {...props}
@@ -99,7 +99,7 @@ function ComboboxContent({
   alignOffset = 0,
   anchor,
   ...props
-}: WithClassName<ComboboxPrimitive.Popup.Props> &
+}: ComboboxPrimitive.Popup.Props &
   Pick<
     ComboboxPrimitive.Positioner.Props,
     "side" | "align" | "sideOffset" | "alignOffset" | "anchor"
@@ -117,7 +117,7 @@ function ComboboxContent({
         <ComboboxPrimitive.Popup
           data-slot="combobox-content"
           data-chips={!!anchor}
-          className={cx("ds-combobox-content", className)}
+          className={cn("ds-combobox-content", className)}
           {...props}
         />
       </ComboboxPrimitive.Positioner>
@@ -125,11 +125,11 @@ function ComboboxContent({
   )
 }
 
-function ComboboxList({ className, ...props }: WithClassName<ComboboxPrimitive.List.Props>) {
+function ComboboxList({ className, ...props }: ComboboxPrimitive.List.Props) {
   return (
     <ComboboxPrimitive.List
       data-slot="combobox-list"
-      className={cx("ds-combobox-list", className)}
+      className={cn("ds-combobox-list", className)}
       {...props}
     />
   )
@@ -139,11 +139,11 @@ function ComboboxItem({
   className,
   children,
   ...props
-}: WithClassName<ComboboxPrimitive.Item.Props>) {
+}: ComboboxPrimitive.Item.Props) {
   return (
     <ComboboxPrimitive.Item
       data-slot="combobox-item"
-      className={cx("ds-combobox-item", className)}
+      className={cn("ds-combobox-item", className)}
       {...props}
     >
       {children}
@@ -156,11 +156,11 @@ function ComboboxItem({
   )
 }
 
-function ComboboxGroup({ className, ...props }: WithClassName<ComboboxPrimitive.Group.Props>) {
+function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
   return (
     <ComboboxPrimitive.Group
       data-slot="combobox-group"
-      className={cx(className)}
+      className={cn(className)}
       {...props}
     />
   )
@@ -169,11 +169,11 @@ function ComboboxGroup({ className, ...props }: WithClassName<ComboboxPrimitive.
 function ComboboxLabel({
   className,
   ...props
-}: WithClassName<ComboboxPrimitive.GroupLabel.Props>) {
+}: ComboboxPrimitive.GroupLabel.Props) {
   return (
     <ComboboxPrimitive.GroupLabel
       data-slot="combobox-label"
-      className={cx("ds-combobox-label", className)}
+      className={cn("ds-combobox-label", className)}
       {...props}
     />
   )
@@ -185,11 +185,11 @@ function ComboboxCollection({ ...props }: ComboboxPrimitive.Collection.Props) {
   )
 }
 
-function ComboboxEmpty({ className, ...props }: WithClassName<ComboboxPrimitive.Empty.Props>) {
+function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
   return (
     <ComboboxPrimitive.Empty
       data-slot="combobox-empty"
-      className={cx("ds-combobox-empty", className)}
+      className={cn("ds-combobox-empty", className)}
       {...props}
     />
   )
@@ -198,11 +198,11 @@ function ComboboxEmpty({ className, ...props }: WithClassName<ComboboxPrimitive.
 function ComboboxSeparator({
   className,
   ...props
-}: WithClassName<ComboboxPrimitive.Separator.Props>) {
+}: ComboboxPrimitive.Separator.Props) {
   return (
     <ComboboxPrimitive.Separator
       data-slot="combobox-separator"
-      className={cx("ds-combobox-separator", className)}
+      className={cn("ds-combobox-separator", className)}
       {...props}
     />
   )
@@ -211,12 +211,12 @@ function ComboboxSeparator({
 function ComboboxChips({
   className,
   ...props
-}: WithClassName<React.ComponentPropsWithRef<typeof ComboboxPrimitive.Chips>> &
-  WithClassName<ComboboxPrimitive.Chips.Props>) {
+}: React.ComponentPropsWithRef<typeof ComboboxPrimitive.Chips> &
+  ComboboxPrimitive.Chips.Props) {
   return (
     <ComboboxPrimitive.Chips
       data-slot="combobox-chips"
-      className={cx("ds-combobox-chips", className)}
+      className={cn("ds-combobox-chips", className)}
       {...props}
     />
   )
@@ -227,13 +227,13 @@ function ComboboxChip({
   children,
   showRemove = true,
   ...props
-}: WithClassName<ComboboxPrimitive.Chip.Props> & {
+}: ComboboxPrimitive.Chip.Props & {
   showRemove?: boolean
 }) {
   return (
     <ComboboxPrimitive.Chip
       data-slot="combobox-chip"
-      className={cx("ds-combobox-chip", className)}
+      className={cn("ds-combobox-chip", className)}
       {...props}
     >
       {children}
@@ -256,11 +256,11 @@ function ComboboxChip({
 function ComboboxChipsInput({
   className,
   ...props
-}: WithClassName<ComboboxPrimitive.Input.Props>) {
+}: ComboboxPrimitive.Input.Props) {
   return (
     <ComboboxPrimitive.Input
       data-slot="combobox-chip-input"
-      className={cx("ds-combobox-chip-input", className)}
+      className={cn("ds-combobox-chip-input", className)}
       {...props}
     />
   )

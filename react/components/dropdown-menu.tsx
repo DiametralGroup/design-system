@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 
-import { cx, type WithClassName } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 import { CaretRightIcon, CheckIcon } from "@phosphor-icons/react"
 
 function DropdownMenu({ ...props }: MenuPrimitive.Root.Props) {
@@ -25,7 +25,7 @@ function DropdownMenuContent({
   sideOffset = 4,
   className,
   ...props
-}: WithClassName<MenuPrimitive.Popup.Props> &
+}: MenuPrimitive.Popup.Props &
   Pick<
     MenuPrimitive.Positioner.Props,
     "align" | "alignOffset" | "side" | "sideOffset"
@@ -41,7 +41,7 @@ function DropdownMenuContent({
       >
         <MenuPrimitive.Popup
           data-slot="dropdown-menu-content"
-          className={cx(
+          className={cn(
             "ds-dropdown-menu-content w-(--anchor-width) min-w-48",
             className
           )}
@@ -60,14 +60,14 @@ function DropdownMenuLabel({
   className,
   inset,
   ...props
-}: WithClassName<MenuPrimitive.GroupLabel.Props> & {
+}: MenuPrimitive.GroupLabel.Props & {
   inset?: boolean
 }) {
   return (
     <MenuPrimitive.GroupLabel
       data-slot="dropdown-menu-label"
       data-inset={inset}
-      className={cx("ds-dropdown-menu-label", className)}
+      className={cn("ds-dropdown-menu-label", className)}
       {...props}
     />
   )
@@ -78,7 +78,7 @@ function DropdownMenuItem({
   inset,
   variant = "default",
   ...props
-}: WithClassName<MenuPrimitive.Item.Props> & {
+}: MenuPrimitive.Item.Props & {
   inset?: boolean
   variant?: "default" | "destructive"
 }) {
@@ -87,7 +87,7 @@ function DropdownMenuItem({
       data-slot="dropdown-menu-item"
       data-inset={inset}
       data-variant={variant}
-      className={cx("ds-dropdown-menu-item", className)}
+      className={cn("ds-dropdown-menu-item", className)}
       {...props}
     />
   )
@@ -102,14 +102,14 @@ function DropdownMenuSubTrigger({
   inset,
   children,
   ...props
-}: WithClassName<MenuPrimitive.SubmenuTrigger.Props> & {
+}: MenuPrimitive.SubmenuTrigger.Props & {
   inset?: boolean
 }) {
   return (
     <MenuPrimitive.SubmenuTrigger
       data-slot="dropdown-menu-sub-trigger"
       data-inset={inset}
-      className={cx("ds-dropdown-menu-sub-trigger", className)}
+      className={cn("ds-dropdown-menu-sub-trigger", className)}
       {...props}
     >
       {children}
@@ -129,7 +129,7 @@ function DropdownMenuSubContent({
   return (
     <DropdownMenuContent
       data-slot="dropdown-menu-sub-content"
-      className={cx("w-auto min-w-36", className)}
+      className={cn("w-auto min-w-36", className)}
       align={align}
       alignOffset={alignOffset}
       side={side}
@@ -145,14 +145,14 @@ function DropdownMenuCheckboxItem({
   checked,
   inset,
   ...props
-}: WithClassName<MenuPrimitive.CheckboxItem.Props> & {
+}: MenuPrimitive.CheckboxItem.Props & {
   inset?: boolean
 }) {
   return (
     <MenuPrimitive.CheckboxItem
       data-slot="dropdown-menu-checkbox-item"
       data-inset={inset}
-      className={cx("ds-dropdown-menu-checkbox-item", className)}
+      className={cn("ds-dropdown-menu-checkbox-item", className)}
       checked={checked}
       {...props}
     >
@@ -184,14 +184,14 @@ function DropdownMenuRadioItem({
   children,
   inset,
   ...props
-}: WithClassName<MenuPrimitive.RadioItem.Props> & {
+}: MenuPrimitive.RadioItem.Props & {
   inset?: boolean
 }) {
   return (
     <MenuPrimitive.RadioItem
       data-slot="dropdown-menu-radio-item"
       data-inset={inset}
-      className={cx("ds-dropdown-menu-radio-item", className)}
+      className={cn("ds-dropdown-menu-radio-item", className)}
       {...props}
     >
       <span
@@ -211,11 +211,11 @@ function DropdownMenuRadioItem({
 function DropdownMenuSeparator({
   className,
   ...props
-}: WithClassName<MenuPrimitive.Separator.Props>) {
+}: MenuPrimitive.Separator.Props) {
   return (
     <MenuPrimitive.Separator
       data-slot="dropdown-menu-separator"
-      className={cx("ds-dropdown-menu-separator", className)}
+      className={cn("ds-dropdown-menu-separator", className)}
       {...props}
     />
   )
@@ -228,7 +228,7 @@ function DropdownMenuShortcut({
   return (
     <span
       data-slot="dropdown-menu-shortcut"
-      className={cx("ds-dropdown-menu-shortcut", className)}
+      className={cn("ds-dropdown-menu-shortcut", className)}
       {...props}
     />
   )

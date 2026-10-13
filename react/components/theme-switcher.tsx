@@ -1,49 +1,24 @@
 "use client"
 
 import * as React from "react"
-import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import {
   CaretDownIcon,
-  CheckIcon,
   MonitorIcon,
   MoonIcon,
   SunIcon,
 } from "@phosphor-icons/react"
 
-import { cx } from "../lib/cx.js"
-import { Segmented } from "../index.js"
+import { cn } from "../lib/utils.js"
 import { Button } from "./button.js"
-import { IconButton } from "./icon-button.js"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "./dropdown-menu.js"
+import { ToggleGroup, ToggleGroupItem } from "./toggle-group.js"
 
-/* ThemeSwitcher — three modes in one of three footprints.
-
-   Fully controlled: the theme itself (storage, media-query sync, system
-   resolution) is app wiring, not the design system's job — the consumer owns a
-   useTheme()-style hook and passes it straight through. All three variants
-   share that contract; they differ only in footprint.
-
-   Three re-wirings, two of them onto held components:
-
-   - `segmented` sat on the source's `toggle-group`, which is held. It is
-     re-composed onto this repo's `Segmented`. Two consequences worth naming:
-     the source's sliding `.ds-theme-switcher-indicator` does not survive —
-     it was a hand-pitched translate over `w-9` toggle cells and
-     `.ds-segmented__item.is-active` already owns the pressed fill — and the
-     cells now carry visible text beside the glyph. The source's cells were
-     icon-only with a per-item `aria-label`, and `Segmented` takes a label
-     node, not an aria-label; a visible word is the better answer either way,
-     and `.ds-segmented__item` is a text control in this system. The group's
-     own accessible name moves to a `role="group"` wrapper, which is also where
-     the pass-through props land — `Segmented` renders a bare div.
-   - `cycle` sat on the source's `Button` at `size="icon-sm"`. That is
-     `IconButton` here, whose `label` is the accessible name the action needs.
-   - `dropdown` sat on the source's `dropdown-menu`. It re-wires onto Base UI's
-     `Menu` directly, wearing the landed `dropdown-menu.tsx`'s
-     `.ds-dropdown-menu-*` vocabulary. Same move batch 1's menubar made (#52).
-
-   Re-wired in 1.0.0-beta.7: `Button` is the source's own module now, and
-   `IconButton` composes it, so the `cycle` trigger reaches the symbol through
-   the one part of it that was worth keeping — the required `label`. */
 type ThemeSwitcherMode = "light" | "dark" | "system"
 
 const MODES = [
@@ -52,6 +27,10 @@ const MODES = [
   { value: "system", label: "System", Icon: MonitorIcon },
 ] satisfies { value: ThemeSwitcherMode; label: string; Icon: typeof SunIcon }[]
 
+// Fully controlled: the theme itself (storage, media-query sync, system
+// resolution) is app wiring, not the design system's job — the consumer
+// owns a useTheme()-style hook and passes it straight through. All three
+// variants share that contract; they differ only in footprint.
 function ThemeSwitcher({
   value,
   onValueChange,
@@ -74,31 +53,34 @@ function ThemeSwitcher({
     // the accessible name announces the ACTION, since clicking advances.
     const next = MODES[(index + 1) % MODES.length]
     return (
-      <IconButton
+      <Button
         data-slot="theme-switcher"
         data-variant="cycle"
-        size="sm"
-        label={`Switch to ${next.label.toLowerCase()} theme`}
+        variant="outline"
+        size="icon-sm"
+        aria-label={`Switch to ${next.label.toLowerCase()} theme`}
+        title={`Switch to ${next.label.toLowerCase()}`}
         className={className}
         {...props}
         onClick={() => onValueChange(next.value)}
       >
         <current.Icon weight="fill" />
-      </IconButton>
+      </Button>
     )
   }
 
   if (variant === "dropdown") {
     return (
-      <MenuPrimitive.Root>
-        <MenuPrimitive.Trigger
+      <DropdownMenu>
+        <DropdownMenuTrigger
           render={
             <Button
               data-slot="theme-switcher"
               data-variant="dropdown"
+              variant="outline"
               size="sm"
               aria-label="Theme"
-              className={cx("ds-theme-switcher-dropdown-trigger", className)}
+              className={cn("ds-theme-switcher-dropdown-trigger", className)}
               {...props}
             />
           }
@@ -108,69 +90,69 @@ function ThemeSwitcher({
             aria-hidden
             className="ds-theme-switcher-dropdown-icon"
           />
-        </MenuPrimitive.Trigger>
-        <MenuPrimitive.Portal>
-          <MenuPrimitive.Positioner align="end" sideOffset={6}>
-            <MenuPrimitive.Popup className="ds-dropdown-menu-content">
-              <MenuPrimitive.RadioGroup
-                value={value}
-                onValueChange={(next) =>
-                  onValueChange(next as ThemeSwitcherMode)
-                }
-              >
-                {MODES.map(({ value: mode, label, Icon }) => (
-                  // Base UI radio items keep the menu open by default (built
-                  // for multi-toggling) — a theme pick is one-shot, so close
-                  // on click.
-                  <MenuPrimitive.RadioItem
-                    key={mode}
-                    value={mode}
-                    closeOnClick
-                    className="ds-dropdown-menu-radio-item ds-theme-switcher-radio-item"
-                  >
-                    <span className="ds-theme-switcher-check">
-                      <MenuPrimitive.RadioItemIndicator>
-                        <CheckIcon />
-                      </MenuPrimitive.RadioItemIndicator>
-                    </span>
-                    <Icon />
-                    {label}
-                  </MenuPrimitive.RadioItem>
-                ))}
-              </MenuPrimitive.RadioGroup>
-            </MenuPrimitive.Popup>
-          </MenuPrimitive.Positioner>
-        </MenuPrimitive.Portal>
-      </MenuPrimitive.Root>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="min-w-36">
+          <DropdownMenuRadioGroup
+            value={value}
+            onValueChange={(next) => onValueChange(next as ThemeSwitcherMode)}
+          >
+            {MODES.map(({ value: mode, label, Icon }) => (
+              // Base UI radio items keep the menu open by default (built for
+              // multi-toggling) — a theme pick is one-shot, so close on click.
+              <DropdownMenuRadioItem key={mode} value={mode} closeOnClick>
+                <Icon />
+                {label}
+              </DropdownMenuRadioItem>
+            ))}
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     )
   }
 
   return (
-    <div
+    <ToggleGroup
       data-slot="theme-switcher"
       data-variant="segmented"
-      role="group"
+      variant="outline"
+      size="sm"
+      // Joins the three cells into one control and anchors the sliding
+      // indicator — see ds-theme-switcher in theme-switcher.css.
+      className={cn("ds-theme-switcher", className)}
+      value={[value]}
+      onValueChange={(next) => {
+        // Base UI unpresses an already-pressed item, which would leave the
+        // group empty — a theme is never "none", so that click is a no-op.
+        const [nextValue] = next
+        if (nextValue) onValueChange(nextValue as ThemeSwitcherMode)
+      }}
       aria-label="Theme"
-      className={cx("ds-theme-switcher", className)}
       {...props}
     >
-      <Segmented
-        items={MODES.map(({ value: mode, label, Icon }) => ({
-          value: mode,
-          label: (
-            <>
-              <Icon
-                aria-hidden
-                weight={mode === value ? "fill" : "regular"}
-              />
-              {label}
-            </>
-          ),
-        }))}
-        value={value}
-        onChange={(next) => onValueChange(next as ThemeSwitcherMode)}
+      {/* The muted fill slides between cells instead of teleporting. Pitch is
+          w-9 minus the 1px seam each non-first cell pulls back with -ms-px.
+          First in the DOM so the cells' borders and icons paint above it. */}
+      <span
+        aria-hidden="true"
+        style={{ "--index": index } as React.CSSProperties}
+        className="ds-theme-switcher-indicator"
       />
-    </div>
+      {MODES.map(({ value: mode, label, Icon }) => (
+        <ToggleGroupItem
+          key={mode}
+          value={mode}
+          aria-label={label}
+          title={label}
+          // The sliding indicator owns the pressed fill, so the item's own
+          // bg-muted is switched off — otherwise the fill would appear on the
+          // target cell before the indicator arrives. relative keeps the cell
+          // painting above the positioned indicator (DOM order decides).
+          className="ds-theme-switcher-item"
+        >
+          <Icon weight={mode === value ? "fill" : "regular"} />
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   )
 }
 

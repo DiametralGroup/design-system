@@ -1,26 +1,26 @@
 "use client"
 
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { cx, type WithClassName } from "../lib/cx.js"
-import { variants } from "../lib/variants.js"
+import { cn } from "../lib/utils.js"
 
 function Tabs({
   className,
   orientation = "horizontal",
   ...props
-}: WithClassName<TabsPrimitive.Root.Props>) {
+}: TabsPrimitive.Root.Props) {
   return (
     <TabsPrimitive.Root
       data-slot="tabs"
       data-orientation={orientation}
-      className={cx("ds-tabs", className)}
+      className={cn("ds-tabs", className)}
       {...props}
     />
   )
 }
 
-const tabsListVariants = variants("ds-tabs-list", {
+const tabsListVariants = cva("ds-tabs-list", {
   variants: {
     variant: {
       default: "ds-tabs-list--default",
@@ -36,32 +36,32 @@ function TabsList({
   className,
   variant = "default",
   ...props
-}: WithClassName<TabsPrimitive.List.Props> & { variant?: "default" | "line" }) {
+}: TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>) {
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
       data-variant={variant}
-      className={cx(tabsListVariants({ variant, className }))}
+      className={cn(tabsListVariants({ variant }), className)}
       {...props}
     />
   )
 }
 
-function TabsTrigger({ className, ...props }: WithClassName<TabsPrimitive.Tab.Props>) {
+function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
   return (
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
-      className={cx("ds-tabs-trigger", className)}
+      className={cn("ds-tabs-trigger", className)}
       {...props}
     />
   )
 }
 
-function TabsContent({ className, ...props }: WithClassName<TabsPrimitive.Panel.Props>) {
+function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
   return (
     <TabsPrimitive.Panel
       data-slot="tabs-content"
-      className={cx("ds-tabs-content text-sm", className)}
+      className={cn("ds-tabs-content text-sm", className)}
       {...props}
     />
   )

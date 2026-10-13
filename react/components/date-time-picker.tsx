@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { useControllableValue } from "../hooks/useControllableValue.js"
-import { cx } from "../lib/cx.js"
+import { useControllableValue } from "../hooks/use-controllable-value.js"
+import { cn } from "../lib/utils.js"
 import { Calendar } from "./calendar.js"
 import {
   DatePicker,
@@ -27,12 +27,12 @@ function withTime(date: Date, time: TimeValue) {
 const snap = (minutes: number, step: number) =>
   step > 1 ? Math.floor(minutes / step) * step : minutes
 
-// One Date from the separate DatePicker and TimePicker, standing in for
-// v0.11's combined DateTimePicker. Both halves already exist; the work here
-// is the combined value.
+// One Date from v2's separate date-picker and time-picker, standing in for v1's
+// DateTimePicker (react/components/DateTimePicker.js). Both halves already
+// exist; the work here is the combined value.
 //
 // The bounds are the reason this is a component rather than two side by side.
-// v0.11 forwarded only the *date* half of `min`/`max` to its DatePicker, so a
+// v1 forwarded only the *date* half of `min`/`max` to its DatePicker, so a
 // `min` of 09:00 still let you pick 08:00 on the first allowed day. Here the
 // calendar disables whole days outside the range and the clock is clamped
 // again on commit, so the bound holds across the date *and* the time.
@@ -78,7 +78,7 @@ function DateTimePicker({
   return (
     <div
       data-slot="date-time-picker"
-      className={cx("ds-date-time-picker", className)}
+      className={cn("ds-date-time-picker", className)}
       {...props}
     >
       <DatePicker open={open} onOpenChange={setOpen}>

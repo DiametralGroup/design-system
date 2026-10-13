@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { Icon } from "./icon.js"
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 
 // Terminal palette for the dark panel: the four brights read at AA against
 // --ds-black, and are the same hues the docs app's dark shiki theme lands on, so
@@ -65,15 +65,15 @@ function highlight(code: string) {
   return nodes
 }
 
-// A dark, flat panel for a code sample. `CodeBlockBody` takes plain `code` and
-// colours it with the tiny tokenizer above, or pre-highlighted `html` (what a
-// Shiki-powered docs app renders) when you want a real grammar. `children` is
-// passed through untouched.
+// A dark, flat panel for a code sample (v1: css/components/code-block.css).
+// `CodeBlockBody` takes plain `code` and colours it with the tiny tokenizer
+// above, or pre-highlighted `html` (what a Shiki-powered docs app renders) when
+// you want a real grammar. `children` is passed through untouched.
 function CodeBlock({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="code-block"
-      className={cx("ds-code-block", className)}
+      className={cn("ds-code-block", className)}
       {...props}
     />
   )
@@ -83,7 +83,7 @@ function CodeBlockHead({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="code-block-head"
-      className={cx("ds-code-block-head", className)}
+      className={cn("ds-code-block-head", className)}
       {...props}
     />
   )
@@ -96,7 +96,7 @@ function CodeBlockFilename({
   return (
     <span
       data-slot="code-block-filename"
-      className={cx("ds-code-block-filename", className)}
+      className={cn("ds-code-block-filename", className)}
       {...props}
     />
   )
@@ -122,7 +122,7 @@ function CodeBlockBody({
   return (
     <pre
       data-slot="code-block-body"
-      className={cx("ds-code-block-body", className)}
+      className={cn("ds-code-block-body", className)}
       {...props}
     >
       {html ? (
@@ -159,7 +159,7 @@ function CodeBlockCopyButton({
         void navigator.clipboard.writeText(value)
         setCopied(true)
       }}
-      className={cx("ds-code-block-copy-button", className)}
+      className={cn("ds-code-block-copy-button", className)}
       {...props}
     >
       <Icon name={copied ? "check" : "copy"} />

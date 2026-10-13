@@ -1,65 +1,45 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { mergeProps } from "@base-ui/react/merge-props";
-import { useRender } from "@base-ui/react/use-render";
+import { mergeProps } from "@base-ui/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { bcx } from "../lib/baseClass.js";
-import { cx } from "../lib/cx.js";
-import { variants } from "../lib/variants.js";
-import { Separator } from "./separator.js";
+import { cn } from "../lib/utils.js"
+import { Separator } from "./separator.js"
 
-/* ButtonGroup — buttons joined into one control.
-   ---------------------------------------------------------------------------
-   Replaces the one-line applier in ButtonExtras.tsx, which wrapped children in
-   a div and left the joining entirely to CSS. This adds the two parts that make
-   the group more than a flex row — a text cell and a separator — plus the
-   vertical orientation, and keeps `role="group"`.
-
-   Orientation is `data-orientation` on the root, and button-group.css does the
-   work from there, which is why the variant map carries empty option values:
-   class-variance-authority is not acquired (ADR 0001) and the axis is declared
-   through `variants()` only so the docs playground can extract it.
-
-   `ButtonGroupSeparator` is where this batch's TSX dedupe exception was owed —
-   and it is already paid. Upstream it kept `bg-input data-horizontal:w-auto
-   data-vertical:h-auto` literal so tailwind-merge could dedupe against
-   `Separator`'s own literal defaults. Batch 2 landed the sizing half as
-   `.ds-separator--auto` when `separator` arrived early for `item`, and the
-   colour half needs nothing: `bg-input` and `bg-border` both resolve to
-   --ds-rule here, which `.ds-separator` already paints. So the class composes
-   and no literal crosses over.
-
-   `separator`'s import is backward and free, per the batch plan's cluster
-   constraint: it shipped in batch 2, not here. */
-const buttonGroupVariants = variants("ds-button-group", {
+// The orientation classes are applied via the `data-orientation` attribute
+// selector in button-group.css, so cva only needs the shape (its variant
+// keys) for apps/web's build-time playground extraction.
+const buttonGroupVariants = cva("ds-button-group", {
   variants: {
     orientation: { horizontal: "", vertical: "" },
   },
   defaultVariants: {
     orientation: "horizontal",
   },
-});
+})
 
-export type ButtonGroupOrientation = "horizontal" | "vertical";
+// DiametralGroup addition: the orientation union as a named type.
+export type ButtonGroupOrientation = NonNullable<
+  VariantProps<typeof buttonGroupVariants>["orientation"]
+>
 
 function ButtonGroup({
   className,
   orientation,
   ...props
-}: React.ComponentProps<"div"> & { orientation?: ButtonGroupOrientation }) {
+}: React.ComponentProps<"div"> & VariantProps<typeof buttonGroupVariants>) {
   return (
     <div
       role="group"
       data-slot="button-group"
       data-orientation={orientation ?? "horizontal"}
-      className={buttonGroupVariants({ orientation, className })}
+      className={cn(buttonGroupVariants({ orientation }), className)}
       {...props}
     />
-  );
+  )
 }
 
-/** A non-interactive cell in the group — a unit, a prefix, a count. */
 function ButtonGroupText({
   className,
   render,
@@ -68,12 +48,16 @@ function ButtonGroupText({
   return useRender({
     defaultTagName: "div",
     props: mergeProps<"div">(
-      { className: cx("ds-button-group-text", className) },
+      {
+        className: cn("ds-button-group-text", className),
+      },
       props
     ),
     render,
-    state: { slot: "button-group-text" },
-  });
+    state: {
+      slot: "button-group-text",
+    },
+  })
 }
 
 function ButtonGroupSeparator({
@@ -85,10 +69,17 @@ function ButtonGroupSeparator({
     <Separator
       data-slot="button-group-separator"
       orientation={orientation}
-      className={bcx("ds-button-group-separator ds-separator--auto", className)}
+      className={cn(
+        // bg-input/data-horizontal:w-auto/data-vertical:h-auto stay literal
+        // Tailwind utilities (see separator.css's note on Separator itself)
+        // — they dedupe via tailwind-merge against Separator's own literal
+        // bg-border/data-horizontal:w-full/data-vertical:w-px defaults.
+        "ds-button-group-separator bg-input data-horizontal:w-auto data-vertical:h-auto",
+        className
+      )}
       {...props}
     />
-  );
+  )
 }
 
 export {
@@ -96,4 +87,4 @@ export {
   ButtonGroupSeparator,
   ButtonGroupText,
   buttonGroupVariants,
-};
+}

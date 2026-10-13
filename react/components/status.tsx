@@ -1,30 +1,11 @@
 "use client"
 
 import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { cx } from "../lib/cx.js"
-import { variants } from "../lib/variants.js"
+import { cn } from "../lib/utils.js"
 
-/* Status — two components, and the batch's one export rename.
-   ---------------------------------------------------------------------------
-   0.11's `Status` is a **panel**: a solid coloured head, a legend strip, metric
-   rows, a note. The source's is an **inline indicator**: a small square and a
-   label, the thing that sits in a table cell saying "running". They are not the
-   same component and both are wanted.
-
-   In CSS they can share `.ds-status`, told apart by what they contain (see
-   `status-panel.css`). In React they cannot share a symbol, and the ledger
-   gives `Status` to the source. So the panel is renamed **`StatusPanel`** — the
-   name its props interface (`StatusPanelProps`) and its stylesheet
-   (`status-panel.css`) already used — and `Status`/`StatusIndicator`/
-   `StatusLabel` are the absorbed inline set.
-
-   `<ds-status>` is untouched. The web component is the panel, it writes its own
-   classes, and no consumer of it has to change anything.
-
-   `Metric` travels with the panel: it is what fills the panel's body, it has no
-   source counterpart, and `status-panel.css` defines both. */
-
+// DiametralGroup addition: the tone union, named for callers.
 export type StatusTone =
   | "success"
   | "warning"
@@ -33,10 +14,10 @@ export type StatusTone =
   | "neutral"
   | "info"
 
-/* Sets --tone for the square and the label to share; the six tones mirror the
-   family tag, banner and alert use, so a status reading "danger" is the same
-   colour everywhere in the system. */
-const statusVariants = variants("ds-status", {
+// Sets --tone for the dot and label to share; the six tones mirror
+// tag/banner/alert's shared substrate (globals.css) so a status reading
+// "danger" always means the same color everywhere in the system.
+const statusVariants = cva("group/status ds-status", {
   variants: {
     tone: {
       success: "ds-status--success",
@@ -47,18 +28,20 @@ const statusVariants = variants("ds-status", {
       info: "ds-status--info",
     },
   },
-  defaultVariants: { tone: "neutral" },
+  defaultVariants: {
+    tone: "neutral",
+  },
 })
 
 function Status({
   className,
-  tone = "neutral",
+  tone,
   ...props
-}: React.ComponentProps<"span"> & { tone?: StatusTone }) {
+}: React.ComponentProps<"span"> & VariantProps<typeof statusVariants>) {
   return (
     <span
       data-slot="status"
-      className={statusVariants({ tone, className })}
+      className={cn(statusVariants({ tone }), className)}
       {...props}
     />
   )
@@ -73,10 +56,10 @@ function StatusIndicator({
     <span
       data-slot="status-indicator"
       aria-hidden="true"
-      className={cx("ds-status-indicator", className)}
+      className={cn("ds-status-indicator", className)}
       {...props}
     >
-      {pulse ? <span className="ds-status-indicator-ping" /> : null}
+      {pulse && <span className="ds-status-indicator-ping" />}
     </span>
   )
 }
@@ -85,14 +68,15 @@ function StatusLabel({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
       data-slot="status-label"
-      className={cx("ds-status-label", className)}
+      className={cn("ds-status-label", className)}
       {...props}
     />
   )
 }
 
-/* ---- The panel, renamed from `Status` ------------------------------------ */
-
+// DiametralGroup addition: the 0.x status *panel* (solid head, metric rows),
+// renamed from `Status` so the inline indicator above keeps the name. Renders
+// the legacy `.ds-status__*` / `.ds-metric` grammar from status-panel.css.
 export interface StatusPanelProps extends React.ComponentProps<"div"> {
   status?: StatusTone
   kicker?: React.ReactNode
@@ -110,7 +94,7 @@ function StatusPanel({
   ...rest
 }: StatusPanelProps) {
   return (
-    <div className={cx("ds-status", `ds-status--${status}`, className)} {...rest}>
+    <div className={cn("ds-status", `ds-status--${status}`, className)} {...rest}>
       <div className="ds-status__head">
         {kicker != null ? <div className="ds-status__kicker">{kicker}</div> : null}
         {heading != null ? <div className="ds-status__title">{heading}</div> : null}
@@ -133,9 +117,9 @@ export interface MetricProps {
 function Metric({ label, value, variant, sign, className }: MetricProps) {
   const tone = (sign ?? 0) > 0 ? "is-pos" : (sign ?? 0) < 0 ? "is-neg" : null
   return (
-    <div className={cx("ds-metric", variant && `ds-metric--${variant}`, className)}>
+    <div className={cn("ds-metric", variant && `ds-metric--${variant}`, className)}>
       <span className="ds-metric__k">{label}</span>
-      <span className={cx("ds-metric__v", tone)}>{value}</span>
+      <span className={cn("ds-metric__v", tone)}>{value}</span>
     </div>
   )
 }

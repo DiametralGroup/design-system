@@ -3,8 +3,8 @@
 import * as React from "react"
 import { XIcon } from "@phosphor-icons/react"
 
-import { cx } from "../lib/cx.js"
-import { useControllableValue } from "../hooks/useControllableValue.js"
+import { cn } from "../lib/utils.js"
+import { useControllableValue } from "../hooks/use-controllable-value.js"
 import { Button } from "./button.js"
 
 // Free-text tokens, not a fixed list — see MultiSelect for choosing from
@@ -65,7 +65,7 @@ function TagsInput({
           inputRef.current?.focus()
         }
       }}
-      className={cx("ds-tags-input", className)}
+      className={cn("ds-tags-input", className)}
       {...props}
     >
       {tags.map((tag, index) => (

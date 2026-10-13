@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import * as React from "react";
+import * as React from "react"
 import {
   Area,
   Bar,
@@ -9,10 +9,9 @@ import {
   Line,
   XAxis,
   YAxis,
-} from "recharts";
+} from "recharts"
 
-import { seriesColor } from "../lib/chart-series.js";
-import { cx } from "../lib/cx.js";
+import { seriesColor } from "../lib/chart-series.js"
 import {
   ChartContainer,
   ChartLegend,
@@ -20,16 +19,16 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "./chart.js";
+} from "./chart.js"
 
 /** One series and the mark and scale it is drawn against. */
 export type ComboSeries = {
   /** Row field, and the key into `config` that names and colours it. */
-  key: string;
-  type: "bar" | "line" | "area";
+  key: string
+  type: "bar" | "line" | "area"
   /** Which scale the series is measured on. Defaults to the left. */
-  axis?: "left" | "right";
-};
+  axis?: "left" | "right"
+}
 
 /**
  * Marks are drawn back to front, not in the order they are declared: an area is
@@ -37,26 +36,24 @@ export type ComboSeries = {
  * on top of them. Sorting here rather than trusting declaration order is the
  * difference between a visible line and one hidden under a bar.
  */
-const LAYER = { area: 0, bar: 1, line: 2 } as const;
+const LAYER = { area: 0, bar: 1, line: 2 } as const
 
-/* ComboChart — a volume series and a rate series on one x axis.
-   ---------------------------------------------------------------------------
-   Revenue bars with a margin line, signups with a conversion rate, tickets
-   opened with median resolution time. Net-new in 1.0: `BarChart` and
-   `LineChart` cannot share an axis, so this shape was previously unreachable.
-
-   It keeps `LineChart`'s `config` + `data` + `xAxisKey`, and adds the one thing
-   that makes the form work:
-
-     `series`     ->  which mark each config key is drawn as, and which of the
-                       two scales it is measured on
-     `rightAxis`  ->  the second scale. Omitted, no second axis renders and the
-                       chart degrades to a single-scale composed chart
-
-   The axis ids are spelled out as `"left"` and `"right"` rather than left to
-   recharts' defaults, because a half-specified `yAxisId` silently puts every
-   series back on one scale — a chart that draws, reads plausibly, and is
-   wrong. */
+// A volume series and a rate series on one x axis: revenue bars with a margin
+// line, signups with a conversion rate, tickets opened with median resolution
+// time. New in v2 — `BarChart` and `LineChart` cannot share an axis, so this
+// shape was previously unreachable.
+//
+// It keeps `line-chart.tsx`'s `config` + `data` + `xAxisKey`, and adds the one
+// thing that makes the form work:
+//
+//   `series`     ->  which mark each config key is drawn as, and which of the
+//                     two scales it is measured on
+//   `rightAxis`  ->  the second scale. Omitted, no second axis renders and the
+//                     chart degrades to a single-scale composed chart
+//
+// The axis ids are spelled out as `"left"` and `"right"` rather than left to
+// recharts' defaults, because a half-specified `yAxisId` silently puts every
+// series back on one scale — a chart that draws, reads plausibly, and is wrong.
 function ComboChart({
   className,
   config,
@@ -71,50 +68,52 @@ function ComboChart({
   children,
   ...props
 }: Omit<React.ComponentProps<typeof ChartContainer>, "config" | "children"> & {
-  config: ChartConfig;
-  data: Record<string, unknown>[];
+  config: ChartConfig
+  data: Record<string, unknown>[]
   /** Row field the x axis reads its categories from. */
-  xAxisKey?: string;
-  series: ComboSeries[];
-  /** The primary scale. Its `tickFormatter` also formats the tooltip value of
-   *  every series on it — set it for amounts. */
+  xAxisKey?: string
+  series: ComboSeries[]
+  /** DiametralGroup addition. The primary scale. Its `tickFormatter` also
+   *  formats the tooltip value of every series on it — set it for amounts. */
   leftAxis?: {
-    tickFormatter?: (value: number) => string;
-    domain?: [number, number];
+    tickFormatter?: (value: number) => string
+    domain?: [number, number]
     /** Widen past the 44px default for formatted amounts. */
-    width?: number;
-  };
+    width?: number
+  }
   /** The second scale. Left off, every series shares the left one. */
   rightAxis?: {
-    label?: string;
-    tickFormatter?: (value: number) => string;
-    domain?: [number, number];
-    width?: number;
-  };
-  grid?: boolean;
+    label?: string
+    tickFormatter?: (value: number) => string
+    domain?: [number, number]
+    /** DiametralGroup addition. Widen past the 44px default. */
+    width?: number
+  }
+  grid?: boolean
   /** Defaults on once `series` names more than one entry. */
-  legend?: boolean;
-  margin?: React.ComponentProps<typeof ComposedChart>["margin"];
+  legend?: boolean
+  margin?: React.ComponentProps<typeof ComposedChart>["margin"]
   /** Extra recharts children — a `ReferenceLine`, a `Brush`. */
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
-  const marks = [...series].sort((a, b) => LAYER[a.type] - LAYER[b.type]);
+  const marks = [...series].sort((a, b) => LAYER[a.type] - LAYER[b.type])
   // A series asking for a scale that was never declared would bind to a missing
   // axis and drop out of the chart entirely, so it falls back to the left one.
   const axisOf = (mark: ComboSeries) =>
-    rightAxis && mark.axis === "right" ? "right" : "left";
-  // The tooltip formats each value with its own axis' formatter, so a rate on
-  // the right reads "28 %" while the amounts on the left read in euros.
+    rightAxis && mark.axis === "right" ? "right" : "left"
+  // DiametralGroup addition: the tooltip formats each value with its own axis'
+  // formatter, so a rate on the right reads "28 %" while the amounts on the
+  // left read in euros.
   const tooltipFormatter = (value: number, key: string) => {
-    const mark = series.find((s) => s.key === key);
-    const axis = mark && axisOf(mark) === "right" ? rightAxis : leftAxis;
-    return axis?.tickFormatter?.(value) ?? value.toLocaleString();
-  };
+    const mark = series.find((s) => s.key === key)
+    const axis = mark && axisOf(mark) === "right" ? rightAxis : leftAxis
+    return axis?.tickFormatter?.(value) ?? value.toLocaleString()
+  }
 
   return (
     <ChartContainer
       config={config}
-      className={cx("ds-chart-container--plot", className)}
+      className={className}
       {...props}
     >
       <ComposedChart accessibilityLayer data={data} margin={margin}>
@@ -169,15 +168,15 @@ function ComboChart({
           // order, so a legend read top to bottom matches the colours.
           const colour = seriesColor(
             mark.key,
-            series.findIndex((entry) => entry.key === mark.key),
-          );
+            series.findIndex((entry) => entry.key === mark.key)
+          )
           const shared = {
             dataKey: mark.key,
             yAxisId: axisOf(mark),
-          };
+          }
 
           if (mark.type === "bar") {
-            return <Bar key={mark.key} {...shared} fill={colour} />;
+            return <Bar key={mark.key} {...shared} fill={colour} />
           }
           if (mark.type === "area") {
             return (
@@ -190,7 +189,7 @@ function ComboChart({
                 strokeWidth={2}
                 dot={false}
               />
-            );
+            )
           }
           return (
             <Line
@@ -201,12 +200,12 @@ function ComboChart({
               dot={false}
               activeDot={{ r: 4 }}
             />
-          );
+          )
         })}
         {children}
       </ComposedChart>
     </ChartContainer>
-  );
+  )
 }
 
-export { ComboChart };
+export { ComboChart }

@@ -1,4 +1,4 @@
-import { Tabs } from "@diametral/design-system/react"
+import { ItemTabs } from "@diametral/design-system/react"
 
 const PANELS = [
   {
@@ -21,5 +21,5 @@ const PANELS = [
 ]
 
 export default function TabsBasic() {
-  return <Tabs items={PANELS} defaultValue="schema" className="w-full" />
+  return <ItemTabs items={PANELS} defaultValue="schema" className="w-full" />
 }

@@ -4,35 +4,13 @@ import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import * as React from "react"
 
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 
-/* Card — a flat bordered surface, composed from parts.
-   ---------------------------------------------------------------------------
-   The 0.11 `Card` took `title`, `media`, `footer` and `clickable` and built the
-   regions itself. This is the trade every applier in the migration makes:
-   composition replaces configuration, and a card can now hold a description, a
-   corner action, and any number of divided blocks — none of which a prop bag
-   could express without growing a prop per region.
-
-   `ds-card` is published for hand-written Streamlit HTML and `ds-card--
-   clickable`, `ds-card__media` and `ds-card__block` were read by the applier
-   itself, so the class grammar is frozen (css-ledger §1). The source's parts
-   are renamed into it: `ds-card-header` becomes `__header`, and — the one real
-   rename rather than a respelling — `CardContent` renders **`ds-card__body`**,
-   because `__body` is what this system already calls that region.
-
-   `CardMedia` and `CardBlock` have no source counterpart and are kept: they are
-   the two parts the applier's own class contract already had, and dropping them
-   would strand `ds-card__media` and `ds-card__block` with nothing rendering
-   them.
-
-   `clickable` survives as a prop rather than becoming a part, because it is not
-   a region — it is what the whole card *is*. It carries the `tabIndex` and the
-   `role` with it, which is the accessible half a bare class could not.
-
-   The recipe for rebuilding the 0.11 prop shape is in
-   `docs/migration/from-0.11.md`. */
-
+/* DiametralGroup additions in this file: `CardProps` and Card's `clickable`
+   prop (legacy `.ds-card--clickable`, plus the tabIndex/role it needs), ref
+   forwarding on Card, CardHeader's `ruled` prop (`.ds-card__header--ruled`),
+   and the `CardMedia` / `CardBlock` parts, which keep rendering the 0.x
+   `.ds-card__media` / `.ds-card__block` classes. */
 export interface CardProps extends React.ComponentProps<"div"> {
   size?: "default" | "sm"
   /** Turn the whole card into a focusable, hover-highlighted affordance. */
@@ -48,16 +26,16 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(
       ref={ref}
       data-slot="card"
       data-size={size}
-      className={cx("ds-card", clickable && "ds-card--clickable", className)}
+      className={cn("ds-card", clickable && "ds-card--clickable", className)}
       tabIndex={clickable ? 0 : undefined}
-      role={clickable ? (props.role ?? "button") : props.role}
+      role={clickable ? "button" : undefined}
       {...props}
     />
   )
 })
 
-/** Full-bleed media at the top of the card. Pass an image `src` for the common
- *  case, or any node to wrap. */
+/** DiametralGroup addition. Full-bleed media at the top of the card. Pass an
+ *  image `src` for the common case, or any node to wrap. */
 function CardMedia({
   className,
   src,
@@ -66,10 +44,21 @@ function CardMedia({
   ...props
 }: React.ComponentProps<"div"> & { src?: string; alt?: string }) {
   if (src) {
-    return <img className={cx("ds-card__media", className)} src={src} alt={alt} />
+    return (
+      <img
+        data-slot="card-media"
+        className={cn("ds-card__media", className)}
+        src={src}
+        alt={alt}
+      />
+    )
   }
   return (
-    <div data-slot="card-media" className={cx("ds-card__media", className)} {...props}>
+    <div
+      data-slot="card-media"
+      className={cn("ds-card__media", className)}
+      {...props}
+    >
       {children}
     </div>
   )
@@ -79,11 +68,18 @@ function CardHeader({
   className,
   ruled,
   ...props
-}: React.ComponentProps<"div"> & { ruled?: boolean }) {
+}: React.ComponentProps<"div"> & {
+  /** DiametralGroup addition: a rule under the header. */
+  ruled?: boolean
+}) {
   return (
     <div
       data-slot="card-header"
-      className={cx("ds-card__header", ruled && "ds-card__header--ruled", className)}
+      className={cn(
+        "ds-card-header",
+        ruled && "ds-card__header--ruled",
+        className
+      )}
       {...props}
     />
   )
@@ -99,19 +95,19 @@ function CardTitle({
   return useRender({
     defaultTagName: "h2",
     props: mergeProps<"h2">(
-      { className: cx("ds-card__title", className) },
-      props,
+      { className: cn("ds-card-title text-lg", className) },
+      props
     ),
     render,
     state: { slot: "card-title" },
   })
 }
 
-function CardDescription({ className, ...props }: React.ComponentProps<"p">) {
+function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <p
+    <div
       data-slot="card-description"
-      className={cx("ds-card__description", className)}
+      className={cn("ds-card-description", className)}
       {...props}
     />
   )
@@ -119,37 +115,54 @@ function CardDescription({ className, ...props }: React.ComponentProps<"p">) {
 
 function CardAction({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div data-slot="card-action" className={cx("ds-card__action", className)} {...props} />
+    <div
+      data-slot="card-action"
+      className={cn("ds-card-action", className)}
+      {...props}
+    />
   )
 }
 
 function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div data-slot="card-content" className={cx("ds-card__body", className)} {...props} />
+    <div
+      data-slot="card-content"
+      className={cn("ds-card-content", className)}
+      {...props}
+    />
   )
 }
 
-/** A divided region, separated from the one above it by a soft rule. */
+/** DiametralGroup addition. A divided region, separated from the one above it
+ *  by a soft rule. */
 function CardBlock({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div data-slot="card-block" className={cx("ds-card__block", className)} {...props} />
+    <div
+      data-slot="card-block"
+      className={cn("ds-card__block", className)}
+      {...props}
+    />
   )
 }
 
 function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div data-slot="card-footer" className={cx("ds-card__footer", className)} {...props} />
+    <div
+      data-slot="card-footer"
+      className={cn("ds-card-footer", className)}
+      {...props}
+    />
   )
 }
 
 export {
   Card,
-  CardMedia,
   CardHeader,
-  CardTitle,
-  CardDescription,
-  CardAction,
-  CardContent,
-  CardBlock,
   CardFooter,
+  CardTitle,
+  CardAction,
+  CardDescription,
+  CardContent,
+  CardMedia,
+  CardBlock,
 }

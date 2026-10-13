@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Command as CommandPrimitive } from "cmdk"
 
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 import {
   Dialog,
   DialogContent,
@@ -21,7 +21,7 @@ function Command({
   return (
     <CommandPrimitive
       data-slot="command"
-      className={cx("ds-command", className)}
+      className={cn("ds-command", className)}
       {...props}
     />
   )
@@ -48,7 +48,7 @@ function CommandDialog({
         <DialogDescription>{description}</DialogDescription>
       </DialogHeader>
       <DialogContent
-        className={cx(
+        className={cn(
           "ds-command-dialog-content top-1/3 translate-y-0 p-0",
           className
         )}
@@ -69,7 +69,7 @@ function CommandInput({
       <InputGroup>
         <CommandPrimitive.Input
           data-slot="command-input"
-          className={cx("ds-command-input", className)}
+          className={cn("ds-command-input", className)}
           {...props}
         />
         <InputGroupAddon>
@@ -87,7 +87,7 @@ function CommandList({
   return (
     <CommandPrimitive.List
       data-slot="command-list"
-      className={cx("ds-command-list", className)}
+      className={cn("ds-command-list", className)}
       {...props}
     />
   )
@@ -100,7 +100,7 @@ function CommandEmpty({
   return (
     <CommandPrimitive.Empty
       data-slot="command-empty"
-      className={cx("ds-command-empty", className)}
+      className={cn("ds-command-empty", className)}
       {...props}
     />
   )
@@ -113,7 +113,7 @@ function CommandGroup({
   return (
     <CommandPrimitive.Group
       data-slot="command-group"
-      className={cx("ds-command-group", className)}
+      className={cn("ds-command-group", className)}
       {...props}
     />
   )
@@ -127,7 +127,7 @@ function CommandSeparator({
     <CommandPrimitive.Separator
       data-slot="command-separator"
       aria-hidden="true"
-      className={cx("ds-command-separator", className)}
+      className={cn("ds-command-separator", className)}
       {...props}
     />
   )
@@ -141,7 +141,7 @@ function CommandItem({
   return (
     <CommandPrimitive.Item
       data-slot="command-item"
-      className={cx("ds-command-item", className)}
+      className={cn("ds-command-item", className)}
       {...props}
     >
       {children}
@@ -157,7 +157,7 @@ function CommandShortcut({
   return (
     <span
       data-slot="command-shortcut"
-      className={cx("ds-command-shortcut", className)}
+      className={cn("ds-command-shortcut", className)}
       {...props}
     />
   )

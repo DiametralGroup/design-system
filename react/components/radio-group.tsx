@@ -4,33 +4,31 @@ import * as React from "react"
 import { Radio as RadioPrimitive } from "@base-ui/react/radio"
 import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group"
 
-import { cx, type WithClassName } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 
 function RadioGroup({
   className,
   name,
   ...props
-}: WithClassName<RadioGroupPrimitive.Props>) {
-  // Base UI's own `name` has no default — every radio in the group renders
-  // with name="", which is not one native group of anything. The incumbent
-  // Radio/RadioGroup defaulted it to a generated id; kept here so a group
-  // works without the caller having to know to pass one.
+}: RadioGroupPrimitive.Props) {
+  // DiametralGroup addition: Base UI's `name` has no default, so every radio
+  // renders name="". Default it to a generated id so a group works natively.
   const generatedName = React.useId()
   return (
     <RadioGroupPrimitive
       data-slot="radio-group"
       name={name ?? generatedName}
-      className={cx("ds-radio-group w-full gap-3", className)}
+      className={cn("ds-radio-group w-full gap-3", className)}
       {...props}
     />
   )
 }
 
-function RadioGroupItem({ className, ...props }: WithClassName<RadioPrimitive.Root.Props>) {
+function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
   return (
     <RadioPrimitive.Root
       data-slot="radio-group-item"
-      className={cx("peer ds-radio-group-item", className)}
+      className={cn("peer ds-radio-group-item", className)}
       {...props}
     >
       <RadioPrimitive.Indicator

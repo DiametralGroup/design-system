@@ -3,8 +3,8 @@
 import { format } from "date-fns"
 import { CalendarBlankIcon } from "@phosphor-icons/react"
 
-import { cx } from "../lib/cx.js"
-import { useControllableValue } from "../hooks/useControllableValue.js"
+import { cn } from "../lib/utils.js"
+import { useControllableValue } from "../hooks/use-controllable-value.js"
 import { Button } from "./button.js"
 import { Calendar } from "./calendar.js"
 import { Popover, PopoverContent, PopoverTrigger } from "./popover.js"
@@ -28,7 +28,7 @@ function DateRangePicker({
   ...props
 }: Omit<
   React.ComponentProps<typeof PopoverTrigger>,
-  "value" | "defaultValue" | "children" | "render"
+  "value" | "defaultValue" | "children"
 > & {
   value?: DateRange
   defaultValue?: DateRange
@@ -76,12 +76,15 @@ function DateRangePicker({
       <PopoverTrigger
         data-slot="date-range-picker-trigger"
         render={<Button variant="outline" />}
-        data-time={showTime || undefined}
-        className={cx("ds-date-range-picker-trigger", className)}
+        className={cn(
+          "ds-date-range-picker-trigger",
+          showTime ? "w-96" : "w-72",
+          className
+        )}
         {...props}
       >
         <span
-          className={cx(
+          className={cn(
             "ds-date-range-picker-label",
             !label && "ds-date-range-picker-label--placeholder"
           )}

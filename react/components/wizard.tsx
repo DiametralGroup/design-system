@@ -2,14 +2,15 @@
 
 import * as React from "react"
 
-import { useControllableValue } from "../hooks/useControllableValue.js"
-import { cx } from "../lib/cx.js"
+import { useControllableValue } from "../hooks/use-controllable-value.js"
+import { cn } from "../lib/utils.js"
 import { Button } from "./button.js"
 import {
   Stepper,
   StepperContent,
   StepperIndicator,
   StepperItem,
+  StepperSeparator,
   StepperTitle,
 } from "./stepper.js"
 
@@ -20,18 +21,11 @@ export interface WizardStep {
   disableNext?: boolean
 }
 
-// The state machine Stepper deliberately lacks, ported from the incumbent
-// Wizard. Stepper is presentational parts only: it draws steps, it does not
-// drive them. Wizard supplies the current index, the Back/Next/Finish
-// navigation and the panel, and composes the existing parts for the trail
-// rather than re-drawing one.
-//
-// No StepperSeparator between items: stepper.css is a cross-boundary pin (see
-// stepper.tsx's own note) — the connector between markers is a `::after` on
-// `.ds-stepper__step` itself, so a separator element would be markup between
-// the `<li>`s that styles nothing and, worse, breaks the row's `flex: 1 1 0`
-// per-step sizing. Source's own `StepperSeparator` has no counterpart to
-// render here.
+// The state machine v2's `Stepper` deliberately lacks, ported from v1's Wizard
+// (react/components/Wizard.js). `Stepper` is presentational parts only: it
+// draws steps, it does not drive them. Wizard supplies the current index, the
+// Back/Next/Finish navigation and the panel, and composes the existing parts
+// for the trail rather than re-drawing one.
 //
 // Controlled with `active` + `onStepChange`, uncontrolled with `defaultActive`.
 function Wizard({
@@ -54,7 +48,7 @@ function Wizard({
   onStepChange?: (index: number) => void
   onFinish?: () => void
   /** Runs on Next with the current index; resolve `false` to stay put (e.g.
-   *  the step's form failed validation). Next is disabled while it settles. */
+   * the step's form failed validation). Next is disabled while it settles. */
   onBeforeNext?: (index: number) => boolean | Promise<boolean>
   /** Accessible name for the step trail. */
   label?: string
@@ -94,27 +88,29 @@ function Wizard({
   return (
     <div
       data-slot="wizard"
-      className={cx("ds-wizard", className)}
+      className={cn("ds-wizard", className)}
       {...props}
     >
       <Stepper aria-label={label}>
         {steps.map((entry, index) => (
-          <StepperItem
-            key={index}
-            state={
-              index === current
-                ? "active"
-                : index < current
-                  ? "completed"
-                  : "inactive"
-            }
-            aria-current={index === current ? "step" : undefined}
-          >
-            <StepperIndicator>{index + 1}</StepperIndicator>
-            <StepperContent>
-              <StepperTitle>{entry.label}</StepperTitle>
-            </StepperContent>
-          </StepperItem>
+          <React.Fragment key={index}>
+            <StepperItem
+              state={
+                index === current
+                  ? "active"
+                  : index < current
+                    ? "completed"
+                    : "inactive"
+              }
+              aria-current={index === current ? "step" : undefined}
+            >
+              <StepperIndicator>{index + 1}</StepperIndicator>
+              <StepperContent>
+                <StepperTitle>{entry.label}</StepperTitle>
+              </StepperContent>
+            </StepperItem>
+            {index < count - 1 ? <StepperSeparator /> : null}
+          </React.Fragment>
         ))}
       </Stepper>
 

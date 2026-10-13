@@ -1,39 +1,31 @@
 "use client"
 
 import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { cx } from "../lib/cx.js"
-import { variants } from "../lib/variants.js"
+import { cn } from "../lib/utils.js"
 
-/* Tag — a tinted boxed label, as opposed to Badge's bare typographic one.
-   ---------------------------------------------------------------------------
-   `ds-tag` and `ds-tag--success` are both in the set `docs/streamlit.md`
-   publishes for Python consumers to hand-write, so the box and that modifier
-   are frozen (css-ledger §1).
-
-   The absorption is the **tone axis completing itself**: `neutral` and
-   `critical` join the four 0.11 had, so a tag can say any of the six things
-   every other status surface in the system can say. The prop is renamed
-   `status` -> `tone` to match `Banner`, `Alert` and `Meter`, which all took
-   `tone` when they landed; `status` still works and still maps, because it is
-   published API with call sites in `examples/`.
-
-   `onRemove` is 0.11's and has no source equivalent. It stays: a tag you can
-   dismiss is the whole point of a filter chip, and the source's tag cannot. */
-const tagVariants = variants("ds-tag", {
+// Absorbs v1's Chip (css/components/chip.css): a boxed, tinted label, as
+// opposed to Badge's bare typographic one. Chip's only axis was a boolean
+// `warn`; here that becomes `tone="warning"`, folded into the same six-tone
+// family status/banner/alert share instead of a second component.
+const tagVariants = cva("ds-tag", {
   variants: {
     tone: {
       neutral: "ds-tag--neutral",
-      info: "ds-tag--info",
       success: "ds-tag--success",
       warning: "ds-tag--warning",
       danger: "ds-tag--danger",
       critical: "ds-tag--critical",
+      info: "ds-tag--info",
     },
   },
-  defaultVariants: {},
+  defaultVariants: {
+    tone: "neutral",
+  },
 })
 
+// DiametralGroup addition: the tone union, named for callers.
 export type TagTone =
   | "neutral"
   | "info"
@@ -42,29 +34,32 @@ export type TagTone =
   | "danger"
   | "critical"
 
-export interface TagProps extends React.ComponentProps<"span"> {
-  /** Status family — colored border, matching text and tinted background. */
-  tone?: TagTone
-  /** @deprecated Renamed `tone` in 1.0.0-beta.7, and widened to six values.
-   *  Still accepted and still mapped. */
+// DiametralGroup additions: `status` (the 0.x name for `tone`, still mapped),
+// `onRemove` (a trailing × button, the legacy `.ds-tag__remove`).
+export interface TagProps
+  extends React.ComponentProps<"span">,
+    VariantProps<typeof tagVariants> {
+  /** @deprecated Renamed `tone`. Still accepted and still mapped. */
   status?: "info" | "success" | "warning" | "danger"
   /** Render a trailing × button; called when it is clicked. */
   onRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
+// DiametralGroup addition: forwardRef, so a ref reaches the <span> on React 18.
 const Tag = React.forwardRef<HTMLSpanElement, TagProps>(function Tag(
-  { tone, status, onRemove, className, children, ...rest },
+  { className, tone, status, onRemove, children, ...props },
   ref
 ) {
   return (
     <span
       ref={ref}
       data-slot="tag"
-      className={tagVariants({
-        tone: tone ?? status,
-        className: cx(onRemove && "ds-tag--removable", className),
-      })}
-      {...rest}
+      className={cn(
+        tagVariants({ tone: tone ?? status }),
+        onRemove && "ds-tag--removable",
+        className
+      )}
+      {...props}
     >
       {children}
       {onRemove ? (

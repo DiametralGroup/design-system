@@ -2,12 +2,8 @@
 
 import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area"
 
-import { bcx } from "../lib/baseClass.js"
+import { cn } from "../lib/utils.js"
 
-/* Scroll area — a scrolling region with a styled 10px scrollbar, for panels
-   where the native bar is invisible (macOS overlay bars) or too heavy. The
-   viewport is keyboard-focusable, which is what satisfies axe's
-   scrollable-region-focusable on a region with no other focus stop. */
 function ScrollArea({
   className,
   children,
@@ -16,7 +12,7 @@ function ScrollArea({
   return (
     <ScrollAreaPrimitive.Root
       data-slot="scroll-area"
-      className={bcx("ds-scroll-area", className)}
+      className={cn("ds-scroll-area", className)}
       {...props}
     >
       <ScrollAreaPrimitive.Viewport
@@ -41,7 +37,7 @@ function ScrollBar({
       data-slot="scroll-area-scrollbar"
       data-orientation={orientation}
       orientation={orientation}
-      className={bcx("ds-scroll-area-scrollbar", className)}
+      className={cn("ds-scroll-area-scrollbar", className)}
       {...props}
     >
       <ScrollAreaPrimitive.Thumb

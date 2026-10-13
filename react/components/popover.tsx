@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Popover as PopoverPrimitive } from "@base-ui/react/popover"
 
-import { cx, type WithClassName } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 
 function Popover({ ...props }: PopoverPrimitive.Root.Props) {
   return <PopoverPrimitive.Root data-slot="popover" {...props} />
@@ -20,7 +20,7 @@ function PopoverContent({
   side = "bottom",
   sideOffset = 4,
   ...props
-}: WithClassName<PopoverPrimitive.Popup.Props> &
+}: PopoverPrimitive.Popup.Props &
   Pick<
     PopoverPrimitive.Positioner.Props,
     "align" | "alignOffset" | "side" | "sideOffset"
@@ -36,7 +36,7 @@ function PopoverContent({
       >
         <PopoverPrimitive.Popup
           data-slot="popover-content"
-          className={cx("ds-popover-content", className)}
+          className={cn("ds-popover-content", className)}
           {...props}
         />
       </PopoverPrimitive.Positioner>
@@ -48,17 +48,17 @@ function PopoverHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="popover-header"
-      className={cx("ds-popover-header", className)}
+      className={cn("ds-popover-header", className)}
       {...props}
     />
   )
 }
 
-function PopoverTitle({ className, ...props }: WithClassName<PopoverPrimitive.Title.Props>) {
+function PopoverTitle({ className, ...props }: PopoverPrimitive.Title.Props) {
   return (
     <PopoverPrimitive.Title
       data-slot="popover-title"
-      className={cx("ds-popover-title", className)}
+      className={cn("ds-popover-title", className)}
       {...props}
     />
   )
@@ -67,11 +67,11 @@ function PopoverTitle({ className, ...props }: WithClassName<PopoverPrimitive.Ti
 function PopoverDescription({
   className,
   ...props
-}: WithClassName<PopoverPrimitive.Description.Props>) {
+}: PopoverPrimitive.Description.Props) {
   return (
     <PopoverPrimitive.Description
       data-slot="popover-description"
-      className={cx("ds-popover-description", className)}
+      className={cn("ds-popover-description", className)}
       {...props}
     />
   )

@@ -2,18 +2,16 @@
 
 import * as React from "react"
 
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 
-/* DescriptionList — a two-column key/value grid (auto term column, 1fr detail).
-   ---------------------------------------------------------------------------
-   `dt`/`dd` pairs flow as consecutive grid children, so a row needs no wrapper
-   element. 0.x took an `items` array and rendered the pairs for you; these are
-   parts, so a detail cell can hold anything — a Tag, a Snippet, a link. */
+// A two-column key/value grid (auto label column, 1fr value column). `dt`/`dd`
+// pairs flow as consecutive grid children — no explicit row wrapper needed —
+// matching v1's DescriptionList (css/components/description-list.css).
 function DescriptionList({ className, ...props }: React.ComponentProps<"dl">) {
   return (
     <dl
       data-slot="description-list"
-      className={cx("ds-description-list", className)}
+      className={cn("ds-description-list", className)}
       {...props}
     />
   )
@@ -23,17 +21,20 @@ function DescriptionTerm({ className, ...props }: React.ComponentProps<"dt">) {
   return (
     <dt
       data-slot="description-term"
-      className={cx("ds-description-term", className)}
+      className={cn("ds-description-term", className)}
       {...props}
     />
   )
 }
 
-function DescriptionDetail({ className, ...props }: React.ComponentProps<"dd">) {
+function DescriptionDetail({
+  className,
+  ...props
+}: React.ComponentProps<"dd">) {
   return (
     <dd
       data-slot="description-detail"
-      className={cx("ds-description-detail", className)}
+      className={cn("ds-description-detail", className)}
       {...props}
     />
   )

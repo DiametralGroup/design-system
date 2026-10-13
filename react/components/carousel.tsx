@@ -5,8 +5,8 @@ import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react"
 
-import { cx } from "../lib/cx.js"
-import { IconButton } from "./icon-button.js"
+import { cn } from "../lib/utils.js"
+import { Button } from "./button.js"
 import { CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react"
 
 type CarouselApi = UseEmblaCarouselType[1]
@@ -120,7 +120,7 @@ function Carousel({
     >
       <div
         onKeyDownCapture={handleKeyDown}
-        className={cx("ds-carousel", className)}
+        className={cn("ds-carousel", className)}
         role="region"
         aria-roledescription="carousel"
         data-slot="carousel"
@@ -143,7 +143,7 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
     >
       <div
         data-orientation={orientation}
-        className={cx("ds-carousel-content", className)}
+        className={cn("ds-carousel-content", className)}
         {...props}
       />
     </div>
@@ -159,47 +159,34 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
       aria-roledescription="slide"
       data-slot="carousel-item"
       data-orientation={orientation}
-      className={cx("ds-carousel-item basis-full", className)}
+      className={cn("ds-carousel-item basis-full", className)}
       {...props}
     />
   )
 }
 
-/**
- * `IconButton` makes `label` required — the accessible name is the whole
- * component. Both controls already supply one, so re-exporting the prop as
- * required made `<CarouselPrevious />` a type error at every call site while
- * rendering correctly; the four carousel demos were failing `tsc -p
- * tsconfig.docs.json` on exactly that.
- */
-type CarouselControlProps = Omit<
-  React.ComponentProps<typeof IconButton>,
-  "label"
-> & { label?: string }
-
 function CarouselPrevious({
   className,
   variant = "outline",
   size = "icon-sm",
-  label = "Previous slide",
   ...props
-}: CarouselControlProps) {
+}: React.ComponentProps<typeof Button>) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
 
   return (
-    <IconButton
+    <Button
       data-slot="carousel-previous"
       data-orientation={orientation}
       variant={variant}
       size={size}
-      label={label}
-      className={cx("ds-carousel-control", className)}
+      className={cn("ds-carousel-control", className)}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
     >
       <CaretLeftIcon className="ds-carousel-control-icon" />
-    </IconButton>
+      <span className="sr-only">Previous slide</span>
+    </Button>
   )
 }
 
@@ -207,25 +194,24 @@ function CarouselNext({
   className,
   variant = "outline",
   size = "icon-sm",
-  label = "Next slide",
   ...props
-}: CarouselControlProps) {
+}: React.ComponentProps<typeof Button>) {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
 
   return (
-    <IconButton
+    <Button
       data-slot="carousel-next"
       data-orientation={orientation}
       variant={variant}
       size={size}
-      label={label}
-      className={cx("ds-carousel-control", className)}
+      className={cn("ds-carousel-control", className)}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
     >
       <CaretRightIcon className="ds-carousel-control-icon" />
-    </IconButton>
+      <span className="sr-only">Next slide</span>
+    </Button>
   )
 }
 

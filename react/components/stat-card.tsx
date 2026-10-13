@@ -1,9 +1,9 @@
 "use client"
 
 import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { cx } from "../lib/cx.js"
-import { variants } from "../lib/variants.js"
+import { cn } from "../lib/utils.js"
 
 // A dashboard tile: bordered surface, uppercase faint label, a title-voiced
 // figure, an optional signed delta and a spark slot — the compound-component
@@ -12,7 +12,7 @@ function StatCard({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="stat-card"
-      className={cx("ds-stat-card", className)}
+      className={cn("ds-stat-card", className)}
       {...props}
     />
   )
@@ -22,7 +22,7 @@ function StatCardLabel({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="stat-card-label"
-      className={cx("ds-stat-card-label", className)}
+      className={cn("ds-stat-card-label", className)}
       {...props}
     />
   )
@@ -32,46 +32,50 @@ function StatCardValue({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="stat-card-value"
-      className={cx("ds-stat-card-value", className)}
+      className={cn("ds-stat-card-value", className)}
       {...props}
     />
   )
 }
 
-const statCardDeltaVariants = variants("ds-stat-card-delta", {
+const statCardDeltaVariants = cva("ds-stat-card-delta", {
   variants: {
-    direction: {
+    tone: {
       // The `-ink` variants, not the bare tones: --ds-success is tuned as a
       // surface colour and only reaches 3.82:1 on dark's --ds-bg, which fails
       // AA as text. --ds-success-ink is the text-weight value (6.75:1).
-      up: "ds-stat-card-delta--up",
-      down: "ds-stat-card-delta--down",
-    },
-    // Whether the move is good news, independent of its direction: a cost or
-    // an at-risk rate going down is favourable. Set, it wins over the colour
-    // `direction` implies, which then only draws the arrow.
-    tone: {
+      positive: "ds-stat-card-delta--positive",
+      negative: "ds-stat-card-delta--negative",
+      neutral: "",
+      // DiametralGroup additions: 0.x's names for the same judgement, kept
+      // so existing call sites still colour (legacy classes).
       favorable: "ds-stat-card-delta--favorable",
       unfavorable: "ds-stat-card-delta--unfavorable",
-      neutral: "ds-stat-card-delta--neutral",
     },
   },
 })
 
+// `direction` draws the arrow; `tone` says whether that is good news. They
+// default together (up is positive), and split for metrics where up is bad —
+// churn, cost, latency: `direction="up" tone="negative"`.
 function StatCardDelta({
   className,
   direction,
-  tone,
+  tone = direction === "up"
+    ? "positive"
+    : direction === "down"
+      ? "negative"
+      : undefined,
   children,
   ...props
-}: React.ComponentProps<"div"> & {
-  direction?: "up" | "down";
-  tone?: "favorable" | "unfavorable" | "neutral";
-}) {
+}: React.ComponentProps<"div"> &
+  VariantProps<typeof statCardDeltaVariants> & {
+    direction?: "up" | "down" | null
+  }) {
   return (
     <div
       data-slot="stat-card-delta"
-      className={statCardDeltaVariants({ direction, tone, className })}
+      className={cn(statCardDeltaVariants({ tone }), className)}
       {...props}
     >
       {direction && (
@@ -86,7 +90,7 @@ function StatCardSpark({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="stat-card-spark"
-      className={cx("ds-stat-card-spark", className)}
+      className={cn("ds-stat-card-spark", className)}
       {...props}
     />
   )

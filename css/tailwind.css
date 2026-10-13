@@ -1,0 +1,38 @@
+/* ============================================================================
+   Tailwind v4 entry — @diametral/design-system/tailwind.css
+   ----------------------------------------------------------------------------
+   The equivalent of @diametral/ui's `styles.tailwind.css`: one import gives a
+   Tailwind v4 app the design system plus utilities that speak its tokens
+   (`bg-background`, `text-muted-foreground`, `border-border`, `data-open:`…).
+
+       @import "@diametral/design-system/tailwind.css";
+       @source "./**/*.{ts,tsx}";
+
+   Apps without Tailwind import css/diametral.css instead: it already carries
+   the utilities the React components use themselves (css/literals.css).
+   ============================================================================ */
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+@import "./tailwind/shadcn.css";
+@import "./diametral.css";
+@import "./tailwind/theme.css";
+
+/* The compiled React components, so their own utility classes are generated. */
+@source "../dist/react/**/*.js";
+
+@layer base {
+  * {
+    border-color: var(--ds-rule);
+    outline-color: color-mix(in oklab, var(--ds-focus-ring) 50%, transparent);
+  }
+  body {
+    background-color: var(--ds-bg);
+    color: var(--ds-ink);
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}

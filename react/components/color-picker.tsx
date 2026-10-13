@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { useControllableValue } from "../hooks/useControllableValue.js"
-import { cx } from "../lib/cx.js"
+import { useControllableValue } from "../hooks/use-controllable-value.js"
+import { cn } from "../lib/utils.js"
 import { Input } from "./input.js"
 
 /** Tier-1 brand primaries and secondaries, plus white. */
@@ -80,7 +80,7 @@ function ColorPicker({
       aria-label={
         ariaLabel ?? (props["aria-labelledby"] ? undefined : "Colour")
       }
-      className={cx("ds-color-picker", className)}
+      className={cn("ds-color-picker", className)}
       {...props}
     >
       <div
@@ -103,7 +103,7 @@ function ColorPicker({
               title={swatch}
               style={{ background: swatch }}
               onClick={() => setCurrent(norm)}
-              className={cx("ds-color-picker-swatch")}
+              className="ds-color-picker-swatch"
             />
           )
         })}

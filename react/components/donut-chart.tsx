@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { Label, Pie, PieChart } from "recharts";
+import * as React from "react"
+import { Label, Pie, PieChart } from "recharts"
 
-import { withSliceColors } from "../lib/chart-series.js";
-import { cx } from "../lib/cx.js";
+import { withSliceColors } from "../lib/chart-series.js"
+import { cn } from "../lib/utils.js"
 import {
   ChartContainer,
   ChartLegend,
@@ -12,40 +12,39 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "./chart.js";
+} from "./chart.js"
 
 /** The ring's centre, from whichever viewBox shape recharts hands over. */
 function centreOf(
-  viewBox: Record<string, unknown>,
+  viewBox: Record<string, unknown>
 ): [number, number] | undefined {
   if (typeof viewBox.cx === "number" && typeof viewBox.cy === "number") {
-    return [viewBox.cx, viewBox.cy];
+    return [viewBox.cx, viewBox.cy]
   }
-  const { x, y, width, height } = viewBox;
+  const { x, y, width, height } = viewBox
   if (
     typeof x === "number" &&
     typeof y === "number" &&
     typeof width === "number" &&
     typeof height === "number"
   ) {
-    return [x + width / 2, y + height / 2];
+    return [x + width / 2, y + height / 2]
   }
-  return undefined;
+  return undefined
 }
 
-/* DonutChart — `PieChart` with the middle cut out and a figure in the hole.
-   ---------------------------------------------------------------------------
-   Replaces 0.11's hand-rolled SVG DonutChart. 0.11's props land like
-   PieChart's, plus:
-
-     0.11 `centerLabel`  ->  `centerLabel`, with `centerCaption` under it
-     0.11 `thickness`    ->  `thickness`, re-read as a percentage of the chart
-                              radius rather than px, because the container is
-                              responsive and a px ring would not scale with it
-
-   The centre text follows `gauge.tsx`: a title-voiced figure with an uppercase
-   faint caption below, which is already this system's answer for a value plus
-   a caption inside a ring. */
+// `PieChart` with the middle cut out and a figure in the hole, standing in for
+// v1's hand-rolled SVG DonutChart (react/components/DonutChart.js). v1's props
+// land like PieChart's, plus:
+//
+//   v1 `centerLabel`  ->  `centerLabel`, with `centerCaption` under it
+//   v1 `thickness`    ->  `thickness`, re-read as a percentage of the chart
+//                          radius rather than px, because the container is
+//                          responsive and a px ring would not scale with it
+//
+// The centre text follows `gauge.tsx`: a title-voiced figure with an uppercase
+// faint caption below, which is already this system's answer for value-plus-
+// caption inside a ring.
 function DonutChart({
   className,
   config,
@@ -59,32 +58,31 @@ function DonutChart({
   children,
   ...props
 }: Omit<React.ComponentProps<typeof ChartContainer>, "config" | "children"> & {
-  config: ChartConfig;
-  data: Record<string, unknown>[];
+  config: ChartConfig
+  data: Record<string, unknown>[]
   /** Row field holding the segment's number. */
-  valueKey: string;
+  valueKey: string
   /** Row field holding the segment's name — the key into `config`. */
-  nameKey: string;
+  nameKey: string
   /** Figure in the hole. Left off, the hole stays empty. */
-  centerLabel?: React.ReactNode;
+  centerLabel?: React.ReactNode
   /** Caption under the figure, in the uppercase register `Gauge` uses. */
-  centerCaption?: React.ReactNode;
+  centerCaption?: React.ReactNode
   /** Ring width, as a percentage of the chart radius. */
-  thickness?: number;
-  legend?: boolean;
+  thickness?: number
+  legend?: boolean
   /** Extra recharts children — a second `Pie`, a `ReferenceLine`. */
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
-  const outer = 90;
+  const outer = 90
 
   return (
     <ChartContainer
       config={config}
-      className={cx(
-        "ds-donut-chart-root",
-        "ds-chart-container--square",
-        className,
-      )}
+      // A definite height is what `aspect-square` resolves the width against:
+      // capping with `max-h-*` alone leaves both axes indefinite and the
+      // container measures 0, so recharts never draws.
+      className={cn("ds-donut-chart-root aspect-square h-64", className)}
       {...props}
     >
       <PieChart>
@@ -100,14 +98,14 @@ function DonutChart({
             <Label
               position="center"
               content={({ viewBox }) => {
-                if (!viewBox) return null;
+                if (!viewBox) return null
                 // recharts 3 hands a Pie's Label the *cartesian* plot box, not
                 // the polar one with cx/cy, so the centre is derived. Its
                 // height already excludes the legend, which is what keeps the
                 // figure in the hole rather than below it.
-                const centre = centreOf(viewBox);
-                if (!centre) return null;
-                const [cx, cy] = centre;
+                const centre = centreOf(viewBox)
+                if (!centre) return null
+                const [cx, cy] = centre
                 // One <text> with tspans rather than two siblings: recharts
                 // renders a Label's content as a single node, and a fragment
                 // of two <text> elements is dropped.
@@ -132,7 +130,7 @@ function DonutChart({
                       </tspan>
                     ) : null}
                   </text>
-                );
+                )
               }}
             />
           ) : null}
@@ -143,7 +141,7 @@ function DonutChart({
         {children}
       </PieChart>
     </ChartContainer>
-  );
+  )
 }
 
-export { DonutChart };
+export { DonutChart }

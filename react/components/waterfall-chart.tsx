@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import * as React from "react";
+import * as React from "react"
 import {
   Bar,
   CartesianGrid,
@@ -8,39 +8,38 @@ import {
   ReferenceLine,
   XAxis,
   YAxis,
-} from "recharts";
+} from "recharts"
 
-import { seriesColor, STATUS_COLORS } from "../lib/chart-series.js";
-import { cx } from "../lib/cx.js";
+import { seriesColor, STATUS_COLORS } from "../lib/chart-series.js"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "./chart.js";
+} from "./chart.js"
 
 /** What the wrapper derives from one caller row. */
 type Step = {
-  name: string;
+  name: string
   /** Running total before this step, drawn transparent so the delta floats. */
-  base: number;
+  base: number
   /** Bar height. Always positive; the sign lives in `signed`. */
-  delta: number;
+  delta: number
   /** The caller's value, sign intact — what the tooltip prints. */
-  signed: number;
+  signed: number
   /** Running total after this step, and where this step's connector sits. */
-  running: number;
-  isTotal: boolean;
-  fill: string;
-};
+  running: number
+  isTotal: boolean
+  fill: string
+}
 
 /**
  * Totals take a slot off the chart ramp rather than a status tint, because they
  * are not good or bad news — they are the thing the deltas add up to. Slot 4 is
- * the marron, the least loaded colour in the ramp; a `total` entry in `config`
+ * the beige, the least loaded colour in the ramp; a `total` entry in `config`
  * overrides it.
  */
-const TOTAL_COLOR = seriesColor("total", 3);
+const TOTAL_COLOR = seriesColor("total", 3)
 
 /**
  * The caller passes raw signed values and never a base. Working the bases out
@@ -51,19 +50,19 @@ function toSteps(
   data: Record<string, unknown>[],
   nameKey: string,
   valueKey: string,
-  totalKeys: string[],
+  totalKeys: string[]
 ): Step[] {
-  let running = 0;
+  let running = 0
 
   return data.map((row) => {
-    const name = String(row[nameKey]);
-    const signed = Number(row[valueKey]) || 0;
-    const isTotal = totalKeys.includes(name);
+    const name = String(row[nameKey])
+    const signed = Number(row[valueKey]) || 0
+    const isTotal = totalKeys.includes(name)
 
     if (isTotal) {
       // A total is drawn from zero: it restates the running figure rather than
       // moving it, so its own value becomes the running total from here.
-      running = signed;
+      running = signed
       return {
         name,
         base: 0,
@@ -72,12 +71,12 @@ function toSteps(
         running,
         isTotal,
         fill: TOTAL_COLOR,
-      };
+      }
     }
 
     // A fall hangs from where the running total was; a rise sits on top of it.
-    const base = signed < 0 ? running + signed : running;
-    running += signed;
+    const base = signed < 0 ? running + signed : running
+    running += signed
 
     return {
       name,
@@ -87,37 +86,35 @@ function toSteps(
       running,
       isTotal,
       fill: signed < 0 ? STATUS_COLORS.danger : STATUS_COLORS.success,
-    };
-  });
+    }
+  })
 }
 
-/* WaterfallChart — how signed deltas accumulate from a starting value to an
-   ending one.
-   ---------------------------------------------------------------------------
-   Opening ARR through new, expansion, contraction and churn to closing ARR;
-   budget to actuals through each variance; headcount month over month. Net-new
-   in 1.0, and recharts has no waterfall primitive.
-
-   A bar chart shows the deltas but hides the running total; a line shows the
-   total but hides what moved it. This shows both, as two stacked bars per row —
-   a transparent one carrying the running base, and the visible delta floating
-   on top of it.
-
-     `totalKeys`   ->  rows that restate the total rather than move it. Without
-                        it the closing bar stacks on the running figure and
-                        floats at roughly twice its true height
-     `connectors`  ->  the ticks joining one bar's edge to the next bar's base.
-                        They are what makes a waterfall read as a waterfall
-
-   Colour is semantic, not a series ramp: rises take `--ds-success`, falls
-   `--ds-danger`, totals a neutral ramp slot. That is `BarChart`'s `statusKey`
-   axis reused rather than a second vocabulary — but per-row through the row's
-   own `fill`, which recharts reads on the visible bar only because the base bar
-   is hidden with `fillOpacity` rather than a colour.
-
-   The running total is assumed to stay at or above zero. A sequence that
-   crosses into negative territory would need a base below the axis, which a
-   stack cannot express — split it into two charts instead. */
+// How signed deltas accumulate from a starting value to an ending one: opening
+// ARR through new, expansion, contraction and churn to closing ARR; budget to
+// actuals through each variance; headcount month over month. New in v2, and
+// recharts has no waterfall primitive.
+//
+// A bar chart shows the deltas but hides the running total; a line shows the
+// total but hides what moved it. This shows both, as two stacked bars per row —
+// a transparent one carrying the running base, and the visible delta floating on
+// top of it.
+//
+//   `totalKeys`   ->  rows that restate the total rather than move it. Without
+//                      it the closing bar stacks on the running figure and
+//                      floats at roughly twice its true height
+//   `connectors`  ->  the ticks joining one bar's edge to the next bar's base.
+//                      They are what makes a waterfall read as a waterfall
+//
+// Colour is semantic, not a series ramp: rises take `--ds-success`, falls
+// `--ds-danger`, totals a neutral ramp slot. That is `BarChart`'s `statusKey`
+// axis reused rather than a second vocabulary — but per-row through `Cell`, not
+// through the row's `fill`, which recharts would apply to the transparent base
+// bar as well.
+//
+// The running total is assumed to stay at or above zero. A sequence that crosses
+// into negative territory would need a base below the axis, which a stack cannot
+// express — split it into two charts instead.
 function WaterfallChart({
   className,
   config,
@@ -136,41 +133,42 @@ function WaterfallChart({
   ...props
 }: Omit<React.ComponentProps<typeof ChartContainer>, "config" | "children"> & {
   /** Optional — a `total` entry recolours the total bars. */
-  config?: ChartConfig;
+  config?: ChartConfig
   /** One row per step, in order, each with a label and a signed value. */
-  data: Record<string, unknown>[];
+  data: Record<string, unknown>[]
   /** Row field holding the step's label. */
-  nameKey: string;
+  nameKey: string
   /** Row field holding the step's signed value. */
-  valueKey: string;
+  valueKey: string
   /** Labels of the rows that are totals rather than deltas. */
-  totalKeys?: string[];
-  connectors?: boolean;
-  grid?: boolean;
+  totalKeys?: string[]
+  connectors?: boolean
+  grid?: boolean
   /** How figures are printed in the tooltip. Signs are added for you. */
-  formatValue?: (value: number) => string;
-  /** How the value axis prints its ticks — usually a compact form of
-   *  `formatValue` ("1,2 M€"). Defaults to `formatValue`. */
-  axisFormatter?: (value: number) => string;
+  formatValue?: (value: number) => string
+  // DiametralGroup additions: value-axis formatting and width, and the
+  // tooltip's row labels for a non-English interface.
+  /** Tick formatter for the value axis ("1,2 M€"). */
+  axisFormatter?: (value: number) => string
   /** Width of the value axis; widen it for formatted amounts. */
-  valueAxisWidth?: number;
-  /** The tooltip's row labels, for a non-English interface. */
-  labels?: { total?: string; change?: string; running?: string };
-  margin?: React.ComponentProps<typeof ComposedChart>["margin"];
+  valueAxisWidth?: number
+  /** The tooltip's row labels. */
+  labels?: { total?: string; change?: string; running?: string }
+  margin?: React.ComponentProps<typeof ComposedChart>["margin"]
   /** Extra recharts children — a `ReferenceLine`, a `Label`. */
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
-  const steps = toSteps(data, nameKey, valueKey, totalKeys);
+  const steps = toSteps(data, nameKey, valueKey, totalKeys)
 
   const signedLabel = (step: Step) =>
     step.isTotal || step.signed < 0
       ? formatValue(step.signed)
-      : `+${formatValue(step.signed)}`;
+      : `+${formatValue(step.signed)}`
 
   return (
     <ChartContainer
       config={config ?? {}}
-      className={cx("ds-chart-container--plot", className)}
+      className={className}
       {...props}
     >
       <ComposedChart accessibilityLayer data={steps} margin={margin}>
@@ -186,7 +184,7 @@ function WaterfallChart({
           tickLine={false}
           axisLine={false}
           width={valueAxisWidth}
-          tickFormatter={axisFormatter ?? formatValue}
+          tickFormatter={axisFormatter}
         />
         <ChartTooltip
           content={
@@ -196,7 +194,7 @@ function WaterfallChart({
                 String(payload?.[0]?.payload?.name ?? "")
               }
               formatter={(_value, _name, item) => {
-                const step = item.payload as Step;
+                const step = item.payload as Step
                 return (
                   <div className="ds-waterfall-chart-tooltip">
                     <div className="ds-waterfall-chart-tooltip-row">
@@ -220,7 +218,7 @@ function WaterfallChart({
                       </div>
                     )}
                   </div>
-                );
+                )
               }}
             />
           }
@@ -263,7 +261,7 @@ function WaterfallChart({
         {children}
       </ComposedChart>
     </ChartContainer>
-  );
+  )
 }
 
-export { WaterfallChart };
+export { WaterfallChart }

@@ -2,9 +2,9 @@
 
 import * as React from "react"
 
-import { cx } from "../lib/cx.js"
-import { Status, StatusIndicator } from "./status.js"
+import { cn } from "../lib/utils.js"
 import { Empty, EmptyDescription, EmptyHeader } from "./empty.js"
+import { Status, StatusIndicator } from "./status.js"
 
 export interface AgendaEvent {
   /** A `Date` or an ISO `yyyy-mm-dd` string. Unparseable rows are dropped. */
@@ -13,14 +13,7 @@ export interface AgendaEvent {
   /** Free text, sorted as a string — `09:00` rather than `9am`. */
   time?: string
   meta?: React.ReactNode
-  /** Recolours the row's status dot. */
-  status?:
-    | "neutral"
-    | "info"
-    | "success"
-    | "warning"
-    | "danger"
-    | "critical"
+  status?: React.ComponentProps<typeof Status>["tone"]
 }
 
 const pad = (value: number) => String(value).padStart(2, "0")
@@ -42,26 +35,16 @@ function toDate(input: Date | string): Date | null {
   return Number.isNaN(parsed.getTime()) ? null : parsed
 }
 
-/* Agenda — a chronological list of events grouped by day.
-   ---------------------------------------------------------------------------
-   Sorts by day then by time, buckets consecutive rows into a day group, and
-   renders each group as a <section> under an <h3> — where 0.11 emitted a flat
-   run of divs, so a screen reader had no way to skip a day.
-
-   `locale` is the other thing 0.11 could not do: it hardcoded English weekday
-   and month tables, and this defers to `toLocaleDateString`.
-
-   SCOPE (source issue #70): event display lives here and NOT on `calendar`.
-   Calendar is a date-selection control; a month cell can show maybe two events
-   before it lies about the rest. A list has no such ceiling, and the two
-   compose — select a day there, list it here.
-
-   Re-wired onto <Status><StatusIndicator/> in 1.0.0-beta.7, the second and
-   final half of batch 6's forward cross-batch import. The dot was a span with
-   six tone rules of its own in agenda.css, because the `Status` that existed
-   then was a different component — a panel with a kicker and a heading — with
-   no dot to compose onto. Now it is the absorbed inline indicator, so the six
-   tone rules leave agenda.css and one status means one colour system-wide. */
+// A chronological list of events grouped by day, ported from v1's Agenda
+// (react/components/Agenda.js, css/components/agenda.css). The empty state is
+// `Empty` and the status dot is `Status`, rather than two more of each.
+//
+// SCOPE DECISION (issue #70): event display lives here and *not* on `calendar`.
+// v2's calendar is react-day-picker, a date-selection control; giving it events
+// would mean either re-drawing the month grid or fighting day-picker over how a
+// day renders, and a month cell can show maybe two events before it lies about
+// the rest. A list has no such ceiling. `calendar` stays selection-only, and
+// the two compose — select a day there, list it here.
 function Agenda({
   className,
   events,
@@ -78,12 +61,12 @@ function Agenda({
     const rows = events
       .map((event) => ({ event, date: toDate(event.date) }))
       .filter(
-        (row): row is { event: AgendaEvent; date: Date } => row.date !== null,
+        (row): row is { event: AgendaEvent; date: Date } => row.date !== null
       )
       .sort(
         (a, b) =>
           a.date.getTime() - b.date.getTime() ||
-          (a.event.time ?? "").localeCompare(b.event.time ?? ""),
+          (a.event.time ?? "").localeCompare(b.event.time ?? "")
       )
 
     const out: { key: string; date: Date; items: AgendaEvent[] }[] = []
@@ -98,7 +81,7 @@ function Agenda({
 
   if (!groups.length) {
     return (
-      <div data-slot="agenda" className={cx("ds-agenda", className)} {...props}>
+      <div data-slot="agenda" className={cn("ds-agenda", className)} {...props}>
         <Empty>
           <EmptyHeader>
             <EmptyDescription>{emptyMessage}</EmptyDescription>
@@ -111,7 +94,7 @@ function Agenda({
   return (
     <div
       data-slot="agenda"
-      className={cx("ds-agenda ds-agenda-list", className)}
+      className={cn("ds-agenda ds-agenda-list", className)}
       {...props}
     >
       {groups.map((group) => (
@@ -135,10 +118,7 @@ function Agenda({
               className="ds-agenda-event"
             >
               <span className="ds-agenda-event-time">{event.time}</span>
-              <Status
-                tone={event.status ?? "neutral"}
-                className="ds-agenda-event-status"
-              >
+              <Status tone={event.status} className="ds-agenda-event-status">
                 <StatusIndicator />
               </Status>
               <div className="ds-agenda-event-body">

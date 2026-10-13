@@ -11,7 +11,7 @@
         binding silently gets an unstyled element.
 
      2. layer-purity — css/, tokens/, components/ and emails/ import nothing
-        external. This is what makes "zero-dependency CSS, tokens and web
+        external (css/tailwind.css, the opt-in Tailwind v4 entry, excepted). This is what makes "zero-dependency CSS, tokens and web
         components" a fact rather than an aspiration; it catches the first
         convenience import someone adds to a web component before a Keycloak
         build breaks.
@@ -226,6 +226,9 @@ for (const file of [
 ]) {
   const src = readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
   const where = relative(root, file);
+  // The Tailwind v4 entry is for apps that already build with Tailwind; it is
+  // never part of diametral.css.
+  if (file === join(root, "css", "tailwind.css")) continue;
   for (const [, spec] of src.matchAll(/@import\s+(?:url\(\s*)?["']([^"']+)["']/g)) {
     if (!isRelative(spec)) {
       fail("layer-purity", `${where}: @import "${spec}" — this layer imports nothing`);
@@ -249,6 +252,8 @@ for (const file of walk(join(root, "css"), [".css"])) {
   const src = readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
   for (const [, name] of src.matchAll(/@layer\s+([A-Za-z0-9_-]*)/g)) {
     if (file === ENTRY && name === "theme") continue; // the order statement
+    if (file === join(root, "css", "literals.css")) continue; // Tailwind's own output
+    if (file === join(root, "css", "tailwind.css") && name === "base") continue; // incoming's base rules
     if (name === "base" && file === RESET) continue;
     if (name === "ds-blocks" && file === BLOCKS_CSS) continue;
     if ((name === "components" || name === "utilities") && file.startsWith(COMPONENTS_DIR)) continue;

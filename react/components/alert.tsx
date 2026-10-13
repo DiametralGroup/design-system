@@ -1,17 +1,17 @@
 "use client"
 
 import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 import { XIcon } from "@phosphor-icons/react"
 
-import { cx } from "../lib/cx.js"
-import { variants } from "../lib/variants.js"
+import { cn } from "../lib/utils.js"
 import { IconButton } from "./icon-button.js"
 
 // The accent rail reads one variable, --tone-ink, rather than each axis
 // setting `after:bg-*` itself: two utilities of the same specificity would
 // otherwise resolve by stylesheet order, not by the order they appear in the
 // class string, so `variant` and `tone` would fight non-deterministically.
-const alertVariants = variants("ds-alert", {
+const alertVariants = cva("ds-alert", {
   variants: {
     variant: {
       default: "ds-alert--default",
@@ -35,20 +35,17 @@ const alertVariants = variants("ds-alert", {
   },
 })
 
-type AlertVariant = "default" | "destructive"
-type AlertTone = "neutral" | "info" | "success" | "warning" | "danger" | "critical"
-
 function Alert({
   className,
   variant,
   tone,
   ...props
-}: React.ComponentProps<"div"> & { variant?: AlertVariant; tone?: AlertTone }) {
+}: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
   return (
     <div
       data-slot="alert"
       role="alert"
-      className={alertVariants({ variant, tone, className })}
+      className={cn(alertVariants({ variant, tone }), className)}
       {...props}
     />
   )
@@ -58,7 +55,7 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-title"
-      className={cx("ds-alert-title", className)}
+      className={cn("ds-alert-title", className)}
       {...props}
     />
   )
@@ -71,7 +68,7 @@ function AlertDescription({
   return (
     <div
       data-slot="alert-description"
-      className={cx("ds-alert-description", className)}
+      className={cn("ds-alert-description", className)}
       {...props}
     />
   )
@@ -81,13 +78,13 @@ function AlertAction({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-action"
-      className={cx("ds-alert-action", className)}
+      className={cn("ds-alert-action", className)}
       {...props}
     />
   )
 }
 
-// The close affordance was missing. Deliberately stateless: Alert does not
+// The close affordance v2 was missing. Deliberately stateless: Alert does not
 // hide itself, because a dismissed alert usually has to stay dismissed, and
 // only the caller knows where that fact lives. Pass `onClick`.
 function AlertDismiss({
@@ -103,7 +100,7 @@ function AlertDismiss({
       label={label}
       variant="ghost"
       size="icon-xs"
-      className={cx("ds-alert-dismiss", className)}
+      className={cn("ds-alert-dismiss", className)}
       {...props}
     >
       <XIcon />

@@ -3,8 +3,8 @@
 import * as React from "react"
 import { ClockIcon } from "@phosphor-icons/react"
 
-import { cx } from "../lib/cx.js"
-import { useControllableValue } from "../hooks/useControllableValue.js"
+import { cn } from "../lib/utils.js"
+import { useControllableValue } from "../hooks/use-controllable-value.js"
 import { NumberField, NumberFieldInput } from "./number-field.js"
 import { Popover, PopoverContent, PopoverTrigger } from "./popover.js"
 
@@ -146,7 +146,7 @@ function TimeDial({
                 type="button"
                 aria-pressed={mark === (isHours ? value.hours : value.minutes)}
                 onClick={() => select(mark)}
-                className={cx(
+                className={cn(
                   markClassName,
                   inner ? innerMarkClassName : outerMarkClassName
                 )}
@@ -297,7 +297,7 @@ function TimePicker({
       <div
         data-slot="time-picker"
         data-disabled={disabled || undefined}
-        className={cx("ds-time-picker", className)}
+        className={cn("ds-time-picker", className)}
         {...props}
       >
         <NumberField

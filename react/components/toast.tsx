@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Toast as ToastPrimitive } from "@base-ui/react/toast"
 
-import { cx, type WithClassName } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 import { Button } from "./button.js"
 import { XIcon, CheckCircleIcon, InfoIcon, WarningIcon, XCircleIcon, SpinnerIcon } from "@phosphor-icons/react"
 
@@ -17,41 +17,41 @@ function ToastPortal({ ...props }: ToastPrimitive.Portal.Props) {
   return <ToastPrimitive.Portal data-slot="toast-portal" {...props} />
 }
 
-function ToastViewport({ className, ...props }: WithClassName<ToastPrimitive.Viewport.Props>) {
+function ToastViewport({ className, ...props }: ToastPrimitive.Viewport.Props) {
   return (
     <ToastPrimitive.Viewport
       data-slot="toast-viewport"
-      className={cx("ds-toast-viewport", className)}
+      className={cn("ds-toast-viewport", className)}
       {...props}
     />
   )
 }
 
-function Toast({ className, ...props }: WithClassName<ToastPrimitive.Root.Props>) {
+function Toast({ className, ...props }: ToastPrimitive.Root.Props) {
   return (
     <ToastPrimitive.Root
       data-slot="toast"
-      className={cx("ds-toast", className)}
+      className={cn("ds-toast", className)}
       {...props}
     />
   )
 }
 
-function ToastContent({ className, ...props }: WithClassName<ToastPrimitive.Content.Props>) {
+function ToastContent({ className, ...props }: ToastPrimitive.Content.Props) {
   return (
     <ToastPrimitive.Content
       data-slot="toast-content"
-      className={cx("ds-toast-content", className)}
+      className={cn("ds-toast-content", className)}
       {...props}
     />
   )
 }
 
-function ToastTitle({ className, ...props }: WithClassName<ToastPrimitive.Title.Props>) {
+function ToastTitle({ className, ...props }: ToastPrimitive.Title.Props) {
   return (
     <ToastPrimitive.Title
       data-slot="toast-title"
-      className={cx("ds-toast-title", className)}
+      className={cn("ds-toast-title", className)}
       {...props}
     />
   )
@@ -60,11 +60,11 @@ function ToastTitle({ className, ...props }: WithClassName<ToastPrimitive.Title.
 function ToastDescription({
   className,
   ...props
-}: WithClassName<ToastPrimitive.Description.Props>) {
+}: ToastPrimitive.Description.Props) {
   return (
     <ToastPrimitive.Description
       data-slot="toast-description"
-      className={cx("ds-toast-description", className)}
+      className={cn("ds-toast-description", className)}
       {...props}
     />
   )
@@ -74,12 +74,12 @@ function ToastAction({
   className,
   render = <Button variant="outline" size="sm" />,
   ...props
-}: WithClassName<ToastPrimitive.Action.Props>) {
+}: ToastPrimitive.Action.Props) {
   return (
     <ToastPrimitive.Action
       data-slot="toast-action"
       render={render}
-      className={cx("ds-toast-action", className)}
+      className={cn("ds-toast-action", className)}
       {...props}
     />
   )
@@ -90,13 +90,13 @@ function ToastClose({
   children,
   render = <Button variant="ghost" size="icon-sm" />,
   ...props
-}: WithClassName<ToastPrimitive.Close.Props>) {
+}: ToastPrimitive.Close.Props) {
   return (
     <ToastPrimitive.Close
       data-slot="toast-close"
       aria-label="Close toast"
       render={render}
-      className={cx("ds-toast-close", className)}
+      className={cn("ds-toast-close", className)}
       {...props}
     >
       {children ?? (

@@ -13,7 +13,7 @@ export default function SpeedDialBasic() {
       <SpeedDial
         label="Create"
         icon={<PlusIcon />}
-        className="ds-speed-dial--docked"
+        className="absolute end-4 bottom-4"
       >
         <SpeedDialAction icon={<FileTextIcon />}>New invoice</SpeedDialAction>
         <SpeedDialAction icon={<UserPlusIcon />}>New client</SpeedDialAction>

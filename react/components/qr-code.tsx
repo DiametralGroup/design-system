@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { encodeQr, type QrErrorCorrectionLevel } from "../lib/qr-encode.js"
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 
 // A QR code needs a light quiet zone and dark modules to scan reliably
 // regardless of the surrounding theme, so the fill colors below are fixed
@@ -35,7 +35,7 @@ function QrCode({
         data-slot="qr-code"
         role="img"
         aria-label="QR code unavailable"
-        className={cx("ds-qr-code-error", className)}
+        className={cn("ds-qr-code-error", className)}
         style={{ width: size, height: size }}
       >
         {error instanceof Error ? error.message : "QR encoding failed"}
@@ -62,7 +62,7 @@ function QrCode({
       width={size}
       height={size}
       shapeRendering="crispEdges"
-      className={cx("ds-qr-code", className)}
+      className={cn("ds-qr-code", className)}
       {...props}
     >
       <rect width={dim} height={dim} fill="#fff" />

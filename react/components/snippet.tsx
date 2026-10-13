@@ -3,16 +3,11 @@
 import * as React from "react"
 
 import { CodeBlockCopyButton } from "./code-block.js"
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 
-/* Snippet — a single-line copyable value: an API key, a CLI command, an ID.
-   Built on the copy affordance `.ds-code` already ships rather than
-   reimplementing the clipboard fallback.
-
-   `CodeBlockCopyButton` swapped in batch 13 (#46): it no longer takes
-   `children`/`label`, it always renders its own check/copy `Icon` and manages
-   the "copied" state itself. Light surface, so `.ds-snippet-copy-button`
-   overrides the dark-panel colours it wears there. */
+// A single-line copyable value — an API key, a CLI command — built on
+// CodeBlock's copy affordance rather than reimplementing it. Light surface,
+// so CodeBlockCopyButton's dark-panel colors are overridden via className.
 function Snippet({
   className,
   value,
@@ -23,7 +18,7 @@ function Snippet({
   children?: React.ReactNode
 }) {
   return (
-    <div data-slot="snippet" className={cx("ds-snippet", className)} {...props}>
+    <div data-slot="snippet" className={cn("ds-snippet", className)} {...props}>
       <code data-slot="snippet-code" className="ds-snippet-code">
         {children ?? value}
       </code>

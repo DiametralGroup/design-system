@@ -3,16 +3,17 @@
 import * as React from "react"
 import { Toggle as TogglePrimitive } from "@base-ui/react/toggle"
 import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui/react/toggle-group"
+import { type VariantProps } from "class-variance-authority"
 
-import { cx, type WithClassName } from "../lib/cx.js"
-import { toggleVariants, type ToggleVariant, type ToggleSize } from "./toggle.js"
+import { cn } from "../lib/utils.js"
+import { toggleVariants } from "./toggle.js"
 
-const ToggleGroupContext = React.createContext<{
-  variant?: ToggleVariant
-  size?: ToggleSize
-  spacing?: number
-  orientation?: "horizontal" | "vertical"
-}>({
+const ToggleGroupContext = React.createContext<
+  VariantProps<typeof toggleVariants> & {
+    spacing?: number
+    orientation?: "horizontal" | "vertical"
+  }
+>({
   size: "default",
   variant: "default",
   spacing: 2,
@@ -27,12 +28,11 @@ function ToggleGroup({
   orientation = "horizontal",
   children,
   ...props
-}: WithClassName<ToggleGroupPrimitive.Props> & {
-  variant?: ToggleVariant
-  size?: ToggleSize
-  spacing?: number
-  orientation?: "horizontal" | "vertical"
-}) {
+}: ToggleGroupPrimitive.Props &
+  VariantProps<typeof toggleVariants> & {
+    spacing?: number
+    orientation?: "horizontal" | "vertical"
+  }) {
   return (
     <ToggleGroupPrimitive
       data-slot="toggle-group"
@@ -41,7 +41,7 @@ function ToggleGroup({
       data-spacing={spacing}
       data-orientation={orientation}
       style={{ "--gap": spacing } as React.CSSProperties}
-      className={cx("ds-toggle-group", className)}
+      className={cn("ds-toggle-group", className)}
       {...props}
     >
       <ToggleGroupContext.Provider
@@ -59,7 +59,7 @@ function ToggleGroupItem({
   variant = "default",
   size = "default",
   ...props
-}: WithClassName<TogglePrimitive.Props> & { variant?: ToggleVariant; size?: ToggleSize }) {
+}: TogglePrimitive.Props & VariantProps<typeof toggleVariants>) {
   const context = React.useContext(ToggleGroupContext)
 
   return (
@@ -68,7 +68,7 @@ function ToggleGroupItem({
       data-variant={context.variant || variant}
       data-size={context.size || size}
       data-spacing={context.spacing}
-      className={cx(
+      className={cn(
         "ds-toggle-group-item",
         toggleVariants({
           variant: context.variant || variant,

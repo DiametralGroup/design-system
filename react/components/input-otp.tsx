@@ -3,7 +3,7 @@
 import * as React from "react"
 import { OTPInput, OTPInputContext } from "input-otp"
 
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 import { MinusIcon } from "@phosphor-icons/react"
 
 function InputOTP({
@@ -16,9 +16,9 @@ function InputOTP({
   return (
     <OTPInput
       data-slot="input-otp"
-      containerClassName={cx("cx-input-otp ds-input-otp", containerClassName)}
+      containerClassName={cn("cn-input-otp ds-input-otp", containerClassName)}
       spellCheck={false}
-      className={cx("ds-input-otp-input", className)}
+      className={cn("ds-input-otp-input", className)}
       {...props}
     />
   )
@@ -28,7 +28,7 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="input-otp-group"
-      className={cx("ds-input-otp-group", className)}
+      className={cn("ds-input-otp-group", className)}
       {...props}
     />
   )
@@ -48,7 +48,7 @@ function InputOTPSlot({
     <div
       data-slot="input-otp-slot"
       data-active={isActive}
-      className={cx("ds-input-otp-slot", className)}
+      className={cn("ds-input-otp-slot", className)}
       {...props}
     >
       {char}

@@ -49,7 +49,7 @@ export interface TabItem {
   sublabel?: ReactNode;
   content?: ReactNode;
 }
-export interface TabsProps {
+export interface ItemTabsProps {
   items: TabItem[];
   value?: string;
   defaultValue?: string;
@@ -114,9 +114,10 @@ export function SectionHeading({ as = "h3", className, children, ...rest }: Sect
   return h(as, { className: cx("ds-section-heading", className), ...rest }, children);
 }
 
-/* ---- Tabs (controlled or uncontrolled) ----------------------------------
-   items: [{ id, label, sublabel?, content? }] */
-export function Tabs({ items = [], value, defaultValue, onChange, className }: TabsProps) {
+/* ---- ItemTabs (controlled or uncontrolled) ------------------------------
+   items: [{ id, label, sublabel?, content? }]. 0.x's `Tabs`, renamed in 5.0 so
+   the barrel's `Tabs` is incoming's composable one (components/tabs.tsx). */
+export function ItemTabs({ items = [], value, defaultValue, onChange, className }: ItemTabsProps) {
   const first = items[0] && items[0].id;
   const [internal, setInternal] = React.useState(defaultValue ?? first);
   const active = value !== undefined ? value : internal;
@@ -244,7 +245,13 @@ export * from "./hooks/useForm.js";
 export * from "./hooks/useResource.js";
 export * from "./hooks/restLoadPage.js";
 export * from "./components/icon.js";
-export * from "./components/icons.js";
+/* The Phosphor geometry map <ds-icon> and static markup read. Incoming's
+   icon.tsx owns the names `icons`/`IconName`, so the map is re-exported as
+   `iconGlyphs`/`IconGlyphName`. */
+export { icons as iconGlyphs, type IconName as IconGlyphName } from "./components/icons.js";
+export * from "./components/tabs.js";
+export { cn } from "./lib/utils.js";
+export { useIsMobile } from "./hooks/use-mobile.js";
 
 /* ---- Batch 1 — net-new overlays and menus (1.0.0-beta.1) ----------------
    Absorbed from @diametral/ui. Behaviour is Base UI (ADR 0001), so these are

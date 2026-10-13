@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 import { UploadSimpleIcon } from "@phosphor-icons/react"
 
 function FileUpload({
@@ -48,7 +48,7 @@ function FileUpload({
         setDragging(false)
         emit(event.dataTransfer.files)
       }}
-      className={cx(
+      className={cn(
         "ds-file-upload flex-col justify-center gap-2 px-6 py-10 text-center",
         className
       )}
@@ -81,7 +81,7 @@ function FileUploadIcon({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="file-upload-icon"
-      className={cx("ds-file-upload-icon", className)}
+      className={cn("ds-file-upload-icon", className)}
       {...props}
     >
       <UploadSimpleIcon />
@@ -93,7 +93,7 @@ function FileUploadTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="file-upload-title"
-      className={cx("ds-file-upload-title", className)}
+      className={cn("ds-file-upload-title", className)}
       {...props}
     />
   )
@@ -106,7 +106,7 @@ function FileUploadDescription({
   return (
     <p
       data-slot="file-upload-description"
-      className={cx("ds-file-upload-description", className)}
+      className={cn("ds-file-upload-description", className)}
       {...props}
     />
   )

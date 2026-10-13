@@ -1,0 +1,11 @@
+/* Input for `npm run build:literals` → css/literals.css.
+   The React components keep incoming's literal Tailwind classes (`w-56`,
+   `sr-only`, `data-horizontal:h-px`, …). An app with Tailwind generates them
+   itself through css/tailwind.css; css/literals.css carries them precompiled
+   for apps without Tailwind, the way @diametral/ui's styles.css does. */
+@layer theme, base, ds-blocks, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@import "../css/tailwind/shadcn.css";
+@import "../css/tailwind/theme.css";
+@source "../react/components";
