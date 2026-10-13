@@ -97,7 +97,9 @@
    additive variants still write. Bare rules in @layer components, qualified ones in
    @layer utilities, the same split incoming uses.
    ============================================================================ */
-@layer components {
-  .ds-carousel-item--half  { flex-basis: 50%; }
-  .ds-carousel-item--third { flex-basis: 33.333333%; }
+@layer utilities {
+  /* Qualified by .ds-carousel-item so the modifiers outrank the `basis-full`
+  utility incoming's CarouselItem carries on its own className. */
+  .ds-carousel-item.ds-carousel-item--half  { flex-basis: 50%; }
+  .ds-carousel-item.ds-carousel-item--third { flex-basis: 33.333333%; }
 }

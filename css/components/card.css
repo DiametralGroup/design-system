@@ -170,6 +170,20 @@
   }
 }
 @layer utilities {
+  /* fix-forward: the 0.x card root — Streamlit (docs/streamlit.md), blocks and
+  Keycloak write <div class="ds-card"> by hand with no data-slot (incoming's
+  Card always has one). The sync dropped 0.x's root rule as a restyle, leaving
+  a parted card unframed and a bare one an incoming flex column that stacks
+  its inline content (corrections.md). Not a column, deliberately. */
+  .ds-card:not([data-slot]) {
+    display: block;
+    gap: normal;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--ds-surface);
+    color: var(--ds-ink);
+    border: 1px solid var(--ds-rule);
+  }
   .ds-card[data-size="sm"] > [class*="ds-card__"] { --ds-card-pad-x: 14px; --ds-card-pad-y: 10px; }
   .ds-card__media img,
   img.ds-card__media {

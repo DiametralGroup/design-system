@@ -65,6 +65,12 @@ pages in both themes (≤ 0.1 % of pixels, sub-pixel text only).
 
 ### Fixed
 
+- `ColorPicker`'s swatch grid is one tab stop with arrow keys (roving tabindex; the stop is the
+  selected swatch, arrows wrap and carry the selection), a DiametralGroup addition.
+- The 0.x `.ds-card` / `.ds-panel` root (hand-written HTML, `<ds-panel>`), progress's
+  indeterminate slide for `value={null}`, and the `.ds-toc--static` / `.ds-carousel-item--half`
+  / `--third` modifiers, which the CSS regeneration had dropped or out-layered
+  (`docs/absorption/corrections.md`).
 - Unitless line-height ratios, sidebar `flex-basis: 0%`, date picker triggers without
   `!important`, calendar caption and stat card label line-heights — incoming's last fixes
   (`9356e63`, `ff9f358`, `43e62cf`).

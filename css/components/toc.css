@@ -74,22 +74,23 @@
    additive variants still write. Bare rules in @layer components, qualified ones in
    @layer utilities, the same split incoming uses.
    ============================================================================ */
-@layer components {
-  /* For a Toc rendered inline in prose or inside a scrolling demo frame, where
-  sticking to the viewport is wrong. */
-  .ds-toc--static {
-    position: static;
-  }
-  .ds-toc-label--tight {
+@layer utilities {
+  .ds-toc-label.ds-toc-label--tight {
     margin-bottom: var(--ds-space-2);
   }
-  .ds-toc-list--tight {
+  .ds-toc-list.ds-toc-list--tight {
     gap: 2px;
   }
   /* The reader's current section. Was `border-foreground text-foreground` passed
   from the playground as a className override. */
-  .ds-toc-link--current {
+  .ds-toc-link.ds-toc-link--current {
     border-inline-start-color: var(--ds-ink);
     color: var(--ds-ink);
+  }
+  /* For a Toc rendered inline in prose or inside a scrolling demo frame, where
+  sticking to the viewport is wrong. Qualified by .ds-toc so it outranks the
+  `sticky` utility incoming's Toc carries on its own className. */
+  .ds-toc.ds-toc--static {
+    position: static;
   }
 }

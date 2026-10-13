@@ -650,7 +650,7 @@ export const COMPONENTS: ComponentDoc[] = [
         demo: "label/disabled",
         title: "Disabled controls",
         description:
-          'Two mechanisms, because the sibling selector only reaches a label that comes *after* the control: the first row fades from `:disabled ~ .ds-label`, and the second — label first — fades from an ancestor carrying `data-disabled="true"`, which is what a whole disabled field group wants.',
+          'Two mechanisms, because the sibling selector only reaches a label that comes *after* the control: the first row fades from `.peer:disabled ~ .ds-label` (the control carries `peer`), and the second — label first — fades from a `group` ancestor carrying `data-disabled="true"`, which is what a whole disabled field group wants.',
       },
     ],
   },

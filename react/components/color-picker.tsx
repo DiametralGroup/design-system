@@ -73,6 +73,35 @@ function ColorPicker({
 
   const selected = normHex(current)
 
+  /* DiametralGroup addition: the swatch grid is one tab stop with arrow keys
+     (a roving tabindex, as a radio group moves), so the hex field is one Tab
+     away rather than one per swatch. The stop is the selected swatch, or the
+     first when the colour is not a swatch; arrows wrap and carry the
+     selection with them. */
+  const swatchRefs = React.useRef<(HTMLButtonElement | null)[]>([])
+  const selectedIndex = swatches.findIndex((swatch) => normHex(swatch) === selected)
+  const stopIndex = selectedIndex === -1 ? 0 : selectedIndex
+  const onSwatchKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    const last = swatches.length - 1
+    const next =
+      event.key === "ArrowRight" || event.key === "ArrowDown"
+        ? index === last ? 0 : index + 1
+        : event.key === "ArrowLeft" || event.key === "ArrowUp"
+          ? index === 0 ? last : index - 1
+          : event.key === "Home"
+            ? 0
+            : event.key === "End"
+              ? last
+              : null
+    if (next === null) return
+    event.preventDefault()
+    setCurrent(normHex(swatches[next]))
+    swatchRefs.current[next]?.focus()
+  }
+
   return (
     <div
       data-slot="color-picker"
@@ -89,20 +118,25 @@ function ColorPicker({
         aria-label="Swatches"
         className="ds-color-picker-swatches"
       >
-        {swatches.map((swatch) => {
+        {swatches.map((swatch, index) => {
           const norm = normHex(swatch)
           const isSelected = norm === selected
           return (
             <button
               key={swatch}
+              ref={(node) => {
+                swatchRefs.current[index] = node
+              }}
               type="button"
               data-slot="color-picker-swatch"
               disabled={disabled}
               aria-pressed={isSelected}
               aria-label={swatch}
               title={swatch}
+              tabIndex={index === stopIndex ? 0 : -1}
               style={{ background: swatch }}
               onClick={() => setCurrent(norm)}
+              onKeyDown={(event) => onSwatchKeyDown(event, index)}
               className="ds-color-picker-swatch"
             />
           )

@@ -203,22 +203,7 @@ test.describe("breadcrumb's separator is not part of a name", () => {
   })
 })
 
-/* -- timeline: the resolved dedupe exception ------------------------------ */
-test.describe("timeline row spacing is a custom property", () => {
-  test("--ds-timeline-gap retunes an item, where the source used a utility", async ({
-    page,
-  }) => {
-    await go(page, "timeline")
-    const { before, after } = await page.evaluate(() => {
-      const item = document.querySelector(
-        '[data-slot="timeline-item"]'
-      ) as HTMLElement
-      const before = getComputedStyle(item).paddingBottom
-      item.style.setProperty("--ds-timeline-gap", "3px")
-      const after = getComputedStyle(item).paddingBottom
-      return { before, after }
-    })
-    expect(before).not.toBe(after)
-    expect(after).toBe("3px")
-  })
-})
+/* -- timeline ------------------------------------------------------------- */
+// "--ds-timeline-gap retunes an item" was deleted: superseded by the 2026-10
+// incoming sync, where row spacing is incoming's utility again and the custom
+// property no longer exists.

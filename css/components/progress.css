@@ -94,4 +94,23 @@
   @media (prefers-reduced-motion: reduce) {
     .ds-progress--indeterminate .ds-progress-indicator { animation-duration: 2.4s; }
   }
+  /* fix-forward: incoming draws nothing for value={null}, which Base UI marks
+  data-indeterminate, so the React binding showed a blank track. The same
+  slide as the 0.x modifier above (corrections.md). */
+  .ds-progress-track:has(> [data-indeterminate]) {
+    position: relative;
+    overflow: hidden;
+  }
+  /* fix-forward: the indicator half of the rule above. Its reduced-motion
+  duration is the custom property, set on :root below. */
+  .ds-progress-indicator[data-indeterminate] {
+    position: absolute;
+    inset-inline-start: -40%;
+    width: 40%;
+    transition: none;
+    animation: ds-progress-slide var(--ds-progress-slide-duration, 1.1s) ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :root { --ds-progress-slide-duration: 2.4s; }
+  }
 }

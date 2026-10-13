@@ -7,6 +7,11 @@
 // back — so these assertions are what says the re-wiring is still in place and
 // has not quietly reverted to a source symbol or a Tailwind literal.
 //
+// The 2026-10 incoming sync reversed these re-wirings on purpose: incoming is
+// the model, so its own composition is back (docs/absorption/direction.md).
+// Where a test pinned a re-wiring, it now pins the same user-facing intent
+// against incoming's markup; its comment says what it was.
+//
 // The last block guards the charte fix applied on the way in: the source's
 // popups carried drop shadows, and this system separates by rule.
 
@@ -14,25 +19,32 @@ import { expect, test } from "@playwright/test"
 
 import { routePath, settle } from "./harness"
 
-test.describe("menubar re-wired onto the .ds-menu vocabulary", () => {
+test.describe("menubar composes DropdownMenu", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(routePath("/docs/menubar"))
     await settle(page)
   })
 
-  test("an open menu is a .ds-menu whose rows are .ds-menu__item", async ({
+  // Was "an open menu is a .ds-menu whose rows are .ds-menu__item": the
+  // 2026-10 incoming sync composes Menubar on incoming's DropdownMenu, so the
+  // popup is DropdownMenu's own surface rather than the 0.x .ds-menu grammar.
+  // What a user needs is unchanged: a painted menu whose rows are menu items.
+  test("an open menu is a painted DropdownMenu surface of menu items", async ({
     page,
   }) => {
     await page.locator(".ds-menubar-trigger").first().click()
 
-    const popup = page.locator('[data-slot="menubar-content"]')
-    await expect(popup.first()).toBeVisible()
-    // The source's own dropdown-menu base never lands, so a menubar popup that
-    // is not a .ds-menu is an unstyled popup.
-    await expect(popup.first()).toHaveClass(/ds-menu\b/)
+    const popup = page.locator('[data-slot="menubar-content"]').first()
+    await expect(popup).toBeVisible()
+    await expect(popup).toHaveAttribute("role", "menu")
+    await expect(popup).toHaveClass(/ds-dropdown-menu-content\b/)
+    // An unstyled popup is a transparent one.
     expect(
-      await page.locator('[data-slot="menubar-item"]').first().getAttribute("class"),
-    ).toContain("ds-menu__item")
+      await popup.evaluate((el) => getComputedStyle(el).backgroundColor),
+    ).not.toBe("rgba(0, 0, 0, 0)")
+    const item = popup.locator('[data-slot="menubar-item"]').first()
+    await expect(item).toHaveAttribute("role", "menuitem")
+    await expect(item).toHaveClass(/ds-dropdown-menu-item\b/)
   })
 
   test("the bar is one tab stop and arrow keys travel between menus", async ({
@@ -50,32 +62,48 @@ test.describe("menubar re-wired onto the .ds-menu vocabulary", () => {
   })
 })
 
-test.describe("speed-dial re-wired onto IconButton", () => {
+test.describe("speed-dial's trigger", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(routePath("/docs/speed-dial"))
     await settle(page)
   })
 
-  test("the trigger is an icon button carrying its accessible name", async ({
+  // Was "re-wired onto IconButton" (`.ds-button--icon` + `.ds-speed-dial`):
+  // the 2026-10 incoming sync renders incoming's Button at size icon-lg.
+  test("the trigger is a square icon button carrying its accessible name", async ({
     page,
   }) => {
     const trigger = page.locator('[data-slot="speed-dial"]').first()
-    await expect(trigger).toHaveClass(/ds-button/)
-    await expect(trigger).toHaveClass(/ds-button--icon/)
-    await expect(trigger).toHaveClass(/ds-speed-dial/)
-    // `label` reaches IconButton's aria-label; a dial with no visible text and
+    await expect(trigger).toHaveClass(/\bds-button\b/)
+    await expect(trigger).toHaveClass(/ds-button--size-icon/)
+    const box = await trigger.boundingBox()
+    expect(box!.width).toBeGreaterThan(0)
+    expect(box!.width).toBeCloseTo(box!.height, 0)
+    // `label` reaches the trigger's aria-label; a dial with no visible text and
     // no name is unreachable by anything but a pointer.
     expect(await trigger.getAttribute("aria-label")).toBeTruthy()
   })
 
-  test("the docked demos position by class, not by a Tailwind literal", async ({
+  // Was "the docked demos position by class, not by a Tailwind literal"
+  // (`.ds-speed-dial--docked`): incoming docks with `absolute end-4 bottom-4`
+  // literals on purpose. The intent kept is the docking itself.
+  test("a docked dial sits inside its region, not fixed to the viewport", async ({
     page,
   }) => {
-    const docked = page.locator(".ds-speed-dial--docked")
-    expect(await docked.count()).toBeGreaterThan(0)
-    // The resolved dedupe exception: the source kept `absolute end-4 bottom-4`
-    // literal so tailwind-merge could dedupe it. There is no tailwind-merge.
-    await expect(docked.first()).toHaveCSS("position", "absolute")
+    const docked = await page
+      .locator('[data-slot="speed-dial"]')
+      .evaluateAll((els) =>
+        els.map((el) => ({
+          position: getComputedStyle(el).position,
+          parent: getComputedStyle(el.parentElement!).position,
+        })),
+      )
+    expect(docked.length).toBeGreaterThan(0)
+    expect(docked.filter((d) => d.position === "absolute").length).toBeGreaterThan(0)
+    // Absolute against a positioned region, so it docks to that region.
+    for (const d of docked.filter((d) => d.position === "absolute")) {
+      expect(d.parent).not.toBe("static")
+    }
   })
 
   test("opening swaps the glyph and closes on Escape", async ({ page }) => {
@@ -95,7 +123,7 @@ test.describe("speed-dial re-wired onto IconButton", () => {
   })
 })
 
-test.describe("autocomplete re-wired onto InputGroup", () => {
+test.describe("autocomplete composes InputGroup", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(routePath("/docs/autocomplete"))
     await settle(page)
@@ -107,28 +135,35 @@ test.describe("autocomplete re-wired onto InputGroup", () => {
     await expect(group.locator("input.ds-input").first()).toBeVisible()
   })
 
-  test("the clear button is a button in the group's addon slot", async ({
+  // Was "the clear button is a button in the group's addon slot", keyed to
+  // the 0.x `.ds-input-group__addon` and `.ds-button--icon`: incoming's
+  // InputGroup renders `data-slot="input-group-addon"` and its Button sizes
+  // as `ds-button--size-icon-*`. The behaviour is the same.
+  test("the clear button is a named button in the group's addon slot", async ({
     page,
   }) => {
-    // The incumbent InputGroup takes its addon as the `after` prop rather than
-    // as a child component, which is the shape of this re-wiring. Scoped to one
-    // group: the playground's field has no `showClear` and so no addon at all,
-    // so a first()/first() pair would read the input and the addon off
-    // different fields and pass on an addon that renders nothing.
+    // Scoped to one group: the playground's field has no `showClear` and so
+    // no addon at all.
     const group = page
-      .locator(".ds-input-group")
-      .filter({ has: page.locator(".ds-input-group__addon") })
+      .locator('[data-slot="input-group"]')
+      .filter({ has: page.locator('[data-slot="input-group-addon"]') })
       .first()
-    const input = group.locator("input.ds-input")
-    const clear = group.locator('button[data-slot="autocomplete-clear"]')
+    const input = group.locator('[data-slot="input-group-control"]')
+    const clear = group.locator(
+      '[data-slot="input-group-addon"] button[data-slot="autocomplete-clear"]',
+    )
 
     // Base UI unmounts Clear while there is nothing to clear.
     await expect(clear).toHaveCount(0)
 
     await input.fill("co")
     await expect(clear).toBeVisible()
-    // It rides IconButton, so it wears the incumbent button's classes.
-    await expect(clear).toHaveClass(/ds-button--icon/)
+    // Incoming's InputGroupButton carries its size as data-size; icon-xs is
+    // a square, icon-only button, so the aria-label is its whole name.
+    await expect(clear).toHaveAttribute("data-size", "icon-xs")
+    const box = await clear.boundingBox()
+    expect(box!.width).toBeCloseTo(box!.height, 0)
+    await expect(clear).toHaveAttribute("aria-label", "Clear")
 
     await clear.click()
     expect(await input.inputValue()).toBe("")

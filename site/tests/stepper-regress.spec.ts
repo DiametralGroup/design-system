@@ -3,13 +3,12 @@
 // collapsed to nothing, then the steps refused to give and spilled over the
 // props panel beside them.
 //
-// Rewritten in 1.0.0-beta.6, when the React binding was replaced. The
-// requirement is unchanged; the mechanism is not. `stepper.css` is a
-// cross-boundary pin — `Wizard` renders the whole .ds-stepper__step / __marker /
-// __label block and does not move in this migration — so the absorbed `Stepper`
-// renders 0.11's classes, and the connector is a `::after` on the step rather
-// than a `<StepperSeparator>` element. A pseudo-element cannot be measured with
-// getBoundingClientRect, so it is read out of getComputedStyle instead.
+// Rewritten in 1.0.0-beta.6, and again for the 2026-10 incoming sync: Stepper
+// and Wizard now render incoming's markup — `stepper-item`s with a
+// `stepper-indicator`, real `stepper-separator` elements for the connectors,
+// and a rail that scrolls (overflow-x: auto) instead of shrinking the steps.
+// The requirements are unchanged: nothing spills over the neighbour, the
+// connectors stay drawn, and every step stays reachable.
 
 import { expect, test } from "@playwright/test"
 
@@ -39,76 +38,77 @@ test.describe("horizontal stepper in a narrow rail", () => {
 
   test("connectors stay visible when the row is squeezed", async ({ page }) => {
     const connectors = await page.evaluate((STEPPER) => {
-      // Per rail, not across the page: each stepper's own last step draws no
-      // connector, because there is nothing after it to reach.
       return [...document.querySelectorAll(STEPPER)].flatMap((rail) =>
-        [...rail.querySelectorAll(".ds-stepper__step")]
-          .slice(0, -1)
-          .map((step) => {
-            const after = getComputedStyle(step, "::after")
+        [...rail.querySelectorAll('[data-slot="stepper-separator"]')].map(
+          (sep) => {
+            const style = getComputedStyle(sep)
+            const box = sep.getBoundingClientRect()
             return {
-              drawn: after.content !== "none",
-              width: parseFloat(after.width) || 0,
-              painted: after.backgroundColor !== "rgba(0, 0, 0, 0)",
+              width: box.width,
+              height: box.height,
+              painted:
+                style.backgroundColor !== "rgba(0, 0, 0, 0)" ||
+                parseFloat(style.borderTopWidth) > 0,
             }
-          })
+          }
+        )
       )
     }, STEPPER)
 
     expect(connectors.length).toBeGreaterThan(0)
-    expect(connectors.every((c) => c.drawn)).toBe(true)
     expect(connectors.every((c) => c.painted)).toBe(true)
     expect(Math.min(...connectors.map((c) => c.width))).toBeGreaterThan(0)
+    expect(Math.min(...connectors.map((c) => c.height))).toBeGreaterThan(0)
   })
 
-  test("the rail is not a tab stop it has no content to justify", async ({
-    page,
-  }) => {
-    // The source made it one, against axe's scrollable-region-focusable. The
-    // held stylesheet shrinks the row rather than scrolling it, so the stop
-    // would have led nowhere.
-    const tabIndexes = await page.evaluate(
+  // Was "the rail is not a tab stop it has no content to justify": the 0.x
+  // stylesheet shrank the row, so a stop led nowhere. Incoming's rail scrolls
+  // instead, and a scrolling region has to be keyboard-reachable (axe
+  // scrollable-region-focusable) — so the requirement turns around.
+  test("a rail that scrolls is reachable by keyboard", async ({ page }) => {
+    const rails = await page.evaluate(
       (STEPPER) =>
-        [...document.querySelectorAll(STEPPER)].map((s) =>
-          s.getAttribute("tabindex")
-        ),
+        [...document.querySelectorAll(STEPPER)].map((s) => ({
+          scrolls:
+            s.scrollWidth > s.clientWidth &&
+            getComputedStyle(s).overflowX !== "visible",
+          tabIndex: (s as HTMLElement).tabIndex,
+        })),
       STEPPER
     )
-    expect(tabIndexes.every((t) => t === null)).toBe(true)
+    const scrolling = rails.filter((r) => r.scrolls)
+    expect(scrolling.length, "the narrow rail makes one stepper scroll").toBeGreaterThan(0)
+    expect(scrolling.every((r) => r.tabIndex >= 0)).toBe(true)
   })
 })
 
-// The cross-boundary pin, verified from the other side: whoever moves the
-// React must confirm the held component still renders. This is a gate
-// precondition for batch 6, not an afterthought.
-test.describe("Wizard still renders the stepper block it pins", () => {
-  test("the wizard's own steps carry the 0.11 grammar and paint", async ({
+// Was "Wizard still renders the stepper block it pins" (the 0.11
+// `.ds-stepper__step` grammar): Wizard composes incoming's Stepper now. What
+// stays pinned is that its steps render and the current one is told apart.
+test.describe("Wizard renders its steps", () => {
+  test("the wizard's steps render and the current one is distinguished", async ({
     page,
   }) => {
     await page.goto(routePath("/docs/wizard"))
     await settle(page)
 
-    const steps = page.locator(".ds-wizard .ds-stepper .ds-stepper__step")
+    const wizard = page.locator('[data-slot="wizard"]').first()
+    const steps = wizard.locator('[data-slot="stepper-item"]')
     await expect(steps.first()).toBeVisible()
     expect(await steps.count()).toBeGreaterThan(1)
-
-    const markers = page.locator(
-      ".ds-wizard .ds-stepper .ds-stepper__step .ds-stepper__marker"
+    expect(await wizard.locator('[data-slot="stepper-indicator"]').count()).toBe(
+      await steps.count()
     )
-    expect(await markers.count()).toBe(await steps.count())
 
-    // The active step's marker takes the accent border — the one rule that
-    // would silently stop applying if the class grammar had been renamed.
-    const active = page.locator(".ds-wizard .ds-stepper__step.is-active").first()
-    await expect(active).toBeVisible()
-    const borderColor = await active
-      .locator(".ds-stepper__marker")
-      .evaluate((el) => getComputedStyle(el).borderTopColor)
-    const plain = await page
-      .locator(".ds-wizard .ds-stepper__step:not(.is-active):not(.is-complete)")
+    const active = wizard.locator('[data-slot="stepper-item"][aria-current="step"]')
+    await expect(active).toHaveCount(1)
+    const marker = (loc: typeof active) =>
+      loc
+        .locator('[data-slot="stepper-indicator"]')
+        .evaluate((el) => getComputedStyle(el).borderTopColor)
+    const plain = wizard
+      .locator('[data-slot="stepper-item"][data-state="inactive"]')
       .first()
-      .locator(".ds-stepper__marker")
-      .evaluate((el) => getComputedStyle(el).borderTopColor)
-    expect(borderColor).not.toBe(plain)
+    expect(await marker(active)).not.toBe(await marker(plain))
   })
 })

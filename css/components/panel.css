@@ -135,4 +135,18 @@
   belongs to the header, or the row and its rule drift apart. */
   .ds-panel__header > .ds-panel__title { margin-bottom: 0; }
   .ds-panel__row:last-child { border-bottom: none; }
+  /* fix-forward: the 0.x panel root — <ds-panel> and hand-written HTML, which
+  carry no data-slot (incoming's Panel always does). The sync dropped 0.x's
+  root rule as a restyle, leaving a titled panel unpadded and unfilled and a
+  bare one an incoming flex column with no inline padding (corrections.md). */
+  .ds-panel:not([data-slot]) {
+    display: block;
+    gap: normal;
+    border: 0;
+    background: var(--ds-bg-alt);
+    padding: 24px;
+  }
+  /* fix-forward: 0.x's size axis on the same root. */
+  .ds-panel:not([data-slot])[data-size="sm"] { padding: 16px; }
+  .ds-panel.ds-panel--rows:not([data-slot]) { padding-bottom: 12px; }
 }
