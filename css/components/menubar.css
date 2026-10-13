@@ -1,112 +1,158 @@
-/* Menubar — .ds-menubar (a horizontal bar of menus)
-   The bar and its triggers are net-new. Everything inside a menu rides the
-   landed dropdown-menu's own vocabulary — .ds-dropdown-menu-content,
-   .ds-dropdown-menu-item, .ds-dropdown-menu-checkbox-item/-radio-item,
-   .ds-dropdown-menu-label, .ds-dropdown-menu-separator, .ds-dropdown-menu-
-   sub-trigger (#52) — so only the rows that vocabulary has no shape for are
-   defined here. */
+/* menubar.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/menubar.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-.ds-menubar {
-  display: flex;
-  height: 2.5rem;
-  align-items: center;
-  border-radius: 0;
-  border: 1px solid var(--ds-rule);
-  padding: 0.25rem;
-}
+@layer components {
+  .ds-menubar {
+    display: flex;
+    height: 2.5rem;
+    align-items: center;
+    border-radius: 0;
+    border: 1px solid var(--ds-rule);
+    padding: 0.25rem;
+  }
 
-.ds-menubar-trigger {
-  display: flex;
-  align-items: center;
-  border-radius: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-  padding-inline: 0.5rem;
-  padding-block: 0.1875rem;
-  font-family: var(--ds-font-sans);
-  font-size: var(--ds-text-sm);
-  font-weight: 500;
-  color: var(--ds-ink);
-  user-select: none;
-}
-.ds-menubar-trigger:hover {
-  background-color: var(--ds-bg-alt);
-}
-.ds-menubar-trigger[aria-expanded="true"] {
-  background-color: var(--ds-bg-alt);
-}
-.ds-menubar-trigger:focus-visible {
-  outline: 2px solid var(--ds-focus-ring);
-  outline-offset: -2px;
-}
+  .ds-menubar-trigger {
+    display: flex;
+    align-items: center;
+    border-radius: 0;
+    padding-inline: 0.5rem;
+    padding-block: 0.1875rem;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    font-weight: 500;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    user-select: none;
+  }
 
-/* `inset` lines a plain row's label up with the checkable rows sharing the
-   menu. The source got this from its dropdown-menu base, which does not land;
-   scoped to the slot so it cannot reach another menu's rows. */
-[data-slot="menubar-item"][data-inset="true"],
-[data-slot="menubar-label"][data-inset="true"],
-[data-slot="menubar-sub-trigger"][data-inset="true"] {
-  padding-inline-start: 2.375rem;
-}
+  /* MenubarContent/MenubarSubTrigger render through DropdownMenuContent/
+     DropdownMenuSubTrigger, which already apply ds-dropdown-menu-content /
+     ds-dropdown-menu-sub-trigger — every utility menubar.tsx used to repeat
+     here duplicated that base exactly, so both classes are unused now
+     (kept out entirely rather than shipping dead CSS). */
 
-/* Checkbox and radio rows are .ds-dropdown-menu-checkbox-item/-radio-item plus
-   an indicator well: the row keeps the menu's own type and hover, and the
-   inline-start inset makes room for the check. Without the inset the label
-   would sit under the indicator. */
-.ds-menubar-checkbox-item,
-.ds-menubar-radio-item {
-  position: relative;
-  padding-inline-start: 2.375rem;
-  user-select: none;
-}
-.ds-menubar-checkbox-item[data-disabled],
-.ds-menubar-radio-item[data-disabled] {
-  pointer-events: none;
-  opacity: 0.45;
-}
-.ds-menubar-checkbox-item svg,
-.ds-menubar-radio-item svg {
-  pointer-events: none;
-  flex-shrink: 0;
-}
+  /* min-w-32 stays a literal Tailwind utility on MenubarSubContent's own
+     className (see menubar.tsx) so tailwind-merge can keep deduping it
+     against DropdownMenuSubContent's literal min-w-36 default — same
+     constraint as dropdown-menu.css's width/min-width note. */
 
-.ds-menubar-item-indicator {
-  pointer-events: none;
-  position: absolute;
-  inset-inline-start: 0.875rem;
-  display: flex;
-  width: 1rem;
-  height: 1rem;
-  align-items: center;
-  justify-content: center;
-}
-.ds-menubar-item-indicator svg {
-  width: 1rem;
-  height: 1rem;
-}
+  .ds-menubar-item {
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+  }
 
-/* A submenu row. Base UI marks it while its own submenu is open, and without
-   this the parent row un-highlights the moment the pointer moves into the
-   child — so the trail back up the menu disappears. */
-.ds-menubar-sub-trigger[data-popup-open] {
-  background: var(--ds-bg-alt);
+  .ds-menubar-checkbox-item,
+  .ds-menubar-radio-item {
+    position: relative;
+    display: flex;
+    cursor: default;
+    align-items: center;
+    gap: 0.625rem;
+    border-radius: 0;
+    padding-block: 0.5rem;
+    padding-inline-end: 0.75rem;
+    padding-inline-start: 2.375rem;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    user-select: none;
+  }
+
+  .ds-menubar-item-indicator {
+    pointer-events: none;
+    position: absolute;
+    inset-inline-start: 0.75rem;
+    display: flex;
+    width: 1rem;
+    height: 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ds-menubar-label {
+    padding-inline: 0.875rem;
+  }
+
+  .ds-menubar-separator {
+    margin-inline: -0.25rem;
+    margin-block: 0.25rem;
+  }
 }
 
-/* The caret is pushed to the end edge, which is what marks the row apart from
-   a plain .ds-dropdown-menu-item. */
-.ds-menubar-sub-trigger-icon {
-  margin-inline-start: auto;
-  width: 0.875rem;
-  height: 0.875rem;
-  flex-shrink: 0;
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-menubar-trigger:hover {
+    background-color: var(--ds-bg-alt);
+  }
+  .ds-menubar-trigger[aria-expanded="true"] {
+    background-color: var(--ds-bg-alt);
+  }
+  .ds-menubar-checkbox-item:focus,
+  .ds-menubar-radio-item:focus {
+    background-color: var(--ds-bg-alt);
+    color: var(--ds-ink);
+  }
+  .ds-menubar-checkbox-item:focus *,
+  .ds-menubar-radio-item:focus * {
+    color: var(--ds-ink);
+  }
+  .ds-menubar-checkbox-item[data-disabled],
+  .ds-menubar-radio-item[data-disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .ds-menubar-checkbox-item svg,
+  .ds-menubar-radio-item svg {
+    pointer-events: none;
+    flex-shrink: 0;
+  }
+  .ds-menubar-item-indicator svg:not([class*="size-"]) {
+    width: 1rem;
+    height: 1rem;
+  }
 }
 
-/* The keyboard hint on the end edge of a row — quiet, and never the thing the
-   eye lands on first. */
-.ds-menubar-shortcut {
-  margin-inline-start: auto;
-  font-size: var(--ds-text-2xs);
-  letter-spacing: 0.08em;
-  color: var(--ds-ink-faint);
+/* ============================================================================
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
+   ============================================================================ */
+@layer components {
+  /* The caret is pushed to the end edge, which is what marks the row apart from
+  a plain .ds-dropdown-menu-item. */
+  .ds-menubar-sub-trigger-icon {
+    margin-inline-start: auto;
+    width: 0.875rem;
+    height: 0.875rem;
+    flex-shrink: 0;
+  }
+  /* The keyboard hint on the end edge of a row — quiet, and never the thing the
+  eye lands on first. */
+  .ds-menubar-shortcut {
+    margin-inline-start: auto;
+    font-size: var(--ds-text-2xs);
+    letter-spacing: 0.08em;
+    color: var(--ds-ink-faint);
+  }
+}
+@layer utilities {
+  /* A submenu row. Base UI marks it while its own submenu is open, and without
+  this the parent row un-highlights the moment the pointer moves into the
+  child — so the trail back up the menu disappears. */
+  .ds-menubar-sub-trigger[data-popup-open] {
+    background: var(--ds-bg-alt);
+  }
 }

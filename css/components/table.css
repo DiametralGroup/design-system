@@ -1,209 +1,192 @@
+/* table.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/table.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-table-container {
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .ds-table {
+    width: 100%;
+    caption-side: bottom;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+  }
+
+  .ds-table-footer {
+    border-top: 1px solid var(--ds-rule);
+    background-color: color-mix(in oklab, var(--ds-bg-alt) 50%, transparent);
+    font-weight: 500;
+  }
+
+  .ds-table-row {
+    border-bottom: 1px solid var(--ds-rule);
+    transition-property:
+      color, background-color, border-color, outline-color,
+      text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  /* text-start stays a literal Tailwind utility on TableHead's own default
+     className (see table.tsx) — several table demos override it with
+     text-end/text-right, relying on tailwind-merge to dedupe against this
+     component's own default, which only works while text-start remains a
+     literal class rather than baked CSS. */
+  .ds-table-head {
+    height: 3rem;
+    padding-inline: 0.75rem;
+    vertical-align: middle;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    color: var(--ds-ink-faint);
+    text-transform: uppercase;
+  }
+
+  .ds-table-cell {
+    padding: 0.75rem;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .ds-table-caption {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    color: var(--ds-ink-faint);
+  }
+}
+
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+
+  .ds-table-header tr {
+    border-bottom: 1px solid var(--ds-rule);
+  }
+
+  .ds-table-body tr:last-child {
+    border-width: 0;
+  }
+  .ds-table-footer > tr:last-child {
+    border-bottom-width: 0;
+  }
+  .ds-table-row:hover {
+    background-color: color-mix(in oklab, var(--ds-bg-alt) 50%, transparent);
+  }
+  .ds-table-row:has([aria-expanded="true"]) {
+    background-color: color-mix(in oklab, var(--ds-bg-alt) 50%, transparent);
+  }
+  .ds-table-row[data-state="selected"] {
+    background-color: var(--ds-bg-alt);
+  }
+  .ds-table-head:has([role="checkbox"]) {
+    padding-inline-end: 0;
+  }
+  .ds-table-cell:has([role="checkbox"]) {
+    padding-inline-end: 0;
+  }
+}
+
 /* ============================================================================
-   Table — .ds-table
-   ----------------------------------------------------------------------------
-   Two grammars share this file, and that is deliberate.
-
-   The PART grammar (.ds-table-container, -header, -body, -footer, -row, -head,
-   -cell, -caption) is the source's, and is what <Table> renders: a horizontally
-   scrollable container around a borderless table whose rows are separated by
-   hairlines. This is the grammar to write new markup in.
-
-   The ELEMENT grammar below it is 0.11's, and is PRESERVED rather than
-   replaced. `.ds-table--hover`, `__num`, `__name` and `__row-action` are read
-   by four files under examples/ plus docs/components.md and docs/migration.md —
-   committed fixtures the a11y and visual suites load — and there is no React
-   component on either side whose replacement would have re-classed them. A
-   wholesale swap would have unstyled every one.
-
-   The two are kept apart by three moves, all of them here so a reader does not
-   have to reconstruct them:
-
-     1. The element rules are scoped `:not(.ds-table-head)` / `:not(.ds-table-cell)`
-        so they do not outrank the part classes. `.ds-table th` is (0,1,1) and
-        `.ds-table-head` is (0,1,0) — without the guard the legacy padding would
-        win inside a <Table>.
-     2. `.ds-table-container > .ds-table` drops the 0.11 frame, so the composed
-        component keeps the source's borderless look while hand-written tables
-        keep their box.
-     3. `__num` / `__name` sit after the part rules, so a cell can carry both
-        `.ds-table-cell` and `.ds-table__num` and the alignment still lands.
-
-   The source left `text-start` a literal Tailwind utility on TableHead's own
-   className, for a dedupe there is no tailwind-merge here to perform. It is
-   baked into .ds-table-head; a caller overrides with text-align directly.
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
    ============================================================================ */
-
-/* ---- Part grammar (the composed <Table>) --------------------------------- */
-.ds-table-container {
-  position: relative;
-  width: 100%;
-  overflow-x: auto;
+@layer components {
+  .ds-table__num { text-align: right; font-variant-numeric: tabular-nums; }
+  .ds-table__name { font-weight: 400; font-size: var(--ds-text-sm); white-space: nowrap; }
+  .ds-table__row-action {
+    background: none;
+    border: none;
+    color: var(--ds-ink-faint);
+    cursor: pointer;
+    font-size: 15px;
+    padding: 2px 6px;
+  }
+  .ds-table-row--total {
+    background-color: var(--ds-bg-alt);
+    font-weight: 500;
+  }
+  .ds-table-row--grand-total {
+    font-weight: 600;
+    border-top: 1px solid var(--ds-ink);
+  }
+  .ds-table__code {
+    font-family: var(--ds-font-mono);
+    font-size: var(--ds-text-2xs);
+    color: var(--ds-ink-soft);
+    white-space: nowrap;
+  }
+  .ds-table__num--favorable { color: var(--ds-success-ink); }
+  .ds-table__num--unfavorable { color: var(--ds-danger-ink); }
+  /* An empty figure ("–"): present so the column keeps its rhythm, but quiet. */
+  .ds-table__num--empty { color: var(--ds-ink-faint); }
 }
-
-.ds-table {
-  width: 100%;
-  border-collapse: collapse;
-  caption-side: bottom;
-  background: var(--ds-surface);
-  border: 1px solid var(--ds-rule);
-  font-family: var(--ds-font-sans);
-  font-size: var(--ds-text-base);
-  /* Fixed, not incoming's unitless calc(1.25 / 0.875): the cells inherit it, and
-     this package's own cell grammar below (13.5px, 13px, 11px) would otherwise
-     lose rows' height. Incoming's cells are 14px, where the two are equal. */
-  line-height: 1.25rem;
+@layer utilities {
+  /* The composed table is framed by its container, not by itself. */
+  .ds-table-container > .ds-table {
+    background: none;
+    border: 0;
+  }
+  /* ---- Element grammar (0.11, preserved for the hand-written fixtures) ----- */
+  .ds-table th:not(.ds-table-head) {
+    font-size: var(--ds-text-2xs);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ds-ink-faint);
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--ds-ink);
+  }
+  .ds-table td:not(.ds-table-cell) {
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--ds-rule-soft);
+    font-size: 13.5px;
+  }
+  .ds-table tr:last-child td:not(.ds-table-cell) { border-bottom: none; }
+  .ds-table--hover tbody tr:hover { background: var(--ds-bg-alt); }
+  /* Editable cells */
+  .ds-table input {
+    width: 100%;
+    padding: 6px 8px;
+    font-size: var(--ds-text-sm);
+    font-family: var(--ds-font-sans);
+    border: 1px solid var(--ds-rule);
+    border-radius: var(--ds-radius-none);
+    font-variant-numeric: tabular-nums;
+  }
+  .ds-table input.ds-table__num { max-width: 110px; text-align: right; }
+  .ds-table__row-action:hover { color: var(--ds-danger); }
+  /* ---- Financial statement grammar ------------------------------------------
+  A P&L / balance read as a table: section rows that name a block, total rows
+  that close one, a code column, and signed figures toned by whether the
+  variance is good news. Works on both grammars (<TableRow>/<TableCell> and
+  bare <tr>/<td>). The tone is the caller's call, not the sign's: a cost line
+  that came in under budget is favourable although its variance is negative. */
+  .ds-table-row--section > td,
+  .ds-table-row--section > th {
+    padding-top: 1.25rem;
+    font-size: var(--ds-text-2xs);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ds-ink-faint);
+  }
+  .ds-table-row--section:hover { background-color: transparent; }
+  .ds-table-row--total:hover { background-color: var(--ds-bg-alt); }
 }
-/* The composed table is framed by its container, not by itself. */
-.ds-table-container > .ds-table {
-  background: none;
-  border: 0;
-}
-
-.ds-table-header tr {
-  border-bottom: 1px solid var(--ds-rule);
-}
-
-.ds-table-body tr:last-child {
-  border-width: 0;
-}
-
-.ds-table-footer {
-  border-top: 1px solid var(--ds-rule);
-  background-color: color-mix(in oklab, var(--ds-bg-alt) 50%, transparent);
-  font-weight: 500;
-}
-.ds-table-footer > tr:last-child {
-  border-bottom-width: 0;
-}
-
-.ds-table-row {
-  border-bottom: 1px solid var(--ds-rule);
-  transition: background-color var(--ds-transition), color var(--ds-transition);
-}
-.ds-table-row:hover,
-.ds-table-row:has([aria-expanded="true"]) {
-  background-color: color-mix(in oklab, var(--ds-bg-alt) 50%, transparent);
-}
-.ds-table-row[data-state="selected"] {
-  background-color: var(--ds-bg-alt);
-}
-
-.ds-table-head {
-  height: 3rem;
-  padding-inline: 0.75rem;
-  vertical-align: middle;
-  text-align: start;
-  font-size: var(--ds-text-xs);
-  line-height: calc(1 / 0.75);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-  color: var(--ds-ink-faint);
-  text-transform: uppercase;
-}
-.ds-table-head:has([role="checkbox"]) {
-  padding-inline-end: 0;
-}
-
-/* A cell wraps like a paragraph. `nowrap` on every cell sized each column to its longest value,
-   so one long title pushed a table into horizontal scroll at laptop width. Headers keep `nowrap`;
-   a cell that must stay on one line (a date, an amount) opts in with `.ds-nowrap`. */
-.ds-table-cell {
-  padding: 0.75rem;
-  vertical-align: middle;
-  white-space: normal;
-  overflow-wrap: break-word;
-}
-.ds-table-cell:has([role="checkbox"]) {
-  padding-inline-end: 0;
-}
-
-.ds-table-caption {
-  margin-top: 1rem;
-  font-size: var(--ds-text-base);
-  line-height: calc(1.25 / 0.875);
-  color: var(--ds-ink-faint);
-}
-
-/* ---- Element grammar (0.11, preserved for the hand-written fixtures) ----- */
-.ds-table th:not(.ds-table-head) {
-  font-size: var(--ds-text-2xs);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ds-ink-faint);
-  text-align: left;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--ds-ink);
-}
-.ds-table td:not(.ds-table-cell) {
-  padding: 6px 12px;
-  border-bottom: 1px solid var(--ds-rule-soft);
-  font-size: 13.5px;
-}
-.ds-table tr:last-child td:not(.ds-table-cell) { border-bottom: none; }
-
-.ds-table--hover tbody tr:hover { background: var(--ds-bg-alt); }
-
-/* Editable cells */
-.ds-table input {
-  width: 100%;
-  padding: 6px 8px;
-  font-size: var(--ds-text-sm);
-  font-family: var(--ds-font-sans);
-  border: 1px solid var(--ds-rule);
-  border-radius: var(--ds-radius-none);
-  font-variant-numeric: tabular-nums;
-}
-.ds-table input.ds-table__num { max-width: 110px; text-align: right; }
-
-.ds-table__num { text-align: right; font-variant-numeric: tabular-nums; }
-.ds-table__name { font-weight: 400; font-size: var(--ds-text-sm); white-space: nowrap; }
-
-.ds-table__row-action {
-  background: none;
-  border: none;
-  color: var(--ds-ink-faint);
-  cursor: pointer;
-  font-size: 15px;
-  padding: 2px 6px;
-}
-.ds-table__row-action:hover { color: var(--ds-danger); }
-
-/* ---- Financial statement grammar ------------------------------------------
-   A P&L / balance read as a table: section rows that name a block, total rows
-   that close one, a code column, and signed figures toned by whether the
-   variance is good news. Works on both grammars (<TableRow>/<TableCell> and
-   bare <tr>/<td>). The tone is the caller's call, not the sign's: a cost line
-   that came in under budget is favourable although its variance is negative. */
-.ds-table-row--section > td,
-.ds-table-row--section > th {
-  padding-top: 1.25rem;
-  font-size: var(--ds-text-2xs);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ds-ink-faint);
-}
-.ds-table-row--section:hover { background-color: transparent; }
-
-.ds-table-row--total {
-  background-color: var(--ds-bg-alt);
-  font-weight: 500;
-}
-.ds-table-row--total:hover { background-color: var(--ds-bg-alt); }
-.ds-table-row--grand-total {
-  font-weight: 600;
-  border-top: 1px solid var(--ds-ink);
-}
-
-.ds-table__code {
-  font-family: var(--ds-font-mono);
-  font-size: var(--ds-text-2xs);
-  color: var(--ds-ink-soft);
-  white-space: nowrap;
-}
-.ds-table__num--favorable { color: var(--ds-success-ink); }
-.ds-table__num--unfavorable { color: var(--ds-danger-ink); }
-/* An empty figure ("–"): present so the column keeps its rhythm, but quiet. */
-.ds-table__num--empty { color: var(--ds-ink-faint); }

@@ -1,84 +1,82 @@
-/* ============================================================================
-   Agenda — .ds-agenda (a chronological list of events grouped by day)
-   ----------------------------------------------------------------------------
-   A day heading, then one row per event: a tabular time column, a status dot,
-   and a body with a title and an optional meta line. The empty state is a real
-   .ds-empty rather than a bespoke __empty block — which is most of why the
-   source wins here. The status dot is a <Status><StatusIndicator/> since beta.7.
+/* agenda.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/agenda.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   Renamed from 0.x's __day / __weekday / __date / __event / __time / __marker /
-   __body / __title / __meta. __empty has no replacement: the empty state is
-   <Empty> now, so it carries .ds-empty's classes.
-   ============================================================================ */
-.ds-agenda {
-  width: 100%;
-  font-family: var(--ds-font-sans);
+@layer components {
+  .ds-agenda {
+    width: 100%;
+  }
+  .ds-agenda-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ds-agenda-day {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--ds-rule);
+    padding-block: 0.5rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    color: var(--ds-ink-faint);
+    text-transform: uppercase;
+  }
+  .ds-agenda-day-weekday {
+    font-weight: 600;
+    color: var(--ds-ink);
+  }
+
+  .ds-agenda-event {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--ds-rule);
+    padding-block: 0.75rem;
+  }
+
+  .ds-agenda-event-status {
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  .ds-agenda-event-time {
+    width: 3.5rem;
+    flex-shrink: 0;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    color: var(--ds-ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ds-agenda-event-body {
+    min-width: 0;
+    flex: 1 1 0%;
+  }
+
+  .ds-agenda-event-title {
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    font-weight: 500;
+  }
+
+  .ds-agenda-event-meta {
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    color: var(--ds-ink-faint);
+  }
 }
-.ds-agenda-list {
-  display: flex;
-  flex-direction: column;
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-agenda-event:last-child {
+    border-bottom: none;
+  }
 }
 
-.ds-agenda-day {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  margin: 0;
-  border-bottom: 1px solid var(--ds-rule);
-  padding-block: 0.5rem;
-  font-size: var(--ds-text-2xs);
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  color: var(--ds-ink-faint);
-  text-transform: uppercase;
-}
-.ds-agenda-day-weekday {
-  font-weight: 600;
-  color: var(--ds-ink);
-}
-
-.ds-agenda-event {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  border-bottom: 1px solid var(--ds-rule);
-  padding-block: 0.75rem;
-}
-.ds-agenda-event:last-child {
-  border-bottom: none;
-}
-
-/* The status dot is a <Status><StatusIndicator/> since 1.0.0-beta.7, so its
-   six tone rules left for status-panel.css — one status is one colour
-   system-wide. What stays is the row's own business: the indicator must not be
-   stretched by the flex row it sits in. */
-.ds-agenda-event-status {
-  flex: none;
-  align-self: center;
-}
-
-.ds-agenda-event-time {
-  width: 3.5rem;
-  flex-shrink: 0;
-  font-size: var(--ds-text-base);
-  line-height: calc(1.25 / 0.875);
-  color: var(--ds-ink-faint);
-  font-variant-numeric: tabular-nums;
-}
-
-.ds-agenda-event-body {
-  min-width: 0;
-  flex: 1 1 0%;
-}
-
-.ds-agenda-event-title {
-  font-size: var(--ds-text-base);
-  line-height: calc(1.25 / 0.875);
-  font-weight: 500;
-}
-
-.ds-agenda-event-meta {
-  font-size: var(--ds-text-base);
-  line-height: calc(1.25 / 0.875);
-  color: var(--ds-ink-faint);
-}

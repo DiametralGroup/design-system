@@ -1,109 +1,126 @@
-.ds-tree {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  gap: 0.125rem;
-}
+/* tree.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/tree.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-.ds-tree-item {
-  display: flex;
-  flex-direction: column;
-}
+@layer components {
+  .ds-tree {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
 
-.ds-tree-item-trigger {
-  display: flex;
-  height: 2rem;
-  width: 100%;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: 0;
-  background-color: transparent;
-  padding-inline: 0.5rem;
-  text-align: start;
-  font-size: 0.875rem;
-  line-height: calc(1.25 / 0.875);
-  outline: none;
-  transition-property:
-    color, background-color, border-color, outline-color,
-    text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-.ds-tree-item-trigger:hover {
-  background-color: color-mix(in oklab, var(--ds-bg-alt) 50%, transparent);
-}
-.ds-tree-item-trigger:focus-visible {
-  box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-focus-ring) 30%, transparent);
-}
-.ds-tree-item-trigger :where(svg) {
-  flex-shrink: 0;
-}
-.ds-tree-item-trigger :where(svg:not([class*="size-"])) {
-  width: 0.875rem;
-  height: 0.875rem;
-}
+  .ds-tree-item {
+    display: flex;
+    flex-direction: column;
+  }
 
-.ds-tree-item-trigger-caret-right {
-  width: 0.75rem;
-  height: 0.75rem;
-  color: var(--ds-ink-soft);
-}
-.ds-tree-item-trigger[aria-expanded="true"]
+  .ds-tree-item-trigger {
+    display: flex;
+    height: 2rem;
+    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0;
+    background-color: transparent;
+    padding-inline: 0.5rem;
+    text-align: start;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    outline: none;
+    transition-property:
+      color, background-color, border-color, outline-color,
+      text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
   .ds-tree-item-trigger-caret-right {
-  display: none;
+    width: 0.75rem;
+    height: 0.75rem;
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-tree-item-trigger-caret-down {
+    display: none;
+    width: 0.75rem;
+    height: 0.75rem;
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-tree-item-content {
+    margin-inline-start: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    border-inline-start: 1px solid var(--ds-rule);
+    padding-inline-start: 0.5rem;
+  }
+
+  .ds-tree-leaf {
+    display: flex;
+    height: 2rem;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0;
+    padding-inline: 0.5rem;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    color: var(--ds-ink-faint);
+    transition-property:
+      color, background-color, border-color, outline-color,
+      text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  .ds-tree-leaf-spacer {
+    width: 0.75rem;
+    height: 0.75rem;
+    flex-shrink: 0;
+  }
 }
-:where([dir="rtl"], [dir="rtl"] *) .ds-tree-item-trigger-caret-right {
-  rotate: 180deg;
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-tree-item-trigger:hover {
+    background-color: color-mix(in oklab, var(--ds-bg-alt) 50%, transparent);
+  }
+  .ds-tree-item-trigger:focus-visible {
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-focus-ring) 30%, transparent);
+  }
+  .ds-tree-item-trigger :where(svg) {
+    flex-shrink: 0;
+  }
+  .ds-tree-item-trigger :where(svg:not([class*="size-"])) {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  .ds-tree-item-trigger[aria-expanded="true"]
+    .ds-tree-item-trigger-caret-right {
+    display: none;
+  }
+  :where([dir="rtl"], [dir="rtl"] *) .ds-tree-item-trigger-caret-right {
+    rotate: 180deg;
+  }
+  .ds-tree-item-trigger[aria-expanded="true"] .ds-tree-item-trigger-caret-down {
+    display: block;
+  }
+  .ds-tree-leaf:hover {
+    background-color: color-mix(in oklab, var(--ds-bg-alt) 50%, transparent);
+  }
+  .ds-tree-leaf :where(svg) {
+    flex-shrink: 0;
+  }
+  .ds-tree-leaf :where(svg:not([class*="size-"])) {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
 }
 
-.ds-tree-item-trigger-caret-down {
-  display: none;
-  width: 0.75rem;
-  height: 0.75rem;
-  color: var(--ds-ink-soft);
-}
-.ds-tree-item-trigger[aria-expanded="true"] .ds-tree-item-trigger-caret-down {
-  display: block;
-}
-
-.ds-tree-item-content {
-  margin-inline-start: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-  border-inline-start: 1px solid var(--ds-rule);
-  padding-inline-start: 0.5rem;
-}
-
-.ds-tree-leaf {
-  display: flex;
-  height: 2rem;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: 0;
-  padding-inline: 0.5rem;
-  font-size: 0.875rem;
-  line-height: calc(1.25 / 0.875);
-  color: var(--ds-ink-soft);
-  transition-property:
-    color, background-color, border-color, outline-color,
-    text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-.ds-tree-leaf:hover {
-  background-color: color-mix(in oklab, var(--ds-bg-alt) 50%, transparent);
-}
-.ds-tree-leaf :where(svg) {
-  flex-shrink: 0;
-}
-.ds-tree-leaf :where(svg:not([class*="size-"])) {
-  width: 0.875rem;
-  height: 0.875rem;
-}
-
-.ds-tree-leaf-spacer {
-  width: 0.75rem;
-  height: 0.75rem;
-  flex-shrink: 0;
-}

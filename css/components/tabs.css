@@ -1,188 +1,228 @@
-/* Tabs — .ds-tabs, two grammars sharing the bare root class (#52 — the
-   collision batch 9 deferred: incoming's React Tabs never got its own rules).
-   Told apart the same way switch.css/checkbox.css tell theirs apart: a React
-   Tabs root always has a `> .ds-tabs-list` child (tabs.tsx's `TabsList`);
-   `<ds-tabs>`'s web component never does — its tabs are plain `.ds-tabs__tab`
-   buttons directly inside the root. */
+/* tabs.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/tabs.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-/* ---- The web-component grammar: title-voiced tabs + accent underline ---- */
-.ds-tabs:not(:has(> .ds-tabs-list)) {
-  display: flex;
-  gap: 0;
-  border-bottom: 1px solid var(--ds-rule);
-}
-.ds-tabs__tab {
-  font-family: var(--ds-font-title);
-  font-size: var(--ds-text-md);
-  font-weight: var(--ds-font-weight-title);
-  letter-spacing: -0.2px;
-  padding: 10px 22px 14px;
-  color: var(--ds-ink-faint);
-  cursor: pointer;
-  border: none;
-  background: none;
-  position: relative;
-  transition: color var(--ds-transition);
-}
-.ds-tabs__tab:hover { color: var(--ds-ink-soft); }
-.ds-tabs__tab[aria-selected="true"],
-.ds-tabs__tab.is-active { color: var(--ds-ink); }
-.ds-tabs__tab[aria-selected="true"]::after,
-.ds-tabs__tab.is-active::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 2px;
-  background: var(--ds-accent);
-}
-.ds-tabs__tab:focus-visible { outline: 2px solid var(--ds-focus-ring); outline-offset: -4px; }
-.ds-tabs__sublabel {
-  display: block;
-  font-family: var(--ds-font-sans);
-  font-size: var(--ds-text-2xs);
-  font-weight: 300;
-  color: var(--ds-ink-faint);
-  letter-spacing: 0.02em;
-  margin-top: 2px;
-}
+@layer components {
+  .ds-tabs:where(:not(:has(> .ds-tabs__tab))) {
+    display: flex;
+    gap: 0.5rem;
+  }
 
-/* Tab panes */
-.ds-tabpane { display: none; }
-.ds-tabpane.is-active,
-.ds-tabpane[aria-hidden="false"] { display: block; animation: ds-fadein var(--ds-transition-slow); }
+  .ds-tabs-list {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    color: var(--ds-ink-faint);
+  }
+  .ds-tabs-list--default {
+    background: var(--ds-bg-alt);
+  }
+  .ds-tabs-list--line {
+    gap: 0.25rem;
+    background: transparent;
+  }
 
-/* ---- The React grammar: TabsList/TabsTrigger/TabsContent composition ---- */
-.ds-tabs:has(> .ds-tabs-list) {
-  display: flex;
-  gap: 0.5rem;
-}
-.ds-tabs[data-orientation="horizontal"]:has(> .ds-tabs-list) {
-  flex-direction: column;
-}
+  .ds-tabs-trigger {
+    position: relative;
+    display: inline-flex;
+    height: calc(100% - 1px);
+    flex: 1 1 0%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    padding-inline: 1rem;
+    padding-block: 0.375rem;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    color: color-mix(in oklab, var(--ds-ink) 60%, transparent);
+    text-transform: uppercase;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
 
-.ds-tabs-list {
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem;
-  color: var(--ds-ink-soft);
-}
-:where(.ds-tabs[data-orientation="horizontal"]) .ds-tabs-list {
-  height: 2.5rem;
-}
-:where(.ds-tabs[data-orientation="vertical"]) .ds-tabs-list {
-  height: fit-content;
-  flex-direction: column;
-}
-.ds-tabs-list--default {
-  background: var(--ds-bg-alt);
-}
-.ds-tabs-list--line {
-  gap: 0.25rem;
-  background: transparent;
+  /* Line variant never fills with a background, active or not — only the ::after
+     underline signals the active tab. These match the `[data-active]` rules above
+     in specificity, so they must stay declared after them to win the cascade. */
+
+  .ds-tabs-content {
+    flex: 1 1 0%;
+    outline: none;
+  }
 }
 
-.ds-tabs-trigger {
-  position: relative;
-  display: inline-flex;
-  height: calc(100% - 1px);
-  flex: 1 1 0%;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border: 1px solid transparent;
-  padding-inline: 1rem;
-  padding-block: 0.375rem;
-  font-size: 0.75rem;
-  line-height: calc(1 / 0.75);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-  color: color-mix(in oklab, var(--ds-ink) 60%, transparent);
-  text-transform: uppercase;
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-.ds-tabs-trigger svg {
-  pointer-events: none;
-  flex-shrink: 0;
-}
-.ds-tabs-trigger svg:not([class*="size-"]) {
-  width: 0.875rem;
-  height: 0.875rem;
-}
-:where(.ds-tabs[data-orientation="vertical"]) .ds-tabs-trigger {
-  width: 100%;
-  justify-content: flex-start;
-  padding-inline: 1rem;
-  padding-block: 0.5rem;
-}
-.ds-tabs-trigger:hover {
-  color: var(--ds-ink);
-}
-.ds-tabs-trigger:focus-visible {
-  border-color: var(--ds-focus-ring);
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ds-focus-ring) 50%, transparent);
-  outline: 1px solid var(--ds-focus-ring);
-}
-.ds-tabs-trigger:disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
-.ds-tabs-trigger:has([data-icon="inline-end"]) {
-  padding-inline-end: 0.625rem;
-}
-.ds-tabs-trigger:has([data-icon="inline-start"]) {
-  padding-inline-start: 0.625rem;
-}
-.ds-tabs-trigger[aria-disabled="true"] {
-  pointer-events: none;
-  opacity: 0.5;
+/* text-sm stays a literal Tailwind utility on TabsContent's own default
+   className (see tabs.tsx) — tabs/in-card.tsx overrides it with font-mono
+   text-xs, relying on tailwind-merge to dedupe against this component's own
+   default, which only works while text-sm remains a literal class rather
+   than baked CSS. */
+
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+
+@layer utilities {
+  .ds-tabs:where(:not(:has(> .ds-tabs__tab)))[data-orientation="horizontal"] {
+    flex-direction: column;
+  }
+  :where(.ds-tabs:where(:not(:has(> .ds-tabs__tab)))[data-orientation="horizontal"]) .ds-tabs-list {
+    height: 2.5rem;
+  }
+  :where(.ds-tabs:where(:not(:has(> .ds-tabs__tab)))[data-orientation="vertical"]) .ds-tabs-list {
+    height: fit-content;
+    flex-direction: column;
+  }
+  .ds-tabs-trigger svg {
+    pointer-events: none;
+    flex-shrink: 0;
+  }
+  .ds-tabs-trigger svg:not([class*="size-"]) {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  :where(.ds-tabs:where(:not(:has(> .ds-tabs__tab)))[data-orientation="vertical"]) .ds-tabs-trigger {
+    width: 100%;
+    justify-content: flex-start;
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
+  }
+  .ds-tabs-trigger:hover {
+    color: var(--ds-ink);
+  }
+  .ds-tabs-trigger:focus-visible {
+    border-color: var(--ds-focus-ring);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--ds-focus-ring) 50%, transparent);
+    outline: 1px solid var(--ds-focus-ring);
+  }
+  .ds-tabs-trigger:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .ds-tabs-trigger:has([data-icon="inline-end"]) {
+    padding-inline-end: 0.625rem;
+  }
+  .ds-tabs-trigger:has([data-icon="inline-start"]) {
+    padding-inline-start: 0.625rem;
+  }
+  .ds-tabs-trigger[aria-disabled="true"] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-tabs-trigger {
+    color: var(--ds-ink-faint);
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-tabs-trigger:hover {
+    color: var(--ds-ink);
+  }
+
+  .ds-tabs-trigger[data-active] {
+    background: var(--ds-bg);
+    color: var(--ds-ink);
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-tabs-trigger[data-active] {
+    border-color: var(--ds-rule);
+    background: color-mix(in oklab, var(--ds-rule) 30%, transparent);
+    color: var(--ds-ink);
+  }
+
+  .ds-tabs-trigger::after {
+    content: "";
+    position: absolute;
+    background: var(--ds-ink);
+    opacity: 0;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  :where(.ds-tabs:where(:not(:has(> .ds-tabs__tab)))[data-orientation="horizontal"]) .ds-tabs-trigger::after {
+    inset-inline: 0;
+    bottom: -5px;
+    height: 0.125rem;
+  }
+  :where(.ds-tabs:where(:not(:has(> .ds-tabs__tab)))[data-orientation="vertical"]) .ds-tabs-trigger::after {
+    inset-block: 0;
+    inset-inline-end: -0.25rem;
+    width: 0.125rem;
+  }
+  :where(.ds-tabs-list--line) .ds-tabs-trigger {
+    background: transparent;
+  }
+  :where(.ds-tabs-list--line) .ds-tabs-trigger[data-active] {
+    background: transparent;
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) :where(.ds-tabs-list--line) .ds-tabs-trigger[data-active] {
+    border-color: transparent;
+    background: transparent;
+  }
+  :where(.ds-tabs-list--line) .ds-tabs-trigger[data-active]::after {
+    opacity: 1;
+  }
 }
 
-.ds-tabs-trigger[data-active] {
-  background: var(--ds-bg);
-  color: var(--ds-ink);
+/* ============================================================================
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
+   ============================================================================ */
+@layer components {
+  .ds-tabs__tab {
+    font-family: var(--ds-font-title);
+    font-size: var(--ds-text-md);
+    font-weight: var(--ds-font-weight-title);
+    letter-spacing: -0.2px;
+    padding: 10px 22px 14px;
+    color: var(--ds-ink-faint);
+    cursor: pointer;
+    border: none;
+    background: none;
+    position: relative;
+    transition: color var(--ds-transition);
+  }
+  .ds-tabs__sublabel {
+    display: block;
+    font-family: var(--ds-font-sans);
+    font-size: var(--ds-text-2xs);
+    font-weight: 300;
+    color: var(--ds-ink-faint);
+    letter-spacing: 0.02em;
+    margin-top: 2px;
+  }
+  /* Tab panes */
+  .ds-tabpane { display: none; }
 }
-
-.ds-tabs-trigger::after {
-  content: "";
-  position: absolute;
-  background: var(--ds-ink);
-  opacity: 0;
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-:where(.ds-tabs[data-orientation="horizontal"]) .ds-tabs-trigger::after {
-  inset-inline: 0;
-  bottom: -5px;
-  height: 0.125rem;
-}
-:where(.ds-tabs[data-orientation="vertical"]) .ds-tabs-trigger::after {
-  inset-block: 0;
-  inset-inline-end: -0.25rem;
-  width: 0.125rem;
-}
-
-/* Line variant never fills with a background, active or not — only the ::after
-   underline signals the active tab. These match the `[data-active]` rules above
-   in specificity, so they must stay declared after them to win the cascade. */
-:where(.ds-tabs-list--line) .ds-tabs-trigger {
-  background: transparent;
-}
-:where(.ds-tabs-list--line) .ds-tabs-trigger[data-active] {
-  background: transparent;
-}
-:where(.ds-tabs-list--line) .ds-tabs-trigger[data-active]::after {
-  opacity: 1;
-}
-
-.ds-tabs-content {
-  flex: 1 1 0%;
-  outline: none;
+@layer utilities {
+  /* ---- The web-component grammar: title-voiced tabs + accent underline ---- */
+  .ds-tabs:not(:has(> .ds-tabs-list)) {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--ds-rule);
+  }
+  .ds-tabs__tab:hover { color: var(--ds-ink-soft); }
+  .ds-tabs__tab[aria-selected="true"],
+  .ds-tabs__tab.is-active { color: var(--ds-ink); }
+  .ds-tabs__tab[aria-selected="true"]::after,
+  .ds-tabs__tab.is-active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--ds-accent);
+  }
+  .ds-tabs__tab:focus-visible { outline: 2px solid var(--ds-focus-ring); outline-offset: -4px; }
+  .ds-tabpane.is-active,
+  .ds-tabpane[aria-hidden="false"] { display: block; animation: ds-fadein var(--ds-transition-slow); }
 }

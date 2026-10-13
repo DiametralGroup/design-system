@@ -1,61 +1,74 @@
-/* Button extras — sizes, block, icon-only, loading, groups, split
-   (extends css/components/button.css; never edits it) */
+/* button-extras.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/split-button.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-/* Sizes */
-.ds-button--sm { height: 30px; padding: 0 12px; font-size: var(--ds-text-sm); }
-.ds-button--lg { height: 48px; padding: 0 22px; font-size: 15px; }
+@layer components {
+  .ds-split-button-caret {
+    padding-inline: 0.5rem !important;
+  }
 
-/* Full-width */
-.ds-button--block { width: 100%; }
-
-/* Icon-only (square) — pair with an aria-label */
-.ds-button--icon { width: 40px; padding: 0; }
-.ds-button--icon.ds-button--xs { width: 24px; }
-.ds-button--icon.ds-button--sm { width: 30px; }
-.ds-button--icon.ds-button--lg { width: 48px; }
-.ds-button--icon svg { width: 18px; height: 18px; }
-.ds-button--icon.ds-button--xs svg { width: 14px; height: 14px; }
-
-/* --xs arrived in 1.0.0-beta.3 with the source's IconButton, whose `icon-xs`
-   size the absorbed editable and field-array both ask for. It is icon-only:
-   24px leaves no room for a label, so there is no square-less --xs. */
-.ds-button--xs { height: 24px; padding: 0 8px; font-size: var(--ds-text-2xs); }
-
-/* Loading — hides the label and shows a centered spinner */
-.ds-button--loading { position: relative; color: transparent !important; pointer-events: none; }
-.ds-button--loading > * { visibility: hidden; }
-.ds-button--loading::after {
-  content: "";
-  position: absolute;
-  width: 16px; height: 16px;
-  border: 2px solid currentColor;
-  border-top-color: transparent;
-  border-radius: 50%;            /* spinner circle — the one sanctioned radius */
-  color: var(--ds-ink);
-  animation: ds-spin .6s linear infinite;
+  .ds-split-button-caret-icon {
+    transition: rotate 200ms;
+  }
 }
-/* --ds-bg, the pair of the ink fill, for the same reason button.css gives. */
-.ds-button--primary.ds-button--loading::after { color: var(--ds-bg); }
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-split-button-caret[aria-expanded="true"] .ds-split-button-caret-icon {
+    rotate: 180deg;
+  }
+}
+
+/* ============================================================================
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
+   ============================================================================ */
 @keyframes ds-spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .ds-button--loading::after { animation-duration: 1.6s; } }
-
-/* Button group — see components/button-group.css. Its four rules here were
-   replaced wholesale in 1.0.0-beta.3; the class name and its contract are
-   unchanged. */
-
-/* Split button — a main action joined to a caret */
-.ds-split { display: inline-flex; position: relative; }
-.ds-split > .ds-button:not(:first-child) { margin-left: -1px; }
-.ds-split__menu { position: absolute; top: calc(100% + 4px); right: 0; z-index: var(--ds-z-popover); }
-
-/* From migration-source-v1's split-button.css (batch 9, #42) — no collision
-   with the grammar above, landed as-is. */
-.ds-split-button-caret {
-  padding-inline: 0.5rem !important;
+@layer components {
+  /* Sizes */
+  .ds-button--sm { height: 30px; padding: 0 12px; font-size: var(--ds-text-sm); }
+  .ds-button--lg { height: 48px; padding: 0 22px; font-size: 15px; }
+  /* Full-width */
+  .ds-button--block { width: 100%; }
+  /* Icon-only (square) — pair with an aria-label */
+  .ds-button--icon { width: 40px; padding: 0; }
+  /* --xs arrived in 1.0.0-beta.3 with the source's IconButton, whose `icon-xs`
+  size the absorbed editable and field-array both ask for. It is icon-only:
+  24px leaves no room for a label, so there is no square-less --xs. */
+  .ds-button--xs { height: 24px; padding: 0 8px; font-size: var(--ds-text-2xs); }
+  /* Loading — hides the label and shows a centered spinner */
+  .ds-button--loading { position: relative; color: transparent !important; pointer-events: none; }
+  /* Split button — a main action joined to a caret */
+  .ds-split { display: inline-flex; position: relative; }
+  .ds-split__menu { position: absolute; top: calc(100% + 4px); right: 0; z-index: var(--ds-z-popover); }
 }
-.ds-split-button-caret-icon {
-  transition: rotate 200ms;
-}
-.ds-split-button-caret[aria-expanded="true"] .ds-split-button-caret-icon {
-  rotate: 180deg;
+@layer utilities {
+  .ds-button--icon.ds-button--xs { width: 24px; }
+  .ds-button--icon.ds-button--sm { width: 30px; }
+  .ds-button--icon.ds-button--lg { width: 48px; }
+  .ds-button--icon svg { width: 18px; height: 18px; }
+  .ds-button--icon.ds-button--xs svg { width: 14px; height: 14px; }
+  .ds-button--loading > * { visibility: hidden; }
+  .ds-button--loading::after {
+    content: "";
+    position: absolute;
+    width: 16px; height: 16px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;            /* spinner circle — the one sanctioned radius */
+    color: var(--ds-ink);
+    animation: ds-spin .6s linear infinite;
+  }
+  /* --ds-bg, the pair of the ink fill, for the same reason button.css gives. */
+  .ds-button--primary.ds-button--loading::after { color: var(--ds-bg); }
+  @media (prefers-reduced-motion: reduce) { .ds-button--loading::after { animation-duration: 1.6s; } }
+  .ds-split > .ds-button:not(:first-child) { margin-left: -1px; }
 }

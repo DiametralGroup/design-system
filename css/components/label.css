@@ -1,73 +1,45 @@
-/* ============================================================================
-   Label — .ds-label
-   ----------------------------------------------------------------------------
-   A standalone `<label>` for a control that does not wrap its own text.
+/* label.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/label.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   **`.ds-label` was already defined**, in `base/typography.css`, as the
-   charte's signature small-caps treatment — 12px, weight 400, tracked
-   `0.08em`, `--ds-ink-faint`. The ledgers read it as a clean addition because
-   they scanned `css/components/`, where it does not appear. It is documented in
-   `docs/foundations.md` and used across `examples/` and `docs/for-claude.md`,
-   so it is a published contract, and the two definitions are the same idea:
-   an uppercase field-label voice.
-
-   So this file **does not restate the type**. The incumbent's weight, tracking
-   and colour stay exactly as they are, and what lands here is only what the
-   source adds and the incumbent lacks: the flex row, so a required badge or an
-   `optional` aside can sit beside the words; `user-select: none`, so
-   double-clicking a label to focus its control does not select the text; and
-   the two overrides below. A batch that lands in an occupied namespace merges
-   rather than overwrites — otherwise every label already in the system silently
-   changes weight and colour.
-
-   Upstream, the three type properties this file now leaves alone sat in their
-   own `@layer components` block, deliberately below Tailwind's
-   `@layer utilities`, so a call site could override the voice with plain
-   utility classNames. That bargain is gone — no Tailwind, no layers — but its
-   intent survives, because it was never really about layers: the voice must be
-   overridable, and the two overrides that mattered are real rules here, winning
-   on selector specificity exactly as they always did.
-
-   Both of those also lose a marker class. Upstream they were keyed to
-   Tailwind's `.peer` and `.group`, which nothing in this package applies, so
-   they would have landed inert — the same defect batch 2 found in `item.css`.
-   They read the real state instead: `:disabled` on the sibling control, and the
-   `data-slot` a checkbox, radio or switch carries. That second half is written
-   and dark until batch 7 lands those three controls; this repo's own
-   `.ds-checkbox` is a `<label>` that wraps its text and needs no sibling label.
-   ============================================================================ */
-.ds-label {
-  display: flex;
-  align-items: center;
-  gap: var(--ds-space-2);
-  user-select: none;
+@layer components {
+  .ds-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    user-select: none;
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .group[data-disabled="true"] .ds-label {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .peer:disabled ~ .ds-label {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .peer[data-slot="checkbox"] ~ .ds-label,
+  .peer[data-slot="radio-group-item"] ~ .ds-label,
+  .peer[data-slot="switch"] ~ .ds-label {
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
+  }
 }
 
-/* A label inside a disabled group, or beside a disabled control. */
-[data-disabled="true"] .ds-label {
-  pointer-events: none;
-  opacity: 0.5;
-}
-/* Needs the disabled element itself to be the previous sibling, so it reaches
-   an Input or a Textarea but not a Select, whose <select> sits inside
-   .ds-select. Use the ancestor form above for a wrapped control. */
-:disabled ~ .ds-label {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-/* Beside a checkbox or switch the label is the row's prose, not a field
-   caption, so it drops the micro-caps voice. Live from batch 7.
-
-   `radio-group-item` dropped out of this rule in batch 13 (#46): the incoming
-   `RadioGroupItem` draws only the dot, not a self-labelling `<label>` the way
-   the incumbent `Radio` did, so a Label beside one is a field caption like
-   any other bare control and keeps the heading treatment. */
-[data-slot="checkbox"] ~ .ds-label,
-[data-slot="switch"] ~ .ds-label {
-  font-size: var(--ds-text-base);
-  font-weight: 400;
-  letter-spacing: normal;
-  text-transform: none;
-  color: var(--ds-ink);
-}

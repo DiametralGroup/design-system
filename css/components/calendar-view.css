@@ -1,327 +1,344 @@
-/* width, border, etc. stay literal Tailwind utilities on the component's
-   own default className (see calendar.tsx) — every calendar demo overrides
-   the root className with its own w-fit/border utilities and relies on
-   tailwind-merge to dedupe against the component's own defaults, which
-   only works while those specific utilities remain literal classes rather
-   than baked CSS. Only the non-overridden pieces (background, padding,
-   the cell custom properties, and the in-data-[slot=...] transparency
-   hooks) are baked here. */
-.ds-calendar {
-  background-color: var(--ds-bg);
-  padding: 0.75rem;
-  --cell-radius: 0px;
-  --cell-size: 2rem;
-}
-[data-slot="card-content"] .ds-calendar,
-[data-slot="popover-content"] .ds-calendar {
-  background-color: transparent;
-}
-:where([dir="rtl"], [dir="rtl"] *) .ds-calendar .rdp-button_next > svg {
-  rotate: 180deg;
-}
-:where([dir="rtl"], [dir="rtl"] *) .ds-calendar .rdp-button_previous > svg {
-  rotate: 180deg;
-}
+/* calendar-view.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/calendar.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-.ds-calendar-root {
-  width: fit-content;
-}
+@layer components {
+  /* width, border, etc. stay literal Tailwind utilities on the component's
+     own default className (see calendar.tsx) — every calendar demo overrides
+     the root className with its own w-fit/border utilities and relies on
+     tailwind-merge to dedupe against the component's own defaults, which
+     only works while those specific utilities remain literal classes rather
+     than baked CSS. Only the non-overridden pieces (background, padding,
+     the cell custom properties, and the in-data-[slot=...] transparency
+     hooks) are baked here. */
+  .ds-calendar {
+    background-color: var(--ds-bg);
+    padding: 0.75rem;
+    --cell-radius: 0px;
+    --cell-size: 2rem;
+  }
 
-.ds-calendar-months {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-@media (min-width: 768px) {
+  .ds-calendar-root {
+    width: fit-content;
+  }
+
   .ds-calendar-months {
-    flex-direction: row;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    .ds-calendar-months {
+      flex-direction: row;
+    }
+  }
+
+  .ds-calendar-month {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .ds-calendar-nav {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem;
+  }
+
+  /* size-(--cell-size) and p-0 stay literal Tailwind utilities on the nav
+     buttons (see calendar.tsx): component CSS sits in @layer components, so
+     those utilities override .ds-button--size-default's height and padding,
+     as tailwind-merge did before the conversion. */
+  .ds-calendar-nav-button {
+    user-select: none;
+  }
+
+  .ds-calendar-month-caption {
+    display: flex;
+    height: var(--cell-size);
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding-inline: var(--cell-size);
+  }
+
+  .ds-calendar-dropdowns {
+    display: flex;
+    height: var(--cell-size);
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .ds-calendar-dropdown-root {
+    position: relative;
+    border-radius: var(--cell-radius);
+  }
+
+  .ds-calendar-dropdown {
+    position: absolute;
+    inset: 0;
+    background-color: var(--ds-surface);
+    opacity: 0;
+  }
+
+  .ds-calendar-caption-label {
+    font-weight: 500;
+    user-select: none;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+  }
+  .ds-calendar-caption-label--dropdown {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: var(--cell-radius);
+  }
+
+  .ds-calendar-month-grid {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .ds-calendar-weekdays {
+    display: flex;
+  }
+
+  .ds-calendar-weekday {
+    flex: 1 1 0%;
+    border-radius: var(--cell-radius);
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--ds-ink-faint);
+    user-select: none;
+  }
+
+  .ds-calendar-week {
+    margin-top: 0.5rem;
+    display: flex;
+    width: 100%;
+  }
+
+  .ds-calendar-week-number-header {
+    width: var(--cell-size);
+    user-select: none;
+  }
+
+  .ds-calendar-week-number {
+    font-size: 0.8rem;
+    color: var(--ds-ink-faint);
+    user-select: none;
+  }
+
+  .ds-calendar-week-number-cell {
+    display: flex;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .ds-calendar-day {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    height: 100%;
+    width: 100%;
+    border-radius: var(--cell-radius);
+    padding: 0;
+    text-align: center;
+    user-select: none;
+  }
+
+  .ds-calendar-range-start {
+    position: relative;
+    isolation: isolate;
+    z-index: 0;
+    border-start-start-radius: var(--cell-radius);
+    border-end-start-radius: var(--cell-radius);
+    background-color: var(--ds-bg-alt);
+  }
+
+  .ds-calendar-range-middle {
+    border-radius: 0;
+  }
+
+  .ds-calendar-range-end {
+    position: relative;
+    isolation: isolate;
+    z-index: 0;
+    border-start-end-radius: var(--cell-radius);
+    border-end-end-radius: var(--cell-radius);
+    background-color: var(--ds-bg-alt);
+  }
+
+  .ds-calendar-today {
+    border-radius: var(--cell-radius);
+    background-color: var(--ds-bg-alt);
+    color: var(--ds-ink);
+  }
+
+  .ds-calendar-outside {
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-calendar-disabled {
+    color: var(--ds-ink-faint);
+    opacity: 0.5;
+  }
+
+  .ds-calendar-hidden {
+    visibility: hidden;
+  }
+
+  .ds-calendar-chevron {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  /* aspect-ratio, height, width and min-width stay literal Tailwind
+     utilities on the day button (see calendar.tsx), for the same reason as
+     .ds-calendar-nav-button above: they override .ds-button--size-icon. */
+  .ds-calendar-day-button {
+    position: relative;
+    isolation: isolate;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    border-width: 0;
+    line-height: 1;
+    font-weight: 400;
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  [data-slot="card-content"] .ds-calendar,
+  [data-slot="popover-content"] .ds-calendar {
+    background-color: transparent;
+  }
+  :where([dir="rtl"], [dir="rtl"] *) .ds-calendar .rdp-button_next > svg {
+    rotate: 180deg;
+  }
+  :where([dir="rtl"], [dir="rtl"] *) .ds-calendar .rdp-button_previous > svg {
+    rotate: 180deg;
+  }
+  .ds-calendar-nav-button[aria-disabled="true"] {
+    opacity: 0.5;
+  }
+  .ds-calendar-caption-label--dropdown > svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    color: var(--ds-ink-faint);
+  }
+  .ds-calendar-day:last-child[data-selected="true"] button {
+    border-start-end-radius: var(--cell-radius);
+    border-end-end-radius: var(--cell-radius);
+  }
+  .ds-calendar-day--round-start-first:first-child[data-selected="true"] button {
+    border-start-start-radius: var(--cell-radius);
+    border-end-start-radius: var(--cell-radius);
+  }
+  .ds-calendar-day--round-start-second:nth-child(2)[data-selected="true"]
+    button {
+    border-start-start-radius: var(--cell-radius);
+    border-end-start-radius: var(--cell-radius);
+  }
+  .ds-calendar-range-start::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 0;
+    width: 1rem;
+    background-color: var(--ds-bg-alt);
+  }
+  .ds-calendar-range-end::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 1rem;
+    background-color: var(--ds-bg-alt);
+  }
+  .ds-calendar-today[data-selected="true"] {
+    border-radius: 0;
+  }
+  .ds-calendar-outside[aria-selected="true"] {
+    color: var(--ds-ink-faint);
+  }
+  :where([dir="rtl"], [dir="rtl"] *) .ds-calendar-chevron--directional {
+    rotate: 180deg;
+  }
+  .ds-calendar-day-button > span {
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-calendar-day-button:hover {
+    color: var(--ds-ink);
+  }
+  .ds-calendar-day[data-focused="true"] .ds-calendar-day-button {
+    position: relative;
+    z-index: 10;
+    border-color: var(--ds-focus-ring);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--ds-focus-ring) 50%, transparent);
+  }
+  .ds-calendar-day-button[data-range-end="true"] {
+    border-radius: var(--cell-radius);
+    background-color: var(--ds-ink);
+    color: var(--ds-bg);
+  }
+  .ds-calendar-day-button[data-range-middle="true"] {
+    border-radius: 0;
+    background-color: var(--ds-bg-alt);
+    color: var(--ds-ink);
+  }
+  .ds-calendar-day-button[data-range-start="true"] {
+    border-radius: var(--cell-radius);
+    background-color: var(--ds-ink);
+    color: var(--ds-bg);
+  }
+  .ds-calendar-day-button[data-selected-single="true"] {
+    background-color: var(--ds-ink);
+    color: var(--ds-bg);
   }
 }
 
-.ds-calendar-month {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.ds-calendar-nav {
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.25rem;
-}
-
-/* width, height and padding stay literal Tailwind utilities on the nav
-   buttons (see calendar.tsx) — button.css's own .ds-button--size-default
-   already sets height and padding-inline as real (non-Tailwind) CSS, so
-   it now wins the cascade by import order alone regardless of class-list
-   position; baking size-(--cell-size)/p-0 here would flip that and make
-   the nav buttons cell-sized instead of matching their current
-   (already-shipped) fixed button size. */
-.ds-calendar-nav-button {
-  user-select: none;
-}
-.ds-calendar-nav-button[aria-disabled="true"] {
-  opacity: 0.5;
-}
-
-.ds-calendar-month-caption {
-  display: flex;
-  height: var(--cell-size);
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  padding-inline: var(--cell-size);
-}
-
-.ds-calendar-dropdowns {
-  display: flex;
-  height: var(--cell-size);
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  gap: 0.375rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.ds-calendar-dropdown-root {
-  position: relative;
-  border-radius: var(--cell-radius);
-}
-
-.ds-calendar-dropdown {
-  position: absolute;
-  inset: 0;
-  background-color: var(--ds-surface);
-  opacity: 0;
-}
-
-.ds-calendar-caption-label {
-  font-weight: 500;
-  user-select: none;
-  font-size: 0.875rem;
-  line-height: calc(1.25 / 0.875);
-}
-.ds-calendar-caption-label--dropdown {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  border-radius: var(--cell-radius);
-}
-.ds-calendar-caption-label--dropdown > svg {
-  width: 0.875rem;
-  height: 0.875rem;
-  color: var(--ds-ink-soft);
-}
-
-.ds-calendar-month-grid {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.ds-calendar-weekdays {
-  display: flex;
-}
-
-.ds-calendar-weekday {
-  flex: 1 1 0%;
-  border-radius: var(--cell-radius);
-  font-size: 0.8rem;
-  font-weight: 400;
-  color: var(--ds-ink-soft);
-  user-select: none;
-}
-
-.ds-calendar-week {
-  margin-top: 0.5rem;
-  display: flex;
-  width: 100%;
-}
-
-.ds-calendar-week-number-header {
-  width: var(--cell-size);
-  user-select: none;
-}
-
-.ds-calendar-week-number {
-  font-size: 0.8rem;
-  color: var(--ds-ink-soft);
-  user-select: none;
-}
-
-.ds-calendar-week-number-cell {
-  display: flex;
-  width: var(--cell-size);
-  height: var(--cell-size);
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.ds-calendar-day {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  height: 100%;
-  width: 100%;
-  border-radius: var(--cell-radius);
-  padding: 0;
-  text-align: center;
-  user-select: none;
-}
-.ds-calendar-day:last-child[data-selected="true"] button {
-  border-start-end-radius: var(--cell-radius);
-  border-end-end-radius: var(--cell-radius);
-}
-.ds-calendar-day--round-start-first:first-child[data-selected="true"] button {
-  border-start-start-radius: var(--cell-radius);
-  border-end-start-radius: var(--cell-radius);
-}
-.ds-calendar-day--round-start-second:nth-child(2)[data-selected="true"]
-  button {
-  border-start-start-radius: var(--cell-radius);
-  border-end-start-radius: var(--cell-radius);
-}
-
-.ds-calendar-range-start {
-  position: relative;
-  isolation: isolate;
-  z-index: 0;
-  border-start-start-radius: var(--cell-radius);
-  border-end-start-radius: var(--cell-radius);
-  background-color: var(--ds-bg-alt);
-}
-.ds-calendar-range-start::after {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  inset-inline-end: 0;
-  width: 1rem;
-  background-color: var(--ds-bg-alt);
-}
-
-.ds-calendar-range-middle {
-  border-radius: 0;
-}
-
-.ds-calendar-range-end {
-  position: relative;
-  isolation: isolate;
-  z-index: 0;
-  border-start-end-radius: var(--cell-radius);
-  border-end-end-radius: var(--cell-radius);
-  background-color: var(--ds-bg-alt);
-}
-.ds-calendar-range-end::after {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: 0;
-  width: 1rem;
-  background-color: var(--ds-bg-alt);
-}
-
-.ds-calendar-today {
-  border-radius: var(--cell-radius);
-  background-color: var(--ds-bg-alt);
-  color: var(--ds-ink);
-}
-.ds-calendar-today[data-selected="true"] {
-  border-radius: 0;
-}
-
-.ds-calendar-outside {
-  color: var(--ds-ink-soft);
-}
-.ds-calendar-outside[aria-selected="true"] {
-  color: var(--ds-ink-soft);
-}
-
-.ds-calendar-disabled {
-  color: var(--ds-ink-soft);
-  opacity: 0.5;
-}
-
-.ds-calendar-hidden {
-  visibility: hidden;
-}
-
-.ds-calendar-chevron {
-  width: 1rem;
-  height: 1rem;
-}
-:where([dir="rtl"], [dir="rtl"] *) .ds-calendar-chevron--directional {
-  rotate: 180deg;
-}
-
-/* aspect-ratio, height, width and min-width stay literal Tailwind
-   utilities on the day button (see calendar.tsx) — same reasoning as
-   .ds-calendar-nav-button above: button.css's own .ds-button--size-icon
-   already sets width/height as real CSS, so it wins the cascade by
-   import order regardless of class-list position, and baking those
-   dimensions here would flip that precedence instead of matching the
-   already-shipped fixed icon-button size. */
-.ds-calendar-day-button {
-  position: relative;
-  isolation: isolate;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  border-width: 0;
-  line-height: 1;
-  font-weight: 400;
-}
-.ds-calendar-day-button > span {
-  font-size: 0.75rem;
-  opacity: 0.7;
-}
-.ds-calendar-day[data-focused="true"] .ds-calendar-day-button {
-  position: relative;
-  z-index: 10;
-  border-color: var(--ds-focus-ring);
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ds-focus-ring) 50%, transparent);
-}
-/* Ink, not the accent: there is no default accent colour, so a selected day is
-   neutral and inverts on dark (--ds-bg on --ds-ink). Red stays a per-instance
-   tone. Applies to all three filled day states. */
-.ds-calendar-day-button[data-range-end="true"] {
-  border-radius: var(--cell-radius);
-  background-color: var(--ds-ink);
-  color: var(--ds-bg);
-}
-.ds-calendar-day-button[data-range-middle="true"] {
-  border-radius: 0;
-  background-color: var(--ds-bg-alt);
-  color: var(--ds-ink);
-}
-
-/* An event marker a consumer adds by overriding the `DayButton` component
-   (calendar/basic demo) — not part of Calendar's own render, so it has no
-   `data-*` attribute of its own to key off. */
-.ds-calendar-event-dot {
-  display: block;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background-color: currentColor;
-}
-.ds-calendar-event-dot--info    { color: var(--ds-info-solid); }
-.ds-calendar-event-dot--warning { color: var(--ds-warning-solid); }
-.ds-calendar-event-dot--success { color: var(--ds-success-solid); }
-.ds-calendar-event-dot--danger  { color: var(--ds-danger-solid); }
-.ds-calendar-day-button[data-range-start="true"] {
-  border-radius: var(--cell-radius);
-  background-color: var(--ds-ink);
-  color: var(--ds-bg);
-}
-.ds-calendar-day-button[data-selected-single="true"] {
-  background-color: var(--ds-ink);
-  color: var(--ds-bg);
+/* ============================================================================
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
+   ============================================================================ */
+@layer components {
+  /* An event marker a consumer adds by overriding the `DayButton` component
+  (calendar/basic demo) — not part of Calendar's own render, so it has no
+  `data-*` attribute of its own to key off. */
+  .ds-calendar-event-dot {
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+  .ds-calendar-event-dot--info    { color: var(--ds-info-solid); }
+  .ds-calendar-event-dot--warning { color: var(--ds-warning-solid); }
+  .ds-calendar-event-dot--success { color: var(--ds-success-solid); }
+  .ds-calendar-event-dot--danger  { color: var(--ds-danger-solid); }
 }

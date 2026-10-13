@@ -93,6 +93,7 @@
   "devDependencies": {
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
+    "postcss": "^8.5.30",
     "typescript": "~5.7"
   },
   "engines": {
@@ -117,6 +118,8 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@phosphor-icons/react": "^2.1.10",
     "@tanstack/react-table": "^8.21.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.4.0",
     "embla-carousel-react": "^8.6.0",
@@ -124,6 +127,7 @@
     "react-day-picker": "^10.0.1",
     "react-is": "^18.0.0 || ^19.0.0",
     "react-resizable-panels": "^4.12.4",
-    "recharts": "^3.8.0"
+    "recharts": "^3.8.0",
+    "tailwind-merge": "^3.7.0"
   }
 }

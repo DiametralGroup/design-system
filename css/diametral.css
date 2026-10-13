@@ -12,6 +12,15 @@
    See docs/theming.md and docs/migration.md.
    ============================================================================ */
 
+/* Cascade layers, in incoming's order (Tailwind v4's own: theme, base,
+   components, utilities). Component rules sit in `components` and their
+   state/context rules in `utilities`, so a consumer's className — a Tailwind
+   utility or any unlayered rule — overrides a component's base styles. Declared
+   first so a Tailwind app that imports this file before tailwindcss gets the
+   same order. ds-blocks sits below components, so a component's own rule wins
+   inside a block, as it did when components were unlayered. */
+@layer theme, base, ds-blocks, components, utilities;
+
 /* Tier 1+2+3 tokens */
 @import url("./tokens.css");
 

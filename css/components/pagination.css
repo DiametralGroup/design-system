@@ -1,71 +1,64 @@
-/* ============================================================================
-   Pagination — .ds-pagination
-   ----------------------------------------------------------------------------
-   A row of page links built out of Buttons, with prev/next controls whose text
-   label appears only once there is width for it. The window itself — which page
-   numbers show and where the ellipses fall — is `paginationRange()` in
-   pagination.tsx, a pure function rather than a prop.
+/* pagination.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/pagination.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   The source left `mx-auto`, `w-full` and `justify-center` literal Tailwind
-   utilities on Pagination's own className so a demo could override all three.
-   Baked here instead: there is no tailwind-merge to dedupe against, and a
-   consumer overrides by setting margin/width/justify-content on .ds-pagination.
+@layer components {
+  /* mx-auto, w-full and justify-center stay literal Tailwind utilities on
+     Pagination's own className (see pagination.tsx) — pagination/under-a-
+     table.tsx overrides all three (mx-0/w-auto/justify-end), relying on
+     tailwind-merge to dedupe against these exact literal classes. display
+     has no such conflict, so it is baked here instead. */
+  .ds-pagination {
+    display: flex;
+  }
 
-   Renamed from 0.x's __item / __nav / __ellipsis. The page buttons are Buttons
-   now, so their metrics come from button.css and nothing is restated here.
-   ============================================================================ */
-.ds-pagination {
-  display: flex;
-  margin-inline: auto;
-  width: 100%;
-  justify-content: center;
-  font-family: var(--ds-font-sans);
-}
+  .ds-pagination-content {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
 
-.ds-pagination-content {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+  .ds-pagination-previous {
+    padding-inline-start: 0.5rem !important;
+  }
 
-/* The page links are anchors wearing .ds-button; anchors carry an underline
-   that a <button> does not. */
-.ds-pagination a.ds-button { text-decoration: none; }
+  .ds-pagination-next {
+    padding-inline-end: 0.5rem !important;
+  }
 
-.ds-pagination-previous {
-  padding-inline-start: 0.5rem !important;
-}
-
-.ds-pagination-next {
-  padding-inline-end: 0.5rem !important;
-}
-
-:where([dir="rtl"], [dir="rtl"] *) .ds-pagination-caret {
-  rotate: 180deg;
-}
-
-.ds-pagination-label {
-  display: none;
-}
-@media (min-width: 640px) {
   .ds-pagination-label {
-    display: block;
+    display: none;
+  }
+  @media (min-width: 640px) {
+    .ds-pagination-label {
+      display: block;
+    }
+  }
+
+  .ds-pagination-ellipsis {
+    display: flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+
+  :where([dir="rtl"], [dir="rtl"] *) .ds-pagination-caret {
+    rotate: 180deg;
+  }
+  .ds-pagination-ellipsis svg:not([class*="size-"]) {
+    width: 1rem;
+    height: 1rem;
   }
 }
 
-.ds-pagination-ellipsis {
-  display: flex;
-  width: 2.25rem;
-  height: 2.25rem;
-  align-items: center;
-  justify-content: center;
-  color: var(--ds-ink-faint);
-  user-select: none;
-}
-.ds-pagination-ellipsis svg {
-  width: 1rem;
-  height: 1rem;
-}

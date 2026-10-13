@@ -1,47 +1,50 @@
-/* ============================================================================
-   Description list — .ds-description-list
-   ----------------------------------------------------------------------------
-   A <dl> laid out as a two-column grid: an auto-width uppercase term column and
-   a 1fr detail column. `dt`/`dd` pairs flow as consecutive grid children, so a
-   row needs no wrapper.
+/* description-list.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/description-list.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   Renamed from 0.x's .ds-dl / __term / __desc. The rule between rows moves from
-   --ds-rule-soft to --ds-rule, which is the source's weight and the one every
-   other absorbed row list uses.
-   ============================================================================ */
-.ds-description-list {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 1.5rem;
-  margin: 0;
+@layer components {
+  .ds-description-list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1.5rem;
+  }
+
+  .ds-description-term {
+    border-top: 1px solid var(--ds-rule);
+    padding-block: 0.625rem;
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    color: var(--ds-ink-faint);
+    text-transform: uppercase;
+  }
+
+  .ds-description-detail {
+    display: flex;
+    align-items: flex-start;
+    border-top: 1px solid var(--ds-rule);
+    padding-block: 0.625rem;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    color: var(--ds-ink);
+    font-variant-numeric: tabular-nums;
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-description-term:first-of-type {
+    border-top: 0;
+  }
+  .ds-description-detail:first-of-type {
+    border-top: 0;
+  }
 }
 
-.ds-description-term {
-  border-top: 1px solid var(--ds-rule);
-  padding-block: 0.625rem;
-  font-size: var(--ds-text-2xs);
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-  color: var(--ds-ink-faint);
-  text-transform: uppercase;
-  align-self: baseline;
-}
-.ds-description-term:first-of-type {
-  border-top: 0;
-}
-
-.ds-description-detail {
-  display: flex;
-  align-items: flex-start;
-  margin: 0;
-  border-top: 1px solid var(--ds-rule);
-  padding-block: 0.625rem;
-  font-size: var(--ds-text-base);
-  line-height: calc(1.25 / 0.875);
-  color: var(--ds-ink);
-  font-variant-numeric: tabular-nums;
-}
-.ds-description-detail:first-of-type {
-  border-top: 0;
-}

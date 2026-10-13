@@ -1,15 +1,25 @@
-/* ============================================================================
-   Masonry — .ds-masonry
-   ----------------------------------------------------------------------------
-   A CSS multi-column layout for cards of uneven height. `--columns` sets the
-   count, so any integer works with no breakpoint list to maintain, and
-   `break-inside: avoid` keeps a child from splitting across two columns.
-   ============================================================================ */
-.ds-masonry {
-  columns: var(--columns);
-  gap: 1rem;
+/* masonry.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/masonry.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-masonry {
+    columns: var(--columns);
+    gap: 1rem;
+  }
 }
-.ds-masonry > * {
-  margin-bottom: 1rem;
-  break-inside: avoid;
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-masonry > * {
+    margin-bottom: 1rem;
+    break-inside: avoid;
+  }
 }
+

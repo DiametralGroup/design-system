@@ -1,36 +1,39 @@
-/* ============================================================================
-   Separator — .ds-separator
-   ----------------------------------------------------------------------------
-   A 1px rule with an orientation. The source kept `bg-border` and the
-   data-horizontal/data-vertical sizing as literal Tailwind utilities on
-   separator.tsx's own className so tailwind-merge could dedupe them against
-   ButtonGroupSeparator's and SidebarSeparator's overrides. This package has
-   neither Tailwind nor tailwind-merge, so the exception is resolved: the
-   literals become real declarations here, and the sizing half of both
-   overrides becomes one modifier class, `--auto`. Their colour half needs no
-   modifier: `bg-input` and `bg-sidebar-border` both collapse onto --ds-rule in
-   this palette, which is what .ds-separator already paints. Both consumers
-   arrive later — button-group in batch 3, sidebar's cherry-pick in batch 8 —
-   and compose the modifier instead.
-   ============================================================================ */
-.ds-separator {
-  flex-shrink: 0;
-  background-color: var(--ds-rule);
-}
-.ds-separator[data-orientation="horizontal"] {
-  height: 1px;
-  width: 100%;
-}
-.ds-separator[data-orientation="vertical"] {
-  width: 1px;
-  align-self: stretch;
+/* separator.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/separator.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  /* Only shrink-0 is baked. bg-border and the data-horizontal/data-vertical
+     sizing utilities stay literal on separator.tsx's own className:
+     ButtonGroupSeparator (button-group.tsx) overrides them with
+     bg-input/data-horizontal:w-auto/data-vertical:h-auto, and
+     SidebarSeparator (sidebar.tsx) overrides them with
+     bg-sidebar-border/w-auto, both relying on tailwind-merge to dedupe
+     against Separator's own defaults — which only works while those
+     specific utilities remain literal Tailwind classes on both sides. */
+  .ds-separator {
+    flex-shrink: 0;
+  }
 }
 
-/* The ButtonGroupSeparator / SidebarSeparator override: a rule that sizes
-   itself to its container rather than filling the cross axis. */
-.ds-separator--auto[data-orientation="horizontal"] {
-  width: auto;
-}
-.ds-separator--auto[data-orientation="vertical"] {
-  height: auto;
+/* ============================================================================
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
+   ============================================================================ */
+@layer utilities {
+  /* The ButtonGroupSeparator / SidebarSeparator override: a rule that sizes
+  itself to its container rather than filling the cross axis. */
+  .ds-separator--auto[data-orientation="horizontal"] {
+    width: auto;
+  }
+  .ds-separator--auto[data-orientation="vertical"] {
+    height: auto;
+  }
 }

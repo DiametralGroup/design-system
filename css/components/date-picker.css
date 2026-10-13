@@ -1,24 +1,36 @@
-/* w-56 stays a literal Tailwind utility on the trigger's own className
-   (see date-picker.tsx) — date-picker/range.tsx overrides it with w-72,
-   relying on tailwind-merge to dedupe against this exact literal class. */
-.ds-date-picker-trigger {
-  justify-content: space-between;
-  font-weight: 400;
-  letter-spacing: normal;
-  text-transform: none;
+/* date-picker.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/date-picker.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  /* w-56 stays a literal Tailwind utility on the trigger's own className
+     (see date-picker.tsx) — date-picker/range.tsx overrides it with w-72,
+     relying on tailwind-merge to dedupe against this exact literal class. */
+  .ds-date-picker-trigger {
+    justify-content: space-between;
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .ds-date-picker-value--placeholder {
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-date-picker-trigger-icon {
+    pointer-events: none;
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-date-picker-content {
+    width: auto;
+    gap: 0;
+    padding: 0;
+  }
 }
 
-.ds-date-picker-value--placeholder {
-  color: var(--ds-ink-soft);
-}
-
-.ds-date-picker-trigger-icon {
-  pointer-events: none;
-  color: var(--ds-ink-soft);
-}
-
-.ds-date-picker-content {
-  width: auto;
-  gap: 0;
-  padding: 0;
-}

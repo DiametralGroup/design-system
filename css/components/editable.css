@@ -1,41 +1,33 @@
-/* ============================================================================
-   Editable — .ds-editable
-   ----------------------------------------------------------------------------
-   Click-to-edit text in place: a preview with a pencil beside it, swapped for
-   an input plus confirm/cancel while editing. The pencil is invisible until
-   the row is hovered or the button itself is focused, so a dense list is not a
-   wall of icons — and keyboard reach is preserved because `:focus-visible`
-   reveals it as surely as hover does.
+/* editable.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/editable.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   The input is shortened to 32px against `.ds-input`'s own height. Upstream
-   that was a literal `h-8` utility on the Input, which stopped winning once
-   `.ds-input` baked its height in — Tailwind's generated utilities land in an
-   earlier layer than component CSS. Targeting the slot sidesteps the whole
-   question, and it is the one selector here that has to be attribute-keyed:
-   the height belongs to Editable's input, not to every `.ds-input`.
-   ============================================================================ */
-.ds-editable {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+@layer components {
+  .ds-editable {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .ds-editable-edit-button {
+    opacity: 0;
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  [data-slot="editable-preview"][data-empty] {
+    color: var(--ds-ink-faint);
+  }
+  .ds-editable:hover .ds-editable-edit-button,
+  .ds-editable-edit-button:focus-visible {
+    opacity: 1;
+  }
 }
 
-[data-slot="editable-preview"][data-empty] {
-  color: var(--ds-ink-faint);
-}
-
-[data-slot="editable-input"] {
-  height: 32px;
-}
-
-.ds-editable-edit-button {
-  opacity: 0;
-  transition: opacity var(--ds-transition);
-}
-.ds-editable:hover .ds-editable-edit-button,
-.ds-editable-edit-button:focus-visible {
-  opacity: 1;
-}
-@media (prefers-reduced-motion: reduce) {
-  .ds-editable-edit-button { transition: none; }
-}

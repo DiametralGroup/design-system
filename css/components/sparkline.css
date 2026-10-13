@@ -1,53 +1,58 @@
-/* ============================================================================
-   Sparkline — .ds-sparkline
-   ----------------------------------------------------------------------------
-   An inline mini line chart drawn as a single inline <svg>. No axes, no grid,
-   no library — just a polyline (and an optional faint area fill + an end dot).
-   Sits inline-block so it can flow next to text or drop into a stat tile.
+/* sparkline.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/sparkline.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   The stroke is currentColor, so the line picks up the element's color; the
-   root's own default is the first *series* color, not the accent — a themed
-   --ds-accent must not repaint data. That default is why this file keeps
-   0.11's `color` declaration where the source relied on inheritance.
-
-   The parts were `__line` / `__area` / `__dot` / `__svg` in 0.11 and are flat
-   kebab from 1.0.0-beta.4 on; `--animate` moved from the root onto the line,
-   which is the element the keyframe actually draws.
-   ============================================================================ */
-.ds-sparkline {
-  display: inline-block;
-  line-height: 0;
-  color: var(--ds-chart-1);
-  vertical-align: middle;
+/* From incoming's globals.css. */
+@keyframes ds-sparkline-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
 }
 
-.ds-sparkline-svg {
-  display: block;
-  overflow: visible;
+@layer components {
+  .ds-sparkline {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+  }
+
+  .ds-sparkline-svg {
+    display: block;
+    overflow: visible;
+  }
+
+  .ds-sparkline-area {
+    fill: currentColor;
+    stroke: none;
+    opacity: 0.12;
+  }
+
+  .ds-sparkline-line {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .ds-sparkline-line--animate {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: ds-sparkline-draw 0.9s ease forwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ds-sparkline-line--animate {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .ds-sparkline-dot {
+    fill: currentColor;
+    stroke: none;
+  }
 }
 
-/* Optional faint area under the line (defaults to currentColor, made faint). */
-.ds-sparkline-area {
-  fill: currentColor;
-  opacity: 0.12;
-  stroke: none;
-}
-
-/* The line — inherits color via currentColor. */
-.ds-sparkline-line {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-}
-
-/* `.ds-sparkline-line--animate` draws the line in on mount. The keyframe and
-   the reduced-motion opt-out live in components/motion.css, which is where this
-   system keeps every animation it can be asked to switch off. */
-
-/* Dot marking the last point. */
-.ds-sparkline-dot {
-  fill: currentColor;
-  stroke: none;
-}

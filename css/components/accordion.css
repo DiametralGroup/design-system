@@ -1,94 +1,121 @@
-.ds-accordion {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
+/* accordion.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/accordion.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+/* From shadcn/tailwind.css, which incoming's globals.css imports. */
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height, var(--accordion-panel-height, auto)); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height, var(--accordion-panel-height, auto)); }
+  to { height: 0; }
 }
 
-.ds-accordion-item:not(:last-child) {
-  border-bottom: 1px solid var(--ds-rule);
+@layer components {
+  .ds-accordion {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .ds-accordion-header {
+    display: flex;
+  }
+
+  .ds-accordion-trigger {
+    position: relative;
+    display: flex;
+    flex: 1 1 0%;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    border-radius: 0;
+    border: 1px solid transparent;
+    padding-block: 1rem;
+    text-align: start;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    font-weight: 600;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    outline: none;
+  }
+
+  .ds-accordion-trigger-icon {
+    pointer-events: none;
+    flex-shrink: 0;
+    margin-inline-start: auto;
+    width: 0.875rem;
+    height: 0.875rem;
+    color: var(--ds-ink-faint);
+  }
+  .ds-accordion-trigger-icon--up {
+    display: none;
+  }
+
+  .ds-accordion-content {
+    overflow: hidden;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+  }
+
+  .ds-accordion-content-inner {
+    height: var(--accordion-panel-height);
+    padding-top: 0;
+    padding-bottom: 1rem;
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+
+  .ds-accordion-item:not(:last-child) {
+    border-bottom: 1px solid var(--ds-rule);
+  }
+  .ds-accordion-trigger:hover {
+    text-decoration: underline;
+  }
+  .ds-accordion-trigger:focus-visible {
+    border-color: var(--ds-focus-ring);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--ds-focus-ring) 30%, transparent);
+  }
+  .ds-accordion-trigger[aria-disabled="true"] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .ds-accordion-trigger[aria-expanded="true"] .ds-accordion-trigger-icon--down {
+    display: none;
+  }
+  .ds-accordion-trigger[aria-expanded="true"] .ds-accordion-trigger-icon--up {
+    display: inline;
+  }
+  .ds-accordion-content[data-open] {
+    animation: accordion-down 0.2s ease-out;
+  }
+  .ds-accordion-content[data-closed] {
+    animation: accordion-up 0.2s ease-out;
+  }
+  .ds-accordion-content-inner[data-ending-style],
+  .ds-accordion-content-inner[data-starting-style] {
+    height: 0;
+  }
+  .ds-accordion-content-inner a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .ds-accordion-content-inner a:hover {
+    color: var(--ds-ink);
+  }
+  .ds-accordion-content-inner p:not(:last-child) {
+    margin-bottom: 1rem;
+  }
 }
 
-.ds-accordion-header {
-  display: flex;
-}
-
-.ds-accordion-trigger {
-  position: relative;
-  display: flex;
-  flex: 1 1 0%;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1.5rem;
-  border-radius: 0;
-  border: 1px solid transparent;
-  padding-block: 1rem;
-  text-align: start;
-  font-size: 0.875rem;
-  line-height: calc(1.25 / 0.875);
-  font-weight: 600;
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-  outline: none;
-}
-.ds-accordion-trigger:hover {
-  text-decoration: underline;
-}
-.ds-accordion-trigger:focus-visible {
-  border-color: var(--ds-focus-ring);
-  box-shadow: 0 0 0 2px color-mix(in oklch, var(--ds-focus-ring) 30%, transparent);
-}
-.ds-accordion-trigger[aria-disabled="true"] {
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-.ds-accordion-trigger-icon {
-  pointer-events: none;
-  flex-shrink: 0;
-  margin-inline-start: auto;
-  width: 0.875rem;
-  height: 0.875rem;
-  color: var(--ds-ink-soft);
-}
-.ds-accordion-trigger-icon--up {
-  display: none;
-}
-.ds-accordion-trigger[aria-expanded="true"] .ds-accordion-trigger-icon--down {
-  display: none;
-}
-.ds-accordion-trigger[aria-expanded="true"] .ds-accordion-trigger-icon--up {
-  display: inline;
-}
-
-.ds-accordion-content {
-  overflow: hidden;
-  font-size: 0.875rem;
-  line-height: calc(1.25 / 0.875);
-}
-.ds-accordion-content[data-open] {
-  animation: accordion-down 0.2s ease-out;
-}
-.ds-accordion-content[data-closed] {
-  animation: accordion-up 0.2s ease-out;
-}
-
-.ds-accordion-content-inner {
-  height: var(--accordion-panel-height);
-  padding-top: 0;
-  padding-bottom: 1rem;
-}
-.ds-accordion-content-inner[data-ending-style],
-.ds-accordion-content-inner[data-starting-style] {
-  height: 0;
-}
-.ds-accordion-content-inner a {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.ds-accordion-content-inner a:hover {
-  color: var(--ds-ink);
-}
-.ds-accordion-content-inner p:not(:last-child) {
-  margin-bottom: 1rem;
-}

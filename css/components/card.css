@@ -1,141 +1,195 @@
+/* card.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/card.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-card:where(:not(:has(> :is(.ds-card__header, .ds-card__body, .ds-card__media, .ds-card__footer, .ds-card__block)))) {
+    --card-spacing: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-spacing);
+    overflow: hidden;
+    padding-block: var(--card-spacing);
+    background-color: var(--ds-surface);
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    color: var(--ds-ink);
+    border: 1px solid var(--ds-rule);
+  }
+
+  .ds-card-header {
+    container-type: inline-size;
+    container-name: card-header;
+    display: grid;
+    grid-auto-rows: min-content;
+    align-items: start;
+    gap: 0.375rem;
+    border-radius: 0;
+    padding-inline: var(--card-spacing);
+  }
+
+  /* text-lg stays a literal Tailwind utility on CardTitle's own default
+     className (see card.tsx) — card/stat.tsx overrides it with text-3xl,
+     relying on tailwind-merge to dedupe against this component's own
+     default, which only works while text-lg remains a literal class rather
+     than baked CSS. */
+  .ds-card-title {
+    font-family: var(--ds-font-title);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .ds-card-description {
+    font-size: 0.875rem;
+    line-height: 1.625;
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-card-action {
+    grid-column-start: 2;
+    grid-row: span 2 / span 2;
+    grid-row-start: 1;
+    align-self: start;
+    justify-self: end;
+  }
+
+  .ds-card-content {
+    padding-inline: var(--card-spacing);
+  }
+
+  .ds-card-footer {
+    display: flex;
+    align-items: center;
+    padding-inline: var(--card-spacing);
+  }
+}
+
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-card:where(:not(:has(> :is(.ds-card__header, .ds-card__body, .ds-card__media, .ds-card__footer, .ds-card__block)))):has(> img:first-child) {
+    padding-top: 0;
+  }
+  .ds-card:where(:not(:has(> :is(.ds-card__header, .ds-card__body, .ds-card__media, .ds-card__footer, .ds-card__block))))[data-size="sm"] {
+    --card-spacing: 1.25rem;
+  }
+  .ds-card:where(:not(:has(> :is(.ds-card__header, .ds-card__body, .ds-card__media, .ds-card__footer, .ds-card__block)))) > img:first-child,
+  .ds-card:where(:not(:has(> :is(.ds-card__header, .ds-card__body, .ds-card__media, .ds-card__footer, .ds-card__block)))) > img:last-child {
+    border-radius: 0;
+  }
+  .ds-card-header:has([data-slot="card-action"]) {
+    grid-template-columns: 1fr auto;
+  }
+  .ds-card-header:has([data-slot="card-description"]) {
+    grid-template-rows: auto auto;
+  }
+  .ds-card-header.border-b {
+    padding-bottom: var(--card-spacing);
+  }
+  .ds-card-footer.border-t {
+    padding-top: var(--card-spacing);
+  }
+}
+
 /* ============================================================================
-   Card — .ds-card
-   ----------------------------------------------------------------------------
-   Frozen (css-ledger §1), and frozen from two directions at once: `ds-card` is
-   in the set `docs/streamlit.md` publishes for Python consumers to write by
-   hand, and `ds-card--clickable`, `ds-card__media` and `ds-card__block` are
-   read by `react/components/Card.js`. `__header`, `__title`, `__body` and
-   `__footer` are not externally frozen but are taught by `docs/components.md`
-   and rendered by committed fixtures, so they move no more than the first four.
-
-   The source's parts are absorbed **into** those names rather than beside them
-   (batch-plan §4): `ds-card-header` → `__header`, `-title` → `__title`,
-   `-footer` → `__footer`, and — the one that is a real rename rather than a
-   respelling — `ds-card-content` → **`ds-card__body`**, because `__body` is
-   what this system already calls that region. `CardDescription` and
-   `CardAction` are net-new and land as `__description` and `__action`.
-
-   The box stays 0.11's: a flat bordered surface. The source's card is a
-   shadowed, unbordered one — two shadow layers plus a 5%-ink ring — and the
-   charte has no drop shadows, the same edit every absorbed popup has taken
-   since beta.1.
-
-   **Dedupe exception resolved** (6 of batch 7's 6, and the last). `CardTitle`
-   kept `text-lg` as a literal Tailwind utility on its own className so
-   `card/stat.tsx` could override it with `text-3xl` and let `tailwind-merge`
-   dedupe the pair. With no `tailwind-merge` here both would have applied, so
-   the size becomes a real declaration — this system's `--ds-text-md`, which is
-   what `.ds-card__title` already set — and the larger case becomes what it
-   always should have been: `StatCard`, which is a separate component with its
-   own stylesheet and holds (`stat-card`, ledger §1.1).
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
    ============================================================================ */
-/* Not a flex column, deliberately. The source's card is one, and
-   `docs/streamlit.md` publishes `<div class="ds-card" style="padding:18px 20px">On
-   track <span class="ds-tag ds-tag--success">Run</span></div>` for Python
-   consumers to paste — inline content that a flex column would stack. The parts
-   are block-level and stack on their own, so the flex bought only the footer's
-   push, which `.ds-card__footer` gets from `margin-block-start: auto` where a
-   caller does make the card a column. */
-.ds-card {
-  background: var(--ds-surface);
-  border: 1px solid var(--ds-rule);
-  border-radius: var(--ds-radius-none);
-  color: var(--ds-ink);
-  overflow: hidden;
+@layer components {
+  /* Padding of the 0.x parts, which incoming's --card-spacing does not reach. */
+  .ds-card__header, .ds-card__body, .ds-card__footer, .ds-card__block { --ds-card-pad-x: 20px; --ds-card-pad-y: 16px; }
+  /* Media — full-bleed image at the top of the card. */
+  .ds-card__media {
+    display: block;
+    width: 100%;
+    margin: 0;
+  }
+  .ds-card__header {
+    display: grid;
+    grid-auto-rows: min-content;
+    align-items: start;
+    gap: 6px;
+    padding: var(--ds-card-pad-y) var(--ds-card-pad-x);
+  }
+  .ds-card__header--ruled { padding-bottom: var(--ds-card-pad-y); border-bottom: 1px solid var(--ds-rule); }
+  .ds-card__title {
+    font-family: var(--ds-font-title);
+    font-size: var(--ds-text-md);
+    font-weight: var(--ds-font-weight-title);
+    letter-spacing: -0.3px;
+    line-height: var(--ds-leading-tight);
+    margin: 0;
+  }
+  .ds-card__description {
+    margin: 0;
+    font-size: var(--ds-text-sm);
+    line-height: var(--ds-leading-normal);
+    color: var(--ds-ink-faint);
+  }
+  .ds-card__action {
+    grid-column-start: 2;
+    grid-row: span 2 / span 2;
+    grid-row-start: 1;
+    align-self: start;
+    justify-self: end;
+  }
+  .ds-card__body {
+    padding: var(--ds-card-pad-y) var(--ds-card-pad-x);
+    font-size: var(--ds-text-base);
+    color: var(--ds-ink-soft);
+  }
+  .ds-card__footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px var(--ds-card-pad-x);
+    margin-block-start: auto;
+    background: var(--ds-bg-alt);
+    border-top: 1px solid var(--ds-rule);
+    font-size: var(--ds-text-sm);
+    color: var(--ds-ink-faint);
+  }
+  /* Divided blocks — stacked regions separated by a soft rule. */
+  .ds-card__block {
+    padding: var(--ds-card-pad-y) var(--ds-card-pad-x);
+    border-top: 1px solid var(--ds-rule-soft);
+  }
+  /* Clickable — the whole card becomes an affordance. */
+  .ds-card--clickable {
+    cursor: pointer;
+    transition: background-color var(--ds-transition);
+  }
 }
-/* The source's size axis, as data-size — the same spelling avatar, panel and
-   select use. It scales the parts' padding, so it is declared as a variable
-   the parts read rather than restated on each of them. */
-.ds-card { --ds-card-pad-x: 20px; --ds-card-pad-y: 16px; }
-.ds-card[data-size="sm"] { --ds-card-pad-x: 14px; --ds-card-pad-y: 10px; }
-
-/* Media — full-bleed image at the top of the card. */
-.ds-card__media {
-  display: block;
-  width: 100%;
-  margin: 0;
-}
-.ds-card__media img,
-img.ds-card__media {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: var(--ds-radius-none);
-}
-
-.ds-card__header {
-  display: grid;
-  grid-auto-rows: min-content;
-  align-items: start;
-  gap: 6px;
-  padding: var(--ds-card-pad-y) var(--ds-card-pad-x);
-}
-/* An action in the corner turns the header into two columns; a description
-   turns it into two rows. Both from the source, and both the reason the header
-   is a grid rather than the plain block 0.11 had. */
-.ds-card__header:has(.ds-card__action) { grid-template-columns: 1fr auto; }
-.ds-card__header:has(.ds-card__description) { grid-template-rows: auto auto; }
-.ds-card__header--ruled { padding-bottom: var(--ds-card-pad-y); border-bottom: 1px solid var(--ds-rule); }
-
-.ds-card__title {
-  font-family: var(--ds-font-title);
-  font-size: var(--ds-text-md);
-  font-weight: var(--ds-font-weight-title);
-  letter-spacing: -0.3px;
-  line-height: var(--ds-leading-tight);
-  margin: 0;
-}
-
-.ds-card__description {
-  margin: 0;
-  font-size: var(--ds-text-sm);
-  line-height: var(--ds-leading-normal);
-  color: var(--ds-ink-faint);
-}
-
-.ds-card__action {
-  grid-column-start: 2;
-  grid-row: span 2 / span 2;
-  grid-row-start: 1;
-  align-self: start;
-  justify-self: end;
-}
-
-.ds-card__body {
-  padding: var(--ds-card-pad-y) var(--ds-card-pad-x);
-  font-size: var(--ds-text-base);
-  color: var(--ds-ink-soft);
-}
-/* When a header sits directly above a body, drop the body's top padding so the
-   two read as one block. */
-.ds-card__header + .ds-card__body { padding-top: 0; }
-
-.ds-card__footer {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px var(--ds-card-pad-x);
-  margin-block-start: auto;
-  background: var(--ds-bg-alt);
-  border-top: 1px solid var(--ds-rule);
-  font-size: var(--ds-text-sm);
-  color: var(--ds-ink-faint);
-}
-
-/* Divided blocks — stacked regions separated by a soft rule. */
-.ds-card__block {
-  padding: var(--ds-card-pad-y) var(--ds-card-pad-x);
-  border-top: 1px solid var(--ds-rule-soft);
-}
-.ds-card__block:first-child { border-top: none; }
-
-/* Clickable — the whole card becomes an affordance. */
-.ds-card--clickable {
-  cursor: pointer;
-  transition: background-color var(--ds-transition);
-}
-.ds-card--clickable:hover { background: var(--ds-bg-alt); }
-.ds-card--clickable:focus-visible {
-  outline: 2px solid var(--ds-focus-ring);
-  outline-offset: 2px;
+@layer utilities {
+  .ds-card[data-size="sm"] > [class*="ds-card__"] { --ds-card-pad-x: 14px; --ds-card-pad-y: 10px; }
+  .ds-card__media img,
+  img.ds-card__media {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--ds-radius-none);
+  }
+  /* An action in the corner turns the header into two columns; a description
+  turns it into two rows. Both from the source, and both the reason the header
+  is a grid rather than the plain block 0.11 had. */
+  .ds-card__header:has(.ds-card__action) { grid-template-columns: 1fr auto; }
+  .ds-card__header:has(.ds-card__description) { grid-template-rows: auto auto; }
+  /* When a header sits directly above a body, drop the body's top padding so the
+  two read as one block. */
+  .ds-card__header + .ds-card__body { padding-top: 0; }
+  .ds-card__block:first-child { border-top: none; }
+  .ds-card--clickable:hover { background: var(--ds-bg-alt); }
+  .ds-card--clickable:focus-visible {
+    outline: 2px solid var(--ds-focus-ring);
+    outline-offset: 2px;
+  }
 }

@@ -1,77 +1,86 @@
-/* ============================================================================
-   Message — .ds-message
-   ----------------------------------------------------------------------------
-   The row a chat turn sits in: avatar, content column, and an optional header
-   and footer for the name and timestamp. `data-align="end"` mirrors the row for
-   the reader's own turns. Wrap the text in a `.ds-bubble`
-   (css/components/bubble.css) — the two are designed against each other.
-   ============================================================================ */
-.ds-message-group {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 0.5rem;
+/* message.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/message.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-message-group {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .ds-message {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+  }
+
+  .ds-message-avatar {
+    display: flex;
+    width: fit-content;
+    min-width: 2rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    overflow: hidden;
+    border-radius: 0;
+    background-color: var(--ds-bg-alt);
+  }
+
+  .ds-message-content {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.625rem;
+    overflow-wrap: break-word;
+  }
+
+  .ds-message-header,
+  .ds-message-footer {
+    display: flex;
+    max-width: 100%;
+    min-width: 0;
+    align-items: center;
+    padding-inline: 1rem;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    color: var(--ds-ink-faint);
+    text-transform: uppercase;
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-message[data-align="end"] {
+    flex-direction: row-reverse;
+  }
+  .ds-message:has([data-slot="message-footer"]) .ds-message-avatar {
+    translate: 0 -2rem;
+  }
+  .ds-message[data-align="end"] > .ds-message-content > [data-slot] {
+    align-self: flex-end;
+  }
+  .ds-message:has([data-variant="ghost"]) .ds-message-header,
+  .ds-message:has([data-variant="ghost"]) .ds-message-footer {
+    padding-inline: 0;
+  }
+  .ds-message[data-align="end"] .ds-message-footer {
+    justify-content: flex-end;
+  }
 }
 
-.ds-message {
-  position: relative;
-  display: flex;
-  width: 100%;
-  min-width: 0;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  line-height: calc(1.25 / 0.875);
-}
-.ds-message[data-align="end"] {
-  flex-direction: row-reverse;
-}
-
-.ds-message-avatar {
-  display: flex;
-  width: fit-content;
-  min-width: 2rem;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  align-self: flex-end;
-  overflow: hidden;
-  border-radius: 0;
-  background-color: var(--ds-bg-alt);
-}
-.ds-message:has([data-slot="message-footer"]) .ds-message-avatar {
-  translate: 0 -2rem;
-}
-
-.ds-message-content {
-  display: flex;
-  width: 100%;
-  min-width: 0;
-  flex-direction: column;
-  gap: 0.625rem;
-  overflow-wrap: break-word;
-}
-.ds-message[data-align="end"] > .ds-message-content > [data-slot] {
-  align-self: flex-end;
-}
-
-.ds-message-header,
-.ds-message-footer {
-  display: flex;
-  max-width: 100%;
-  min-width: 0;
-  align-items: center;
-  padding-inline: 1rem;
-  font-size: 0.75rem;
-  line-height: calc(1 / 0.75);
-  font-weight: 500;
-  letter-spacing: 0.025em;
-  color: var(--ds-ink-faint);
-  text-transform: uppercase;
-}
-.ds-message:has([data-variant="ghost"]) .ds-message-header,
-.ds-message:has([data-variant="ghost"]) .ds-message-footer {
-  padding-inline: 0;
-}
-.ds-message[data-align="end"] .ds-message-footer {
-  justify-content: flex-end;
-}

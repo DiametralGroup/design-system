@@ -1,180 +1,198 @@
+/* status-panel.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/status.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-status:where(:not(:has(> :is(.ds-status__head, .ds-status__body)))) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .ds-status--success {
+    --tone: var(--ds-success-ink);
+  }
+  .ds-status--warning {
+    --tone: var(--ds-warning-ink);
+  }
+  .ds-status--danger {
+    --tone: var(--ds-danger-ink);
+  }
+  .ds-status--critical {
+    --tone: var(--ds-critical-ink);
+  }
+  .ds-status--neutral {
+    --tone: var(--ds-neutral-ink);
+  }
+  .ds-status--info {
+    --tone: var(--ds-info-ink);
+  }
+
+  .ds-status-indicator {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    width: 0.375rem;
+    height: 0.375rem;
+    background-color: var(--tone);
+  }
+
+  .ds-status-indicator-ping {
+    position: absolute;
+    inset: 0;
+    background-color: var(--tone);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .ds-status-indicator-ping {
+      animation: ds-status-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+  }
+  @keyframes ds-status-ping {
+    75%,
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+
+  .ds-status-label {
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    color: var(--tone);
+  }
+}
+
 /* ============================================================================
-   Status — .ds-status   ★ the signature component, and now two components
-   ----------------------------------------------------------------------------
-   Frozen (css-ledger §1), and frozen as a *family*: `<ds-status>` writes
-   `class="ds-status ds-status--<tone>"` by concatenation, plus `__head`,
-   `__kicker`, `__title`, `__subtitle`, `__key`, `__body` and `__note`. Every
-   one of those is a contract.
-
-   0.11's status is a **panel**: a solid coloured head, a legend strip, metric
-   rows, a note. The source's is an **inline indicator**: a 6px square and a
-   label, the thing that sits in a table cell saying "running". They share the
-   class stem and the six tone modifiers, and they are not the same component.
-
-   Both ship, told apart by what they contain — the same mechanism `table.css`
-   used in beta.6 and `checkbox.css` and `input-group.css` use in this batch. A
-   panel has a `__head`; an indicator has a `.ds-status-indicator` or a
-   `.ds-status-label`. The tone modifiers serve both at once and collide with
-   neither: for the panel `.ds-status--success` is only ever read through a
-   descendant selector, and for the indicator it only sets `--tone`.
-
-   The React names had to move, because there `Status` is one symbol and the
-   ledger gives it to the source. The panel becomes **`StatusPanel`** — the name
-   its props interface and this stylesheet already carried — and `Status`,
-   `StatusIndicator`, `StatusLabel` are the absorbed inline set. The web
-   component is untouched: `<ds-status>` is still the panel, and no consumer of
-   it has to change anything.
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
    ============================================================================ */
-.ds-status:not(:has(.ds-status-indicator, .ds-status-label)) {
-  background: var(--ds-surface);
-  border: 1px solid var(--ds-ink);
-  border-radius: var(--ds-radius-none);
+@layer components {
+  /* Head — solid color, white text. Neutral by default. */
+  .ds-status__head {
+    padding: 32px 28px 28px;
+    color: var(--ds-on-status);
+    background: var(--ds-neutral-solid);
+    transition: background-color var(--ds-transition-slow);
+  }
+  .ds-status__kicker {
+    font-size: var(--ds-text-2xs);
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    /* Fully opaque. The head fills are now tuned so white text clears AA exactly
+       (--ds-*-solid); any transparency spends that margin and drops the kicker
+       back under 4.5:1, which is what .8 and then .95 both did. */
+    opacity: 1;
+  }
+  .ds-status__title {
+    font-family: var(--ds-font-title);
+    font-size: var(--ds-text-2xl);
+    font-weight: var(--ds-font-weight-title);
+    letter-spacing: -0.5px;
+    line-height: var(--ds-leading-tight);
+    margin: 10px 0 8px;
+  }
+  /* Opaque for the same reason as the kicker: the head fills clear AA exactly,
+  so transparency spends the margin. Hierarchy comes from size, not opacity. */
+  .ds-status__subtitle { font-size: 13.5px; }
+  /* Key — a 4-up legend strip with colored top borders; .is-on highlights the
+  active step. */
+  .ds-status__key {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-bottom: 1px solid var(--ds-rule-soft);
+  }
+  .ds-status__body { padding: 20px 28px 24px; }
+  .ds-status__note {
+    padding: 14px 28px 20px;
+    font-size: var(--ds-text-xs);
+    color: var(--ds-ink-faint);
+    border-top: 1px solid var(--ds-rule-soft);
+  }
+  /* ----------------------------------------------------------------------------
+  Metric rows — .ds-metric (usable inside the status body or standalone)
+  ---------------------------------------------------------------------------- */
+  .ds-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--ds-rule-soft);
+  }
+  .ds-metric__k { font-size: var(--ds-text-sm); color: var(--ds-ink-soft); }
+  .ds-metric__v { font-size: 14.5px; font-weight: 500; font-variant-numeric: tabular-nums; }
 }
+@layer utilities {
+  /* ============================================================================
+  Status — .ds-status   ★ the signature component, and now two components
+  ----------------------------------------------------------------------------
+  Frozen (css-ledger §1), and frozen as a *family*: `<ds-status>` writes
+  `class="ds-status ds-status--<tone>"` by concatenation, plus `__head`,
+  `__kicker`, `__title`, `__subtitle`, `__key`, `__body` and `__note`. Every
+  one of those is a contract.
 
-/* Head — solid color, white text. Neutral by default. */
-.ds-status__head {
-  padding: 32px 28px 28px;
-  color: var(--ds-on-status);
-  background: var(--ds-neutral-solid);
-  transition: background-color var(--ds-transition-slow);
-}
-.ds-status--success  .ds-status__head { background: var(--ds-success-solid); }
-.ds-status--warning  .ds-status__head { background: var(--ds-warning-solid); }
-.ds-status--danger   .ds-status__head { background: var(--ds-danger-solid); }
-.ds-status--critical .ds-status__head { background: var(--ds-critical-solid); }
-.ds-status--neutral  .ds-status__head { background: var(--ds-neutral-solid); }
-.ds-status--info     .ds-status__head { background: var(--ds-info-solid); }
+  0.11's status is a **panel**: a solid coloured head, a legend strip, metric
+  rows, a note. The source's is an **inline indicator**: a 6px square and a
+  label, the thing that sits in a table cell saying "running". They share the
+  class stem and the six tone modifiers, and they are not the same component.
 
-.ds-status__kicker {
-  font-size: var(--ds-text-2xs);
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  /* Fully opaque. The head fills are now tuned so white text clears AA exactly
-     (--ds-*-solid); any transparency spends that margin and drops the kicker
-     back under 4.5:1, which is what .8 and then .95 both did. */
-  opacity: 1;
-}
-.ds-status__title {
-  font-family: var(--ds-font-title);
-  font-size: var(--ds-text-2xl);
-  font-weight: var(--ds-font-weight-title);
-  letter-spacing: -0.5px;
-  line-height: var(--ds-leading-tight);
-  margin: 10px 0 8px;
-}
-/* Opaque for the same reason as the kicker: the head fills clear AA exactly,
-   so transparency spends the margin. Hierarchy comes from size, not opacity. */
-.ds-status__subtitle { font-size: 13.5px; }
+  Both ship, told apart by what they contain — the same mechanism `table.css`
+  used in beta.6 and `checkbox.css` and `input-group.css` use in this batch. A
+  panel has a `__head`; an indicator has a `.ds-status-indicator` or a
+  `.ds-status-label`. The tone modifiers serve both at once and collide with
+  neither: for the panel `.ds-status--success` is only ever read through a
+  descendant selector, and for the indicator it only sets `--tone`.
 
-/* Key — a 4-up legend strip with colored top borders; .is-on highlights the
-   active step. */
-.ds-status__key {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  border-bottom: 1px solid var(--ds-rule-soft);
-}
-.ds-status__key > * {
-  font-size: 10.5px;
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  text-align: center;
-  padding: 8px 2px 7px;
-  color: var(--ds-ink-faint);
-  border-top: 3px solid transparent;
-}
-.ds-status__key .is-success  { border-top-color: var(--ds-success); }
-.ds-status__key .is-warning  { border-top-color: var(--ds-warning); }
-.ds-status__key .is-danger   { border-top-color: var(--ds-danger); }
-.ds-status__key .is-critical { border-top-color: var(--ds-critical); }
-.ds-status__key .is-on { background: var(--ds-bg-alt); color: var(--ds-ink); font-weight: 500; }
-
-.ds-status__body { padding: 20px 28px 24px; }
-.ds-status__note {
-  padding: 14px 28px 20px;
-  font-size: var(--ds-text-xs);
-  color: var(--ds-ink-faint);
-  border-top: 1px solid var(--ds-rule-soft);
-}
-
-/* ----------------------------------------------------------------------------
-   Metric rows — .ds-metric (usable inside the status body or standalone)
-   ---------------------------------------------------------------------------- */
-.ds-metric {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 7px 0;
-  border-bottom: 1px solid var(--ds-rule-soft);
-}
-.ds-metric:last-child { border-bottom: none; }
-.ds-metric__k { font-size: var(--ds-text-sm); color: var(--ds-ink-soft); }
-.ds-metric__v { font-size: 14.5px; font-weight: 500; font-variant-numeric: tabular-nums; }
-.ds-metric__v.is-pos { color: var(--ds-success); }
-.ds-metric__v.is-neg { color: var(--ds-danger); }
-
-.ds-metric--hero .ds-metric__k { font-size: 13.5px; }
-.ds-metric--hero .ds-metric__v {
-  font-family: var(--ds-font-title);
-  font-size: var(--ds-text-lg);
-  font-weight: var(--ds-font-weight-title);
-  letter-spacing: -0.3px;
-}
-.ds-metric--sub .ds-metric__k { padding-left: 14px; font-size: 12.5px; color: var(--ds-ink-faint); }
-.ds-metric--sub .ds-metric__v { font-size: 12.5px; font-weight: 300; color: var(--ds-ink-soft); }
-
-/* ----------------------------------------------------------------------------
-   The absorbed inline indicator — .ds-status + .ds-status-indicator/-label
-   ----------------------------------------------------------------------------
-   Charte edits: rems → px; `--ds-*-ink` rather than the base hue, so the label
-   clears AA as small text; and the ping animation gains the reduced-motion
-   opt-out every animated surface in this package carries.
-   ---------------------------------------------------------------------------- */
-.ds-status:has(.ds-status-indicator, .ds-status-label) {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Sets --tone for the square and the label to share. The same six tones every
-   other status surface here takes, so a status reading "danger" means the same
-   colour on a tag, a banner and an alert.
-
-   The `:has()` guard is load-bearing, not symmetry: `--tone` inherits, and
-   `progress.css` and `meter.css` both read a bare `var(--tone, --ds-accent)`
-   on an untoned indicator. Declared on the panel form as well, a `<Progress>`
-   inside a `.ds-status--success` panel would silently take the panel's tone
-   instead of the accent. The panel never sets it. */
-.ds-status--success:has(.ds-status-indicator, .ds-status-label)  { --tone: var(--ds-success-ink); }
-.ds-status--warning:has(.ds-status-indicator, .ds-status-label)  { --tone: var(--ds-warning-ink); }
-.ds-status--danger:has(.ds-status-indicator, .ds-status-label)   { --tone: var(--ds-danger-ink); }
-.ds-status--critical:has(.ds-status-indicator, .ds-status-label) { --tone: var(--ds-ink); }
-.ds-status--neutral:has(.ds-status-indicator, .ds-status-label)  { --tone: var(--ds-ink-faint); }
-.ds-status--info:has(.ds-status-indicator, .ds-status-label)     { --tone: var(--ds-info-ink); }
-
-.ds-status-indicator {
-  position: relative;
-  display: inline-flex;
-  flex-shrink: 0;
-  width: 6px;
-  height: 6px;
-  background: var(--tone, var(--ds-ink-faint));
-}
-.ds-status-indicator-ping {
-  position: absolute;
-  inset: 0;
-  background: var(--tone, var(--ds-ink-faint));
-}
-@media (prefers-reduced-motion: no-preference) {
-  .ds-status-indicator-ping { animation: ds-status-ping 1s cubic-bezier(0, 0, .2, 1) infinite; }
-}
-@keyframes ds-status-ping {
-  75%, 100% { transform: scale(2); opacity: 0; }
-}
-
-.ds-status-label {
-  font-size: var(--ds-text-base);
-  line-height: var(--ds-leading-normal);
-  color: var(--tone, var(--ds-ink));
+  The React names had to move, because there `Status` is one symbol and the
+  ledger gives it to the source. The panel becomes **`StatusPanel`** — the name
+  its props interface and this stylesheet already carried — and `Status`,
+  `StatusIndicator`, `StatusLabel` are the absorbed inline set. The web
+  component is untouched: `<ds-status>` is still the panel, and no consumer of
+  it has to change anything.
+  ============================================================================ */
+  .ds-status:not(:has(.ds-status-indicator, .ds-status-label)) {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-ink);
+    border-radius: var(--ds-radius-none);
+  }
+  .ds-status--success  .ds-status__head { background: var(--ds-success-solid); }
+  .ds-status--warning  .ds-status__head { background: var(--ds-warning-solid); }
+  .ds-status--danger   .ds-status__head { background: var(--ds-danger-solid); }
+  .ds-status--critical .ds-status__head { background: var(--ds-critical-solid); }
+  .ds-status--neutral  .ds-status__head { background: var(--ds-neutral-solid); }
+  .ds-status--info     .ds-status__head { background: var(--ds-info-solid); }
+  .ds-status__key > * {
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-align: center;
+    padding: 8px 2px 7px;
+    color: var(--ds-ink-faint);
+    border-top: 3px solid transparent;
+  }
+  .ds-status__key .is-success  { border-top-color: var(--ds-success); }
+  .ds-status__key .is-warning  { border-top-color: var(--ds-warning); }
+  .ds-status__key .is-danger   { border-top-color: var(--ds-danger); }
+  .ds-status__key .is-critical { border-top-color: var(--ds-critical); }
+  .ds-status__key .is-on { background: var(--ds-bg-alt); color: var(--ds-ink); font-weight: 500; }
+  .ds-metric:last-child { border-bottom: none; }
+  .ds-metric__v.is-pos { color: var(--ds-success); }
+  .ds-metric__v.is-neg { color: var(--ds-danger); }
+  .ds-metric--hero .ds-metric__k { font-size: 13.5px; }
+  .ds-metric--hero .ds-metric__v {
+    font-family: var(--ds-font-title);
+    font-size: var(--ds-text-lg);
+    font-weight: var(--ds-font-weight-title);
+    letter-spacing: -0.3px;
+  }
+  .ds-metric--sub .ds-metric__k { padding-left: 14px; font-size: 12.5px; color: var(--ds-ink-faint); }
+  .ds-metric--sub .ds-metric__v { font-size: 12.5px; font-weight: 300; color: var(--ds-ink-soft); }
 }

@@ -1,112 +1,157 @@
+/* switch.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/switch.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-switch:where(:not(:has(> .ds-switch__track))) {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    border-radius: 0;
+    border-style: solid;
+    border-width: 1px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    outline: none;
+  }
+
+  .ds-switch-thumb {
+    display: block;
+    pointer-events: none;
+    background: var(--ds-bg);
+    box-shadow: none;
+    transition-property: transform, translate, scale, rotate;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-switch:where(:not(:has(> .ds-switch__track)))::after {
+    content: "";
+    position: absolute;
+    inset-inline: -0.75rem;
+    inset-block: -0.5rem;
+  }
+  .ds-switch:where(:not(:has(> .ds-switch__track))):focus-visible {
+    border-color: var(--ds-focus-ring);
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-focus-ring) 30%, transparent);
+  }
+  .ds-switch:where(:not(:has(> .ds-switch__track)))[aria-invalid="true"] {
+    border-color: var(--ds-danger);
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-danger) 20%, transparent);
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-switch:where(:not(:has(> .ds-switch__track)))[aria-invalid="true"] {
+    border-color: color-mix(in oklab, var(--ds-danger) 50%, transparent);
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-danger) 40%, transparent);
+  }
+  .ds-switch:where(:not(:has(> .ds-switch__track)))[data-size="default"] {
+    height: 1.125rem;
+    width: 2.0625rem;
+  }
+  .ds-switch:where(:not(:has(> .ds-switch__track)))[data-size="sm"] {
+    height: 0.875rem;
+    width: 1.5625rem;
+  }
+  .ds-switch:where(:not(:has(> .ds-switch__track)))[data-checked] {
+    border-color: var(--ds-ink);
+    background: var(--ds-ink);
+  }
+  .ds-switch:where(:not(:has(> .ds-switch__track)))[data-unchecked] {
+    border-color: color-mix(in oklab, var(--ds-rule) 50%, transparent);
+    background: var(--ds-rule);
+  }
+  .ds-switch:where(:not(:has(> .ds-switch__track)))[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  :where(.ds-switch:where(:not(:has(> .ds-switch__track)))[data-size="default"]) .ds-switch-thumb {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  :where(.ds-switch:where(:not(:has(> .ds-switch__track)))[data-size="sm"]) .ds-switch-thumb {
+    width: 0.625rem;
+    height: 0.625rem;
+  }
+  .ds-switch-thumb[data-checked] {
+    translate: calc(100% + 2px) 0;
+  }
+  .ds-switch-thumb[data-unchecked] {
+    translate: 0.0625rem 0;
+  }
+  :where([dir="rtl"], [dir="rtl"] *) .ds-switch-thumb[data-checked] {
+    translate: calc(-100% - 2px) 0;
+  }
+  :where([dir="rtl"], [dir="rtl"] *) .ds-switch-thumb[data-unchecked] {
+    translate: -0.0625rem 0;
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-switch-thumb[data-checked] {
+    background: var(--ds-bg);
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-switch-thumb[data-unchecked] {
+    background: var(--ds-ink);
+  }
+}
+
 /* ============================================================================
-   Switch — .ds-switch
-   ----------------------------------------------------------------------------
-   Frozen (css-ledger §1). `<ds-switch>` renders a hidden `<input>` plus a
-   `span.ds-switch__track` inside a `label.ds-switch`, and reads this file for
-   both. That markup is the contract and it does not move.
-
-   The source's switch is Base UI's: the root **is** the track (a `<button
-   role="switch">` carrying `data-checked` / `data-unchecked`) with a
-   `.ds-switch-thumb` inside, and no input at all. So `.ds-switch` means the
-   label in one grammar and the track in the other — the third name collision
-   of this batch, after `checkbox` and `input-group`, and told apart the same
-   way: a 0.11 switch has a `> .ds-switch__track` child, an absorbed one never
-   does.
-
-   What the source buys is the `data-size` axis and a thumb that can be
-   transitioned independently; what 0.11 keeps is a real form control that
-   submits, which is why the label form is not merely tolerated here but is
-   still the one the web component and every hand-written form use.
-
-   Charte edits: rems → px; the focus `box-shadow` halo becomes the 2px
-   `outline` on `--ds-focus-ring`; the `[aria-invalid]` glow goes, the border
-   carries it; the `.dark` rules go, the theme lives in the token layer; and
-   `--primary` resolves to `--ds-ink`, `--input` to `--ds-grey`.
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
    ============================================================================ */
-
-/* ---- The 0.11 grammar: label + hidden input + drawn track ---------------- */
-.ds-switch:has(> .ds-switch__track) {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  user-select: none;
-  font-size: var(--ds-text-sm);
-  font-weight: 400;
-  color: var(--ds-ink-soft);
+@layer components {
+  .ds-switch__track {
+    width: 38px;
+    height: 20px;
+    background: var(--ds-grey);
+    position: relative;
+    transition: background var(--ds-transition);
+    flex: none;
+  }
 }
-.ds-switch > input {
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
+@layer utilities {
+  /* ---- The 0.11 grammar: label + hidden input + drawn track ---------------- */
+  .ds-switch:has(> .ds-switch__track) {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    font-size: var(--ds-text-sm);
+    font-weight: 400;
+    color: var(--ds-ink-soft);
+  }
+  .ds-switch > input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+  .ds-switch__track::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    background: var(--ds-blanc);
+    transition: transform var(--ds-transition);
+  }
+  .ds-switch input:checked + .ds-switch__track { background: var(--ds-ink); }
+  .ds-switch input:checked + .ds-switch__track::after { transform: translateX(18px); }
+  .ds-switch input:focus-visible + .ds-switch__track {
+    outline: 2px solid var(--ds-focus-ring);
+    outline-offset: 2px;
+  }
+  .ds-switch input:disabled + .ds-switch__track { opacity: .5; }
+  .ds-switch:has(input:disabled) { cursor: not-allowed; color: var(--ds-ink-faint); }
 }
-.ds-switch__track {
-  width: 38px;
-  height: 20px;
-  background: var(--ds-grey);
-  position: relative;
-  transition: background var(--ds-transition);
-  flex: none;
-}
-.ds-switch__track::after {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 14px;
-  height: 14px;
-  background: var(--ds-blanc);
-  transition: transform var(--ds-transition);
-}
-.ds-switch input:checked + .ds-switch__track { background: var(--ds-ink); }
-.ds-switch input:checked + .ds-switch__track::after { transform: translateX(18px); }
-.ds-switch input:focus-visible + .ds-switch__track {
-  outline: 2px solid var(--ds-focus-ring);
-  outline-offset: 2px;
-}
-.ds-switch input:disabled + .ds-switch__track { opacity: .5; }
-.ds-switch:has(input:disabled) { cursor: not-allowed; color: var(--ds-ink-faint); }
-
-/* ---- The absorbed grammar: the root IS the track ------------------------- */
-.ds-switch:not(:has(> .ds-switch__track)) {
-  position: relative;
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  padding: 0;
-  border: 1px solid var(--ds-grey);
-  border-radius: var(--ds-radius-none);
-  background: var(--ds-grey);
-  cursor: pointer;
-  transition: background-color var(--ds-transition), border-color var(--ds-transition);
-  outline: none;
-}
-/* A 18px-tall track is under the 24px hit-target minimum, so it carries an
-   invisible one that overflows it. Source rule, kept. */
-.ds-switch:not(:has(> .ds-switch__track))::after {
-  content: "";
-  position: absolute;
-  inset-inline: -12px;
-  inset-block: -8px;
-}
-.ds-switch[data-size="default"] { height: 18px; width: 33px; }
-.ds-switch[data-size="sm"] { height: 14px; width: 25px; }
-.ds-switch[data-checked] { border-color: var(--ds-ink); background: var(--ds-ink); }
-.ds-switch[data-unchecked] { border-color: var(--ds-grey); background: var(--ds-grey); }
-.ds-switch:focus-visible { outline: 2px solid var(--ds-focus-ring); outline-offset: 2px; }
-.ds-switch[aria-invalid="true"] { border-color: var(--ds-danger); }
-.ds-switch[data-disabled] { cursor: not-allowed; opacity: .5; }
-
-.ds-switch-thumb {
-  display: block;
-  pointer-events: none;
-  background: var(--ds-blanc);
-  transition: translate var(--ds-transition);
-}
-:where(.ds-switch[data-size="default"]) .ds-switch-thumb { width: 14px; height: 14px; }
-:where(.ds-switch[data-size="sm"]) .ds-switch-thumb { width: 10px; height: 10px; }
-.ds-switch-thumb[data-checked] { translate: calc(100% + 2px) 0; }
-.ds-switch-thumb[data-unchecked] { translate: 1px 0; }
-:where([dir="rtl"], [dir="rtl"] *) .ds-switch-thumb[data-checked] { translate: calc(-100% - 2px) 0; }
-:where([dir="rtl"], [dir="rtl"] *) .ds-switch-thumb[data-unchecked] { translate: -1px 0; }

@@ -1,67 +1,87 @@
+/* phone-input.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/phone-input.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-phone-input:where(:not(:has(> .ds-phone-input__country))) {
+    display: flex;
+    height: 2.5rem;
+    width: 100%;
+    align-items: stretch;
+    border: 1px solid transparent;
+    border-bottom-color: var(--ds-rule);
+    background-color: transparent;
+    transition-property: color, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  /* The internal SelectTrigger's "w-fit shrink-0 border-0 ps-0 pe-2" and
+     Input's "flex-1 border-0 ps-2" (see phone-input.tsx) stay literal
+     Tailwind utilities — select.css and input.css both document that
+     SelectTrigger's own "w-fit border px-0" and Input's own "border
+     border-transparent border-b-input px-0" defaults are themselves kept
+     literal specifically so phone-input.tsx's overrides dedupe against them
+     via tailwind-merge. Baking either side into a plain class would leave
+     both the old and new declarations applied at once. */
+}
+
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-phone-input:where(:not(:has(> .ds-phone-input__country))):focus-within {
+    border-bottom-color: var(--ds-focus-ring);
+  }
+  .ds-phone-input:where(:not(:has(> .ds-phone-input__country))):has([aria-invalid="true"]) {
+    border-bottom-color: var(--ds-danger);
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-phone-input:where(:not(:has(> .ds-phone-input__country))):has([aria-invalid="true"]) {
+    border-bottom-color: color-mix(in oklab, var(--ds-danger) 50%, transparent);
+  }
+  .ds-phone-input:where(:not(:has(> .ds-phone-input__country)))[data-disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
 /* ============================================================================
-   Phone input — .ds-phone-input
-   ----------------------------------------------------------------------------
-   A dial-code select joined to a national-number field, reading as one
-   underlined control: the group draws the single bottom rule and its two
-   members draw none, so the focus ring moves under the whole thing rather than
-   under whichever half has the caret.
-
-   This is the batch's largest dedupe exception and the one the plan singled
-   out. Upstream, the inner select trigger kept `w-fit shrink-0 border-0 ps-0
-   pe-2` and the inner input kept `flex-1 border-0 ps-2` as literal Tailwind
-   utilities — because `select.css` and `input.css` had *themselves* kept their
-   own `w-fit border px-0` and `border border-transparent border-b-input px-0`
-   defaults literal, specifically so these overrides could dedupe against them
-   through tailwind-merge. Baking either side into a plain class would have left
-   both the old and the new declarations applied at once.
-
-   Neither side is literal here, so the exception dissolves rather than moving:
-   the two members get part classes of their own, `--country` and `--number`,
-   and those classes carry the overrides as real declarations. The reason the
-   upstream note gives for keeping them literal — that the losing declaration
-   has to disappear — is satisfied by specificity instead of by a merge pass,
-   and a CSS-only consumer can now reproduce the control without Tailwind.
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
    ============================================================================ */
-.ds-phone-input {
-  display: flex;
-  height: 40px;
-  width: 100%;
-  align-items: stretch;
-  border: 1px solid transparent;
-  border-bottom-color: var(--ds-rule);
-  border-radius: var(--ds-radius-none);
-  background: transparent;
-  transition: border-color var(--ds-transition), color var(--ds-transition);
+@layer components {
+  /* The dial-code half: as narrow as its content, and it never shrinks — a
+  `+352` must not be squeezed to fit a long number beside it. */
+  .ds-phone-input__country {
+    width: fit-content;
+    flex-shrink: 0;
+  }
+  .ds-phone-input__country {
+    border: 0;
+    padding-inline-start: 0;
+    padding-inline-end: var(--ds-space-2);
+    background: transparent;
+  }
+  /* The number half: takes the rest of the row. */
+  .ds-phone-input__number {
+    flex: 1;
+    border: 0;
+    padding-inline-start: var(--ds-space-2);
+    background: transparent;
+  }
 }
-.ds-phone-input:focus-within {
-  border-bottom-color: var(--ds-focus-ring);
-}
-.ds-phone-input:has([aria-invalid="true"]) {
-  border-bottom-color: var(--ds-danger-ink);
-}
-.ds-phone-input[data-disabled] {
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-/* The dial-code half: as narrow as its content, and it never shrinks — a
-   `+352` must not be squeezed to fit a long number beside it. */
-.ds-phone-input__country {
-  width: fit-content;
-  flex-shrink: 0;
-}
-.ds-phone-input__country,
-.ds-phone-input__country select {
-  border: 0;
-  padding-inline-start: 0;
-  padding-inline-end: var(--ds-space-2);
-  background: transparent;
-}
-
-/* The number half: takes the rest of the row. */
-.ds-phone-input__number {
-  flex: 1;
-  border: 0;
-  padding-inline-start: var(--ds-space-2);
-  background: transparent;
+@layer utilities {
+  .ds-phone-input__country select {
+    border: 0;
+    padding-inline-start: 0;
+    padding-inline-end: var(--ds-space-2);
+    background: transparent;
+  }
 }
