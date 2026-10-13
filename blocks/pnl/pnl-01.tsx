@@ -235,7 +235,9 @@ export default function Pnl01() {
               return (
                 <TableRow key={line.code} className={rowClass}>
                   <TableCell className="ds-table__code">{line.code}</TableCell>
-                  <TableCell>{line.label}</TableCell>
+                  {/* Incoming's cells are nowrap; a long account label wraps here so the
+                      statement fits its page instead of scrolling sideways. */}
+                  <TableCell style={{ whiteSpace: "normal" }}>{line.label}</TableCell>
                   <Num value={line.budget} />
                   <Num value={line.actual} />
                   <Num value={line.forecast} />
