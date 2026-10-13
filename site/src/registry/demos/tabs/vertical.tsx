@@ -5,7 +5,7 @@ import {
   TabsTrigger,
 } from "@diametral/design-system/react/tabs"
 
-export default function TabsPrimitiveVertical() {
+export default function TabsVertical() {
   return (
     <Tabs
       defaultValue="general"

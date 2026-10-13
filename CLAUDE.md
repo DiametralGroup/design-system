@@ -1,6 +1,6 @@
 # @diametral/design-system
 
-The official Diametral design system. v0.11.0, published to npm as `@diametral/design-system`.
+The official Diametral design system, published to npm as `@diametral/design-system` (see `package.json` for the version).
 
 Build: `npm run build` (tokens → css → components → figma). Tests live in `site/` — `cd site && npm run test:visual`, `npm run test:a11y`.
 Root is the published package; `site/` is the docs site — serve it locally with `cd site && npm run dev` (after `npm run build` at root, which `site/`'s `file:..` install needs).
@@ -15,11 +15,13 @@ React/CSS library living in `diamorval/design-system-diametral` under `packages/
 being absorbed into this package. `@diametral/ui` was never published to npm and is retired
 by the absorption, not deprecated.
 
-**Source ref.** Batches read `feat/css-conversion` in `diamorval/design-system-diametral`,
-**not** its `main`. That branch is 91 commits ahead of `main` and carries the plain-CSS
-conversion the ledgers measured; `main` still holds the pre-conversion state. The exact
-pinning policy — whether the branch is tagged and frozen, and what unfreezes it — is settled
-in [issue #171](https://github.com/diamorval/design-system-diametral/issues/171).
+**Source ref.** Incoming's `main` is the model (2026-10-13 sync, see
+`docs/absorption/audit-2026-10.md`). `css/components/*.css` are generated from it by
+`node scripts/sync-incoming-css.mjs <incoming checkout>` — edit only the "DiametralGroup
+additions" block of a generated file; `react/components/*.tsx` are incoming's files plus
+marked additions. `starters/ops-dashboard` (incoming's example app on this package) must keep
+passing its parity test. The earlier batches read the frozen `migration-source-v1` tag
+([issue #171](https://github.com/diamorval/design-system-diametral/issues/171)).
 
 **Reference material** lives in `docs/absorption/` (note: `docs/migration.md`, singular, is a
 different document — the adoption guide):

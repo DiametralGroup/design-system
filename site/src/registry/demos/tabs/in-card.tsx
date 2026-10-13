@@ -12,7 +12,7 @@ import {
   TabsTrigger,
 } from "@diametral/design-system/react/tabs"
 
-export default function TabsPrimitiveInCard() {
+export default function TabsInCard() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>

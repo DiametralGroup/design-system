@@ -253,7 +253,7 @@ for (const file of walk(join(root, "css"), [".css"])) {
   for (const [, name] of src.matchAll(/@layer\s+([A-Za-z0-9_-]*)/g)) {
     if (file === ENTRY && name === "theme") continue; // the order statement
     if (file === join(root, "css", "literals.css")) continue; // Tailwind's own output
-    if (file === join(root, "css", "tailwind.css") && name === "base") continue; // incoming's base rules
+    if (file === join(root, "css", "tailwind.css") && (name === "base" || name === "theme")) continue; // order statement, incoming's base rules
     if (name === "base" && file === RESET) continue;
     if (name === "ds-blocks" && file === BLOCKS_CSS) continue;
     if ((name === "components" || name === "utilities") && file.startsWith(COMPONENTS_DIR)) continue;

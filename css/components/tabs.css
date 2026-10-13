@@ -204,7 +204,7 @@
 }
 @layer utilities {
   /* ---- The web-component grammar: title-voiced tabs + accent underline ---- */
-  .ds-tabs:not(:has(> .ds-tabs-list)) {
+  .ds-tabs:has(> .ds-tabs__tab) {
     display: flex;
     gap: 0;
     border-bottom: 1px solid var(--ds-rule);

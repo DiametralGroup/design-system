@@ -1363,14 +1363,14 @@ export const COMPONENTS: ComponentDoc[] = [
       "A binding owns a shared expanded/collapsed state reflected as `data-state` on the sidebar, toggled by the trigger button, the rail button, and a global Cmd/Ctrl+B keydown listener, and persisted across reloads via a cookie. Below the mobile breakpoint it has to swap to the sheet's dialog behavior entirely (focus trap, overlay, Escape-to-close) instead of the static collapse; each menu button's tooltip should only show while collapsed on desktop, never on mobile or while expanded.",
   },
   {
-    slug: "tabs",
-    name: "Tabs",
+    slug: "item-tabs",
+    name: "ItemTabs",
     category: "Navigation",
-    exports: ["Tabs", "type TabsProps", "type TabItem"],
-    description: "Sibling views of one subject, one visible at a time. Use `Wizard` for steps that have an order.",
+    exports: ["ItemTabs", "type ItemTabsProps", "type TabItem"],
+    description: "0.x's tabs, configured with an `items` array (renamed from `Tabs` in 5.0). Sibling views of one subject, one visible at a time. Use `Wizard` for steps that have an order.",
     examples: [
       {
-        demo: "tabs/basic",
+        demo: "item-tabs/basic",
         title: "Three views",
         description:
           "`sublabel` carrying row and column counts, so the tab says what is behind it.",
@@ -1378,30 +1378,30 @@ export const COMPONENTS: ComponentDoc[] = [
     ],
   },
   {
-    slug: "tabs-primitive",
-    name: "Tabs (composed)",
+    slug: "tabs",
+    name: "Tabs",
     category: "Navigation",
     exports: ["Tabs", "TabsList", "TabsTrigger", "TabsContent"],
     description:
       "Base UI's tabs, composed from parts instead of configured with an `items` array.",
     examples: [
       {
-        demo: "tabs-primitive/basic",
+        demo: "tabs/basic",
         title: "Basic",
         description: "List, trigger, content — the parts every composition needs.",
       },
       {
-        demo: "tabs-primitive/line",
+        demo: "tabs/line",
         title: "Line variant",
         description: "`variant=\"line\"` on `TabsList`.",
       },
       {
-        demo: "tabs-primitive/vertical",
+        demo: "tabs/vertical",
         title: "Vertical",
         description: "`orientation=\"vertical\"`, list beside its panels rather than above them.",
       },
       {
-        demo: "tabs-primitive/in-card",
+        demo: "tabs/in-card",
         title: "In a card",
         description: "Tabs as a card's own internal navigation, not a page-level one.",
       },

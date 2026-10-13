@@ -98,15 +98,15 @@
   chrome, an `[aria-invalid="true"]` border, and `width: 100%; min-width: 0`
   so the field can sit in a flex row without pushing it open.
   ============================================================================ */
-  .ds-field select,
-  .ds-field textarea,
-  .ds-field input[type="text"],
-  .ds-field input[type="number"],
-  .ds-field input[type="email"],
-  .ds-field input[type="password"],
-  .ds-field input[type="search"],
-  .ds-field input[type="tel"],
-  .ds-field input[type="url"] {
+  .ds-field select:not([class*="ds-"]),
+  .ds-field textarea:not([class*="ds-"]),
+  .ds-field input[type="text"]:not([class*="ds-"]),
+  .ds-field input[type="number"]:not([class*="ds-"]),
+  .ds-field input[type="email"]:not([class*="ds-"]),
+  .ds-field input[type="password"]:not([class*="ds-"]),
+  .ds-field input[type="search"]:not([class*="ds-"]),
+  .ds-field input[type="tel"]:not([class*="ds-"]),
+  .ds-field input[type="url"]:not([class*="ds-"]) {
     font-family: var(--ds-font-sans);
     font-size: var(--ds-text-base);
     font-weight: 400;
@@ -120,25 +120,25 @@
     transition: border-color var(--ds-transition), color var(--ds-transition);
   }
   select.ds-input,
-  .ds-field select { cursor: pointer; min-width: 200px; }
-  .ds-field :is(input, textarea)::placeholder { color: var(--ds-ink-faint); }
-  .ds-field :is(select, input, textarea):focus {
+  .ds-field select:not([class*="ds-"]) { cursor: pointer; min-width: 200px; }
+  .ds-field :is(input, textarea):not([class*="ds-"])::placeholder { color: var(--ds-ink-faint); }
+  .ds-field :is(select, input, textarea):not([class*="ds-"]):focus {
     outline: 2px solid var(--ds-focus-ring);
     outline-offset: -2px;
   }
   /* Invalid state — the border alone carries it. The source paired a red border
   with a colour glow; the charte separates by rule, not glow, so the glow is
   dropped here as it was on `toggle` in beta.3. */
-  .ds-field :is(select, input, textarea)[aria-invalid="true"] {
+  .ds-field :is(select, input, textarea):not([class*="ds-"])[aria-invalid="true"] {
     border-color: var(--ds-danger);
   }
-  .ds-field input[type="number"] { width: 130px; text-align: right; }
+  .ds-field input[type="number"]:not([class*="ds-"]) { width: 130px; text-align: right; }
   .ds-input--number::-webkit-outer-spin-button,
   .ds-input--number::-webkit-inner-spin-button,
-  .ds-field input[type="number"]::-webkit-outer-spin-button,
-  .ds-field input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-  .ds-field input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
-  .ds-field :is(select, input, textarea):disabled {
+  .ds-field input[type="number"]:not([class*="ds-"])::-webkit-outer-spin-button,
+  .ds-field input[type="number"]:not([class*="ds-"])::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .ds-field input[type="number"]:not([class*="ds-"]) { -moz-appearance: textfield; appearance: textfield; }
+  .ds-field :is(select, input, textarea):not([class*="ds-"]):disabled {
     opacity: .55;
     cursor: not-allowed;
     pointer-events: none;

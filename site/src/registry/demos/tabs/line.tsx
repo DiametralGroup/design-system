@@ -5,7 +5,7 @@ import {
   TabsTrigger,
 } from "@diametral/design-system/react/tabs"
 
-export default function TabsPrimitiveLine() {
+export default function TabsLine() {
   return (
     <Tabs defaultValue="summary" className="w-full">
       <div className="border-b border-border">

@@ -6,35 +6,68 @@ adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.m
 
 ## [Unreleased]
 
-Ports the last `diamorval/design-system-diametral` changes (`9356e63`, `ff9f358`, `43e62cf`,
-2026-10) that apply here. With these, every source change since `migration-source-v1` is either
-ported or recorded as not applicable below.
+**Incoming wins.** `@diametral/ui` (diamorval/design-system-diametral, `main`) is the model for
+code and design; this package keeps only what incoming does not have. A full audit compared both
+libraries rule by rule and component by component; the report is
+[`docs/absorption/audit-2026-10.md`](docs/absorption/audit-2026-10.md). Proof:
+[`starters/ops-dashboard`](starters/ops-dashboard) is diamorval/diametral-ui-example moved onto
+this package with three import lines changed, and matches screenshots of the original on all 8
+pages in both themes (≤ 0.1 % of pixels, sub-pixel text only).
+
+### Changed (breaking)
+
+- **Component CSS is incoming's.** `css/components/*.css` are regenerated from incoming by
+  `scripts/sync-incoming-css.mjs`. Gone with it: DiametralGroup's restyles of incoming
+  components — Light 300 titles, 13px body text, sentence-case 14px buttons, badge/tag/select-label
+  voice, darker muted text (`--ds-ink-soft` → incoming's `--ds-ink-faint`), tone colours, the
+  z-index scale on incoming's overlays. The 0.x plain-HTML grammar (`<ds-*>` web components,
+  Streamlit and Keycloak markup: `.ds-card__*`, `.ds-panel__*`, `.ds-stepper__*`,
+  `.ds-checkbox__box`, `.ds-field input`…) is kept.
+- **Cascade layers.** Component rules sit in `@layer components`, their state and context rules in
+  `@layer utilities`, declared `theme, base, ds-blocks, components, utilities` — so an app's
+  `className` overrides a component's base styles, as in incoming.
+- **Base typography** is incoming's: `body` is 16px / 1.5 / regular (was 14px / 130% / Light 300),
+  every border defaults to `0 solid var(--ds-rule)`, `.ds-label` is incoming's Label (the 0.x
+  small-caps `.ds-label` rule in `typography.css` is removed). Component CSS imports follow
+  incoming's order.
+- **React components are incoming's**, with `"use client"` and DiametralGroup's additions on top
+  (Badge `solid`/`accent`, Button `primary`/`danger`/`loading`/`block`, `CardMedia`, `CardBlock`,
+  `StatusPanel`, `Metric`, Tag `onRemove`, Panel `rows`/`ruled`, chart value axes and formatters,
+  Wordmark `name`/`sub`, exported prop types). Incoming's defaults win: `<Button>` is
+  `variant="default" tone="black"`; sizes render `ds-button--size-*`. Stepper, Card, Panel,
+  Menubar and ThemeSwitcher render incoming's markup.
+- **`Tabs`** in the barrel is incoming's composable Tabs; 0.x's `items`-based one is **`ItemTabs`**.
+- **`icons` / `IconName`** are incoming's Icon registry; the 0.x SVG glyph map is
+  `iconGlyphs` / `IconGlyphName`. `<Icon>` accepts the 0.x glyph names too.
+- **Dark theme** takes incoming's danger lift (`#e36a5b`) and tone inks.
+
+### Added
+
+- `css/tailwind.css` (exports `./tailwind.css` and `./styles.tailwind.css`): the Tailwind v4 entry,
+  incoming's `styles.tailwind.css` equivalent — theme mapped to `--ds-*`, shadcn's data-* variants
+  and scroll-fade utilities, Geist via fontsource. `./styles.css` aliases `diametral.css`.
+- `css/literals.css` (`npm run build:literals`): the literal Tailwind classes the React components
+  carry (`w-56`, `sr-only`, `data-horizontal:h-px`…), precompiled for apps without Tailwind.
+  `css/system.css` is everything else; `diametral.css` = `system.css` + `literals.css`.
+- Incoming's exports: `cn`, `useIsMobile`, `MessageScroller` (subpath, optional peer
+  `@shadcn/react`), `MultiSelect`, `StepperSeparator`; incoming's English primitive token names
+  (`--ds-black`, `--ds-red-brand`…).
+- Dependencies, as incoming: `clsx`, `tailwind-merge`, `class-variance-authority`,
+  `tw-animate-css`, `@fontsource-variable/geist`, `@fontsource-variable/geist-mono`.
+- `starters/ops-dashboard` with smoke and parity tests.
+
+### Kept on purpose
+
+- `--ds-green-brand` / `--ds-vert` stay the charter's `#53ff64` (incoming carries `#89fc79`, the
+  off-charter value; #161 confirmed `#53ff64` against the charter).
+- Themes (`dark`, `sepia`, `ocean`), web components, emails, Keycloak, blocks, `AppShell`,
+  `ConsoleLayout`, `.ds-*` utilities, the Figma build.
 
 ### Fixed
 
-- **Line-heights are unitless ratios** — 36 rules that held a fixed `1.25rem` / `1rem` / `2rem`
-  beside a matching font size now use `calc(1.25 / 0.875)`, `calc(1 / 0.75)`, `calc(2 / 1.5)`, as
-  Tailwind's `text-*` did: same height for the rule's own text, and a child with another font size
-  now scales instead of inheriting a fixed rem (accordion, alert, avatar, banner, breadcrumb,
-  bubble, combobox, data table, file upload, kbd, message, popover, progress, table head and
-  caption, tabs, time picker, toast, toolbar). `.ds-table` keeps `1.25rem`: its cells inherit it,
-  and this package's own cell sizes (13.5px, 13px, 11px) would lose row height.
-- **Calendar caption** gets the same ratio line-height; **stat card label** inherits its
-  line-height again.
-- **Sidebar** inset, content and skeleton text grow from `flex-basis: 0%` (Tailwind's `flex-1`),
-  not `auto`.
-- **Date picker and date range picker triggers** drop `!important`: their rules load after
-  `button.css`, and `!important` blocked consumer overrides.
-
-### Not ported
-
-- Component CSS layering (`@layer components` / `@layer utilities`): this package ships
-  unlayered CSS with no Tailwind, so there is nothing to order against.
-- Stepper description and field-label-beside-a-checkbox line-heights: this package's stepper and
-  field labels use their own `--ds-leading-*` tokens.
-- `size-4` on spinner and calendar chevrons, `h-8` on the Editable input, the `ToolbarInput`
-  literal classes and chart default heights: already set in CSS here.
-- shadcn as a devDependency: packaging of `diametral-ds`, no equivalent here.
+- Unitless line-height ratios, sidebar `flex-basis: 0%`, date picker triggers without
+  `!important`, calendar caption and stat card label line-heights — incoming's last fixes
+  (`9356e63`, `ff9f358`, `43e62cf`).
 
 ## [5.0.0-beta.5] — 2026-10-08
 

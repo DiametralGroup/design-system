@@ -11,7 +11,7 @@
 
 import { expect, test, type Page } from "@playwright/test"
 
-import { icons } from "@diametral/design-system/react"
+import { iconGlyphs as icons } from "@diametral/design-system/react"
 
 import { routePath, settle } from "./harness"
 
