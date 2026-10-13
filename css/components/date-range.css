@@ -4,10 +4,10 @@
 :where(.ds-date-range-picker-trigger[data-time]) { inline-size: 24rem; }
 
 .ds-date-range-picker-trigger {
-  justify-content: space-between !important;
-  font-weight: 400 !important;
-  letter-spacing: normal !important;
-  text-transform: none !important;
+  justify-content: space-between;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 .ds-date-range-picker-label {

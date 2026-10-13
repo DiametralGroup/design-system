@@ -226,7 +226,7 @@
   padding-inline: 0.5rem;
   padding-block: 0.125rem;
   font-size: var(--ds-text-base);
-  line-height: 1.25rem;
+  line-height: calc(1.25 / 0.875);
   /* Charte conformance: no drop shadows. The source used a 3px shadow in the
      surface colour to punch the chip out of the bubble beneath it; a 3px solid
      border in the same colour does the same job with a rule. */

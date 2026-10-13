@@ -22,7 +22,7 @@
 
 .ds-data-table-title {
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: calc(1.25 / 0.875);
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -63,7 +63,7 @@
 
 .ds-data-table-pagination-info {
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: calc(1 / 0.75);
   letter-spacing: 0.025em;
   color: var(--ds-ink-soft);
   font-variant-numeric: tabular-nums;

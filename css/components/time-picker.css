@@ -83,7 +83,7 @@
   display: flex;
   align-items: baseline;
   font-size: 1.5rem;
-  line-height: 2rem;
+  line-height: calc(2 / 1.5);
   font-variant-numeric: tabular-nums;
 }
 
@@ -181,7 +181,7 @@
   width: 1.75rem;
   height: 1.75rem;
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: calc(1 / 0.75);
 }
 
 .ds-time-picker-dial-mark--inner {
@@ -215,7 +215,7 @@
   flex-shrink: 0;
   scroll-snap-align: center;
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: calc(1 / 0.75);
   font-variant-numeric: tabular-nums;
   outline: none;
   transition-property: color, background-color, border-color, outline-color,

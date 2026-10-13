@@ -2,10 +2,10 @@
    (see date-picker.tsx) — date-picker/range.tsx overrides it with w-72,
    relying on tailwind-merge to dedupe against this exact literal class. */
 .ds-date-picker-trigger {
-  justify-content: space-between !important;
-  font-weight: 400 !important;
-  letter-spacing: normal !important;
-  text-transform: none !important;
+  justify-content: space-between;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 .ds-date-picker-value--placeholder {

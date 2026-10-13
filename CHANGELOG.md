@@ -4,6 +4,38 @@ All notable changes to the Diametral Design System are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.md](docs/versioning.md).
 
+## [Unreleased]
+
+Ports the last `diamorval/design-system-diametral` changes (`9356e63`, `ff9f358`, `43e62cf`,
+2026-10) that apply here. With these, every source change since `migration-source-v1` is either
+ported or recorded as not applicable below.
+
+### Fixed
+
+- **Line-heights are unitless ratios** — 36 rules that held a fixed `1.25rem` / `1rem` / `2rem`
+  beside a matching font size now use `calc(1.25 / 0.875)`, `calc(1 / 0.75)`, `calc(2 / 1.5)`, as
+  Tailwind's `text-*` did: same height for the rule's own text, and a child with another font size
+  now scales instead of inheriting a fixed rem (accordion, alert, avatar, banner, breadcrumb,
+  bubble, combobox, data table, file upload, kbd, message, popover, progress, table head and
+  caption, tabs, time picker, toast, toolbar). `.ds-table` keeps `1.25rem`: its cells inherit it,
+  and this package's own cell sizes (13.5px, 13px, 11px) would lose row height.
+- **Calendar caption** gets the same ratio line-height; **stat card label** inherits its
+  line-height again.
+- **Sidebar** inset, content and skeleton text grow from `flex-basis: 0%` (Tailwind's `flex-1`),
+  not `auto`.
+- **Date picker and date range picker triggers** drop `!important`: their rules load after
+  `button.css`, and `!important` blocked consumer overrides.
+
+### Not ported
+
+- Component CSS layering (`@layer components` / `@layer utilities`): this package ships
+  unlayered CSS with no Tailwind, so there is nothing to order against.
+- Stepper description and field-label-beside-a-checkbox line-heights: this package's stepper and
+  field labels use their own `--ds-leading-*` tokens.
+- `size-4` on spinner and calendar chevrons, `h-8` on the Editable input, the `ToolbarInput`
+  literal classes and chart default heights: already set in CSS here.
+- shadcn as a devDependency: packaging of `diametral-ds`, no equivalent here.
+
 ## [5.0.0-beta.5] — 2026-10-08
 
 Titles in the charter's weight, and tables that fit their page (first consumer: ada).

@@ -24,7 +24,7 @@
   padding-block: 1rem;
   text-align: start;
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: calc(1.25 / 0.875);
   font-weight: 600;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -64,7 +64,7 @@
 .ds-accordion-content {
   overflow: hidden;
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: calc(1.25 / 0.875);
 }
 .ds-accordion-content[data-open] {
   animation: accordion-down 0.2s ease-out;

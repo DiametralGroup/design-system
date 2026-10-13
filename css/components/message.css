@@ -20,7 +20,7 @@
   min-width: 0;
   gap: 0.5rem;
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: calc(1.25 / 0.875);
 }
 .ds-message[data-align="end"] {
   flex-direction: row-reverse;
@@ -62,7 +62,7 @@
   align-items: center;
   padding-inline: 1rem;
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: calc(1 / 0.75);
   font-weight: 500;
   letter-spacing: 0.025em;
   color: var(--ds-ink-faint);

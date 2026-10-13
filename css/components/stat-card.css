@@ -9,7 +9,6 @@
 
 .ds-stat-card-label {
   font-size: 0.6875rem;
-  line-height: calc(1 / 0.6875);
   font-weight: 400;
   letter-spacing: 0.05em;
   color: var(--ds-ink-soft);

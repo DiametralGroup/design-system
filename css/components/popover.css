@@ -14,7 +14,7 @@
   background-color: var(--ds-surface);
   padding: 1rem;
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: calc(1.25 / 0.875);
   color: var(--ds-ink);
   box-shadow:
     0 0 0 1px color-mix(in oklab, var(--ds-ink) 10%, transparent),
@@ -84,12 +84,12 @@
   flex-direction: column;
   gap: 0.25rem;
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: calc(1.25 / 0.875);
 }
 
 .ds-popover-title {
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: calc(1 / 0.75);
   font-weight: 600;
   text-transform: uppercase;
 }

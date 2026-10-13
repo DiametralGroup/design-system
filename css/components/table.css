@@ -48,6 +48,9 @@
   border: 1px solid var(--ds-rule);
   font-family: var(--ds-font-sans);
   font-size: var(--ds-text-base);
+  /* Fixed, not incoming's unitless calc(1.25 / 0.875): the cells inherit it, and
+     this package's own cell grammar below (13.5px, 13px, 11px) would otherwise
+     lose rows' height. Incoming's cells are 14px, where the two are equal. */
   line-height: 1.25rem;
 }
 /* The composed table is framed by its container, not by itself. */
@@ -91,7 +94,7 @@
   vertical-align: middle;
   text-align: start;
   font-size: var(--ds-text-xs);
-  line-height: 1rem;
+  line-height: calc(1 / 0.75);
   font-weight: 500;
   letter-spacing: 0.05em;
   white-space: nowrap;
@@ -118,7 +121,7 @@
 .ds-table-caption {
   margin-top: 1rem;
   font-size: var(--ds-text-base);
-  line-height: 1.25rem;
+  line-height: calc(1.25 / 0.875);
   color: var(--ds-ink-faint);
 }
 

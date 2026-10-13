@@ -25,7 +25,7 @@
   padding-block: 0.75rem;
   font-family: var(--ds-font-sans);
   font-size: var(--ds-text-base);
-  line-height: 1.25rem;
+  line-height: calc(1.25 / 0.875);
   color: var(--tone-ink, var(--ds-ink));
 }
 .ds-banner > svg {
