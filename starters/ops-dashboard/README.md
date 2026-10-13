@@ -29,8 +29,14 @@ npm run dev
 - `tests/parity.spec.ts` — every page, light and dark, compared with a
   full-page screenshot of the original app built on `diametral-ds` 0.4.0
   (`tests/parity-baselines/`). Tolerance: 0.2% of pixels, for sub-pixel text
-  antialiasing. The baselines come from the original app on Linux Chromium;
-  never regenerate them from this one.
+  antialiasing. Never regenerate the baselines from this app — that would
+  compare it with itself.
+
+CI (`example-parity` in `.github/workflows/ci.yml`) builds the original at a
+pinned commit, screenshots it on the runner as the baselines
+(`PARITY_BASE_URL=… npx playwright test tests/parity.spec.ts --update-snapshots`),
+then runs `npm test` here — so both sides render with the same Chromium and
+fonts. The committed baselines are for running the check locally on Linux.
 
 ## Local-link notes
 

@@ -303,6 +303,11 @@
   .ds-field__hint--success { color: var(--ds-success-ink); }
 }
 @layer utilities {
+  /* fix-forward: incoming's --ds-ink-faint description reaches ~4.4:1 on a
+  checked choice card's 5% ink tint; ink-soft clears AA (corrections.md). */
+  .ds-field-label:has(:where([data-state="checked"]), :where([data-checked]:not([data-checked="false"]))) .ds-field-description {
+    color: var(--ds-ink-soft);
+  }
   .ds-input-row:last-child { border-bottom: none; }
   .ds-input-row > label { font-size: var(--ds-text-base); color: var(--ds-ink-soft); }
   /* ---- Validation, moved in from form-controls.css ------------------------- */

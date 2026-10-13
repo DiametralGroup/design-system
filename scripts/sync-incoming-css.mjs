@@ -10,6 +10,10 @@
    plain-HTML grammar incoming never renders. Classes both markups share get a
    zero-specificity :where(:not(:has(> legacy))) guard on incoming's rules.
 
+   A rule directly under a comment containing "fix-forward" is kept even when it
+   restyles incoming markup: that is a source defect fixed forward here, and
+   docs/absorption/corrections.md says which.
+
    Idempotent: running it twice changes nothing. Edit the additions block of a
    generated file in place; edits there survive the next run.
 
@@ -113,7 +117,7 @@ for(const [t,srcs] of Object.entries(groups)){
   if(node.type==='atrule'&&/keyframes/.test(node.name)){if(!kf.has(node.params.trim())){extra.append(clone);kept++}return}
   // walk rules inside clone; drop selectors incoming defines
   const visit=n=>{n.walkRules(r=>{if(r.parent.type==='atrule'&&/keyframes/.test(r.parent.name))return;const c=ctx(r);const sels=r.selectors.filter(s=>!keys.has(c+'|'+norm(mapSel(s)))&&!isRestyle(t,norm(s)));dropped+=r.selectors.length-sels.length;if(!sels.length)r.remove();else{r.selectors=sels;keptSel.push(sels.join(', '))}})};
-  if(clone.type==='rule'){const c='';const sels=clone.selectors.filter(s=>!keys.has('|'+norm(mapSel(s)))&&!isRestyle(t,norm(s)));dropped+=clone.selectors.length-sels.length;if(sels.length){clone.selectors=sels;if(pending)extra.append(pending);extra.append(clone);kept++;keptSel.push(sels.join(', '))}pending=null;return}
+  if(clone.type==='rule'){const c='';const ff=pending&&/fix-forward/.test(pending.text);const sels=clone.selectors.filter(s=>!keys.has('|'+norm(mapSel(s)))&&(ff||!isRestyle(t,norm(s))));dropped+=clone.selectors.length-sels.length;if(sels.length){clone.selectors=sels;if(pending)extra.append(pending);extra.append(clone);kept++;keptSel.push(sels.join(', '))}pending=null;return}
   else{visit(clone);let empty=true;clone.walkRules(()=>{empty=false});clone.walkDecls(()=>{empty=false});if(!empty){extra.append(clone);kept++}}
  });
  // cleanup empty at-rules
