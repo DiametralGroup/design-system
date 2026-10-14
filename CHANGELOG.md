@@ -4,7 +4,10 @@ All notable changes to the Diametral Design System are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.md](docs/versioning.md).
 
-## [5.0.0] — 2026-10-14
+## [1.0.0] — 2026-10-14
+
+**First stable release, published to `latest`.** It is numbered `1.0.0`; the `5.0.0-beta.*`
+versions on `next` were its prereleases.
 
 **Incoming wins.** `@diametral/ui` (diamorval/design-system-diametral, `main`) is the model for
 code and design; this package keeps only what incoming does not have. A full audit compared both
