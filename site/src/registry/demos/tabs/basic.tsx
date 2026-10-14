@@ -1,25 +1,27 @@
-import { Tabs } from "@diametral/design-system/react"
-
-const PANELS = [
-  {
-    id: "schema",
-    label: "Schema",
-    sublabel: "14 columns",
-    content: <p>Column types, nullability and the primary key.</p>,
-  },
-  {
-    id: "preview",
-    label: "Preview",
-    sublabel: "100 rows",
-    content: <p>The first hundred rows, sampled at read time.</p>,
-  },
-  {
-    id: "lineage",
-    label: "Lineage",
-    content: <p>Which pipelines write here, and what reads it downstream.</p>,
-  },
-]
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@diametral/design-system/react/tabs"
 
 export default function TabsBasic() {
-  return <Tabs items={PANELS} defaultValue="schema" className="w-full" />
+  return (
+    <Tabs defaultValue="overview" className="w-full">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="activity">Activity</TabsTrigger>
+        <TabsTrigger value="settings">Settings</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview" className="pt-4 text-sm">
+        Traffic, conversion and revenue for the current period.
+      </TabsContent>
+      <TabsContent value="activity" className="pt-4 text-sm">
+        Every deploy, comment and status change, newest first.
+      </TabsContent>
+      <TabsContent value="settings" className="pt-4 text-sm">
+        Workspace name, members and billing.
+      </TabsContent>
+    </Tabs>
+  )
 }

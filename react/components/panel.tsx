@@ -2,45 +2,33 @@
 
 import * as React from "react"
 
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 
-/* Panel — a sunken content panel, composed from parts.
-   ---------------------------------------------------------------------------
-   Moved out of `react/index.tsx` in 1.0.0-beta.7. `<ds-panel>` writes
-   `ds-panel`, `ds-panel--rows` and `ds-panel__title` itself over arbitrary
-   light-DOM children, so all three are frozen (css-ledger §1) and the parts are
-   renamed into that grammar rather than carrying the source's flat kebab.
-
-   `PanelRow` is what 0.11 spelled as the `rows` boolean: a tight, dividing
-   row for settings toggles and key/value pairs. The modifier stays because the
-   web component writes it; the part is the better shape because a panel can now
-   hold rows *and* prose, which the flag could not express.
-
-   `ruled` on the header and footer replaces the source's `.border-b` /
-   `.border-t` — Tailwind utility class names it expected a consumer to add,
-   which this package does not define. */
-
-export interface PanelProps extends Omit<React.ComponentProps<"div">, "title"> {
+// DiametralGroup addition: `PanelProps` and the legacy `rows` flag, which
+// writes the 0.x `.ds-panel--rows` modifier (tighter bottom padding).
+export type PanelProps = React.ComponentProps<"div"> & {
   size?: "default" | "sm"
-  /** Tighten the bottom padding for `.ds-input-row` / `<PanelRow>` content. */
   rows?: boolean
 }
 
-const Panel = React.forwardRef<HTMLDivElement, PanelProps>(function Panel(
-  { className, size = "default", rows, ...props },
-  ref
-) {
+function Panel({
+  className,
+  size = "default",
+  rows,
+  ...props
+}: PanelProps) {
   return (
     <div
-      ref={ref}
       data-slot="panel"
       data-size={size}
-      className={cx("ds-panel", rows && "ds-panel--rows", className)}
+      className={cn("ds-panel", rows && "ds-panel--rows", className)}
       {...props}
     />
   )
-})
+}
 
+// DiametralGroup addition: `ruled` draws the bottom rule via the legacy
+// `.ds-panel__header--ruled` modifier.
 function PanelHeader({
   className,
   ruled,
@@ -49,7 +37,11 @@ function PanelHeader({
   return (
     <div
       data-slot="panel-header"
-      className={cx("ds-panel__header", ruled && "ds-panel__header--ruled", className)}
+      className={cn(
+        "ds-panel-header",
+        ruled && "ds-panel__header--ruled",
+        className
+      )}
       {...props}
     />
   )
@@ -57,7 +49,11 @@ function PanelHeader({
 
 function PanelTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div data-slot="panel-title" className={cx("ds-panel__title", className)} {...props} />
+    <div
+      data-slot="panel-title"
+      className={cn("ds-panel-title", className)}
+      {...props}
+    />
   )
 }
 
@@ -65,12 +61,14 @@ function PanelContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="panel-content"
-      className={cx("ds-panel__content", className)}
+      className={cn("ds-panel-content", className)}
       {...props}
     />
   )
 }
 
+// DiametralGroup addition: `ruled` draws the top rule via the legacy
+// `.ds-panel__footer--ruled` modifier.
 function PanelFooter({
   className,
   ruled,
@@ -79,15 +77,26 @@ function PanelFooter({
   return (
     <div
       data-slot="panel-footer"
-      className={cx("ds-panel__footer", ruled && "ds-panel__footer--ruled", className)}
+      className={cn(
+        "ds-panel-footer",
+        ruled && "ds-panel__footer--ruled",
+        className
+      )}
       {...props}
     />
   )
 }
 
+// A tight, dividing row for input-row content (settings toggles, key/value
+// pairs) — the case v1's Panel handled with a `rows` boolean; here it is its
+// own part instead of a variant flag.
 function PanelRow({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div data-slot="panel-row" className={cx("ds-panel__row", className)} {...props} />
+    <div
+      data-slot="panel-row"
+      className={cn("ds-panel-row", className)}
+      {...props}
+    />
   )
 }
 

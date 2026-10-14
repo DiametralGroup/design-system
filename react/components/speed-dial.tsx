@@ -4,23 +4,19 @@ import * as React from "react"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { XIcon } from "@phosphor-icons/react"
 
-import { IconButton } from "./icon-button.js"
-import type { ButtonVariant } from "./button.js"
-import { bcx } from "../lib/baseClass.js"
-import { cx } from "../lib/cx.js"
+import { Button, buttonVariants } from "./button.js"
+import { cn } from "../lib/utils.js"
 
 // A floating action button whose actions fan out on open, ported from daisyUI's
 // `fab` (https://daisyui.com/components/fab/). daisyUI builds it out of CSS
 // alone: a `tabindex="0"` div plus `:focus-within`, which has no Escape, no
 // focus return and no menu role. That mechanism is dropped for Base UI's Menu —
-// the same primitive a dropdown menu runs on — so the keyboard contract comes
+// the same primitive `DropdownMenu` runs on — so the keyboard contract comes
 // free and only the layout is ported.
 //
 // The trigger is the root: it carries the positioning, so `className` moves the
-// dial. `.ds-speed-dial` is `fixed`, which is what a FAB wants; a demo or a
-// scoped region swaps in `.ds-speed-dial--docked` to dock it inside a
-// positioned ancestor. The source kept those as literal Tailwind utilities so
-// tailwind-merge could dedupe the override; there is no tailwind-merge here.
+// dial. The default is `fixed`, which is what a FAB wants; a demo or a scoped
+// region overrides it with `absolute` and tailwind-merge drops the `fixed`.
 function SpeedDial({
   label,
   icon,
@@ -37,9 +33,7 @@ function SpeedDial({
   label: string
   /** The closed-state glyph. Swapped for an X while open. */
   icon?: React.ReactNode
-  /** The trigger's `Button` variant. Widened from two to the full eight in
-   *  1.0.0-beta.7, when `IconButton` was re-wired onto `Button`. */
-  tone?: ButtonVariant
+  tone?: React.ComponentProps<typeof Button>["tone"]
   /** Which way the column fans out. `align` is fixed to the trigger's end
    *  edge — that edge is what the action boxes line up against. */
   side?: "top" | "bottom"
@@ -50,17 +44,18 @@ function SpeedDial({
     <MenuPrimitive.Root {...props}>
       <MenuPrimitive.Trigger
         render={
-          <IconButton
+          <Button
             data-slot="speed-dial"
-            variant={tone}
-            label={label}
-            className={cx("ds-speed-dial", className)}
+            size="icon-lg"
+            tone={tone}
+            aria-label={label}
+            className={cn("fixed end-6 bottom-6 z-40", className)}
           >
             {/* Both glyphs render and CSS picks one: `aria-expanded` lands on
                 the trigger, so the swap needs no open state of its own. */}
             <span className="ds-speed-dial-icon">{icon}</span>
             <XIcon className="ds-speed-dial-icon-close" />
-          </IconButton>
+          </Button>
         }
       />
       <MenuPrimitive.Portal>
@@ -97,17 +92,22 @@ function SpeedDialAction({
   return (
     <MenuPrimitive.Item
       data-slot="speed-dial-action"
-      className={bcx("ds-speed-dial-action", className)}
+      className={cn("ds-speed-dial-action", className)}
       {...props}
     >
       {/* The plate is the quiet half and the box the loud one, so the column
           reads as buttons under the trigger rather than as a stack of chips. */}
       <span className="ds-speed-dial-action-label">{children}</span>
-      {/* On the button classes rather than hand-picked tokens, so the box sits
-          on the same fill scale as the trigger — a raw ink fill reads louder
-          than any button in the system once dark mode inverts it. It is a span,
-          not a button: the whole row is already the menu item. */}
-      <span className="ds-button ds-button--icon ds-speed-dial-action-icon">
+      {/* Styled by `buttonVariants` rather than hand-picked tokens, so the box
+          sits on the same fill scale as the trigger — a raw `bg-foreground`
+          reads louder than any button in the system once dark mode inverts it.
+          It is a span, not a Button: the whole row is already the menu item. */}
+      <span
+        className={buttonVariants({
+          size: "icon-lg",
+          className: "ds-speed-dial-action-icon",
+        })}
+      >
         {icon}
       </span>
     </MenuPrimitive.Item>

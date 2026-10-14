@@ -11,7 +11,7 @@
 
 import { expect, test, type Page } from "@playwright/test"
 
-import { icons } from "@diametral/design-system/react"
+import { icons } from "@diametral/design-system/react/icons"
 
 import { routePath, settle } from "./harness"
 
@@ -393,29 +393,25 @@ test.describe("icon", () => {
   })
 })
 
-/* -- select: 2 of the 18 z-index remaps ------------------------------------ */
+/* -- select: the popup stacks above the page ------------------------------ */
+//
+// Was "the popup sits at --ds-z-popover, not the source's bare 50": the
+// 2026-10 incoming sync drops DiametralGroup's z-index scale on incoming's
+// overlays (CHANGELOG), so the token is gone. What the scale was for is that
+// an open popup is the topmost thing where it is drawn.
 
 test.describe("select", () => {
-  test("the popup sits at --ds-z-popover, not the source's bare 50", async ({
-    page,
-  }) => {
+  test("the open popup is on top of the page beneath it", async ({ page }) => {
     await go(page, "select")
-    const token = await page.evaluate(() =>
-      getComputedStyle(document.documentElement)
-        .getPropertyValue("--ds-z-popover")
-        .trim()
-    )
-    expect(token).not.toBe("")
-    const zIndexes = (await styleRules(page))
-      .filter(
-        ({ selector, zIndex }) =>
-          zIndex && /\.ds-select-(positioner|content)\b/.test(selector)
-      )
-      .map(({ zIndex }) => zIndex)
-    expect(zIndexes.length).toBe(2)
-    for (const value of zIndexes) {
-      expect(value).toBe("var(--ds-z-popover)")
-    }
+    await page.locator('[data-slot="select-trigger"]').first().click()
+    const popup = page.locator('[data-slot="select-content"]').first()
+    await expect(popup).toBeVisible()
+    const onTop = await popup.evaluate((el) => {
+      const r = el.getBoundingClientRect()
+      const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)
+      return !!hit && el.contains(hit)
+    })
+    expect(onTop).toBe(true)
   })
 })
 

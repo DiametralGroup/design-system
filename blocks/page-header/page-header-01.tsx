@@ -11,7 +11,7 @@ import {
   PageHeaderHeading,
   PageHeaderTabs,
   PageHeaderTitle,
-  Tabs,
+  ItemTabs,
 } from "@diametral/design-system/react"
 
 const VIEWS = [
@@ -48,7 +48,7 @@ export default function PageHeader01() {
       {/* PageHeaderTabs is a slot marker: its presence flips the `:has()` rule
           that moves the bottom rule under the strip. */}
       <PageHeaderTabs>
-        <Tabs items={VIEWS} defaultValue="rates" />
+        <ItemTabs items={VIEWS} defaultValue="rates" />
       </PageHeaderTabs>
     </PageHeader>
   )

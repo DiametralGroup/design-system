@@ -1,4 +1,4 @@
-import { Icon } from "@diametral/design-system/react"
+import { Icon, type IconName } from "@diametral/design-system/react"
 
 // `name` is what an icon *is*, so it is declared `always` — a snippet that
 // omitted it would not compile. `size`/`title` are gone from the 1.0.0 API:
@@ -7,7 +7,7 @@ import { Icon } from "@diametral/design-system/react"
 export default function IconPlayground({
   name = "search",
 }: {
-  name?: string
+  name?: IconName
 }) {
   return <Icon name={name} />
 }

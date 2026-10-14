@@ -23,24 +23,8 @@ import {
 import { CSS } from "@dnd-kit/utilities"
 import { DotsSixVerticalIcon } from "@phosphor-icons/react"
 
-import { useControllableValue } from "../hooks/useControllableValue.js"
-import { cx } from "../lib/cx.js"
-
-/* ----------------------------------------------------------------------------
-   Kanban — batch 8's third defect swap, and the one that buys the migration's
-   entire new dependency bill (@dnd-kit/core + /sortable + /utilities).
-
-   0.11's board was 49 lines of HTML5 drag-and-drop with zero ARIA and no
-   keyboard path at all: a card could only ever be moved with a mouse. That is
-   not something an `onKeyDown` fixes. Accessible drag-and-drop is a
-   lift/move/drop state machine with live regions announcing each transition,
-   which is what @dnd-kit implements and why this is the one component in the
-   absorption worth a dependency.
-
-   The grip is a real <button>, so it is in the tab order; Space lifts, arrows
-   move, Space drops, Escape cancels. site/tests/kanban-regress.spec.ts pins all
-   five behaviours, three of them by keyboard.
-   ---------------------------------------------------------------------------- */
+import { useControllableValue } from "../hooks/use-controllable-value.js"
+import { cn } from "../lib/utils.js"
 
 type KanbanColumn = {
   id: string
@@ -57,7 +41,7 @@ function KanbanCardTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="kanban-card-title"
-      className={cx("ds-kanban-card-title", className)}
+      className={cn("ds-kanban-card-title", className)}
       {...props}
     />
   )
@@ -286,7 +270,11 @@ function Kanban<Item extends KanbanItem>({
   }
 
   return (
-    <div data-slot="kanban" className={cx("ds-kanban", className)} {...props}>
+    <div
+      data-slot="kanban"
+      className={cn("ds-kanban", className)}
+      {...props}
+    >
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}

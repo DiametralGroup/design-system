@@ -1,65 +1,43 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import * as RechartsPrimitive from "recharts";
-import type { TooltipValueType } from "recharts";
+import * as React from "react"
+import * as RechartsPrimitive from "recharts"
+import type { TooltipValueType } from "recharts"
 
-import { colorVarName } from "../lib/chart-series.js";
-import { cx } from "../lib/cx.js";
-
-/* Chart — the substrate every finished chart in this package composes.
-   ---------------------------------------------------------------------------
-   `ChartContainer` is a responsive recharts surface plus a `config` context;
-   `ChartTooltipContent` and `ChartLegendContent` are the two pieces recharts
-   leaves to the design system. Reach for them directly when a chart is a
-   one-off composition; reach for `LineChart`, `AreaChart`, `BarChart`,
-   `StackedBar`, `PieChart` or `DonutChart` when it is one of the six shapes
-   this system already answers.
-
-   `config` is the single place a series is named and coloured: the key is the
-   field name in each data row, and the tooltip and legend look their labels up
-   through it. A series with no colour of its own falls back to the
-   `--ds-chart-*` ramp, so a config of bare labels still draws.
-
-   Sizing is a class, not a utility. The 0.x-era source shipped `aspect-video`
-   as a literal Tailwind class so `tailwind-merge` could dedupe a caller's
-   override against it; this package has no Tailwind and no merge, so the
-   aspect ratio is a real declaration and the two other shapes are modifiers —
-   `--plot` for the axis charts, `--square` for the round ones. A caller who
-   wants a different height sets `--ds-chart-height`, which is deterministic
-   where a competing class would depend on stylesheet order. */
+import { colorVarName } from "../lib/chart-series.js"
+import { cn } from "../lib/utils.js"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
-const THEMES = { light: "", dark: ".dark" } as const;
+const THEMES = { light: "", dark: ".dark" } as const
 
-const INITIAL_DIMENSION = { width: 320, height: 200 } as const;
-type TooltipNameType = number | string;
+const INITIAL_DIMENSION = { width: 320, height: 200 } as const
+type TooltipNameType = number | string
 
 export type ChartConfig = Record<
   string,
   {
-    label?: React.ReactNode;
-    icon?: React.ComponentType;
+    label?: React.ReactNode
+    icon?: React.ComponentType
   } & (
     | { color?: string; theme?: never }
     | { color?: never; theme: Record<keyof typeof THEMES, string> }
   )
->;
+>
 
 type ChartContextProps = {
-  config: ChartConfig;
-};
+  config: ChartConfig
+}
 
-const ChartContext = React.createContext<ChartContextProps | null>(null);
+const ChartContext = React.createContext<ChartContextProps | null>(null)
 
 function useChart() {
-  const context = React.useContext(ChartContext);
+  const context = React.useContext(ChartContext)
 
   if (!context) {
-    throw new Error("useChart must be used within a <ChartContainer />");
+    throw new Error("useChart must be used within a <ChartContainer />")
   }
 
-  return context;
+  return context
 }
 
 function ChartContainer({
@@ -70,24 +48,24 @@ function ChartContainer({
   initialDimension = INITIAL_DIMENSION,
   ...props
 }: React.ComponentProps<"div"> & {
-  config: ChartConfig;
+  config: ChartConfig
   children: React.ComponentProps<
     typeof RechartsPrimitive.ResponsiveContainer
-  >["children"];
+  >["children"]
   initialDimension?: {
-    width: number;
-    height: number;
-  };
+    width: number
+    height: number
+  }
 }) {
-  const uniqueId = React.useId();
-  const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`;
+  const uniqueId = React.useId()
+  const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`
 
   return (
     <ChartContext.Provider value={{ config }}>
       <div
         data-slot="chart"
         data-chart={chartId}
-        className={cx("ds-chart-container", className)}
+        className={cn("ds-chart-container h-64 w-full", className)}
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
@@ -98,16 +76,16 @@ function ChartContainer({
         </RechartsPrimitive.ResponsiveContainer>
       </div>
     </ChartContext.Provider>
-  );
+  )
 }
 
 function ChartStyle({ id, config }: { id: string; config: ChartConfig }) {
   const colorConfig = Object.entries(config).filter(
-    ([, config]) => config.theme ?? config.color,
-  );
+    ([, config]) => config.theme ?? config.color
+  )
 
   if (!colorConfig.length) {
-    return null;
+    return null
   }
 
   return (
@@ -121,23 +99,23 @@ ${colorConfig
   .map(([key, itemConfig]) => {
     const color =
       itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ??
-      itemConfig.color;
+      itemConfig.color
     // Through `colorVarName` so a config key carrying a space — a slice name
     // like "Closed won" — emits a property that is actually valid CSS, and the
     // same one `seriesColor` reads back.
-    return color ? `  ${colorVarName(key)}: ${color};` : null;
+    return color ? `  ${colorVarName(key)}: ${color};` : null
   })
   .join("\n")}
 }
-`,
+`
           )
           .join("\n"),
       }}
     />
-  );
+  )
 }
 
-const ChartTooltip = RechartsPrimitive.Tooltip;
+const ChartTooltip = RechartsPrimitive.Tooltip
 
 function ChartTooltipContent({
   active,
@@ -156,16 +134,16 @@ function ChartTooltipContent({
   valueFormatter,
 }: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
   React.ComponentProps<"div"> & {
-    hideLabel?: boolean;
-    hideIndicator?: boolean;
-    indicator?: "line" | "dot" | "dashed";
-    nameKey?: string;
-    labelKey?: string;
-    /** Formats a numeric value while keeping the default row layout —
-     *  `formatter` replaces the whole row. Receives the series key, so a
-     *  chart mixing amounts and rates can format each its own way. Defaults
-     *  to `toLocaleString()`. */
-    valueFormatter?: (value: number, key: string) => string;
+    hideLabel?: boolean
+    hideIndicator?: boolean
+    indicator?: "line" | "dot" | "dashed"
+    nameKey?: string
+    labelKey?: string
+    /** DiametralGroup addition. Formats a numeric value while keeping the
+     *  default row layout — `formatter` replaces the whole row. Receives the
+     *  series key, so a chart mixing amounts and rates can format each its own
+     *  way. Defaults to `toLocaleString()`. */
+    valueFormatter?: (value: number, key: string) => string
   } & Omit<
     RechartsPrimitive.DefaultTooltipContentProps<
       TooltipValueType,
@@ -173,38 +151,38 @@ function ChartTooltipContent({
     >,
     "accessibilityLayer"
   >) {
-  const { config } = useChart();
+  const { config } = useChart()
 
   const tooltipLabel = React.useMemo(() => {
     if (hideLabel || !payload?.length) {
-      return null;
+      return null
     }
 
-    const [item] = payload;
-    const key = `${labelKey ?? item?.dataKey ?? item?.name ?? "value"}`;
-    const itemConfig = getPayloadConfigFromPayload(config, item, key);
+    const [item] = payload
+    const key = `${labelKey ?? item?.dataKey ?? item?.name ?? "value"}`
+    const itemConfig = getPayloadConfigFromPayload(config, item, key)
     const value =
       !labelKey && typeof label === "string"
         ? (config[label]?.label ?? label)
-        : itemConfig?.label;
+        : itemConfig?.label
 
     if (labelFormatter) {
       return (
-        <div className={cx("ds-chart-tooltip-content-label", labelClassName)}>
+        <div className={cn("ds-chart-tooltip-content-label", labelClassName)}>
           {labelFormatter(value, payload)}
         </div>
-      );
+      )
     }
 
     if (!value) {
-      return null;
+      return null
     }
 
     return (
-      <div className={cx("ds-chart-tooltip-content-label", labelClassName)}>
+      <div className={cn("ds-chart-tooltip-content-label", labelClassName)}>
         {value}
       </div>
-    );
+    )
   }, [
     label,
     labelFormatter,
@@ -213,24 +191,24 @@ function ChartTooltipContent({
     labelClassName,
     config,
     labelKey,
-  ]);
+  ])
 
   if (!active || !payload?.length) {
-    return null;
+    return null
   }
 
-  const nestLabel = payload.length === 1 && indicator !== "dot";
+  const nestLabel = payload.length === 1 && indicator !== "dot"
 
   return (
-    <div className={cx("ds-chart-tooltip-content", className)}>
+    <div className={cn("ds-chart-tooltip-content", className)}>
       {!nestLabel ? tooltipLabel : null}
       <div className="ds-chart-tooltip-content-items">
         {payload
           .filter((item) => item.type !== "none")
           .map((item, index) => {
-            const key = `${nameKey ?? item.name ?? item.dataKey ?? "value"}`;
-            const itemConfig = getPayloadConfigFromPayload(config, item, key);
-            const indicatorColor = color ?? item.payload?.fill ?? item.color;
+            const key = `${nameKey ?? item.name ?? item.dataKey ?? "value"}`
+            const itemConfig = getPayloadConfigFromPayload(config, item, key)
+            const indicatorColor = color ?? item.payload?.fill ?? item.color
 
             return (
               <div
@@ -252,7 +230,8 @@ function ChartTooltipContent({
                           data-nested={nestLabel || undefined}
                           style={
                             {
-                              "--ds-chart-indicator": indicatorColor,
+                              "--color-bg": indicatorColor,
+                              "--color-border": indicatorColor,
                             } as React.CSSProperties
                           }
                         />
@@ -273,9 +252,8 @@ function ChartTooltipContent({
                           {typeof item.value === "number"
                             ? (valueFormatter?.(
                                 item.value,
-                                String(item.dataKey ?? item.name ?? key),
-                              ) ??
-                              item.value.toLocaleString())
+                                String(item.dataKey ?? item.name ?? key)
+                              ) ?? item.value.toLocaleString())
                             : String(item.value)}
                         </span>
                       )}
@@ -283,14 +261,14 @@ function ChartTooltipContent({
                   </>
                 )}
               </div>
-            );
+            )
           })}
       </div>
     </div>
-  );
+  )
 }
 
-const ChartLegend = RechartsPrimitive.Legend;
+const ChartLegend = RechartsPrimitive.Legend
 
 function ChartLegendContent({
   className,
@@ -299,25 +277,25 @@ function ChartLegendContent({
   verticalAlign = "bottom",
   nameKey,
 }: React.ComponentProps<"div"> & {
-  hideIcon?: boolean;
-  nameKey?: string;
+  hideIcon?: boolean
+  nameKey?: string
 } & RechartsPrimitive.DefaultLegendContentProps) {
-  const { config } = useChart();
+  const { config } = useChart()
 
   if (!payload?.length) {
-    return null;
+    return null
   }
 
   return (
     <div
-      className={cx("ds-chart-legend-content", className)}
+      className={cn("ds-chart-legend-content", className)}
       data-align={verticalAlign}
     >
       {payload
         .filter((item) => item.type !== "none")
         .map((item, index) => {
-          const key = `${nameKey ?? item.dataKey ?? "value"}`;
-          const itemConfig = getPayloadConfigFromPayload(config, item, key);
+          const key = `${nameKey ?? item.dataKey ?? "value"}`
+          const itemConfig = getPayloadConfigFromPayload(config, item, key)
 
           return (
             <div key={index} className="ds-chart-legend-content-item">
@@ -326,24 +304,26 @@ function ChartLegendContent({
               ) : (
                 <div
                   className="ds-chart-legend-content-dot"
-                  style={{ backgroundColor: item.color }}
+                  style={{
+                    backgroundColor: item.color,
+                  }}
                 />
               )}
               {itemConfig?.label}
             </div>
-          );
+          )
         })}
     </div>
-  );
+  )
 }
 
 function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: unknown,
-  key: string,
+  key: string
 ) {
   if (typeof payload !== "object" || payload === null) {
-    return undefined;
+    return undefined
   }
 
   const payloadPayload =
@@ -351,15 +331,15 @@ function getPayloadConfigFromPayload(
     typeof payload.payload === "object" &&
     payload.payload !== null
       ? payload.payload
-      : undefined;
+      : undefined
 
-  let configLabelKey: string = key;
+  let configLabelKey: string = key
 
   if (
     key in payload &&
     typeof payload[key as keyof typeof payload] === "string"
   ) {
-    configLabelKey = payload[key as keyof typeof payload] as string;
+    configLabelKey = payload[key as keyof typeof payload] as string
   } else if (
     payloadPayload &&
     key in payloadPayload &&
@@ -367,10 +347,10 @@ function getPayloadConfigFromPayload(
   ) {
     configLabelKey = payloadPayload[
       key as keyof typeof payloadPayload
-    ] as string;
+    ] as string
   }
 
-  return configLabelKey in config ? config[configLabelKey] : config[key];
+  return configLabelKey in config ? config[configLabelKey] : config[key]
 }
 
 export {
@@ -380,4 +360,4 @@ export {
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
-};
+}

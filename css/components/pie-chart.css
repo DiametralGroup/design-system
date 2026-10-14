@@ -1,17 +1,20 @@
-/* ============================================================================
-   Pie chart — .ds-pie-chart-root
-   ----------------------------------------------------------------------------
-   A `PieChart` is a `.ds-chart-container` with one recharts <Pie> in it, so
-   this file holds only what the container cannot: the centring. Sizing is the
-   container's `--square` modifier — the source spent `aspect-square h-64` as
-   literal Tailwind classes here so `tailwind-merge` could dedupe a caller's
-   override; there is no Tailwind in this package, so the ratio and the height
-   are real declarations in chart.css and a caller retunes the height through
-   `--ds-chart-height`.
+/* pie-chart.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/pie-chart.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   Slice colour rides on each row as recharts' `fill`, and the seam between
-   adjacent slices is chart.css's surface-coloured hairline.
-   ============================================================================ */
-.ds-pie-chart-root {
-  margin-inline: auto;
+@layer components {
+  /* aspect-square and h-64 stay literal Tailwind utilities on PieChart's own
+     className (see pie-chart.tsx) — pie-chart/compact.tsx overrides h-64 with
+     h-28, relying on tailwind-merge to dedupe against the component's own
+     default, and aspect-square itself has to dedupe against ChartContainer's
+     literal aspect-video default. Same constraint as donut-chart.css's note. */
+  .ds-pie-chart-root {
+    margin-inline: auto;
+  }
 }
+

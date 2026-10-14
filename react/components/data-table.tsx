@@ -38,8 +38,8 @@ import {
 } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 
-import { useControllableValue } from "../hooks/useControllableValue.js"
-import { cx } from "../lib/cx.js"
+import { useControllableValue } from "../hooks/use-controllable-value.js"
+import { cn } from "../lib/utils.js"
 import { Button } from "./button.js"
 import { Checkbox } from "./checkbox.js"
 import {
@@ -588,7 +588,7 @@ function DataTable<TData, TValue>({
   }
 
   return (
-    <div data-slot="data-table" className={cx("ds-data-table", className)}>
+    <div data-slot="data-table" className={cn("ds-data-table", className)}>
       {(title || toolbar || columnToggle || filterColumn) && (
         <div data-slot="data-table-header" className="ds-data-table-header">
           <div className="ds-data-table-header-start">

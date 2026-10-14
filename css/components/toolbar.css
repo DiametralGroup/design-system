@@ -1,106 +1,103 @@
+/* toolbar.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/toolbar.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-toolbar {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 0;
+    border: 1px solid var(--ds-rule);
+    background-color: var(--ds-bg);
+    padding: 0.25rem;
+  }
+
+  .ds-toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .ds-toolbar-button {
+    flex-shrink: 0;
+  }
+
+  .ds-toolbar-link {
+    display: inline-flex;
+    height: 2.25rem;
+    flex-shrink: 0;
+    align-items: center;
+    padding-inline: 0.75rem;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration-line: underline;
+    text-underline-offset: 4px;
+    outline: none;
+  }
+
+  .ds-toolbar-separator {
+    flex-shrink: 0;
+    background-color: var(--ds-rule);
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-toolbar[data-disabled] {
+    opacity: 0.5;
+  }
+  .ds-toolbar[data-orientation="vertical"] {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .ds-toolbar-group[data-disabled] {
+    opacity: 0.5;
+  }
+  :where(.ds-toolbar[data-orientation="vertical"]) .ds-toolbar-group {
+    flex-direction: column;
+  }
+  .ds-toolbar-button[data-pressed] {
+    background-color: var(--ds-bg-alt);
+  }
+  .ds-toolbar-link:focus-visible {
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-focus-ring) 30%, transparent);
+  }
+  .ds-toolbar-separator[data-orientation="horizontal"] {
+    height: 1px;
+    width: 100%;
+  }
+  .ds-toolbar-separator[data-orientation="vertical"] {
+    height: 1.25rem;
+    width: 1px;
+  }
+}
+
 /* ============================================================================
-   Toolbar — .ds-toolbar (a boxed strip of controls with roving focus)
-   ----------------------------------------------------------------------------
-   Base UI's Toolbar underneath, so one Tab reaches the strip and the arrow keys
-   walk it — which is the whole reason the source wins over 0.x's flex row.
-   Horizontal or vertical; groups cluster related controls, separators rule
-   between them.
-
-   0.x's --bordered is gone: this bar is boxed by default, which is what
-   --bordered used to opt into, and the borderless bottom-ruled variant it
-   defaulted to has no reader left.
-
-   `.ds-toolbar-spacer` is PRESERVED, renamed from 0.x's __spacer. A Base UI
-   toolbar is `width: fit-content`, so the composed <Toolbar> has no free space
-   for a spacer to eat — but a hand-written full-width bar (examples/blocks/
-   app-chrome.html) does, and stretching it is what pushes its two clusters to
-   opposite edges. One rule, and the composed component never sees it.
-
-   `.ds-toolbar .ds-input { min-width: 200px }` also goes. It was one of the
-   five --ds-input descendant overrides batch 7 owes a propagation pass; the
-   replacement is .ds-toolbar-input below, which sets its own width. Recorded in
-   docs/absorption/corrections.md so batch 7 looks for four, not five.
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
    ============================================================================ */
-.ds-toolbar {
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  gap: 0.25rem;
-  border-radius: var(--ds-radius-none);
-  border: 1px solid var(--ds-rule);
-  background-color: var(--ds-bg);
-  padding: 0.25rem;
-  font-family: var(--ds-font-sans);
-}
-.ds-toolbar[data-disabled] {
-  opacity: 0.5;
-}
-.ds-toolbar[data-orientation="vertical"] {
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.ds-toolbar-group {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-.ds-toolbar-group[data-disabled] {
-  opacity: 0.5;
-}
-:where(.ds-toolbar[data-orientation="vertical"]) .ds-toolbar-group {
-  flex-direction: column;
-}
-
-/* Eats the free space, pushing what follows to the opposite edge. Only does
-   anything on a toolbar a caller has widened past its content. */
-.ds-toolbar-spacer {
-  flex: 1;
-}
-
-.ds-toolbar-button {
-  flex-shrink: 0;
-}
-.ds-toolbar-button[data-pressed] {
-  background-color: var(--ds-bg-alt);
-}
-
-.ds-toolbar-link {
-  display: inline-flex;
-  height: 2.25rem;
-  flex-shrink: 0;
-  align-items: center;
-  padding-inline: 0.75rem;
-  font-size: var(--ds-text-xs);
-  line-height: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration-line: underline;
-  text-underline-offset: 4px;
-  color: inherit;
-  outline: none;
-}
-.ds-toolbar-link:focus-visible {
-  outline: 2px solid var(--ds-focus-ring);
-  outline-offset: 2px;
-}
-
-.ds-toolbar-input {
-  height: 2.25rem;
-  width: 8rem;
-  padding-inline: 0.5rem;
-}
-
-.ds-toolbar-separator {
-  flex-shrink: 0;
-  background-color: var(--ds-rule);
-}
-.ds-toolbar-separator[data-orientation="horizontal"] {
-  height: 1px;
-  width: 100%;
-}
-.ds-toolbar-separator[data-orientation="vertical"] {
-  height: 1.25rem;
-  width: 1px;
+@layer components {
+  /* Eats the free space, pushing what follows to the opposite edge. Only does
+  anything on a toolbar a caller has widened past its content. */
+  .ds-toolbar-spacer {
+    flex: 1;
+  }
+  .ds-toolbar-input {
+    height: 2.25rem;
+    width: 8rem;
+    padding-inline: 0.5rem;
+  }
 }

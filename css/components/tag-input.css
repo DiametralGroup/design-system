@@ -1,72 +1,89 @@
-.ds-tags-input {
-  display: flex;
-  min-height: 2.5rem;
-  width: 100%;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.375rem;
-  border-radius: 0;
-  border: 1px solid transparent;
-  border-bottom-color: var(--ds-rule);
-  background-color: transparent;
-  padding-inline: 0;
-  padding-block: 0.375rem;
-  font-size: 0.875rem;
-  line-height: calc(1.25 / 0.875);
-  transition-property: color, border-color;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+/* tag-input.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/tags-input.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-tags-input {
+    display: flex;
+    min-height: 2.5rem;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 0;
+    border: 1px solid transparent;
+    border-bottom-color: var(--ds-rule);
+    background-color: transparent;
+    padding-inline: 0;
+    padding-block: 0.375rem;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    transition-property: color, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  .ds-tags-input-tag {
+    display: flex;
+    height: 1.375rem;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    border-radius: 0;
+    background-color: var(--ds-bg-alt);
+    padding-inline: 0.5rem;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    font-weight: 500;
+    white-space: nowrap;
+    color: var(--ds-ink);
+  }
+
+  .ds-tags-input-tag-remove {
+    margin-inline-end: -0.25rem;
+    /* Overrides button.css's own .ds-button--size-icon-xs (1.75rem): both are
+       plain CSS classes now, so tailwind-merge can no longer dedupe them the
+       way it deduped the pre-conversion size-7/size-4 utility pair. */
+    width: 1rem !important;
+    height: 1rem !important;
+    opacity: 0.5;
+  }
+
+  .ds-tags-input-field {
+    min-width: 4rem;
+    flex: 1 1 0%;
+    background-color: transparent;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    outline: none;
+  }
 }
-.ds-tags-input:focus-within {
-  border-bottom-color: var(--ds-focus-ring);
-}
-.ds-tags-input[data-disabled] {
-  pointer-events: none;
-  cursor: not-allowed;
-  opacity: 0.5;
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-tags-input:focus-within {
+    border-bottom-color: var(--ds-focus-ring);
+  }
+  .ds-tags-input[data-disabled] {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .ds-tags-input-tag-remove:hover {
+    opacity: 1;
+  }
+  .ds-tags-input-field::placeholder {
+    color: var(--ds-ink-faint);
+  }
+  .ds-tags-input-field:disabled {
+    cursor: not-allowed;
+  }
 }
 
-.ds-tags-input-tag {
-  display: flex;
-  height: 1.375rem;
-  width: fit-content;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  border-radius: 0;
-  background-color: var(--ds-bg-alt);
-  padding-inline: 0.5rem;
-  font-size: 0.75rem;
-  line-height: calc(1 / 0.75);
-  font-weight: 500;
-  white-space: nowrap;
-  color: var(--ds-ink);
-}
-
-.ds-tags-input-tag-remove {
-  margin-inline-end: -0.25rem;
-  /* Overrides button.css's own .ds-button--size-icon-xs (1.75rem): both are
-     plain CSS classes now, so tailwind-merge can no longer dedupe them the
-     way it deduped the pre-conversion size-7/size-4 utility pair. */
-  width: 1rem !important;
-  height: 1rem !important;
-  opacity: 0.5;
-}
-.ds-tags-input-tag-remove:hover {
-  opacity: 1;
-}
-
-.ds-tags-input-field {
-  min-width: 4rem;
-  flex: 1 1 0%;
-  background-color: transparent;
-  font-size: 0.875rem;
-  line-height: calc(1.25 / 0.875);
-  outline: none;
-}
-.ds-tags-input-field::placeholder {
-  color: var(--ds-ink-soft);
-}
-.ds-tags-input-field:disabled {
-  cursor: not-allowed;
-}

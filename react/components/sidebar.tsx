@@ -3,10 +3,10 @@
 import * as React from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { useIsMobile } from "../hooks/useIsMobile.js"
-import { cx, type WithClassName } from "../lib/cx.js"
-import { variants } from "../lib/variants.js"
+import { useIsMobile } from "../hooks/use-mobile.js"
+import { cn } from "../lib/utils.js"
 import { Button } from "./button.js"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group.js"
 import { Separator } from "./separator.js"
@@ -133,7 +133,7 @@ function SidebarProvider({
             ...style,
           } as React.CSSProperties
         }
-        className={cx(
+        className={cn(
           "group/sidebar-wrapper ds-sidebar-wrapper min-h-svh",
           className
         )}
@@ -164,7 +164,7 @@ function Sidebar({
     return (
       <div
         data-slot="sidebar"
-        className={cx(
+        className={cn(
           // No `h-full`: a percentage height against the provider's auto height
           // resolves to the content's own, which leaves the rail short of the
           // bottom. Stretching is the flex row's job.
@@ -218,7 +218,7 @@ function Sidebar({
       <div
         data-slot="sidebar-container"
         data-side={side}
-        className={cx("ds-sidebar-container", className)}
+        className={cn("ds-sidebar-container", className)}
         {...props}
       >
         <div
@@ -246,7 +246,7 @@ function SidebarTrigger({
       data-slot="sidebar-trigger"
       variant="ghost"
       size="icon-sm"
-      className={cx(className)}
+      className={cn(className)}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
@@ -270,7 +270,7 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
       tabIndex={-1}
       onClick={toggleSidebar}
       title="Toggle Sidebar"
-      className={cx("ds-sidebar-rail", className)}
+      className={cn("ds-sidebar-rail", className)}
       {...props}
     />
   )
@@ -280,7 +280,7 @@ function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
   return (
     <main
       data-slot="sidebar-inset"
-      className={cx("ds-sidebar-inset", className)}
+      className={cn("ds-sidebar-inset", className)}
       {...props}
     />
   )
@@ -291,7 +291,7 @@ function SidebarInput({ className, ...props }: React.ComponentProps<"input">) {
     <InputGroup
       data-slot="sidebar-input"
       data-sidebar="input"
-      className={cx("ds-sidebar-input", className)}
+      className={cn("ds-sidebar-input", className)}
     >
       <InputGroupAddon>
         <MagnifyingGlassIcon />
@@ -306,7 +306,7 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sidebar-header"
       data-sidebar="header"
-      className={cx("ds-sidebar-header", className)}
+      className={cn("ds-sidebar-header", className)}
       {...props}
     />
   )
@@ -317,7 +317,7 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sidebar-footer"
       data-sidebar="footer"
-      className={cx("ds-sidebar-footer", className)}
+      className={cn("ds-sidebar-footer", className)}
       {...props}
     />
   )
@@ -326,12 +326,12 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
 function SidebarSeparator({
   className,
   ...props
-}: WithClassName<React.ComponentProps<typeof Separator>>) {
+}: React.ComponentProps<typeof Separator>) {
   return (
     <Separator
       data-slot="sidebar-separator"
       data-sidebar="separator"
-      className={cx("ds-sidebar-separator w-auto bg-sidebar-border", className)}
+      className={cn("ds-sidebar-separator w-auto bg-sidebar-border", className)}
       {...props}
     />
   )
@@ -342,7 +342,7 @@ function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sidebar-content"
       data-sidebar="content"
-      className={cx("ds-sidebar-content", className)}
+      className={cn("ds-sidebar-content", className)}
       {...props}
     />
   )
@@ -353,7 +353,7 @@ function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sidebar-group"
       data-sidebar="group"
-      className={cx("ds-sidebar-group", className)}
+      className={cn("ds-sidebar-group", className)}
       {...props}
     />
   )
@@ -368,7 +368,7 @@ function SidebarGroupLabel({
     defaultTagName: "div",
     props: mergeProps<"div">(
       {
-        className: cx("ds-sidebar-group-label", className),
+        className: cn("ds-sidebar-group-label", className),
       },
       props
     ),
@@ -389,7 +389,7 @@ function SidebarGroupAction({
     defaultTagName: "button",
     props: mergeProps<"button">(
       {
-        className: cx("ds-sidebar-group-action", className),
+        className: cn("ds-sidebar-group-action", className),
       },
       props
     ),
@@ -409,7 +409,7 @@ function SidebarGroupContent({
     <div
       data-slot="sidebar-group-content"
       data-sidebar="group-content"
-      className={cx("ds-sidebar-group-content", className)}
+      className={cn("ds-sidebar-group-content", className)}
       {...props}
     />
   )
@@ -420,7 +420,7 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
     <ul
       data-slot="sidebar-menu"
       data-sidebar="menu"
-      className={cx("ds-sidebar-menu", className)}
+      className={cn("ds-sidebar-menu", className)}
       {...props}
     />
   )
@@ -431,13 +431,13 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
     <li
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
-      className={cx("group/menu-item ds-sidebar-menu-item", className)}
+      className={cn("group/menu-item ds-sidebar-menu-item", className)}
       {...props}
     />
   )
 }
 
-const sidebarMenuButtonVariants = variants("ds-sidebar-menu-button", {
+const sidebarMenuButtonVariants = cva("ds-sidebar-menu-button", {
   variants: {
     variant: {
       default: "",
@@ -467,15 +467,13 @@ function SidebarMenuButton({
   React.ComponentProps<"button"> & {
     isActive?: boolean
     tooltip?: string | React.ComponentProps<typeof TooltipContent>
-    variant?: "default" | "outline"
-    size?: "default" | "sm" | "lg"
-  }) {
+  } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const { isMobile, state } = useSidebar()
   const comp = useRender({
     defaultTagName: "button",
     props: mergeProps<"button">(
       {
-        className: sidebarMenuButtonVariants({ variant, size, className }),
+        className: cn(sidebarMenuButtonVariants({ variant, size }), className),
       },
       props
     ),
@@ -524,7 +522,7 @@ function SidebarMenuAction({
     defaultTagName: "button",
     props: mergeProps<"button">(
       {
-        className: cx(
+        className: cn(
           "ds-sidebar-menu-action",
           showOnHover && "ds-sidebar-menu-action--show-on-hover",
           className
@@ -548,7 +546,7 @@ function SidebarMenuBadge({
     <div
       data-slot="sidebar-menu-badge"
       data-sidebar="menu-badge"
-      className={cx("ds-sidebar-menu-badge", className)}
+      className={cn("ds-sidebar-menu-badge", className)}
       {...props}
     />
   )
@@ -570,7 +568,7 @@ function SidebarMenuSkeleton({
     <div
       data-slot="sidebar-menu-skeleton"
       data-sidebar="menu-skeleton"
-      className={cx("ds-sidebar-menu-skeleton", className)}
+      className={cn("ds-sidebar-menu-skeleton", className)}
       {...props}
     >
       {/* Skeleton's own `bg-muted` is the sidebar's own surface colour, in both
@@ -599,7 +597,7 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
     <ul
       data-slot="sidebar-menu-sub"
       data-sidebar="menu-sub"
-      className={cx("ds-sidebar-menu-sub", className)}
+      className={cn("ds-sidebar-menu-sub", className)}
       {...props}
     />
   )
@@ -613,7 +611,7 @@ function SidebarMenuSubItem({
     <li
       data-slot="sidebar-menu-sub-item"
       data-sidebar="menu-sub-item"
-      className={cx("group/menu-sub-item ds-sidebar-menu-sub-item", className)}
+      className={cn("group/menu-sub-item ds-sidebar-menu-sub-item", className)}
       {...props}
     />
   )
@@ -634,7 +632,7 @@ function SidebarMenuSubButton({
     defaultTagName: "a",
     props: mergeProps<"a">(
       {
-        className: cx("ds-sidebar-menu-sub-button", className),
+        className: cn("ds-sidebar-menu-sub-button", className),
       },
       props
     ),

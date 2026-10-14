@@ -13,8 +13,8 @@ export default function SpeedDialTone() {
       <SpeedDial
         label="Pipeline controls"
         icon={<LightningIcon />}
-        tone="danger"
-        className="ds-speed-dial--docked"
+        tone="red"
+        className="absolute end-4 bottom-4"
       >
         <SpeedDialAction icon={<PlayIcon />}>Run now</SpeedDialAction>
         <SpeedDialAction icon={<ArrowCounterClockwiseIcon />}>

@@ -7,6 +7,11 @@
 // repo's incumbent, so the first four blocks are what says the re-wiring is
 // still in place and has not quietly reverted to a source symbol.
 //
+// The 2026-10 incoming sync reversed these re-wirings on purpose: incoming is
+// the model, so its own composition is back (docs/absorption/direction.md).
+// Where a test pinned a re-wiring, it now pins the same user-facing intent
+// against incoming's markup; its comment says what it was.
+//
 // The rest guards work paid on the way in that nothing else would catch: the
 // eight dedupe exceptions resolved into real declarations plus a modifier
 // class, the two Tailwind plugin classes re-implemented as real CSS, and the
@@ -16,54 +21,49 @@ import { expect, test } from "@playwright/test"
 
 import { routePath, settle } from "./harness"
 
-test.describe("theme-switcher re-wired off toggle-group and dropdown-menu", () => {
+// The 2026-10 incoming sync reverses this re-wiring on purpose: ThemeSwitcher
+// is incoming's again, composed on ToggleGroup and DropdownMenu rather than on
+// the 0.x Segmented and .ds-menu. The four tests keep their user-facing intent.
+test.describe("theme-switcher", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(routePath("/docs/theme-switcher"))
     await settle(page)
   })
 
-  test("the segmented variant is a .ds-segmented row inside a labelled group", async ({
+  test("the segmented variant is a labelled group of three toggles", async ({
     page,
   }) => {
     const group = page.locator('[data-slot="theme-switcher"][data-variant="segmented"]').first()
     await expect(group).toBeVisible()
-    // The source's own toggle-group never lands. A switcher that is not a
-    // .ds-segmented row is an unstyled row.
     await expect(group).toHaveAttribute("role", "group")
     await expect(group).toHaveAttribute("aria-label", "Theme")
-    await expect(group.locator(".ds-segmented").first()).toBeVisible()
-    expect(await group.locator(".ds-segmented__item").count()).toBe(3)
+    expect(await group.locator('[data-slot="toggle-group-item"]').count()).toBe(3)
   })
 
-  test("each segmented cell carries a visible name, not an icon alone", async ({
+  test("each segmented cell carries an accessible name, not an icon alone", async ({
     page,
   }) => {
-    // Segmented takes a label node rather than a per-item aria-label, so the
-    // accessible name has to come from visible text. Icon-only cells here would
-    // be three unnamed buttons.
-    const cells = page.locator(
-      '[data-variant="segmented"] .ds-segmented__item',
-    )
+    // Incoming's cells are icon-only, so the name has to come from aria-label.
+    // Icon-only cells without it would be three unnamed buttons.
+    const group = page.locator('[data-slot="theme-switcher"][data-variant="segmented"]').first()
     for (const name of ["Light", "Dark", "System"]) {
-      await expect(cells.filter({ hasText: name }).first()).toBeVisible()
+      await expect(group.getByRole("button", { name, exact: true })).toBeVisible()
     }
   })
 
   test("clicking a cell selects it and re-clicking it is a no-op", async ({
     page,
   }) => {
-    const cells = page.locator(
-      '[data-variant="segmented"] .ds-segmented__item',
-    )
-    const dark = cells.filter({ hasText: "Dark" }).first()
+    const group = page.locator('[data-slot="theme-switcher"][data-variant="segmented"]').first()
+    const dark = group.getByRole("button", { name: "Dark", exact: true })
     await dark.click()
     await expect(dark).toHaveAttribute("aria-pressed", "true")
-    // A theme is never "none": Segmented swallows a click on the pressed cell.
+    // A theme is never "none": the switcher swallows a click on the pressed cell.
     await dark.click()
     await expect(dark).toHaveAttribute("aria-pressed", "true")
   })
 
-  test("the dropdown variant opens a .ds-menu of radio rows", async ({
+  test("the dropdown variant opens a painted menu of radio rows", async ({
     page,
   }) => {
     await page
@@ -71,14 +71,15 @@ test.describe("theme-switcher re-wired off toggle-group and dropdown-menu", () =
       .first()
       .click()
 
-    const popup = page.locator(".ds-menu").first()
+    const popup = page.locator('[data-slot="dropdown-menu-content"]').first()
     await expect(popup).toBeVisible()
+    await expect(popup).toHaveAttribute("role", "menu")
+    expect(
+      await popup.evaluate((el) => getComputedStyle(el).backgroundColor),
+    ).not.toBe("rgba(0, 0, 0, 0)")
     const rows = popup.locator('[role="menuitemradio"]')
     expect(await rows.count()).toBe(3)
-    // Base UI's Menu radio rows wearing this repo's row class. The source's
-    // dropdown-menu base is held, so a row that is not a .ds-menu__item is
-    // unstyled.
-    await expect(rows.first()).toHaveClass(/ds-menu__item\b/)
+    await expect(rows.filter({ hasText: "Dark" })).toHaveCount(1)
   })
 })
 
@@ -105,7 +106,10 @@ test.describe("snippet re-wired onto CodeBlock's extracted copy button", () => {
   })
 })
 
-test.describe("attachment re-wired onto IconButton", () => {
+test.describe("attachment actions", () => {
+  // Was "re-wired onto IconButton" (`.ds-button--icon`): the 2026-10 incoming
+  // sync renders incoming's Button at an icon size, with the name kept as a
+  // DiametralGroup addition (`label`).
   test("every attachment action is a named icon button", async ({ page }) => {
     await page.goto(routePath("/docs/attachment"))
     await settle(page)
@@ -114,9 +118,8 @@ test.describe("attachment re-wired onto IconButton", () => {
     expect(await actions.count()).toBeGreaterThan(0)
 
     for (const action of await actions.all()) {
-      // IconButton requires `label`, which the source's ghost icon button did
-      // not — an unnamed icon-only control is the regression this catches.
-      await expect(action).toHaveClass(/ds-button--icon\b/)
+      // An unnamed icon-only control is the regression this catches.
+      await expect(action).toHaveClass(/ds-button--size-icon/)
       const label = await action.getAttribute("aria-label")
       expect(label?.trim()).toBeTruthy()
     }
@@ -178,19 +181,28 @@ test.describe("the resolved dedupe exceptions are real declarations", () => {
     })
   }
 
-  test(".ds-toc is sticky by default", async ({ page }) => {
+  test(".ds-toc is sticky by default and .ds-toc--static opts out", async ({
+    page,
+  }) => {
     await page.goto(routePath("/docs/toc"))
     await settle(page)
 
-    // `sticky top-8` was the literal; the default is baked and
-    // `.ds-toc--static` is the opt-out, so a Toc without that modifier has to
-    // still be sticky.
-    const plain = page.locator(".ds-toc:not(.ds-toc--static)").first()
+    // Incoming keeps `sticky top-8` as a literal on Toc's own className, so a
+    // Toc without an opt-out has to still be sticky. One demo overrides it
+    // with the `static` utility; that one is not "without an opt-out".
+    const plain = page
+      .locator(".ds-toc:not(.ds-toc--static):not(.static)")
+      .first()
     await expect(plain).toBeVisible()
-    const position = await plain.evaluate(
-      (el) => getComputedStyle(el).position,
+    expect(await plain.evaluate((el) => getComputedStyle(el).position)).toBe(
+      "sticky",
     )
-    expect(position).toBe("sticky")
+    // The opt-out is a DiametralGroup addition and has to beat that literal.
+    const opted = page.locator(".ds-toc.ds-toc--static").first()
+    await expect(opted).toBeVisible()
+    expect(await opted.evaluate((el) => getComputedStyle(el).position)).toBe(
+      "static",
+    )
   })
 
   test(".ds-resizable-panel-group fills its box by default", async ({
@@ -209,12 +221,10 @@ test.describe("the resolved dedupe exceptions are real declarations", () => {
 })
 
 test.describe("the Tailwind-plugin classes are re-implemented, not dropped", () => {
+  // The message-scroller demos are hand-written markup with no
+  // `scroll-fade-b`, so its fade is checked below against the markup
+  // incoming's MessageScrollerViewport renders.
   const MASKED = [
-    {
-      slug: "message-scroller",
-      selector: ".ds-message-scroller-viewport",
-      was: "scroll-fade-b",
-    },
     {
       slug: "attachment",
       selector: ".ds-attachment-group",
@@ -240,6 +250,29 @@ test.describe("the Tailwind-plugin classes are re-implemented, not dropped", () 
       expect(mask).toContain("gradient")
     })
   }
+
+  // Was `.ds-message-scroller-viewport fades where scroll-fade-b used to`,
+  // read off the docs demos' hand-written viewport: the 2026-10 incoming sync
+  // drops DiametralGroup's mask on the class, because incoming's binding puts
+  // `scroll-fade-b` on the viewport itself. So the viewport that binding
+  // renders is what has to fade.
+  test(".ds-message-scroller-viewport fades at its bottom edge", async ({
+    page,
+  }) => {
+    await page.goto(routePath("/docs/message-scroller"))
+    await settle(page)
+
+    const mask = await page.evaluate(() => {
+      const host = document.createElement("div")
+      host.innerHTML = `<div class="ds-message-scroller" style="height:120px"><div data-slot="message-scroller-viewport" class="ds-message-scroller-viewport scroll-fade-b"><div style="height:600px"></div></div></div>`
+      document.body.appendChild(host)
+      const style = getComputedStyle(host.querySelector(".ds-message-scroller-viewport")!)
+      const value = style.maskImage || style.webkitMaskImage
+      host.remove()
+      return value
+    })
+    expect(mask).toContain("gradient")
+  })
 })
 
 test.describe("charte conformance on the surfaces batch 2 lands", () => {
@@ -253,6 +286,9 @@ test.describe("charte conformance on the surfaces batch 2 lands", () => {
       // The system separates by 1px rule. Scoped to this component's own
       // classes so an incumbent elsewhere on the page cannot fail it, or hide
       // a regression by passing.
+      // A drop shadow has an offset or a blur. A zero-offset, zero-blur spread
+      // is a ring — incoming's bubble reactions cut themselves out of the
+      // bubble with one in the surface colour — and is not a shadow.
       const shadowed = await page.evaluate((prefix) => {
         const els = Array.from(
           document.querySelectorAll(`[class*="ds-${prefix}"]`),
@@ -260,6 +296,16 @@ test.describe("charte conformance on the surfaces batch 2 lands", () => {
         return els
           .map((el) => getComputedStyle(el).boxShadow)
           .filter((s) => s !== "none" && !s.includes("inset"))
+          .filter((s) =>
+            s
+              .split(/,(?![^(]*\))/)
+              .some((layer) => {
+                const [x = 0, y = 0, blur = 0] = (
+                  layer.replace(/(rgba?|oklch|oklab|color-mix|lab|lch|hsla?)\([^)]*\)/g, "").match(/-?[\d.]+px/g) ?? []
+                ).map(parseFloat)
+                return x !== 0 || y !== 0 || blur !== 0
+              }),
+          )
       }, slug)
 
       expect(shadowed).toEqual([])

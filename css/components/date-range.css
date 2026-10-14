@@ -1,44 +1,55 @@
-/* The trigger's width, at zero specificity so any class a consumer passes
-   (a filter bar's narrower trigger) wins without tailwind-merge. */
-:where(.ds-date-range-picker-trigger) { inline-size: 18rem; }
-:where(.ds-date-range-picker-trigger[data-time]) { inline-size: 24rem; }
+/* date-range.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/date-range-picker.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-.ds-date-range-picker-trigger {
-  justify-content: space-between !important;
-  font-weight: 400 !important;
-  letter-spacing: normal !important;
-  text-transform: none !important;
+@layer components {
+  /* showTime ? w-96 : w-72 stays literal Tailwind on the trigger's own
+     className (see date-range-picker.tsx) — date-range-picker/filter-bar.tsx
+     overrides it with w-56, relying on tailwind-merge to dedupe against
+     whichever of those two literal classes is present. */
+  .ds-date-range-picker-trigger {
+    justify-content: space-between;
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .ds-date-range-picker-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ds-date-range-picker-label--placeholder {
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-date-range-picker-trigger-icon {
+    pointer-events: none;
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-date-range-picker-content {
+    width: auto;
+    gap: 0;
+    padding: 0;
+  }
+
+  .ds-date-range-picker-times-separator {
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-date-range-picker-times {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border-top: 1px solid var(--ds-rule);
+    padding: 0.75rem;
+  }
 }
 
-.ds-date-range-picker-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.ds-date-range-picker-label--placeholder {
-  color: var(--ds-ink-soft);
-}
-
-.ds-date-range-picker-trigger-icon {
-  pointer-events: none;
-  color: var(--ds-ink-soft);
-}
-
-.ds-date-range-picker-content {
-  width: auto;
-  gap: 0;
-  padding: 0;
-}
-
-.ds-date-range-picker-times-separator {
-  color: var(--ds-ink-soft);
-}
-
-.ds-date-range-picker-times {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  border-top: 1px solid var(--ds-rule);
-  padding: 0.75rem;
-}

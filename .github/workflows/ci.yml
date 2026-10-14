@@ -120,6 +120,62 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
 
+  # starters/ops-dashboard is diamorval/diametral-ui-example moved onto this
+  # package. Its own smoke test must pass, and every page must look like the
+  # original: the original (on diametral-ds from npm, pinned commit) is built and
+  # screenshotted on this runner first, so both sides render with the same
+  # Chromium and fonts.
+  example-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      ORIGINAL_SHA: f4a0e172d1dca1b933cd55ed55c8b7dcf418426b
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: npm ci || npm i
+
+      - name: Build the package
+        run: npm run build
+
+      - name: Install the example
+        run: npm --prefix starters/ops-dashboard ci || npm --prefix starters/ops-dashboard i
+
+      - name: Install Chromium
+        run: cd starters/ops-dashboard && npx playwright install --with-deps chromium
+
+      - name: Build the original diametral-ui-example
+        run: |
+          git clone --quiet https://github.com/diamorval/diametral-ui-example.git /tmp/original
+          git -C /tmp/original checkout --quiet "$ORIGINAL_SHA"
+          cd /tmp/original && npm install --no-audit --no-fund && npx vite build
+
+      - name: Screenshot the original as the parity baselines
+        run: |
+          (cd /tmp/original && npx vite preview --port 4174 --strictPort > /tmp/original-preview.log 2>&1 &)
+          for i in $(seq 30); do curl -sf http://localhost:4174 >/dev/null && break; sleep 1; done
+          cd starters/ops-dashboard
+          PARITY_BASE_URL=http://localhost:4174 npx playwright test tests/parity.spec.ts --update-snapshots
+
+      - name: Smoke and parity tests on this package
+        run: npm --prefix starters/ops-dashboard test
+
+      - name: Upload the report and diffs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: example-parity-report
+          path: |
+            starters/ops-dashboard/playwright-report/
+            starters/ops-dashboard/test-results/
+            starters/ops-dashboard/tests/parity-baselines/
+          retention-days: 14
+          if-no-files-found: ignore
+
   package:
     runs-on: ubuntu-latest
     timeout-minutes: 10

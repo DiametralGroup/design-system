@@ -1,114 +1,115 @@
+/* message-scroller.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/message-scroller.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-message-scroller {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* scroll-fade-b stays a literal Tailwind utility (see message-scroller.tsx)
+     rather than baked CSS — it comes from shadcn/tailwind.css (imported in
+     globals.css) and its scroll-driven mask/animation internals are owned by
+     that plugin, not one-off arbitrary values this file should re-implement. */
+  .ds-message-scroller-viewport {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    contain: content;
+  }
+
+  /* gap-8 stays a literal Tailwind utility on the component's own className
+     (see message-scroller.tsx) — several demos override it with gap-2,
+     relying on tailwind-merge to dedupe against this literal default. */
+  .ds-message-scroller-content {
+    display: flex;
+    height: max-content;
+    min-height: 100%;
+    flex-direction: column;
+  }
+
+  .ds-message-scroller-item {
+    min-width: 0;
+    flex-shrink: 0;
+    contain-intrinsic-size: auto 10rem;
+    content-visibility: auto;
+  }
+
+  .ds-message-scroller-button {
+    --ds-message-scroller-button-x: -50%;
+    --ds-message-scroller-button-y: 0px;
+    position: absolute;
+    inset-inline-start: 50%;
+    translate: var(--ds-message-scroller-button-x)
+      var(--ds-message-scroller-button-y);
+    transition-property: translate, scale, opacity;
+    transition-duration: 200ms;
+  }
+}
+
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-message-scroller-viewport[data-autoscrolling] {
+    scrollbar-color: transparent transparent;
+  }
+  :where([dir="rtl"], [dir="rtl"] *).ds-message-scroller-button {
+    --ds-message-scroller-button-x: 50%;
+  }
+  .ds-message-scroller-button[data-active="false"] {
+    pointer-events: none;
+    scale: 0.95;
+    opacity: 0;
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
+  }
+  .ds-message-scroller-button[data-active="true"] {
+    scale: 1;
+    opacity: 1;
+    transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .ds-message-scroller-button[data-direction="end"] {
+    bottom: 1rem;
+  }
+  .ds-message-scroller-button[data-direction="end"][data-active="false"] {
+    --ds-message-scroller-button-y: 100%;
+  }
+  .ds-message-scroller-button[data-direction="start"] {
+    top: 1rem;
+  }
+  .ds-message-scroller-button[data-direction="start"][data-active="false"] {
+    --ds-message-scroller-button-y: -100%;
+  }
+  .ds-message-scroller-button[data-direction="start"] svg {
+    rotate: 180deg;
+  }
+}
+
 /* ============================================================================
-   Message scroller — .ds-message-scroller
-   ----------------------------------------------------------------------------
-   A conversation viewport that pins to the newest message and offers a
-   scroll-to-end button when the reader has scrolled away from it.
-
-   **Stylesheet only.** The React binding is not admitted: it wraps
-   `@shadcn/react/message-scroller`, and that dependency is not acquired. These
-   classes are the contract — any binding that renders them (or hand-written
-   markup driving the same `data-active` / `data-direction` / `data-autoscrolling`
-   attributes) gets the look and the transitions.
-
-   Two Tailwind literals are resolved rather than carried:
-
-   1. `gap-8` on the content column was a dedupe exception, kept literal so
-      tailwind-merge could dedupe it against the demos' `gap-2`. It becomes a
-      real declaration, and the tighter case becomes `--tight`.
-   2. `scroll-fade-b` on the viewport came from shadcn's Tailwind plugin, which
-      does not exist here. It is re-implemented directly as a bottom mask —
-      eight lines of `mask-image`, no plugin, and no silently-missing fade.
-
-   The button's own surface colours are deliberately NOT baked here. The source
-   carried them as literals precisely so they would lose to the Button variant
-   underneath; with the binding gone, `.ds-message-scroller-button` is purely
-   position and transition, and the caller pairs it with `.ds-button` for the
-   fill. Baking them would win the cascade over whatever button class it wraps.
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
    ============================================================================ */
-.ds-message-scroller {
-  position: relative;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.ds-message-scroller-viewport {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  min-width: 0;
-  scrollbar-width: thin;
-  scrollbar-gutter: stable;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  contain: content;
-  /* The scroll-fade-b replacement: the last 2rem of the column fades out, so a
-     message cut off by the bottom edge reads as continuing rather than ending. */
-  mask-image: linear-gradient(to bottom, #000 calc(100% - 2rem), transparent);
-}
-
-.ds-message-scroller-viewport[data-autoscrolling] {
-  scrollbar-color: transparent transparent;
-}
-
-.ds-message-scroller-content {
-  display: flex;
-  height: max-content;
-  min-height: 100%;
-  flex-direction: column;
-  gap: var(--ds-space-6);
-}
-.ds-message-scroller-content--tight {
-  gap: var(--ds-space-2);
-}
-
-.ds-message-scroller-item {
-  min-width: 0;
-  flex-shrink: 0;
-  contain-intrinsic-size: auto 10rem;
-  content-visibility: auto;
-}
-
-.ds-message-scroller-button {
-  --ds-message-scroller-button-x: -50%;
-  --ds-message-scroller-button-y: 0px;
-  position: absolute;
-  inset-inline-start: 50%;
-  translate: var(--ds-message-scroller-button-x)
-    var(--ds-message-scroller-button-y);
-  transition-property: translate, scale, opacity;
-  transition-duration: 200ms;
-}
-:where([dir="rtl"], [dir="rtl"] *).ds-message-scroller-button {
-  --ds-message-scroller-button-x: 50%;
-}
-.ds-message-scroller-button[data-active="false"] {
-  pointer-events: none;
-  scale: 0.95;
-  opacity: 0;
-  transition-duration: 400ms;
-  transition-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
-}
-.ds-message-scroller-button[data-active="true"] {
-  scale: 1;
-  opacity: 1;
-  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
-}
-.ds-message-scroller-button[data-direction="end"] {
-  bottom: 1rem;
-}
-.ds-message-scroller-button[data-direction="end"][data-active="false"] {
-  --ds-message-scroller-button-y: 100%;
-}
-.ds-message-scroller-button[data-direction="start"] {
-  top: 1rem;
-}
-.ds-message-scroller-button[data-direction="start"][data-active="false"] {
-  --ds-message-scroller-button-y: -100%;
-}
-.ds-message-scroller-button[data-direction="start"] svg {
-  rotate: 180deg;
+@layer components {
+  .ds-message-scroller-content--tight {
+    gap: var(--ds-space-2);
+  }
 }

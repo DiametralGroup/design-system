@@ -1,80 +1,90 @@
+/* banner.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/banner.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-banner {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    gap: 0.75rem;
+    border-radius: 0;
+    background-color: var(--tone-bg);
+    padding-inline: 1rem;
+    padding-block: 0.75rem;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    color: var(--tone-ink);
+  }
+
+  .ds-banner--neutral {
+    --tone-bg: var(--ds-neutral-bg);
+    --tone-ink: var(--ds-neutral-ink);
+  }
+  .ds-banner--info {
+    --tone-bg: var(--ds-info-bg);
+    --tone-ink: var(--ds-info-ink);
+  }
+  .ds-banner--success {
+    --tone-bg: var(--ds-success-bg);
+    --tone-ink: var(--ds-success-ink);
+  }
+  .ds-banner--warning {
+    --tone-bg: var(--ds-warning-bg);
+    --tone-ink: var(--ds-warning-ink);
+  }
+  .ds-banner--danger {
+    --tone-bg: var(--ds-danger-bg);
+    --tone-ink: var(--ds-danger-ink);
+  }
+  .ds-banner--critical {
+    --tone-bg: var(--ds-critical-bg);
+    --tone-ink: var(--ds-critical-ink);
+  }
+
+  .ds-banner-content {
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .ds-banner-title {
+    font-weight: 500;
+  }
+
+  .ds-banner-action {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-banner > svg {
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+  }
+  .ds-banner > svg:not([class*="size-"]) {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
 /* ============================================================================
-   Banner — .ds-banner (a full-width notice with a tone axis)
-   ----------------------------------------------------------------------------
-   0.11's banner was a fixed-identity yellow strip. This one takes the same six
-   tones every other status surface here takes, so a notice can say what kind of
-   notice it is without a bespoke colour.
-
-   The source pairs --ds-<tone>-bg with --ds-<tone>-ink. Only four of the six
-   ink shades exist in this package (neutral and critical have none), so those
-   two fall back to --ds-ink — which is what callout.css already does for every
-   tone, and which clears AA on a grey tint by a wide margin. Same gap meter.css
-   hit in batch 3 from the other side.
-
-   Both custom properties carry a fallback so a bare `.ds-banner` with no tone
-   class still paints: hand-written HTML writes the class on its own.
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
    ============================================================================ */
-.ds-banner {
-  display: flex;
-  width: 100%;
-  align-items: flex-start;
-  gap: 0.75rem;
-  border-radius: var(--ds-radius-none);
-  background-color: var(--tone-bg, var(--ds-neutral-bg));
-  padding-inline: 1rem;
-  padding-block: 0.75rem;
-  font-family: var(--ds-font-sans);
-  font-size: var(--ds-text-base);
-  line-height: 1.25rem;
-  color: var(--tone-ink, var(--ds-ink));
-}
-.ds-banner > svg {
-  margin-top: 0.125rem;
-  flex-shrink: 0;
-  width: 1rem;
-  height: 1rem;
-}
-.ds-banner[hidden] { display: none; }
-
-.ds-banner--neutral {
-  --tone-bg: var(--ds-neutral-bg);
-  --tone-ink: var(--ds-ink);
-}
-.ds-banner--info {
-  --tone-bg: var(--ds-info-bg);
-  --tone-ink: var(--ds-info-ink);
-}
-.ds-banner--success {
-  --tone-bg: var(--ds-success-bg);
-  --tone-ink: var(--ds-success-ink);
-}
-.ds-banner--warning {
-  --tone-bg: var(--ds-warning-bg);
-  --tone-ink: var(--ds-warning-ink);
-}
-.ds-banner--danger {
-  --tone-bg: var(--ds-danger-bg);
-  --tone-ink: var(--ds-danger-ink);
-}
-.ds-banner--critical {
-  --tone-bg: var(--ds-critical-bg);
-  --tone-ink: var(--ds-ink);
-}
-
-.ds-banner-content {
-  display: flex;
-  flex: 1 1 0%;
-  flex-direction: column;
-  gap: 0.125rem;
-}
-
-.ds-banner-title {
-  font-weight: 500;
-}
-
-.ds-banner-action {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 0.5rem;
+@layer utilities {
+  .ds-banner[hidden] { display: none; }
 }

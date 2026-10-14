@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import * as React from "react";
+import * as React from "react"
 import {
   CartesianGrid,
   Scatter,
@@ -8,10 +8,10 @@ import {
   XAxis,
   YAxis,
   ZAxis,
-} from "recharts";
+} from "recharts"
 
-import { seriesColor } from "../lib/chart-series.js";
-import { cx } from "../lib/cx.js";
+import { seriesColor } from "../lib/chart-series.js"
+import { cn } from "../lib/utils.js"
 import {
   ChartContainer,
   ChartLegend,
@@ -19,37 +19,35 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "./chart.js";
+} from "./chart.js"
 
 /**
  * Area, not radius: the eye reads a bubble's area as its magnitude, so sizing by
  * radius doubles the apparent value. recharts' `ZAxis` range is in area units,
  * which is the honest encoding, and 40 is a floor small points stay visible at.
  */
-const BUBBLE_RANGE: [number, number] = [40, 400];
+const BUBBLE_RANGE: [number, number] = [40, 400]
 
-/* ScatterChart — whether two quantities correlate, and where the outliers sit.
-   ---------------------------------------------------------------------------
-   Price against rating, page weight against bounce rate, tenure against
-   output. Net-new in 1.0, and the only chart in the set that plots a quantity
-   against another quantity rather than one quantity against a category or a
-   date.
-
-   It keeps `LineChart`'s `config` + `data` shape. What differs:
-
-     `config` keys  ->  the groups, each drawn as its own `Scatter` with its own
-                         ramp colour. `groupKey` names the row field that says
-                         which group a row belongs to
-     `xKey`/`yKey`  ->  the two quantitative fields, replacing `xAxisKey`
-     `sizeKey`      ->  a third variable. Present, this is a bubble chart
-
-   `data` is one flat array with a `groupKey` field rather than an array per
-   group, which matches how every other wrapper here takes data.
-
-   Both axes are pinned to `type="number"`. recharts defaults `XAxis` to a
-   category scale, which spaces the points evenly and collapses a scatter into
-   columns — a chart that draws and lies. `xLabel`/`yLabel` are surfaced because
-   a scatter with unlabelled axes is unreadable in a way a time series is not. */
+// Whether two quantities correlate, and where the outliers sit: price against
+// rating, page weight against bounce rate, tenure against output. New in v2 —
+// and the only chart in the set that plots quantity against quantity rather
+// than one quantity against a category or a date.
+//
+// It keeps `line-chart.tsx`'s `config` + `data` shape. What differs:
+//
+//   `config` keys  ->  the groups, each drawn as its own `Scatter` with its own
+//                       ramp colour. `groupKey` names the row field that says
+//                       which group a row belongs to
+//   `xKey`/`yKey`  ->  the two quantitative fields, replacing `xAxisKey`
+//   `sizeKey`      ->  a third variable. Present, this is a bubble chart
+//
+// `data` is one flat array with a `groupKey` field rather than an array per
+// group, which matches how every other wrapper takes data.
+//
+// Both axes are pinned to `type="number"`. recharts defaults `XAxis` to a
+// category scale, which spaces the points evenly and collapses a scatter into
+// columns — a chart that draws and lies. `xLabel`/`yLabel` are surfaced because
+// a scatter with unlabelled axes is unreadable in a way a time series is not.
 function ScatterChart({
   className,
   config,
@@ -66,41 +64,38 @@ function ScatterChart({
   children,
   ...props
 }: Omit<React.ComponentProps<typeof ChartContainer>, "config" | "children"> & {
-  config: ChartConfig;
+  config: ChartConfig
   /** One flat array. `groupKey` splits it; without one, every row is one group. */
-  data: Record<string, unknown>[];
+  data: Record<string, unknown>[]
   /** Row field for the horizontal quantity. */
-  xKey: string;
+  xKey: string
   /** Row field for the vertical quantity. */
-  yKey: string;
+  yKey: string
   /** Row field for the bubble's area. Omitted, the marks are a fixed size. */
-  sizeKey?: string;
+  sizeKey?: string
   /** Row field naming which `config` entry a row belongs to. */
-  groupKey?: string;
+  groupKey?: string
   /** Caption under the x axis, and the name the tooltip gives that quantity. */
-  xLabel?: string;
+  xLabel?: string
   /** Caption beside the y axis, and the name the tooltip gives that quantity. */
-  yLabel?: string;
-  grid?: boolean;
+  yLabel?: string
+  grid?: boolean
   /** Defaults on once `groupKey` splits the rows into more than one group. */
-  legend?: boolean;
-  margin?: React.ComponentProps<typeof RechartsScatterChart>["margin"];
+  legend?: boolean
+  margin?: React.ComponentProps<typeof RechartsScatterChart>["margin"]
   /** Extra recharts children — a `ReferenceLine` trend or threshold. */
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
   // Without a `groupKey` there is nothing to split on, so the first config entry
   // names the whole set rather than every entry redrawing the same points.
   const groups = groupKey
     ? Object.keys(config)
-    : Object.keys(config).slice(0, 1);
+    : Object.keys(config).slice(0, 1)
 
   return (
     <ChartContainer
       config={config}
-      className={cx(
-        "ds-chart-container--plot ds-scatter-chart-root",
-        className,
-      )}
+      className={cn("ds-scatter-chart-root", className)}
       {...props}
     >
       <RechartsScatterChart accessibilityLayer margin={margin}>
@@ -179,7 +174,7 @@ function ScatterChart({
         {children}
       </RechartsScatterChart>
     </ChartContainer>
-  );
+  )
 }
 
-export { ScatterChart };
+export { ScatterChart }

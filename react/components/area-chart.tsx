@@ -1,16 +1,15 @@
-"use client";
+"use client"
 
-import * as React from "react";
+import * as React from "react"
 import {
   Area,
   AreaChart as RechartsAreaChart,
   CartesianGrid,
   XAxis,
   YAxis,
-} from "recharts";
+} from "recharts"
 
-import { seriesColor } from "../lib/chart-series.js";
-import { cx } from "../lib/cx.js";
+import { seriesColor } from "../lib/chart-series.js"
 import {
   ChartContainer,
   ChartLegend,
@@ -18,14 +17,13 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "./chart.js";
+} from "./chart.js"
 
-/* AreaChart — `LineChart` read as a volume.
-   ---------------------------------------------------------------------------
-   Replaces 0.11's hand-rolled SVG AreaChart. Same props, same config-driven
-   colouring, same 0.11 mapping — see the header of `line-chart.tsx` for that
-   table — with one addition: `stacked`, because two areas drawn over each other
-   are usually meant to sum rather than to overlap. */
+// `LineChart` read as a volume, standing in for v1's hand-rolled SVG AreaChart
+// (react/components/AreaChart.js). Same props, same `config`-driven colouring,
+// same v1 mapping — see the header of `line-chart.tsx` for that table — with
+// one addition: `stacked`, because two areas drawn over each other are usually
+// meant to sum rather than to overlap.
 function AreaChart({
   className,
   config,
@@ -34,42 +32,45 @@ function AreaChart({
   grid = true,
   dots = false,
   legend,
+  stacked = false,
   valueAxis = false,
   valueFormatter,
   valueAxisWidth,
-  stacked = false,
   margin = { top: 8, right: 20, bottom: 0, left: 20 },
   children,
   ...props
 }: Omit<React.ComponentProps<typeof ChartContainer>, "config" | "children"> & {
-  config: ChartConfig;
-  data: Record<string, unknown>[];
+  config: ChartConfig
+  data: Record<string, unknown>[]
   /** Row field the x axis reads its categories from. Omitted, there is no axis. */
-  xAxisKey?: string;
-  grid?: boolean;
+  xAxisKey?: string
+  grid?: boolean
   /** Off by default: an area already carries its own outline. */
-  dots?: boolean;
+  dots?: boolean
   /** Defaults on once `config` names more than one series. */
-  legend?: boolean;
+  legend?: boolean
   /** Sum the series into one band instead of overlaying them. */
-  stacked?: boolean;
-  margin?: React.ComponentProps<typeof RechartsAreaChart>["margin"];
-  /** Draw a value (Y) axis. Off by default: the tooltip carries the figure. */
-  valueAxis?: boolean;
-  /** Formats the value axis ticks and the tooltip — `(v) => fmt.format(v)`
-   *  for amounts. Left off, both fall back to `toLocaleString()`. */
-  valueFormatter?: (value: number) => string;
-  /** Width of the value axis; widen it for formatted amounts. */
-  valueAxisWidth?: number;
+  stacked?: boolean
+  margin?: React.ComponentProps<typeof RechartsAreaChart>["margin"]
+  /** DiametralGroup addition. Draw a value (Y) axis. Off by default: the
+   *  tooltip carries the figure. */
+  valueAxis?: boolean
+  /** DiametralGroup addition. Formats the value axis ticks and the tooltip —
+   *  `(v) => fmt.format(v)` for amounts. Left off, both fall back to
+   *  `toLocaleString()`. */
+  valueFormatter?: (value: number) => string
+  /** DiametralGroup addition. Width of the value axis; widen it for formatted
+   *  amounts. */
+  valueAxisWidth?: number
   /** Extra recharts children — a `ReferenceLine`, a second axis. */
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
-  const series = Object.keys(config);
+  const series = Object.keys(config)
 
   return (
     <ChartContainer
       config={config}
-      className={cx("ds-chart-container--plot", className)}
+      className={className}
       {...props}
     >
       <RechartsAreaChart accessibilityLayer data={data} margin={margin}>
@@ -107,8 +108,7 @@ function AreaChart({
             fill={seriesColor(key, i)}
             // The stroke stays at full strength while the band goes faint, so
             // the boundary of a series survives being overlaid by the next.
-            // 0.14 is the fill-opacity 0.11's `.ds-areachart__area` carried.
-            fillOpacity={0.14}
+            fillOpacity={0.18}
             strokeWidth={2}
             dot={dots}
             activeDot={{ r: 4 }}
@@ -117,7 +117,7 @@ function AreaChart({
         {children}
       </RechartsAreaChart>
     </ChartContainer>
-  );
+  )
 }
 
-export { AreaChart };
+export { AreaChart }

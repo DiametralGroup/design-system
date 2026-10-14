@@ -3,42 +3,29 @@
 import * as React from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { cx } from "../lib/cx.js"
-import { variants } from "../lib/variants.js"
+import { cn } from "../lib/utils.js"
 
-/* Bubble — the speech-bubble surface a Message wraps around its text. Seven
-   variants, all keyed off `data-variant` on the root, which is why the source's
-   three cva() calls carried empty option values: class-variance-authority is
-   not acquired (ADR 0001, batch 1) and it bought nothing here. The one axis the
-   docs playground drives is re-declared through `variants()`
-   (react/lib/variants.ts), which keeps the cva-shaped block the site's
-   build-time extractor reads.
-
-   The `gap-2` dedupe exception is resolved rather than carried: it was a
-   literal Tailwind utility on BubbleGroup's own className so tailwind-merge
-   could dedupe it against the "with reactions" demo's `gap-6`. It is a real
-   declaration in bubble.css now, and the loose case is `.ds-bubble-group--loose`. */
 function BubbleGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="bubble-group"
-      className={cx("ds-bubble-group", className)}
+      // gap-2 stays a literal Tailwind utility (see bubble.css) so
+      // tailwind-merge can keep deduping it against a consumer's own gap-*
+      // override (e.g. the "with reactions" demo's gap-6) — same constraint
+      // as dropdown-menu.css's width/min-width note.
+      className={cn("ds-bubble-group gap-2", className)}
       {...props}
     />
   )
 }
 
-type BubbleVariant =
-  | "default"
-  | "secondary"
-  | "muted"
-  | "tinted"
-  | "outline"
-  | "ghost"
-  | "destructive"
-
-const bubbleVariants = variants("ds-bubble", {
+// Variant styling lives in bubble.css, keyed off the `data-variant` attribute
+// Bubble already renders below — the cva() call stays only so the docs
+// playground's variant extraction (apps/web/plugins/extract-variants.ts,
+// which reads the `variants` object's keys) keeps working.
+const bubbleVariants = cva("ds-bubble", {
   variants: {
     variant: {
       default: "",
@@ -50,7 +37,9 @@ const bubbleVariants = variants("ds-bubble", {
       destructive: "",
     },
   },
-  defaultVariants: { variant: "default" },
+  defaultVariants: {
+    variant: "default",
+  },
 })
 
 function Bubble({
@@ -58,16 +47,16 @@ function Bubble({
   align = "start",
   className,
   ...props
-}: React.ComponentProps<"div"> & {
-  variant?: BubbleVariant
-  align?: "start" | "end"
-}) {
+}: React.ComponentProps<"div"> &
+  VariantProps<typeof bubbleVariants> & {
+    align?: "start" | "end"
+  }) {
   return (
     <div
       data-slot="bubble"
       data-variant={variant}
       data-align={align}
-      className={bubbleVariants({ variant, className })}
+      className={cn(bubbleVariants({ variant }), className)}
       {...props}
     />
   )
@@ -82,9 +71,9 @@ function BubbleContent({
     defaultTagName: "div",
     props: mergeProps<"div">(
       {
-        className: cx("ds-bubble-content", className),
+        className: cn("ds-bubble-content", className),
       },
-      props,
+      props
     ),
     render,
     state: {
@@ -92,6 +81,26 @@ function BubbleContent({
     },
   })
 }
+
+// Variant styling lives in bubble.css, keyed off the `data-side`/`data-align`
+// attributes BubbleReactions already renders below — see the note on
+// bubbleVariants above for why the cva() call stays.
+const bubbleReactionsVariants = cva("ds-bubble-reactions", {
+  variants: {
+    side: {
+      top: "",
+      bottom: "",
+    },
+    align: {
+      start: "",
+      end: "",
+    },
+  },
+  defaultVariants: {
+    side: "bottom",
+    align: "end",
+  },
+})
 
 function BubbleReactions({
   side = "bottom",
@@ -107,11 +116,14 @@ function BubbleReactions({
       data-slot="bubble-reactions"
       data-align={align}
       data-side={side}
-      className={cx("ds-bubble-reactions", className)}
+      className={cn(bubbleReactionsVariants({ side, align }), className)}
       {...props}
     />
   )
 }
+
+// DiametralGroup addition: the variant union as a named type.
+type BubbleVariant = NonNullable<VariantProps<typeof bubbleVariants>["variant"]>
 
 export { BubbleGroup, Bubble, BubbleContent, BubbleReactions }
 export type { BubbleVariant }

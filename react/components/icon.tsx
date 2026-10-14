@@ -1,30 +1,104 @@
 "use client"
 
 import * as React from "react"
+import {
+  BellIcon,
+  CheckIcon,
+  CopyIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ArrowSquareOutIcon,
+  CalendarIcon,
+  CaretDownIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+  CaretUpIcon,
+  DotsThreeIcon,
+  DownloadSimpleIcon,
+  EyeIcon,
+  FileIcon,
+  FolderIcon,
+  FunnelIcon,
+  GearIcon,
+  HouseIcon,
+  ListIcon,
+  ListBulletsIcon,
+  LockIcon,
+  MagnifyingGlassIcon,
+  MinusIcon,
+  MoonIcon,
+  PencilSimpleIcon,
+  PlusIcon,
+  SignOutIcon,
+  SquaresFourIcon,
+  SunIcon,
+  TrashIcon,
+  UploadSimpleIcon,
+  UserIcon,
+  UsersIcon,
+  XIcon,
+  type Icon as PhosphorIcon,
+  type IconProps,
+} from "@phosphor-icons/react"
 
-import { cx } from "../lib/cx.js"
-import { icons, type IconName } from "./icons.js"
+import { cn } from "../lib/utils.js"
 
-/* Source's own icon.tsx imports one named component per icon from
-   @phosphor-icons/react and keeps its own tiny registry. That's the wrong
-   shape here: icons.tsx's geometry map already serves <ds-icon> too, and a
-   second copy would duplicate it and add the dependency back for no gain
-   (see icons.tsx's own note). This keeps source's prop contract — no `size`,
-   `strokeWidth` or `title`, sizing is `.ds-icon`'s CSS — over its data source. */
+// A typed name → component registry over @phosphor-icons/react. Add an entry
+// here (import + key) as a consuming component needs one — only the icons
+// listed get bundled, unlike v1's hand-drawn SVG map which shipped every icon
+// unconditionally.
+const icons = {
+  bell: BellIcon,
+  check: CheckIcon,
+  copy: CopyIcon,
+  // DiametralGroup addition: the names 0.x's <Icon> and <ds-icon> accept
+  // (components/icons.tsx holds the same glyphs as raw SVG for <ds-icon>).
+  search: MagnifyingGlassIcon,
+  menu: ListIcon,
+  x: XIcon,
+  "chevron-down": CaretDownIcon,
+  "chevron-right": CaretRightIcon,
+  "chevron-left": CaretLeftIcon,
+  "chevron-up": CaretUpIcon,
+  plus: PlusIcon,
+  minus: MinusIcon,
+  user: UserIcon,
+  users: UsersIcon,
+  settings: GearIcon,
+  trash: TrashIcon,
+  edit: PencilSimpleIcon,
+  download: DownloadSimpleIcon,
+  upload: UploadSimpleIcon,
+  filter: FunnelIcon,
+  calendar: CalendarIcon,
+  file: FileIcon,
+  folder: FolderIcon,
+  home: HouseIcon,
+  grid: SquaresFourIcon,
+  list: ListBulletsIcon,
+  "external-link": ArrowSquareOutIcon,
+  "arrow-right": ArrowRightIcon,
+  "arrow-left": ArrowLeftIcon,
+  "more-horizontal": DotsThreeIcon,
+  eye: EyeIcon,
+  lock: LockIcon,
+  "log-out": SignOutIcon,
+  sun: SunIcon,
+  moon: MoonIcon,
+} satisfies Record<string, PhosphorIcon>
+
+type IconName = keyof typeof icons
+
 function Icon({
   name,
   className,
   ...props
-}: { name: IconName | (string & {}) } & React.SVGAttributes<SVGSVGElement>) {
+}: { name: IconName } & IconProps) {
+  const Component = icons[name]
   return (
-    <svg
-      data-slot="icon"
-      viewBox="0 0 256 256"
-      className={cx("ds-icon", className)}
-      dangerouslySetInnerHTML={{ __html: icons[name as IconName] || "" }}
-      {...props}
-    />
+    <Component data-slot="icon" className={cn("ds-icon", className)} {...props} />
   )
 }
 
-export { Icon }
+export { Icon, icons }
+export type { IconName }

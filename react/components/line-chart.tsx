@@ -1,16 +1,15 @@
-"use client";
+"use client"
 
-import * as React from "react";
+import * as React from "react"
 import {
   CartesianGrid,
   Line,
   LineChart as RechartsLineChart,
   XAxis,
   YAxis,
-} from "recharts";
+} from "recharts"
 
-import { seriesColor } from "../lib/chart-series.js";
-import { cx } from "../lib/cx.js";
+import { seriesColor } from "../lib/chart-series.js"
 import {
   ChartContainer,
   ChartLegend,
@@ -18,25 +17,23 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "./chart.js";
+} from "./chart.js"
 
-/* LineChart — one or more series over a category axis.
-   ---------------------------------------------------------------------------
-   The finished line chart over recharts, replacing 0.11's hand-rolled SVG
-   LineChart. 0.11's props map onto `ChartConfig` rather than surviving
-   verbatim, because that object is already how this system names and colours a
-   series and how the tooltip and legend look their labels up:
-
-     0.11 `series` / `name` / `color`  ->  one `config` entry per series, keyed
-                                            by the field name in each data row
-     0.11 `data` (number[])            ->  `data`, row objects as recharts wants
-     0.11 `labels` (string[])          ->  `xAxisKey`, the row field holding them
-     0.11 `width` / `height`           ->  `className`; the container is
-                                            responsive, so it is sized by its box
-
-   `dots` and `grid` survive as they were. A series with no colour of its own
-   falls back to the `--ds-chart-*` ramp, so a config of bare labels still
-   draws. */
+// The finished line chart over v2's recharts primitives, standing in for v1's
+// hand-rolled SVG LineChart (react/components/LineChart.js).
+//
+// v1's props map onto `ChartConfig` rather than surviving verbatim, because
+// that object is already how v2 names and colours a series and how the tooltip
+// and legend look their labels up:
+//
+//   v1 `series` / `name` / `color`  ->  one `config` entry per series, keyed by
+//                                       the field name in each `data` row
+//   v1 `data` (number[])            ->  `data`, row objects as recharts wants
+//   v1 `labels` (string[])          ->  `xAxisKey`, the row field holding them
+//   v1 `width` / `height`           ->  `className`; the container is responsive
+//
+// `dots` and `grid` survive as they were. Series with no colour of their own
+// fall back to the `--ds-chart-*` ramp, so a config of bare labels still draws.
 function LineChart({
   className,
   config,
@@ -45,38 +42,38 @@ function LineChart({
   grid = true,
   dots = true,
   legend,
+  margin = { top: 8, right: 20, bottom: 0, left: 20 },
   valueAxis = false,
   valueFormatter,
   valueAxisWidth,
-  margin = { top: 8, right: 20, bottom: 0, left: 20 },
   children,
   ...props
 }: Omit<React.ComponentProps<typeof ChartContainer>, "config" | "children"> & {
-  config: ChartConfig;
-  data: Record<string, unknown>[];
+  config: ChartConfig
+  data: Record<string, unknown>[]
   /** Row field the x axis reads its categories from. Omitted, there is no axis. */
-  xAxisKey?: string;
-  grid?: boolean;
-  dots?: boolean;
-  margin?: React.ComponentProps<typeof RechartsLineChart>["margin"];
+  xAxisKey?: string
+  grid?: boolean
+  dots?: boolean
+  margin?: React.ComponentProps<typeof RechartsLineChart>["margin"]
   /** Defaults on once `config` names more than one series. */
-  legend?: boolean;
-  /** Draw a value (Y) axis. Off by default: the tooltip carries the figure. */
-  valueAxis?: boolean;
-  /** Formats the value axis ticks and the tooltip — `(v) => fmt.format(v)`
-   *  for amounts. Left off, both fall back to `toLocaleString()`. */
-  valueFormatter?: (value: number) => string;
-  /** Width of the value axis; widen it for formatted amounts. */
-  valueAxisWidth?: number;
+  legend?: boolean
   /** Extra recharts children — a `ReferenceLine`, a second axis. */
-  children?: React.ReactNode;
+  children?: React.ReactNode
+  // DiametralGroup addition: an optional value (Y) axis.
+  /** Draw a value (Y) axis. Off by default: the tooltip carries the figure. */
+  valueAxis?: boolean
+  /** Formats the value axis ticks. */
+  valueFormatter?: (value: number) => string
+  /** Width of the value axis; widen it for formatted amounts. */
+  valueAxisWidth?: number
 }) {
-  const series = Object.keys(config);
+  const series = Object.keys(config)
 
   return (
     <ChartContainer
       config={config}
-      className={cx("ds-chart-container--plot", className)}
+      className={className}
       {...props}
     >
       {/* The default side margins are what stop the first and last x tick from
@@ -98,6 +95,7 @@ function LineChart({
             minTickGap={16}
           />
         ) : null}
+        {/* DiametralGroup addition: the optional value axis. */}
         {valueAxis ? (
           <YAxis
             tickLine={false}
@@ -106,9 +104,7 @@ function LineChart({
             width={valueAxisWidth}
           />
         ) : null}
-        <ChartTooltip
-          content={<ChartTooltipContent valueFormatter={valueFormatter} />}
-        />
+        <ChartTooltip content={<ChartTooltipContent />} />
         {(legend ?? series.length > 1) ? (
           <ChartLegend content={<ChartLegendContent />} />
         ) : null}
@@ -125,7 +121,7 @@ function LineChart({
         {children}
       </RechartsLineChart>
     </ChartContainer>
-  );
+  )
 }
 
-export { LineChart };
+export { LineChart }

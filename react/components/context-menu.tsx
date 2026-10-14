@@ -3,8 +3,7 @@
 import * as React from "react"
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu"
 
-import { bcx } from "../lib/baseClass.js"
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 import { CaretRightIcon, CheckIcon } from "@phosphor-icons/react"
 
 function ContextMenu({ ...props }: ContextMenuPrimitive.Root.Props) {
@@ -24,7 +23,7 @@ function ContextMenuTrigger({
   return (
     <ContextMenuPrimitive.Trigger
       data-slot="context-menu-trigger"
-      className={bcx("ds-context-menu-trigger", className)}
+      className={cn("ds-context-menu-trigger", className)}
       {...props}
     />
   )
@@ -53,7 +52,7 @@ function ContextMenuContent({
       >
         <ContextMenuPrimitive.Popup
           data-slot="context-menu-content"
-          className={bcx("ds-context-menu-content", className)}
+          className={cn("ds-context-menu-content", className)}
           {...props}
         />
       </ContextMenuPrimitive.Positioner>
@@ -78,7 +77,7 @@ function ContextMenuLabel({
     <ContextMenuPrimitive.GroupLabel
       data-slot="context-menu-label"
       data-inset={inset}
-      className={bcx("ds-context-menu-label", className)}
+      className={cn("ds-context-menu-label", className)}
       {...props}
     />
   )
@@ -98,7 +97,7 @@ function ContextMenuItem({
       data-slot="context-menu-item"
       data-inset={inset}
       data-variant={variant}
-      className={bcx("ds-context-menu-item", className)}
+      className={cn("ds-context-menu-item", className)}
       {...props}
     />
   )
@@ -122,7 +121,7 @@ function ContextMenuSubTrigger({
     <ContextMenuPrimitive.SubmenuTrigger
       data-slot="context-menu-sub-trigger"
       data-inset={inset}
-      className={bcx("ds-context-menu-sub-trigger", className)}
+      className={cn("ds-context-menu-sub-trigger", className)}
       {...props}
     >
       {children}
@@ -135,14 +134,9 @@ function ContextMenuSubContent({
   ...props
 }: React.ComponentProps<typeof ContextMenuContent>) {
   return (
-    /* The source re-applied a `shadow-md` class here on top of the popup's
-       own box-shadow. Same two layers, but as a single-class override it
-       *replaced* the shadow — dropping the 1px ring that draws a submenu's
-       border. Deleted rather than carried: the popup already has it, and a
-       shadow-named public class is off-charte in a system that separates by
-       rule. Nothing shipped it, so no rename row is owed. */
     <ContextMenuContent
       data-slot="context-menu-sub-content"
+      className="ds-context-menu-shadow-md"
       side="inline-end"
       {...props}
     />
@@ -162,7 +156,7 @@ function ContextMenuCheckboxItem({
     <ContextMenuPrimitive.CheckboxItem
       data-slot="context-menu-checkbox-item"
       data-inset={inset}
-      className={bcx("ds-context-menu-checkbox-item", className)}
+      className={cn("ds-context-menu-checkbox-item", className)}
       checked={checked}
       {...props}
     >
@@ -199,7 +193,7 @@ function ContextMenuRadioItem({
     <ContextMenuPrimitive.RadioItem
       data-slot="context-menu-radio-item"
       data-inset={inset}
-      className={bcx("ds-context-menu-radio-item", className)}
+      className={cn("ds-context-menu-radio-item", className)}
       {...props}
     >
       <span className="ds-context-menu-item-indicator">
@@ -219,7 +213,7 @@ function ContextMenuSeparator({
   return (
     <ContextMenuPrimitive.Separator
       data-slot="context-menu-separator"
-      className={bcx("ds-context-menu-separator", className)}
+      className={cn("ds-context-menu-separator", className)}
       {...props}
     />
   )
@@ -232,7 +226,7 @@ function ContextMenuShortcut({
   return (
     <span
       data-slot="context-menu-shortcut"
-      className={cx("ds-context-menu-shortcut", className)}
+      className={cn("ds-context-menu-shortcut", className)}
       {...props}
     />
   )

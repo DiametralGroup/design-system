@@ -1,9 +1,8 @@
 "use client"
 
-import * as React from "react"
 import { format } from "date-fns"
 
-import { cx, type WithClassName } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 import { Button } from "./button.js"
 import {
   Popover,
@@ -21,7 +20,7 @@ function DatePickerTrigger({
   dateFormat = "PP",
   children,
   ...props
-}: Omit<WithClassName<React.ComponentProps<typeof PopoverTrigger>>, "value"> & {
+}: Omit<React.ComponentProps<typeof PopoverTrigger>, "value"> & {
   value?: Date
   placeholder?: string
   dateFormat?: string
@@ -30,11 +29,11 @@ function DatePickerTrigger({
     <PopoverTrigger
       data-slot="date-picker-trigger"
       render={<Button variant="outline" />}
-      className={cx("ds-date-picker-trigger w-56", className)}
+      className={cn("ds-date-picker-trigger w-56", className)}
       {...props}
     >
       {children ?? (
-        <span className={cx(!value && "ds-date-picker-value--placeholder")}>
+        <span className={cn(!value && "ds-date-picker-value--placeholder")}>
           {value ? format(value, dateFormat) : placeholder}
         </span>
       )}
@@ -55,7 +54,7 @@ function DatePickerContent({
     <PopoverContent
       data-slot="date-picker-content"
       align={align}
-      className={cx("ds-date-picker-content", className)}
+      className={cn("ds-date-picker-content", className)}
       {...props}
     />
   )

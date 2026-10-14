@@ -1,10 +1,10 @@
 "use client"
 
-import type * as React from "react"
 import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu"
-import { CaretDownIcon } from "@phosphor-icons/react"
+import { cva } from "class-variance-authority"
 
-import { bcx } from "../lib/baseClass.js"
+import { cn } from "../lib/utils.js"
+import { CaretDownIcon } from "@phosphor-icons/react"
 
 function NavigationMenu({
   align = "start",
@@ -16,7 +16,7 @@ function NavigationMenu({
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
-      className={bcx("ds-navigation-menu", className)}
+      className={cn("ds-navigation-menu", className)}
       {...props}
     >
       {children}
@@ -32,7 +32,7 @@ function NavigationMenuList({
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
-      className={bcx("ds-navigation-menu-list", className)}
+      className={cn("ds-navigation-menu-list", className)}
       {...props}
     />
   )
@@ -45,16 +45,13 @@ function NavigationMenuItem({
   return (
     <NavigationMenuPrimitive.Item
       data-slot="navigation-menu-item"
-      className={bcx("ds-navigation-menu-item", className)}
+      className={cn("ds-navigation-menu-item", className)}
       {...props}
     />
   )
 }
 
-/* Kept as a function because that is how every consumer calls it — the source
-   built it with `cva` over a single constant string and no variants, so the
-   dependency bought nothing. */
-const navigationMenuTriggerStyle = () => "ds-navigation-menu-trigger"
+const navigationMenuTriggerStyle = cva("ds-navigation-menu-trigger")
 
 function NavigationMenuTrigger({
   className,
@@ -64,7 +61,7 @@ function NavigationMenuTrigger({
   return (
     <NavigationMenuPrimitive.Trigger
       data-slot="navigation-menu-trigger"
-      className={bcx(navigationMenuTriggerStyle(), className)}
+      className={cn(navigationMenuTriggerStyle(), className)}
       {...props}
     >
       {children}{" "}
@@ -83,7 +80,7 @@ function NavigationMenuContent({
   return (
     <NavigationMenuPrimitive.Content
       data-slot="navigation-menu-content"
-      className={bcx("ds-navigation-menu-content", className)}
+      className={cn("ds-navigation-menu-content", className)}
       {...props}
     />
   )
@@ -104,7 +101,7 @@ function NavigationMenuPositioner({
         sideOffset={sideOffset}
         align={align}
         alignOffset={alignOffset}
-        className={bcx("ds-navigation-menu-positioner", className)}
+        className={cn("ds-navigation-menu-positioner", className)}
         {...props}
       >
         <NavigationMenuPrimitive.Popup className="ds-navigation-menu-popup">
@@ -122,7 +119,7 @@ function NavigationMenuLink({
   return (
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
-      className={bcx("ds-navigation-menu-link", className)}
+      className={cn("ds-navigation-menu-link flex p-3", className)}
       {...props}
     />
   )
@@ -135,7 +132,7 @@ function NavigationMenuIndicator({
   return (
     <NavigationMenuPrimitive.Icon
       data-slot="navigation-menu-indicator"
-      className={bcx("ds-navigation-menu-indicator", className)}
+      className={cn("ds-navigation-menu-indicator", className)}
       {...props}
     >
       <div className="ds-navigation-menu-indicator-arrow" />

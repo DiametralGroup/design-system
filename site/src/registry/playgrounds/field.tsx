@@ -38,7 +38,7 @@ export default function FieldPlayground({
       <FieldGroup>
         <Field {...props}>
           <Checkbox id="pg-field-digest" defaultChecked />
-          <FieldLabel htmlFor="pg-field-digest">{children}</FieldLabel>
+          <FieldLabel htmlFor="pg-field-digest">{children as string}</FieldLabel>
         </Field>
         <Field data-invalid>
           <FieldLabel htmlFor="pg-field-reply">Reply-to address</FieldLabel>

@@ -1,58 +1,75 @@
-.ds-color-picker {
-  display: flex;
-  width: 100%;
-  max-width: 24rem;
-  flex-direction: column;
-  gap: 0.75rem;
+/* color-picker.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/color-picker.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-color-picker {
+    display: flex;
+    width: 100%;
+    max-width: 24rem;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ds-color-picker-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .ds-color-picker-swatch {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid var(--ds-rule);
+    outline: none;
+  }
+  /* Selected swatch is marked with a ring rather than a border colour, which
+     would be invisible on a swatch whose own colour is close to the border's. */
+
+  .ds-color-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .ds-color-picker-native {
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+    cursor: pointer;
+    border: 1px solid var(--ds-rule);
+    background-color: transparent;
+    padding: 0.25rem;
+    outline: none;
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-color-picker-swatch:focus-visible {
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-focus-ring) 30%, transparent);
+  }
+  .ds-color-picker-swatch:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .ds-color-picker-swatch[aria-pressed="true"] {
+    box-shadow:
+      0 0 0 2px var(--ds-bg),
+      0 0 0 4px var(--ds-ink);
+  }
+  .ds-color-picker-native:focus-visible {
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-focus-ring) 30%, transparent);
+  }
+  .ds-color-picker-native:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
 
-.ds-color-picker-swatches {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
-}
-
-.ds-color-picker-swatch {
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 1px solid var(--ds-rule);
-  outline: none;
-}
-.ds-color-picker-swatch:focus-visible {
-  box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-focus-ring) 30%, transparent);
-}
-.ds-color-picker-swatch:disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
-/* Selected swatch is marked with a ring rather than a border colour, which
-   would be invisible on a swatch whose own colour is close to the border's. */
-.ds-color-picker-swatch[aria-pressed="true"] {
-  box-shadow:
-    0 0 0 2px var(--ds-bg),
-    0 0 0 4px var(--ds-ink);
-}
-
-.ds-color-picker-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.ds-color-picker-native {
-  width: 2.25rem;
-  height: 2.25rem;
-  flex-shrink: 0;
-  cursor: pointer;
-  border: 1px solid var(--ds-rule);
-  background-color: transparent;
-  padding: 0.25rem;
-  outline: none;
-}
-.ds-color-picker-native:focus-visible {
-  box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-focus-ring) 30%, transparent);
-}
-.ds-color-picker-native:disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}

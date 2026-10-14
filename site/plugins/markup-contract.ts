@@ -36,6 +36,8 @@ export const RUNTIME_DATA_ATTRIBUTES = new Set([
   "data-base-ui-slider-control",
   "data-base-ui-slider-indicator",
   "data-base-ui-tooltip-trigger",
+  // Base UI checkbox state; incoming's checkbox.css does not style it (5.0 sync).
+  "data-indeterminate",
   "data-composite-item-active",
   "data-focusable",
   "data-has-overflow-y",

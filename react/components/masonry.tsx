@@ -2,13 +2,12 @@
 
 import * as React from "react"
 
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 
-/* Masonry — `columns` becomes a `--columns` custom property, so any integer
-   works with no responsive breakpoint list to maintain (same trick as
-   AspectRatio's `--ratio`). Items break across CSS multi-column layout;
-   `break-inside: avoid` in masonry.css keeps each child intact rather than
-   splitting it across two columns. */
+// `columns` becomes a `--columns` custom property, so any integer works —
+// same trick as `AspectRatio`'s `--ratio`, no responsive breakpoint list to
+// maintain. Items break across CSS multi-column layout; `break-inside-avoid`
+// keeps each child intact rather than splitting it across two columns.
 function Masonry({
   columns = 3,
   className,
@@ -18,7 +17,7 @@ function Masonry({
     <div
       data-slot="masonry"
       style={{ "--columns": columns } as React.CSSProperties}
-      className={cx("ds-masonry", className)}
+      className={cn("ds-masonry", className)}
       {...props}
     />
   )

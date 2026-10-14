@@ -2,34 +2,9 @@
 
 import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
+
+import { cn } from "../lib/utils.js"
 import { CaretDownIcon, CheckIcon } from "@phosphor-icons/react"
-
-import { bcx } from "../lib/baseClass.js"
-
-/* Select — a value picked from a list, as a composed popup.
-   ---------------------------------------------------------------------------
-   0.11's `Select` wrapped a native `<select>` and took an `options` array. What
-   the parts buy is what a native select cannot render at all: a group label, a
-   separator, an icon or a badge inside a row, and a checked indicator. That is
-   composition replacing configuration, the trade every applier in this
-   migration makes.
-
-   `.ds-select` — the native wrapper — is **preserved** in `select.css`. Three
-   committed fixtures render it as bare HTML, `docs/for-claude.md` teaches it,
-   and a native select is still the right answer on a hand-written form. The two
-   grammars do not collide: a `.` selector does not bleed across the hyphen into
-   `.ds-select-trigger`.
-
-   Carries **2 of the 18 `z-index: 50` remaps** — the positioner and the popup,
-   both onto `--ds-z-popover`.
-
-   One a11y fix travels with the trigger and is worth naming: `role="combobox"`
-   is not name-from-content, so the visible `SelectValue` text is not
-   automatically the trigger's accessible name. The trigger points
-   `aria-labelledby` at it unless the caller supplies a name of their own.
-
-   Recipe for rebuilding the `options` array is in
-   `docs/migration/from-0.11.md`. */
 
 const Select = SelectPrimitive.Root
 
@@ -37,7 +12,7 @@ function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
   return (
     <SelectPrimitive.Group
       data-slot="select-group"
-      className={bcx("ds-select-group", className)}
+      className={cn("ds-select-group", className)}
       {...props}
     />
   )
@@ -47,7 +22,7 @@ function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
   return (
     <SelectPrimitive.Value
       data-slot="select-value"
-      className={bcx("ds-select-value", className)}
+      className={cn("ds-select-value", className)}
       {...props}
     />
   )
@@ -60,7 +35,11 @@ function SelectTrigger({
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
   ...props
-}: SelectPrimitive.Trigger.Props & { size?: "sm" | "default" }) {
+}: SelectPrimitive.Trigger.Props & {
+  size?: "sm" | "default"
+}) {
+  // role="combobox" is not name-from-content, so the visible SelectValue text
+  // wouldn't otherwise count as the trigger's accessible name.
   const valueId = React.useId()
   const labelledBy = ariaLabel || ariaLabelledBy ? ariaLabelledBy : valueId
 
@@ -70,7 +49,7 @@ function SelectTrigger({
       data-size={size}
       aria-label={ariaLabel}
       aria-labelledby={labelledBy}
-      className={bcx("ds-select-trigger", className)}
+      className={cn("ds-select-trigger w-fit border px-0", className)}
       {...props}
     >
       {React.Children.map(children, (child) =>
@@ -114,7 +93,7 @@ function SelectContent({
         <SelectPrimitive.Popup
           data-slot="select-content"
           data-align-trigger={alignItemWithTrigger}
-          className={bcx("ds-select-content", className)}
+          className={cn("ds-select-content", className)}
           {...props}
         >
           <SelectPrimitive.List>{children}</SelectPrimitive.List>
@@ -124,11 +103,14 @@ function SelectContent({
   )
 }
 
-function SelectLabel({ className, ...props }: SelectPrimitive.GroupLabel.Props) {
+function SelectLabel({
+  className,
+  ...props
+}: SelectPrimitive.GroupLabel.Props) {
   return (
     <SelectPrimitive.GroupLabel
       data-slot="select-label"
-      className={bcx("ds-select-label", className)}
+      className={cn("ds-select-label", className)}
       {...props}
     />
   )
@@ -142,7 +124,7 @@ function SelectItem({
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
-      className={bcx("ds-select-item", className)}
+      className={cn("ds-select-item", className)}
       {...props}
     >
       <SelectPrimitive.ItemText className="ds-select-item-text">
@@ -164,11 +146,12 @@ function SelectSeparator({
   return (
     <SelectPrimitive.Separator
       data-slot="select-separator"
-      className={bcx("ds-select-separator", className)}
+      className={cn("ds-select-separator", className)}
       {...props}
     />
   )
 }
+
 
 export {
   Select,

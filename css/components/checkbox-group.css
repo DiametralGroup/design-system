@@ -1,29 +1,29 @@
-/* ============================================================================
-   Checkbox group — .ds-checkbox-group
-   ----------------------------------------------------------------------------
-   Fourth of `form-controls.css`'s seven destinations (batch-plan §1.3), and
-   the only one landing in clean namespace: 0.11 had `.ds-radio-group` and no
-   checkbox equivalent, so nothing here collides.
+/* checkbox-group.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/checkbox-group.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   **Dedupe exception resolved** (2 of batch 7's 6). The source baked `display`
-   only and kept `flex-col` and `gap-3` as literal Tailwind utilities on
-   `CheckboxGroup`'s own className, so a horizontal filter row could dedupe
-   them away with `flex-row flex-wrap gap-x-6`. Resolved as the rule requires:
-   both become real declarations here, and the horizontal case becomes an axis
-   — `[data-orientation="horizontal"]` — rather than a class race the target
-   has no `tailwind-merge` to arbitrate.
-   ============================================================================ */
-.ds-checkbox-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+@layer components {
+  /* flex-col and gap-3 stay literal Tailwind utilities on CheckboxGroup's own
+     className (see checkbox-group.tsx) — checkbox-group/filters.tsx overrides
+     both (flex-row flex-wrap gap-x-6), relying on tailwind-merge to dedupe
+     against these exact literal classes. display has no such conflict, so
+     it is baked here instead. */
+  .ds-checkbox-group {
+    display: flex;
+  }
 }
-.ds-checkbox-group[data-orientation="horizontal"] {
-  flex-direction: row;
-  flex-wrap: wrap;
-  column-gap: 24px;
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-checkbox-group[data-disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
-.ds-checkbox-group[data-disabled] {
-  pointer-events: none;
-  opacity: .5;
-}
+

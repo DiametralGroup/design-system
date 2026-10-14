@@ -1,39 +1,62 @@
+/* funnel-chart.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/funnel-chart.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  /* h-64 and w-full stay literal Tailwind utilities on FunnelChart's own
+     className (see funnel-chart.tsx) — every funnel-chart demo overrides
+     h-64 (h-72/h-40) while keeping w-full, relying on tailwind-merge to
+     dedupe against this exact literal class. Same constraint as
+     chart.css's note. */
+  .ds-funnel-chart-stage-label {
+    fill: var(--ds-ink);
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+  }
+
+  .ds-funnel-chart-share-label {
+    fill: var(--ds-ink-faint);
+    font-family: "Geist Mono Variable", "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
 /* ============================================================================
-   Funnel chart — .ds-funnel-chart-root · .ds-funnel-chart-*-label
-   ----------------------------------------------------------------------------
-   A `.ds-chart-container--plot` with one recharts <Funnel> in it, plus the two
-   margin labels, which are the part the wrapper exists for.
-
-   Both labels are drawn in the chart's margins rather than inside the
-   trapezoids, and that is a contrast decision: the slice ramp runs the whole
-   `--ds-chart-*` set, and no single text colour clears AA against all six.
-   Outside, they sit on the page background, so `--ds-ink` and `--ds-ink-faint`
-   are the right inks and stay right in both themes. They are SVG <text> nodes,
-   so they are painted with `fill`, not `color`.
-
-   The root carries this file's dedupe exception, resolved. `h-64 w-full` were
-   literal Tailwind classes in the source, kept literal so `tailwind-merge`
-   could dedupe a caller's `h-72`/`h-40` override. `--plot` supplies the width;
-   the height is a default for `--ds-chart-height` here, taller than the axis
-   charts' 14rem because a funnel is a vertical stack of trapezoids and each
-   stage needs a band deep enough to label. A caller's inline
-   `--ds-chart-height` lands on the same element and wins over this rule.
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
    ============================================================================ */
-.ds-funnel-chart-root {
-  --ds-chart-height: 16rem;
-}
+@layer components {
+  /* ============================================================================
+  Funnel chart — .ds-funnel-chart-root · .ds-funnel-chart-*-label
+  ----------------------------------------------------------------------------
+  A `.ds-chart-container--plot` with one recharts <Funnel> in it, plus the two
+  margin labels, which are the part the wrapper exists for.
 
-.ds-funnel-chart-stage-label {
-  fill: var(--ds-ink);
-  font-family: var(--ds-font-sans);
-  font-size: var(--ds-text-xs);
-}
+  Both labels are drawn in the chart's margins rather than inside the
+  trapezoids, and that is a contrast decision: the slice ramp runs the whole
+  `--ds-chart-*` set, and no single text colour clears AA against all six.
+  Outside, they sit on the page background, so `--ds-ink` and `--ds-ink-faint`
+  are the right inks and stay right in both themes. They are SVG <text> nodes,
+  so they are painted with `fill`, not `color`.
 
-/* The derived percentage, in the left margin. Mono and tabular so a column of
-   them lines up on the digit rather than on the glyph. */
-.ds-funnel-chart-share-label {
-  fill: var(--ds-ink-faint);
-  font-family: var(--ds-font-mono);
-  font-size: var(--ds-text-xs);
-  font-variant-numeric: tabular-nums;
+  The root carries this file's dedupe exception, resolved. `h-64 w-full` were
+  literal Tailwind classes in the source, kept literal so `tailwind-merge`
+  could dedupe a caller's `h-72`/`h-40` override. `--plot` supplies the width;
+  the height is a default for `--ds-chart-height` here, taller than the axis
+  charts' 14rem because a funnel is a vertical stack of trapezoids and each
+  stage needs a band deep enough to label. A caller's inline
+  `--ds-chart-height` lands on the same element and wins over this rule.
+  ============================================================================ */
+  .ds-funnel-chart-root {
+    --ds-chart-height: 16rem;
+  }
 }

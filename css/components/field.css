@@ -1,252 +1,320 @@
+/* field.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/field.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-field-set {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .ds-field-legend {
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .ds-field-group {
+    container-type: inline-size;
+    container-name: field-group;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint)))) {
+    display: flex;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .ds-field-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.25rem;
+    line-height: 1.375;
+  }
+
+  .ds-field-label {
+    display: flex;
+    width: fit-content;
+    gap: 0.5rem;
+    line-height: 1.625;
+  }
+  /* label.css's peer-checkbox/radio/switch rule resets line-height with a
+     more specific selector; Tailwind's leading-relaxed still won there. */
+
+  .ds-field-title {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .ds-field-description {
+    text-align: start;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: 400;
+    letter-spacing: 0em;
+    color: var(--ds-ink-faint);
+    text-transform: none;
+  }
+
+  .ds-field-separator {
+    position: relative;
+    margin-block: -0.5rem;
+    height: 1.25rem;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+  }
+  .ds-field-separator-line {
+    position: absolute;
+    inset: 0;
+    top: 50%;
+  }
+  .ds-field-separator-content {
+    position: relative;
+    margin-inline: auto;
+    display: block;
+    width: fit-content;
+    background-color: var(--ds-bg);
+    padding-inline: 0.5rem;
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-field-error {
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    font-weight: 400;
+    color: var(--ds-danger);
+  }
+  .ds-field-error-list {
+    margin-inline-start: 1rem;
+    display: flex;
+    list-style-type: disc;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+
+/* The child-width rules were Tailwind's *:w-full variant, which sits in the
+   utilities layer and so beats a child's own width utility (DatePickerTrigger's
+   w-56, SelectTrigger's w-fit). Kept there for the same result. */
+@layer utilities {
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="vertical"] > *,
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="responsive"] > * {
+    width: 100%;
+  }
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="vertical"] > .sr-only,
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="responsive"] > .sr-only {
+    width: auto;
+  }
+
+  @container field-group (width >= 28rem) {
+    .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="responsive"] > * {
+      width: auto;
+    }
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-field-set:has(> [data-slot="checkbox-group"]),
+  .ds-field-set:has(> [data-slot="radio-group"]) {
+    gap: 0.75rem;
+  }
+  .ds-field-legend[data-variant="label"],
+  .ds-field-legend[data-variant="legend"] {
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+  }
+  .ds-field-group[data-slot="checkbox-group"] {
+    gap: 0.75rem;
+  }
+  .ds-field-group > .ds-field-group {
+    gap: 1rem;
+  }
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-invalid="true"] {
+    color: var(--ds-danger);
+  }
+
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="vertical"],
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="responsive"] {
+    flex-direction: column;
+  }
+
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="horizontal"] {
+    flex-direction: row;
+    align-items: center;
+  }
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="horizontal"]:has(> [data-slot="field-content"]) {
+    align-items: flex-start;
+  }
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="horizontal"] > [data-slot="field-label"] {
+    flex: 1 1 auto;
+  }
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="horizontal"]:has(> [data-slot="field-content"])
+    > [role="checkbox"],
+  .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="horizontal"]:has(> [data-slot="field-content"])
+    [role="radio"] {
+    margin-top: 1px;
+  }
+
+  @container field-group (width >= 28rem) {
+    .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="responsive"] {
+      flex-direction: row;
+      align-items: center;
+    }
+    .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="responsive"]:has(
+        > [data-slot="field-content"]
+      ) {
+      align-items: flex-start;
+    }
+    .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="responsive"] > [data-slot="field-label"] {
+      flex: 1 1 auto;
+    }
+    .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="responsive"]:has(
+        > [data-slot="field-content"]
+      )
+      > [role="checkbox"],
+    .ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-orientation="responsive"]:has(
+        > [data-slot="field-content"]
+      )
+      [role="radio"] {
+      margin-top: 1px;
+    }
+  }
+  :where(.ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-disabled="true"]) .ds-field-label {
+    opacity: 0.5;
+  }
+  .ds-field-label:has(
+      :where([data-state="checked"]),
+      :where([data-checked]:not([data-checked="false"]))
+    ) {
+    border-color: color-mix(in oklab, var(--ds-ink) 30%, transparent);
+    background-color: color-mix(in oklab, var(--ds-ink) 5%, transparent);
+  }
+  :is([data-theme="dark"], .dark, .dark-theme)
+    .ds-field-label:has(
+      :where([data-state="checked"]),
+      :where([data-checked]:not([data-checked="false"]))
+    ) {
+    border-color: color-mix(in oklab, var(--ds-ink) 20%, transparent);
+    background-color: color-mix(in oklab, var(--ds-ink) 10%, transparent);
+  }
+  .ds-field-label:has(> [data-slot="field"]) {
+    border-radius: 0;
+    border: 1px solid;
+    width: 100%;
+    flex-direction: column;
+  }
+  .peer[data-slot="checkbox"] ~ .ds-field-label,
+  .peer[data-slot="radio-group-item"] ~ .ds-field-label,
+  .peer[data-slot="switch"] ~ .ds-field-label {
+    line-height: 1.625;
+  }
+  .ds-field-label > [data-slot="field"] {
+    padding: 1rem;
+  }
+  :where(.ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint))))[data-disabled="true"]) .ds-field-title {
+    opacity: 0.5;
+  }
+  :where([data-slot="field-label"]) .ds-field-title {
+    font-weight: 600;
+  }
+  :where(.ds-field:where(:not(:has(> :is(.ds-field__label, .ds-field__hint)))):has([data-orientation="horizontal"])) .ds-field-description {
+    text-wrap: balance;
+  }
+  [data-variant="legend"] + .ds-field-description {
+    margin-top: -0.375rem;
+  }
+  .ds-field-description:last-child {
+    margin-top: 0;
+  }
+  .ds-field-description:nth-last-child(2) {
+    margin-top: -0.25rem;
+  }
+  .ds-field-description > a {
+    text-decoration-line: underline;
+    text-underline-offset: 4px;
+  }
+  .ds-field-description > a:hover {
+    color: var(--ds-ink);
+  }
+  :where(.ds-field-group[data-variant="outline"]) .ds-field-separator {
+    margin-bottom: -0.5rem;
+  }
+}
+
 /* ============================================================================
-   Field — .ds-field, .ds-input-row, .ds-context-bar (+ the absorbed parts)
-   ----------------------------------------------------------------------------
-   A **frozen** file (css-ledger §1): `.ds-input-row` is read from outside the
-   package — `<ds-panel rows>` documents itself as tightening its bottom padding
-   "for `.ds-input-row` content", and `docs/components.md` teaches the pairing.
-   So the source is absorbed *into* this contract, not over it.
-
-   Two things moved out on the way in. `.ds-input` and the typed-input resets
-   left for `input.css`, the first of `form-controls.css`'s seven destinations —
-   they were never in `form-controls.css` to begin with, which is why the
-   ledger's "`.ds-input` four-way dedupe" row was withdrawn as one-way
-   (batch-plan §4, batch 7). Four files override `.ds-input` by descent —
-   `color-picker.css:54`, `time-picker.css:13`, `date-picker.css:16`,
-   `date-range.css:17` — and `toolbar.css`'s fifth left with the wholesale
-   replacement in beta.6 (`docs/absorption/corrections.md`). All four win on
-   specificity, not load order, and `input.css` loads ahead of every one of
-   them, so the move reaches all four without editing any of them.
-
-   The validation block moved *in*, from the bottom of `form-controls.css`:
-   `.ds-field--error`, `.ds-field--success` and `.ds-field__hint` are field
-   grammar, not radio grammar, and radio is all that file kept.
-
-   The absorbed half is the source's part set — `FieldSet`, `FieldLegend`,
-   `FieldGroup`, `FieldContent`, `FieldLabel`, `FieldTitle`,
-   `FieldDescription`, `FieldSeparator`, `FieldError`. It buys three things
-   0.11's one-label-one-control `.ds-field` could not do: a horizontal
-   orientation (label left, control right) and a `responsive` one that flips at
-   a container width; a description and an error line as real parts with
-   `role="alert"`; and a checkbox-in-a-card layout where the whole label is the
-   hit target.
-
-   The orientation default is what keeps the two halves compatible: a bare
-   `.ds-field` with no `data-orientation` stays 0.11's 6px column, and the
-   source's own default is `vertical`, so an absorbed field lands in the same
-   direction with its own 12px rhythm.
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
    ============================================================================ */
-
-/* ---- 0.11's field, unchanged -------------------------------------------- */
-.ds-field { display: flex; flex-direction: column; gap: 6px; }
-.ds-field > label,
-.ds-field__label {
-  font-size: var(--ds-text-xs);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ds-ink-faint);
+@layer components {
+  .ds-field__label {
+    font-size: var(--ds-text-xs);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ds-ink-faint);
+  }
+  /* Context bar — a row of fields above content. */
+  .ds-context-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--ds-rule);
+  }
+  /* Labeled row — a label on the left, a control/value on the right.
+  The frozen class: `<ds-panel rows>` is documented against it. */
+  .ds-input-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--ds-rule-soft);
+  }
+  .ds-input-row__unit { font-size: var(--ds-text-xs); color: var(--ds-ink-faint); margin-left: 6px; }
+  .ds-field__hint {
+    font-size: var(--ds-text-xs);
+    color: var(--ds-ink-faint);
+    font-weight: 400;
+  }
+  .ds-field__hint--error { color: var(--ds-danger-ink); }
+  .ds-field__hint--success { color: var(--ds-success-ink); }
 }
-
-/* Context bar — a row of fields above content. */
-.ds-context-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--ds-rule);
-}
-
-/* Labeled row — a label on the left, a control/value on the right.
-   The frozen class: `<ds-panel rows>` is documented against it. */
-.ds-input-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--ds-rule-soft);
-}
-.ds-input-row:last-child { border-bottom: none; }
-.ds-input-row > label { font-size: var(--ds-text-base); color: var(--ds-ink-soft); }
-.ds-input-row__unit { font-size: var(--ds-text-xs); color: var(--ds-ink-faint); margin-left: 6px; }
-
-/* ---- Validation, moved in from form-controls.css ------------------------- */
-.ds-field--error :is(.ds-input, .ds-textarea, .ds-checkbox__box, .ds-radio__dot, input, select, textarea),
-.ds-field--error .ds-select select,
-.ds-field--error .ds-input-group__addon {
-  border-color: var(--ds-danger);
-}
-.ds-field--success :is(.ds-input, .ds-textarea, .ds-checkbox__box, .ds-radio__dot, input, select, textarea),
-.ds-field--success .ds-select select,
-.ds-field--success .ds-input-group__addon {
-  border-color: var(--ds-success);
-}
-
-.ds-field__hint {
-  font-size: var(--ds-text-xs);
-  color: var(--ds-ink-faint);
-  font-weight: 400;
-}
-.ds-field__hint--error { color: var(--ds-danger-ink); }
-.ds-field__hint--success { color: var(--ds-success-ink); }
-
-/* ---- The absorbed parts -------------------------------------------------- */
-.ds-field-set {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  border: 0;
-  margin: 0;
-  padding: 0;
-  min-inline-size: 0; /* <fieldset>'s min-content default breaks flex children */
-}
-.ds-field-set:has(> [data-slot="checkbox-group"]),
-.ds-field-set:has(> [data-slot="radio-group"]) { gap: 12px; }
-
-.ds-field-legend {
-  margin-bottom: 12px;
-  padding: 0;
-  font-size: var(--ds-text-xs);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ds-ink-faint);
-}
-
-.ds-field-group {
-  container-type: inline-size;
-  container-name: ds-field-group;
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  gap: 40px;
-}
-.ds-field-group[data-slot="checkbox-group"] { gap: 12px; }
-.ds-field-group > .ds-field-group { gap: 16px; }
-
-.ds-field[data-orientation] {
-  width: 100%;
-  gap: 12px;
-}
-/* --ds-danger-ink, not --ds-danger: the base hue is tuned as a *fill*, and as
-   text on this system's near-black dark background it measures under 4.5:1.
-   The -ink shades are the mirror pair batch 6 added to themes/dark.css for
-   exactly this, and axe caught it on `field [dark]`. */
-.ds-field[data-invalid="true"] { color: var(--ds-danger-ink); }
-
-.ds-field[data-orientation="vertical"],
-.ds-field[data-orientation="responsive"] { flex-direction: column; }
-.ds-field[data-orientation="vertical"] > *,
-.ds-field[data-orientation="responsive"] > * { width: 100%; }
-/* The source stretched every child to full width except an `sr-only` one.
-   This package has no such utility (carousel.css and pagination.tsx record the
-   same finding), so the exception has nothing to match and is dropped. */
-
-.ds-field[data-orientation="horizontal"] { flex-direction: row; align-items: center; }
-.ds-field[data-orientation="horizontal"]:has(> [data-slot="field-content"]) { align-items: flex-start; }
-.ds-field[data-orientation="horizontal"] > [data-slot="field-label"] { flex: 1 1 auto; }
-.ds-field[data-orientation="horizontal"]:has(> [data-slot="field-content"]) > [role="checkbox"],
-.ds-field[data-orientation="horizontal"]:has(> [data-slot="field-content"]) [role="radio"] { margin-top: 1px; }
-
-@container ds-field-group (width >= 448px) {
-  .ds-field[data-orientation="responsive"] { flex-direction: row; align-items: center; }
-  .ds-field[data-orientation="responsive"] > * { width: auto; }
-  .ds-field[data-orientation="responsive"]:has(> [data-slot="field-content"]) { align-items: flex-start; }
-  .ds-field[data-orientation="responsive"] > [data-slot="field-label"] { flex: 1 1 auto; }
-  .ds-field[data-orientation="responsive"]:has(> [data-slot="field-content"]) > [role="checkbox"],
-  .ds-field[data-orientation="responsive"]:has(> [data-slot="field-content"]) [role="radio"] { margin-top: 1px; }
-}
-
-.ds-field-content {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 4px;
-  line-height: var(--ds-leading-normal);
-}
-
-.ds-field-label {
-  display: flex;
-  width: fit-content;
-  gap: 8px;
-  line-height: var(--ds-leading-normal);
-}
-:where(.ds-field[data-disabled="true"]) .ds-field-label { opacity: .5; }
-/* A label wrapping a whole field is a selectable card: the checked state
-   tints it so the choice reads without hunting for the control. */
-.ds-field-label:has(> [data-slot="field"]) {
-  width: 100%;
-  flex-direction: column;
-  border: 1px solid var(--ds-rule);
-  border-radius: var(--ds-radius-none);
-}
-.ds-field-label > [data-slot="field"] { padding: 16px; }
-.ds-field-label:has(
-    :where([data-state="checked"]),
-    :where([data-checked]:not([data-checked="false"]))
-  ) {
-  border-color: var(--ds-ink);
-  background: var(--ds-bg-alt);
-}
-
-.ds-field-title {
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  gap: 8px;
-  font-size: var(--ds-text-xs);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ds-ink-faint);
-}
-:where(.ds-field[data-disabled="true"]) .ds-field-title { opacity: .5; }
-
-.ds-field-description {
-  margin: 0;
-  text-align: start;
-  font-size: var(--ds-text-sm);
-  font-weight: 400;
-  line-height: var(--ds-leading-normal);
-  letter-spacing: 0;
-  color: var(--ds-ink-faint);
-  text-transform: none;
-}
-:where(.ds-field:has([data-orientation="horizontal"])) .ds-field-description { text-wrap: balance; }
-[data-variant="legend"] + .ds-field-description { margin-top: -6px; }
-.ds-field-description:last-child { margin-top: 0; }
-.ds-field-description:nth-last-child(2) { margin-top: -4px; }
-.ds-field-description > a { text-decoration-line: underline; text-underline-offset: 4px; }
-.ds-field-description > a:hover { color: var(--ds-accent-ink); }
-
-.ds-field-separator {
-  position: relative;
-  margin-block: -8px;
-  height: 20px;
-  font-size: var(--ds-text-sm);
-}
-.ds-field-separator-line { position: absolute; inset: 0; top: 50%; }
-.ds-field-separator-content {
-  position: relative;
-  margin-inline: auto;
-  display: block;
-  width: fit-content;
-  background: var(--ds-bg);
-  padding-inline: 8px;
-  color: var(--ds-ink-faint);
-}
-
-.ds-field-error {
-  font-size: var(--ds-text-sm);
-  font-weight: 400;
-  color: var(--ds-danger-ink);
-}
-.ds-field-error-list {
-  margin: 0;
-  margin-inline-start: 16px;
-  display: flex;
-  list-style-type: disc;
-  flex-direction: column;
-  gap: 4px;
+@layer utilities {
+  /* fix-forward: incoming's --ds-ink-faint description reaches ~4.4:1 on a
+  checked choice card's 5% ink tint; ink-soft clears AA (corrections.md). */
+  .ds-field-label:has(:where([data-state="checked"]), :where([data-checked]:not([data-checked="false"]))) .ds-field-description {
+    color: var(--ds-ink-soft);
+  }
+  .ds-input-row:last-child { border-bottom: none; }
+  .ds-input-row > label { font-size: var(--ds-text-base); color: var(--ds-ink-soft); }
+  /* ---- Validation, moved in from form-controls.css ------------------------- */
+  .ds-field--error :is(.ds-input, .ds-textarea, .ds-checkbox__box, .ds-radio__dot, input, select, textarea), .ds-field--error .ds-select select, .ds-field--error .ds-input-group__addon {
+    border-color: var(--ds-danger);
+  }
+  .ds-field--success :is(.ds-input, .ds-textarea, .ds-checkbox__box, .ds-radio__dot, input, select, textarea), .ds-field--success .ds-select select, .ds-field--success .ds-input-group__addon {
+    border-color: var(--ds-success);
+  }
 }

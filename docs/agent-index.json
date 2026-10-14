@@ -1063,27 +1063,26 @@
       ]
     },
     {
-      "slug": "tabs",
-      "name": "Tabs",
+      "slug": "item-tabs",
+      "name": "ItemTabs",
       "category": "Navigation",
       "exports": [
-        "Tabs",
-        "type TabsProps",
+        "ItemTabs",
+        "type ItemTabsProps",
         "type TabItem"
       ],
-      "description": "Sibling views of one subject, one visible at a time. Use `Wizard` for steps that have an order.",
-      "css": "css/components/tabs.css",
-      "url": "https://diametralgroup.github.io/design-system/docs/tabs",
+      "description": "0.x's tabs, configured with an `items` array (renamed from `Tabs` in 5.0). Sibling views of one subject, one visible at a time. Use `Wizard` for steps that have an order.",
+      "url": "https://diametralgroup.github.io/design-system/docs/item-tabs",
       "examples": [
         {
-          "demo": "tabs/basic",
+          "demo": "item-tabs/basic",
           "title": "Three views"
         }
       ]
     },
     {
-      "slug": "tabs-primitive",
-      "name": "Tabs (composed)",
+      "slug": "tabs",
+      "name": "Tabs",
       "category": "Navigation",
       "exports": [
         "Tabs",
@@ -1092,22 +1091,23 @@
         "TabsContent"
       ],
       "description": "Base UI's tabs, composed from parts instead of configured with an `items` array.",
-      "url": "https://diametralgroup.github.io/design-system/docs/tabs-primitive",
+      "css": "css/components/tabs.css",
+      "url": "https://diametralgroup.github.io/design-system/docs/tabs",
       "examples": [
         {
-          "demo": "tabs-primitive/basic",
+          "demo": "tabs/basic",
           "title": "Basic"
         },
         {
-          "demo": "tabs-primitive/line",
+          "demo": "tabs/line",
           "title": "Line variant"
         },
         {
-          "demo": "tabs-primitive/vertical",
+          "demo": "tabs/vertical",
           "title": "Vertical"
         },
         {
-          "demo": "tabs-primitive/in-card",
+          "demo": "tabs/in-card",
           "title": "In a card"
         }
       ]

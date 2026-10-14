@@ -1,16 +1,12 @@
 "use client"
 
-import * as React from "react"
+import { cn } from "../lib/utils.js"
 import { SpinnerIcon } from "@phosphor-icons/react"
 
-import { cx } from "../lib/cx.js"
-
-/* Spinner — the glyph itself turns, rather than a ruled ring turning around it.
-   ---------------------------------------------------------------------------
-   `label` is the accessible name, not decoration: a spinner is often the only
-   thing on screen saying anything is happening, so it says what. 0.x carried
-   the same prop. Hardcoding "Loading" is right for a page and wrong for the
-   third spinner in a settings list, which is why it stays overridable. */
+// `label` is the accessible name, not decoration: a spinner is the only thing
+// on screen saying anything is happening, so it says what. v1 carried the same
+// prop; v2 previously hardcoded "Loading", which is right for a page and wrong
+// for the third spinner in a settings list.
 function Spinner({
   className,
   label = "Loading",
@@ -21,7 +17,7 @@ function Spinner({
       data-slot="spinner"
       role="status"
       aria-label={label}
-      className={cx("ds-spinner", className)}
+      className={cn("ds-spinner size-4", className)}
       {...props}
     />
   )

@@ -2,7 +2,7 @@
 
 import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card"
 
-import { bcx } from "../lib/baseClass.js"
+import { cn } from "../lib/utils.js"
 
 function HoverCard({ ...props }: PreviewCardPrimitive.Root.Props) {
   return <PreviewCardPrimitive.Root data-slot="hover-card" {...props} />
@@ -37,7 +37,7 @@ function HoverCardContent({
       >
         <PreviewCardPrimitive.Popup
           data-slot="hover-card-content"
-          className={bcx("ds-hover-card-content", className)}
+          className={cn("ds-hover-card-content", className)}
           {...props}
         />
       </PreviewCardPrimitive.Positioner>

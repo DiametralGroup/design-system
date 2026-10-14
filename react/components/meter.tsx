@@ -1,24 +1,16 @@
-"use client";
+"use client"
 
-import { Meter as MeterPrimitive } from "@base-ui/react/meter";
+import { Meter as MeterPrimitive } from "@base-ui/react/meter"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { bcx } from "../lib/baseClass.js";
-import { variants } from "../lib/variants.js";
+import { cn } from "../lib/utils.js"
 
-/* Meter — a labelled bar reporting a static measurement.
-   ---------------------------------------------------------------------------
-   Disk used, quota spent, a score out of a maximum. Not a `Progress`: nothing
-   is advancing, so there is no indeterminate state. And not `Metric`, whose
-   alias the react-ledger withdrew — Metric is a label/value text pair with a
-   sign tone, this is a control with `role="meter"` and a track.
-
-   `<Meter>` renders its own track and indicator after `children`, so the
-   common case is `<Meter><MeterLabel/><MeterValue/></Meter>` and the bar
-   appears under the row without being asked for. That is also why `tone` rides
-   the root as `--tone`: a caller composing the shorthand never gets a handle on
-   the indicator to colour it. The six keys are the system's status family;
-   left unset the bar paints --ds-accent. */
-const meterVariants = variants("ds-meter", {
+// Tone rides on the root as --tone so the internally-rendered indicator can
+// read it — the caller never gets a handle on MeterIndicator when using the
+// composed <Meter>. Left unset by default so the bar stays --primary; the
+// six keys are the shared family from globals.css, the same one
+// status/tag/banner read.
+const meterVariants = cva("ds-meter", {
   variants: {
     tone: {
       neutral: "ds-meter--tone-neutral",
@@ -29,26 +21,21 @@ const meterVariants = variants("ds-meter", {
       info: "ds-meter--tone-info",
     },
   },
-});
+})
 
-export type MeterTone =
-  | "neutral"
-  | "success"
-  | "warning"
-  | "danger"
-  | "critical"
-  | "info";
+// DiametralGroup addition: the tone union as a named export.
+export type MeterTone = NonNullable<VariantProps<typeof meterVariants>["tone"]>
 
 function Meter({
   className,
   children,
   tone,
   ...props
-}: MeterPrimitive.Root.Props & { tone?: MeterTone }) {
+}: MeterPrimitive.Root.Props & VariantProps<typeof meterVariants>) {
   return (
     <MeterPrimitive.Root
       data-slot="meter"
-      className={bcx(meterVariants({ tone }), className)}
+      className={cn(meterVariants({ tone }), className)}
       {...props}
     >
       {children}
@@ -56,17 +43,17 @@ function Meter({
         <MeterIndicator />
       </MeterTrack>
     </MeterPrimitive.Root>
-  );
+  )
 }
 
 function MeterTrack({ className, ...props }: MeterPrimitive.Track.Props) {
   return (
     <MeterPrimitive.Track
       data-slot="meter-track"
-      className={bcx("ds-meter-track", className)}
+      className={cn("ds-meter-track", className)}
       {...props}
     />
-  );
+  )
 }
 
 function MeterIndicator({
@@ -76,30 +63,37 @@ function MeterIndicator({
   return (
     <MeterPrimitive.Indicator
       data-slot="meter-indicator"
-      className={bcx("ds-meter-indicator", className)}
+      className={cn("ds-meter-indicator", className)}
       {...props}
     />
-  );
+  )
 }
 
 function MeterLabel({ className, ...props }: MeterPrimitive.Label.Props) {
   return (
     <MeterPrimitive.Label
       data-slot="meter-label"
-      className={bcx("ds-meter-label", className)}
+      className={cn("ds-meter-label", className)}
       {...props}
     />
-  );
+  )
 }
 
 function MeterValue({ className, ...props }: MeterPrimitive.Value.Props) {
   return (
     <MeterPrimitive.Value
       data-slot="meter-value"
-      className={bcx("ds-meter-value", className)}
+      className={cn("ds-meter-value", className)}
       {...props}
     />
-  );
+  )
 }
 
-export { Meter, MeterTrack, MeterIndicator, MeterLabel, MeterValue, meterVariants };
+export {
+  Meter,
+  MeterTrack,
+  MeterIndicator,
+  MeterLabel,
+  MeterValue,
+  meterVariants,
+}

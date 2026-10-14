@@ -1,101 +1,146 @@
+/* input.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/input.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-input {
+    height: 2.5rem;
+    width: 100%;
+    min-width: 0;
+    background-color: transparent;
+    padding-block: 0.25rem;
+    font-size: 1rem;
+    line-height: calc(1.5 / 1);
+    transition-property: color, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    outline: none;
+  }
+  @media (min-width: 768px) {
+    .ds-input {
+      font-size: 0.875rem;
+      line-height: calc(1.25 / 0.875);
+    }
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-input::file-selector-button {
+    display: inline-flex;
+    height: 1.75rem;
+    border: 0;
+    background-color: transparent;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    font-weight: 500;
+    color: var(--ds-ink);
+  }
+  .ds-input::placeholder {
+    color: var(--ds-ink-faint);
+  }
+  .ds-input:focus-visible {
+    border-bottom-color: var(--ds-focus-ring);
+  }
+  .ds-input:disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .ds-input[aria-invalid="true"] {
+    border-bottom-color: var(--ds-danger);
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-input[aria-invalid="true"] {
+    border-bottom-color: color-mix(in oklab, var(--ds-danger) 50%, transparent);
+  }
+}
+
 /* ============================================================================
-   Input — .ds-input
-   ----------------------------------------------------------------------------
-   First of the seven files `form-controls.css` splits into (batch-plan §1.3).
-   `.ds-input`'s declarations were never in `form-controls.css` at all — they
-   lived in `field.css`, which is why the ledger's "four-way dedupe" row was
-   withdrawn as one-way. They move here so the class has one home and the six
-   other controls can each have theirs.
-
-   The class name and its box are the contract: 1px rule all round, no radius,
-   10/12 padding, `--ds-surface` fill. Five files override `.ds-input` by
-   descent — `color-picker.css`, `time-picker.css`, `date-picker.css`,
-   `date-range.css` and `button-group.css` — and they win on specificity, not
-   load order, so this file lands ahead of all five and none of them moves.
-
-   What the source adds, and what it does not. The source's `.ds-input` is a
-   borderless 2.5rem field whose only rule is a bottom border — and that border
-   is not even in its stylesheet: `input.tsx` keeps `border border-transparent
-   border-b-input` as literal Tailwind so `InputGroupInput`'s `border-0` can
-   dedupe against it. Absorbing that verbatim would have unstyled every
-   hand-written `.ds-input` in `examples/` and repainted a frozen surface into
-   a look the charte does not have. What is absorbed is the state vocabulary
-   the incumbent lacked: a `::placeholder` ink, `::file-selector-button`
-   chrome, an `[aria-invalid="true"]` border, and `width: 100%; min-width: 0`
-   so the field can sit in a flex row without pushing it open.
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
    ============================================================================ */
-.ds-input,
-.ds-field select,
-.ds-field textarea,
-.ds-field input[type="text"],
-.ds-field input[type="number"],
-.ds-field input[type="email"],
-.ds-field input[type="password"],
-.ds-field input[type="search"],
-.ds-field input[type="tel"],
-.ds-field input[type="url"] {
-  font-family: var(--ds-font-sans);
-  font-size: var(--ds-text-base);
-  font-weight: 400;
-  color: var(--ds-ink);
-  font-variant-numeric: tabular-nums;
-  background: var(--ds-surface);
-  border: 1px solid var(--ds-rule);
-  border-radius: var(--ds-radius-none);
-  padding: 10px 12px;
-  outline: none;
-  transition: border-color var(--ds-transition), color var(--ds-transition);
+@layer components {
+  .ds-input--number { width: 130px; text-align: right; }
+  .ds-input--number { -moz-appearance: textfield; appearance: textfield; }
 }
-select.ds-input,
-.ds-field select { cursor: pointer; min-width: 200px; }
+@layer utilities {
+  /* ============================================================================
+  Input — .ds-input
+  ----------------------------------------------------------------------------
+  First of the seven files `form-controls.css` splits into (batch-plan §1.3).
+  `.ds-input`'s declarations were never in `form-controls.css` at all — they
+  lived in `field.css`, which is why the ledger's "four-way dedupe" row was
+  withdrawn as one-way. They move here so the class has one home and the six
+  other controls can each have theirs.
 
-/* The field fills its column and may be shrunk by one: a search input in a
-   toolbar row should not set the row's width. */
-.ds-input { width: 100%; min-width: 0; }
+  The class name and its box are the contract: 1px rule all round, no radius,
+  10/12 padding, `--ds-surface` fill. Five files override `.ds-input` by
+  descent — `color-picker.css`, `time-picker.css`, `date-picker.css`,
+  `date-range.css` and `button-group.css` — and they win on specificity, not
+  load order, so this file lands ahead of all five and none of them moves.
 
-.ds-input::placeholder,
-.ds-field :is(input, textarea)::placeholder { color: var(--ds-ink-faint); }
-
-/* A file input's own button, so `<input type="file" class="ds-input">` reads as
-   part of the system rather than as browser chrome. */
-.ds-input::file-selector-button {
-  display: inline-flex;
-  height: 28px;
-  border: 0;
-  margin-inline-end: 10px;
-  background: transparent;
-  font-family: inherit;
-  font-size: var(--ds-text-sm);
-  font-weight: 500;
-  color: var(--ds-ink);
-}
-
-.ds-input:focus,
-.ds-field :is(select, input, textarea):focus {
-  outline: 2px solid var(--ds-focus-ring);
-  outline-offset: -2px;
-}
-
-/* Invalid state — the border alone carries it. The source paired a red border
-   with a colour glow; the charte separates by rule, not glow, so the glow is
-   dropped here as it was on `toggle` in beta.3. */
-.ds-input[aria-invalid="true"],
-.ds-field :is(select, input, textarea)[aria-invalid="true"] {
-  border-color: var(--ds-danger);
-}
-
-.ds-input--number,
-.ds-field input[type="number"] { width: 130px; text-align: right; }
-.ds-input--number::-webkit-outer-spin-button,
-.ds-input--number::-webkit-inner-spin-button,
-.ds-field input[type="number"]::-webkit-outer-spin-button,
-.ds-field input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.ds-input--number,
-.ds-field input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
-
-.ds-input:disabled,
-.ds-field :is(select, input, textarea):disabled {
-  opacity: .55;
-  cursor: not-allowed;
-  pointer-events: none;
+  What the source adds, and what it does not. The source's `.ds-input` is a
+  borderless 2.5rem field whose only rule is a bottom border — and that border
+  is not even in its stylesheet: `input.tsx` keeps `border border-transparent
+  border-b-input` as literal Tailwind so `InputGroupInput`'s `border-0` can
+  dedupe against it. Absorbing that verbatim would have unstyled every
+  hand-written `.ds-input` in `examples/` and repainted a frozen surface into
+  a look the charte does not have. What is absorbed is the state vocabulary
+  the incumbent lacked: a `::placeholder` ink, `::file-selector-button`
+  chrome, an `[aria-invalid="true"]` border, and `width: 100%; min-width: 0`
+  so the field can sit in a flex row without pushing it open.
+  ============================================================================ */
+  .ds-field select:not([class*="ds-"]),
+  .ds-field textarea:not([class*="ds-"]),
+  .ds-field input[type="text"]:not([class*="ds-"]),
+  .ds-field input[type="number"]:not([class*="ds-"]),
+  .ds-field input[type="email"]:not([class*="ds-"]),
+  .ds-field input[type="password"]:not([class*="ds-"]),
+  .ds-field input[type="search"]:not([class*="ds-"]),
+  .ds-field input[type="tel"]:not([class*="ds-"]),
+  .ds-field input[type="url"]:not([class*="ds-"]) {
+    font-family: var(--ds-font-sans);
+    font-size: var(--ds-text-base);
+    font-weight: 400;
+    color: var(--ds-ink);
+    font-variant-numeric: tabular-nums;
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-rule);
+    border-radius: var(--ds-radius-none);
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color var(--ds-transition), color var(--ds-transition);
+  }
+  select.ds-input,
+  .ds-field select:not([class*="ds-"]) { cursor: pointer; min-width: 200px; }
+  .ds-field :is(input, textarea):not([class*="ds-"])::placeholder { color: var(--ds-ink-faint); }
+  .ds-field :is(select, input, textarea):not([class*="ds-"]):focus {
+    outline: 2px solid var(--ds-focus-ring);
+    outline-offset: -2px;
+  }
+  /* Invalid state — the border alone carries it. The source paired a red border
+  with a colour glow; the charte separates by rule, not glow, so the glow is
+  dropped here as it was on `toggle` in beta.3. */
+  .ds-field :is(select, input, textarea):not([class*="ds-"])[aria-invalid="true"] {
+    border-color: var(--ds-danger);
+  }
+  .ds-field input[type="number"]:not([class*="ds-"]) { width: 130px; text-align: right; }
+  .ds-input--number::-webkit-outer-spin-button,
+  .ds-input--number::-webkit-inner-spin-button,
+  .ds-field input[type="number"]:not([class*="ds-"])::-webkit-outer-spin-button,
+  .ds-field input[type="number"]:not([class*="ds-"])::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .ds-field input[type="number"]:not([class*="ds-"]) { -moz-appearance: textfield; appearance: textfield; }
+  .ds-field :is(select, input, textarea):not([class*="ds-"]):disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 }

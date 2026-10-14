@@ -3,28 +3,11 @@
 import * as React from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { bcx } from "../lib/baseClass.js"
-import { cx } from "../lib/cx.js"
-import { variants } from "../lib/variants.js"
+import { cn } from "../lib/utils.js"
 import { Separator } from "./separator.js"
 
-/* Item — a row of content: media, title, description, actions, with an optional
-   header and footer band. Three variants, three sizes, and polymorphic through
-   Base UI's useRender, so the same row can be a div, a link or a button.
-
-   `Item` is why `separator` moved into this batch. `item.tsx` imports
-   `Separator`, and unlike the sixteen other forward cross-batch imports there
-   was no target symbol to re-compose onto — this repo had no `Separator` and no
-   `.ds-separator` rule anywhere. Both are net-new additions in adjacent
-   batches, so landing them together dissolves the import instead of re-wiring
-   it twice.
-
-   class-variance-authority is not acquired (ADR 0001, batch 1), so the two
-   variant maps below go through `variants()` (react/lib/variants.ts) instead.
-   These were the only two real cva calls in this batch — every other one
-   carried empty option values. The declaration stays cva-shaped because the
-   docs site parses these axes at build time to drive the playground panel. */
 function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     // Deliberately no role="list". A list may only own listitems, and Item is
@@ -37,7 +20,7 @@ function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
     // and role="listitem" on each child.
     <div
       data-slot="item-group"
-      className={cx("ds-item-group", className)}
+      className={cn("ds-item-group", className)}
       {...props}
     />
   )
@@ -51,16 +34,13 @@ function ItemSeparator({
     <Separator
       data-slot="item-separator"
       orientation="horizontal"
-      className={bcx("ds-item-separator", className)}
+      className={cn("ds-item-separator", className)}
       {...props}
     />
   )
 }
 
-type ItemVariant = "default" | "outline" | "muted"
-type ItemSize = "default" | "sm" | "xs"
-
-const itemVariants = variants("ds-item", {
+const itemVariants = cva("ds-item", {
   variants: {
     variant: {
       default: "ds-item--default",
@@ -73,7 +53,10 @@ const itemVariants = variants("ds-item", {
       xs: "ds-item--size-xs",
     },
   },
-  defaultVariants: { variant: "default", size: "default" },
+  defaultVariants: {
+    variant: "default",
+    size: "default",
+  },
 })
 
 function Item({
@@ -82,17 +65,14 @@ function Item({
   size = "default",
   render,
   ...props
-}: useRender.ComponentProps<"div"> & {
-  variant?: ItemVariant
-  size?: ItemSize
-}) {
+}: useRender.ComponentProps<"div"> & VariantProps<typeof itemVariants>) {
   return useRender({
     defaultTagName: "div",
     props: mergeProps<"div">(
       {
-        className: itemVariants({ variant, size, className }),
+        className: cn(itemVariants({ variant, size, className })),
       },
-      props,
+      props
     ),
     render,
     state: {
@@ -103,9 +83,7 @@ function Item({
   })
 }
 
-type ItemMediaVariant = "default" | "icon" | "image"
-
-const itemMediaVariants = variants("ds-item-media", {
+const itemMediaVariants = cva("ds-item-media", {
   variants: {
     variant: {
       default: "ds-item-media--default",
@@ -113,19 +91,21 @@ const itemMediaVariants = variants("ds-item-media", {
       image: "ds-item-media--image",
     },
   },
-  defaultVariants: { variant: "default" },
+  defaultVariants: {
+    variant: "default",
+  },
 })
 
 function ItemMedia({
   className,
   variant = "default",
   ...props
-}: React.ComponentProps<"div"> & { variant?: ItemMediaVariant }) {
+}: React.ComponentProps<"div"> & VariantProps<typeof itemMediaVariants>) {
   return (
     <div
       data-slot="item-media"
       data-variant={variant}
-      className={itemMediaVariants({ variant, className })}
+      className={cn(itemMediaVariants({ variant, className }))}
       {...props}
     />
   )
@@ -135,7 +115,7 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-content"
-      className={cx("ds-item-content", className)}
+      className={cn("ds-item-content", className)}
       {...props}
     />
   )
@@ -145,7 +125,7 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-title"
-      className={cx("ds-item-title", className)}
+      className={cn("ds-item-title", className)}
       {...props}
     />
   )
@@ -155,7 +135,7 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="item-description"
-      className={cx("ds-item-description", className)}
+      className={cn("ds-item-description", className)}
       {...props}
     />
   )
@@ -165,7 +145,7 @@ function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-actions"
-      className={cx("ds-item-actions", className)}
+      className={cn("ds-item-actions", className)}
       {...props}
     />
   )
@@ -175,7 +155,7 @@ function ItemHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-header"
-      className={cx("ds-item-header", className)}
+      className={cn("ds-item-header", className)}
       {...props}
     />
   )
@@ -185,7 +165,7 @@ function ItemFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-footer"
-      className={cx("ds-item-footer", className)}
+      className={cn("ds-item-footer", className)}
       {...props}
     />
   )

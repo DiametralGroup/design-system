@@ -1,20 +1,19 @@
-/* ============================================================================
-   Scatter chart — .ds-scatter-chart-root
-   ----------------------------------------------------------------------------
-   A `ScatterChart` is a `.ds-chart-container--plot` with one or more recharts
-   <Scatter> series in it, so the box is all this file owns — and of the box,
-   only the height: `--plot` already gives it its full width.
+/* scatter-chart.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/scatter-chart.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   This is the file's dedupe exception, resolved. `h-64` was a literal Tailwind
-   class on the component's own className in the source, kept literal so
-   `tailwind-merge` could dedupe a caller's `h-72` override against it. Here it
-   is a default for `--ds-chart-height`, declared on the root rather than in
-   chart.css because a scatter is taller than the axis charts' 14rem — a cloud
-   needs vertical range to read as a cloud. A caller's inline
-   `--ds-chart-height` lands on this same element and so wins over this rule,
-   which is deterministic where two competing height classes would depend on
-   stylesheet order.
-   ============================================================================ */
-.ds-scatter-chart-root {
-  --ds-chart-height: 16rem;
+@layer components {
+  /* h-64 stays a literal Tailwind utility on ScatterChart's own className
+     (see scatter-chart.tsx) — scatter-chart/bubble.tsx and dense.tsx override
+     it with h-72, relying on tailwind-merge to dedupe against the component's
+     own default. */
+  .ds-scatter-chart-root {
+    width: 100%;
+  }
 }
+

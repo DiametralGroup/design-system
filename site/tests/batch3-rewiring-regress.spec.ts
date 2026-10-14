@@ -7,6 +7,11 @@
 // demo, `carousel`. The first blocks are what says those re-wirings are still
 // in place and have not quietly reverted to a source symbol.
 //
+// The 2026-10 incoming sync reversed these re-wirings on purpose: incoming is
+// the model, so its own composition is back (docs/absorption/direction.md).
+// Where a test pinned a re-wiring, it now pins the same user-facing intent
+// against incoming's markup; its comment says what it was.
+//
 // The rest guards work paid on the way in that nothing else would catch: six
 // resolved dedupe exceptions, `carousel`/`input-otp`'s real bindings (batch
 // 16, #49 — stylesheet-only until then), the `.ds-label` namespace merge, and
@@ -51,26 +56,25 @@ test.describe("button-group replaces the applier", () => {
     expect(box.margin).toBe("0px")
   })
 
-  test("the separator composes .ds-separator--auto, not a Tailwind literal", async ({
+  // Was "the separator composes .ds-separator--auto, not a Tailwind literal":
+  // the 2026-10 incoming sync keeps incoming's `data-vertical:h-auto` literals
+  // on purpose, so the modifier and the no-literal checks are gone. The rule's
+  // geometry is the user-facing part and stays.
+  test("the separator is a 1px rule exactly as tall as its neighbours", async ({
     page,
   }) => {
-    // The one dedupe exception this batch owed in TSX. Batch 2 landed the
-    // modifier for it; a literal `data-vertical:h-auto` class here would mean
-    // the exception was carried across instead of resolved.
     const sep = page.locator('[data-slot="button-group-separator"]').first()
-    if ((await sep.count()) === 0) test.skip()
-    await expect(sep).toHaveClass(/ds-separator--auto/)
-    const cls = await sep.getAttribute("class")
-    expect(cls).not.toMatch(/data-(horizontal|vertical):/)
-    expect(cls).not.toMatch(/\bbg-input\b/)
-    // --auto is what lets the rule size itself to the group rather than filling
-    // the cross axis: it is 1px wide and exactly as tall as its neighbours.
+    await expect(sep).toBeVisible()
+    await expect(sep).toHaveAttribute("role", "separator")
     const [rule, button] = await Promise.all([
       sep.boundingBox(),
-      page.locator('[data-slot="button-group"] > .ds-button').first().boundingBox(),
+      sep.locator("xpath=..").locator(".ds-button").first().boundingBox(),
     ])
     expect(rule?.width).toBeCloseTo(1, 0)
     expect(rule?.height).toBeCloseTo(button!.height, 0)
+    expect(
+      await sep.evaluate((el) => getComputedStyle(el).backgroundColor),
+    ).not.toBe("rgba(0, 0, 0, 0)")
   })
 
   test("the text cell is not a control", async ({ page }) => {
@@ -118,26 +122,43 @@ test.describe("icon-button replaces the applier", () => {
     }
   })
 
-  test("the source's icon- size spellings resolve onto the square boxes", async ({
+  // Was "the source's icon- size spellings resolve onto the square boxes" and
+  // "icon-xs is a real 24px square" (0.x `.ds-button--icon` + `--sm`/`--xs`):
+  // the 2026-10 incoming sync renders incoming's `ds-button--size-icon-*`
+  // sizes, and IconButton's DiametralGroup addition maps the bare 0.x sizes
+  // onto them. What a user gets is still a square box per size.
+  test("every icon button is a square on one of the icon sizes", async ({
     page,
   }) => {
-    // `icon-` is stripped, so icon-sm is .ds-button--sm and icon alone is the
-    // 40px default. A raw `ds-button--icon-sm` class would style nothing.
-    const sm = page.locator('[data-slot="icon-button"].ds-button--sm').first()
-    await expect(sm).toBeVisible()
-    await expect(sm).toHaveClass(/ds-button--icon\b/)
-    expect(await page.locator('[class*="ds-button--icon-"]').count()).toBe(0)
+    const boxes = await page
+      .locator('[data-slot="icon-button"]')
+      .evaluateAll((els) =>
+        els.map((el) => ({
+          size: /ds-button--size-(icon(?:-xs|-sm|-lg)?)\b/.exec(el.className)?.[1],
+          width: el.getBoundingClientRect().width,
+          height: el.getBoundingClientRect().height,
+        })),
+      )
+    expect(boxes.length).toBeGreaterThan(0)
+    for (const box of boxes) {
+      expect(box.size, "an icon button off the icon size axis").toBeTruthy()
+      expect(box.width).toBeGreaterThan(0)
+      expect(box.width).toBeCloseTo(box.height, 0)
+    }
   })
 
-  test("icon-xs is a real 24px square, not an unstyled class", async ({
-    page,
-  }) => {
-    // .ds-button--xs is net-new CSS this batch added for the source's size.
-    const xs = page.locator('[data-slot="icon-button"].ds-button--xs').first()
-    if ((await xs.count()) === 0) test.skip()
-    const box = await xs.boundingBox()
-    expect(box?.width).toBeCloseTo(24, 0)
-    expect(box?.height).toBeCloseTo(24, 0)
+  test("the icon sizes step up from xs to lg", async ({ page }) => {
+    const widthOf = async (size: string) =>
+      (await page
+        .locator(`[data-slot="icon-button"].ds-button--size-${size}`)
+        .first()
+        .boundingBox())!.width
+    const [xs, sm, md, lg] = await Promise.all(
+      ["icon-xs", "icon-sm", "icon", "icon-lg"].map(widthOf),
+    )
+    expect(xs).toBeLessThan(sm)
+    expect(sm).toBeLessThan(md)
+    expect(md).toBeLessThan(lg)
   })
 })
 
@@ -205,15 +226,19 @@ test.describe("wordmark replaces the placeholder mark", () => {
 
 /* -- The forward re-wirings ------------------------------------------------ */
 
-test.describe("editable composes onto IconButton", () => {
-  test("the pencil is an IconButton with a required name", async ({ page }) => {
+test.describe("editable's pencil", () => {
+  // Was "the pencil is an IconButton with a required name" (data-slot
+  // "icon-button"): the 2026-10 incoming sync renders incoming's ghost Button
+  // at size icon-xs. The name is what a user needs, and it is still there.
+  test("the pencil is a named icon button", async ({ page }) => {
     await page.goto(routePath("/docs/editable"))
     await settle(page)
-    // The source used `Button variant="ghost" size="icon-xs"` with an
-    // aria-label it had to remember. IconButton cannot ship without one.
-    const pencil = page.locator('[data-slot="editable"] [aria-label="Edit"]').first()
+    const pencil = page
+      .locator('[data-slot="editable"]')
+      .first()
+      .getByRole("button", { name: "Edit", exact: true })
     await expect(pencil).toBeVisible()
-    await expect(pencil).toHaveAttribute("data-slot", "icon-button")
+    await expect(pencil).toHaveClass(/ds-button--size-icon/)
   })
 
   test("the pencil is reachable by keyboard despite opacity 0", async ({
@@ -263,7 +288,7 @@ test.describe("field-array composes onto the incumbents", () => {
     expect(names.size).toBe(count)
   })
 
-  test("the two dedupe exceptions are real declarations, not literals", async ({
+  test("the item is a centred row and its content can shrink", async ({
     page,
   }) => {
     // The source kept `flex items-center` on the item and `flex` on the content
@@ -272,7 +297,9 @@ test.describe("field-array composes onto the incumbents", () => {
     const item = page.locator('[data-slot="field-array-item"]').first()
     await expect(item).toHaveCSS("display", "flex")
     await expect(item).toHaveCSS("align-items", "center")
-    expect(await item.getAttribute("class")).not.toMatch(/\bitems-center\b/)
+    // (The "no `items-center` literal" check is gone: the 2026-10 incoming
+    // sync keeps incoming's literals on purpose. The computed layout is what
+    // matters, and it is asserted above and below.)
 
     const content = page
       .locator('[data-slot="field-array-item-content"]')
@@ -300,37 +327,38 @@ test.describe("field-array composes onto the incumbents", () => {
   })
 })
 
-test.describe("phone-input composes onto the native Select", () => {
+// Was "phone-input composes onto the native Select": the 2026-10 incoming
+// sync renders incoming's PhoneInput, whose country picker is incoming's
+// Select (a combobox over a listbox) rather than a native <select>. These keep
+// the intent — both halves named, one underline, the dial code switchable
+// without losing the number — against that markup.
+test.describe("phone-input", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(routePath("/docs/phone-input"))
     await settle(page)
   })
 
-  test("the country picker is a native select, not a listbox", async ({
+  test("the country picker is a named combobox that opens a list of countries", async ({
     page,
   }) => {
-    // The source's five-part Select holds until batch 7. A [role=combobox]
-    // trigger here would mean the held component was imported.
     const root = page.locator('[data-slot="phone-input"]').first()
-    await expect(root).toBeVisible()
-    await expect(root.locator("select").first()).toBeVisible()
-    expect(await root.locator('[role="combobox"], [role="listbox"]').count()).toBe(0)
+    const country = root.locator('[data-slot="phone-input-country"]')
+    await expect(country).toBeVisible()
+    await expect(country).toHaveAttribute("role", "combobox")
+    await expect(country).toHaveAttribute("aria-label", "Country calling code")
+    await country.click()
+    await expect(page.getByRole("listbox")).toBeVisible()
+    expect(await page.getByRole("option").count()).toBeGreaterThan(1)
   })
 
   test("both halves are named and neither draws its own border", async ({
     page,
   }) => {
-    // This batch's largest dedupe exception: the source kept `border-0 ps-0
-    // pe-2` and `flex-1 border-0 ps-2` literal because select.css and input.css
-    // kept their own defaults literal in turn. Both are real declarations now,
-    // so the group draws the single underline and the members draw none.
+    // The group draws the single underline and the members draw none.
     const root = page.locator('[data-slot="phone-input"]').first()
-    const country = root.locator(".ds-phone-input__country").first()
-    const number = root.locator(".ds-phone-input__number").first()
-    await expect(root.locator("select")).toHaveAttribute(
-      "aria-label",
-      "Country calling code",
-    )
+    const country = root.locator('[data-slot="phone-input-country"]')
+    const number = root.locator('[data-slot="phone-input-number"]')
+    await expect(country).toHaveAttribute("aria-label", "Country calling code")
     await expect(number).toHaveAttribute("aria-label", "Phone number")
     for (const part of [country, number]) {
       const widths = await part.evaluate((el) => {
@@ -339,21 +367,22 @@ test.describe("phone-input composes onto the native Select", () => {
       })
       expect(widths.every((w) => w === "0px")).toBe(true)
     }
-    // The single underline belongs to the group.
     await expect(root).toHaveCSS("border-bottom-width", "1px")
-    for (const part of [country, number]) {
-      expect(await part.getAttribute("class")).not.toMatch(/\b(border-0|ps-0|pe-2|flex-1|w-fit|shrink-0)\b/)
-    }
   })
 
-  test("the value is one string carrying the dial code", async ({ page }) => {
+  test("changing the country rewrites the dial code and keeps the number", async ({
+    page,
+  }) => {
     const root = page.locator('[data-slot="phone-input"]').first()
-    const number = root.locator("input").first()
+    const number = root.locator('[data-slot="phone-input-number"]')
+    const country = root.locator('[data-slot="phone-input-country"]')
     await number.fill("612345678")
-    // Changing the country rewrites the dial code and keeps the national part.
-    await root.locator("select").selectOption("BE")
+    await country.click()
+    await page.getByRole("option", { name: /\(\+32\)/ }).click()
     await expect(number).toHaveValue("612345678")
-    await expect(root.locator("select")).toHaveValue("BE")
+    await expect(country).toContainText("+32")
+    // Base UI's hidden input carries the form value.
+    await expect(root.locator('input[aria-hidden="true"]')).toHaveValue("BE")
   })
 })
 
@@ -446,41 +475,35 @@ test.describe("input-otp's real binding", () => {
 
 /* -- Work paid on the way in ---------------------------------------------- */
 
-test.describe("the .ds-label namespace merge", () => {
-  test("the incumbent's type survives the absorption", async ({ page }) => {
-    // .ds-label was already defined in base/typography.css — the charte's
-    // signature small-caps treatment. components/label.css adds the flex row
-    // and the state overrides and deliberately does not restate the type, so
-    // weight 600 or tighter tracking here would mean it overwrote a published
-    // contract instead of merging with it.
+// Was "the .ds-label namespace merge": the 2026-10 incoming sync makes
+// `.ds-label` incoming's Label (CHANGELOG, "Base typography") — 0.x's small
+// caps in typography.css are gone, and dimming is keyed to Tailwind's `peer`
+// and `group` markers as in incoming. The row and the dimming stay.
+test.describe("label", () => {
+  test("a label is a row, so an aside can sit beside the words", async ({
+    page,
+  }) => {
     await page.goto(routePath("/docs/label"))
     await settle(page)
     const label = page.locator(".ds-label").first()
     await expect(label).toBeVisible()
-    await expect(label).toHaveCSS("font-weight", "400")
-    await expect(label).toHaveCSS("letter-spacing", /0\.9[56]px/)
-    await expect(label).toHaveCSS("text-transform", "uppercase")
-    // What the absorption did add: the row, so an aside can sit beside the words.
     await expect(label).toHaveCSS("display", "flex")
+    await expect(label).toHaveCSS("align-items", "center")
   })
 
-  test("a label after a disabled control dims without a marker class", async ({
-    page,
-  }) => {
-    // Upstream this was `.peer:disabled ~ .ds-label`; nothing here applies
-    // `.peer`, so it would have landed inert. It reads :disabled directly.
+  test("a label after a disabled peer control dims", async ({ page }) => {
     await page.goto(routePath("/docs/label"))
     await settle(page)
-    const dimmed = page.locator(":disabled ~ .ds-label").first()
-    if ((await dimmed.count()) === 0) test.skip()
+    const dimmed = page.locator(".peer:disabled ~ .ds-label").first()
+    await expect(dimmed).toBeVisible()
     await expect(dimmed).toHaveCSS("opacity", "0.5")
   })
 
   test("a label inside a disabled group dims too", async ({ page }) => {
     await page.goto(routePath("/docs/label"))
     await settle(page)
-    const dimmed = page.locator('[data-disabled="true"] .ds-label').first()
-    if ((await dimmed.count()) === 0) test.skip()
+    const dimmed = page.locator('.group[data-disabled="true"] .ds-label').first()
+    await expect(dimmed).toBeVisible()
     await expect(dimmed).toHaveCSS("opacity", "0.5")
   })
 })
@@ -504,19 +527,24 @@ test.describe("toggle's charte edits", () => {
     expect(on).not.toBe(off)
   })
 
-  test("focus is a 2px outline, not a colour ring in box-shadow", async ({
-    page,
-  }) => {
-    // The source focused with a 3px box-shadow; the charte focuses with an
-    // outline on --ds-focus-ring.
+  // Was "focus is a 2px outline, not a colour ring in box-shadow" (a charte
+  // edit): the 2026-10 incoming sync restores incoming's 3px focus ring. What
+  // has to hold is that keyboard focus is visible at all.
+  test("keyboard focus draws a visible ring", async ({ page }) => {
     const toggle = page.locator('[data-slot="toggle"]').first()
+    const rest = await toggle.evaluate((el) => getComputedStyle(el).boxShadow)
+    await page.keyboard.press("Tab")
     await toggle.focus()
-    const style = await toggle.evaluate((el) => {
+    const focused = await toggle.evaluate((el) => {
       const s = getComputedStyle(el)
-      return { outline: s.outlineWidth, shadow: s.boxShadow }
+      return {
+        visible: el.matches(":focus-visible"),
+        outline: parseFloat(s.outlineWidth),
+        shadow: s.boxShadow,
+      }
     })
-    expect(style.outline).toBe("2px")
-    expect(style.shadow).toBe("none")
+    expect(focused.visible).toBe(true)
+    expect(focused.outline > 0 || (focused.shadow !== "none" && focused.shadow !== rest)).toBe(true)
   })
 
   test("the icon sizing has no Tailwind escape hatch left", async ({

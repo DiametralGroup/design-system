@@ -11,17 +11,14 @@
         binding silently gets an unstyled element.
 
      2. layer-purity — css/, tokens/, components/ and emails/ import nothing
-        external. This is what makes "zero-dependency CSS, tokens and web
+        external (css/tailwind.css, the opt-in Tailwind v4 entry, excepted). This is what makes "zero-dependency CSS, tokens and web
         components" a fact rather than an aspiration; it catches the first
         convenience import someone adds to a web component before a Keycloak
         build breaks.
 
-     3. no-cascade-layers — none of incoming's Tailwind layers survive in the
-        shipped CSS. The `@layer utilities` strip is paid once upstream on
-        `migration-source-v1`, so this is not an enforcement mechanism forcing
-        every batch to strip: it is an invariant guard that should never fire.
-        The exceptions are `@layer base` in `css/base/reset.css` and
-        `@layer ds-blocks` in `css/blocks.css` — see the rationale at the check.
+     3. cascade-layers — component stylesheets use only incoming's two layers,
+        `components` and `utilities`; `base` is the reset's and `ds-blocks` is
+        blocks.css's. The order is declared once, in diametral.css.
 
      4. use-client — every file in react/components/ starts with a `"use client"`
         directive. Without this, a Next App Router consumer's server-component
@@ -229,6 +226,9 @@ for (const file of [
 ]) {
   const src = readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
   const where = relative(root, file);
+  // The Tailwind v4 entry is for apps that already build with Tailwind; it is
+  // never part of diametral.css.
+  if (file === join(root, "css", "tailwind.css")) continue;
   for (const [, spec] of src.matchAll(/@import\s+(?:url\(\s*)?["']([^"']+)["']/g)) {
     if (!isRelative(spec)) {
       fail("layer-purity", `${where}: @import "${spec}" — this layer imports nothing`);
@@ -236,29 +236,30 @@ for (const file of [
   }
 }
 
-/* -- 3. no cascade layers ------------------------------------------------- */
+/* -- 3. cascade layers ----------------------------------------------------- */
 
-/* The rule guards against incoming's Tailwind output leaking its `@layer
-   utilities` / `@layer components` wrappers into the shipped bundle. It read as
-   "no @layer at all", which also forbade the one layer the bundle *needs*:
-   `css/base/reset.css` has to be layered or its unlayered `* { margin: 0;
-   padding: 0 }` silently discards every `p-*`/`m-*` utility a Tailwind-based
-   consumer writes — unlayered CSS outranks every layered rule regardless of
-   specificity. The docs site ran that way from the first commit. So the guard
-   is now scoped to the layers it was actually written to catch, and `base` is
-   allowed only in the reset. See docs/absorption/corrections.md. */
+/* Incoming's layering is the contract (docs/absorption/direction.md): component
+   rules in `components`, their state/context rules in `utilities`, so a
+   consumer's className overrides a component's base styles. This guard keeps
+   any other layer from appearing: `theme, base, ds-blocks, components,
+   utilities` are declared once, in that order, at the top of diametral.css;
+   `base` belongs to the reset and `ds-blocks` to blocks.css. */
 const RESET = join(root, "css", "base", "reset.css");
 const BLOCKS_CSS = join(root, "css", "blocks.css");
+const ENTRY = join(root, "css", "diametral.css");
+const COMPONENTS_DIR = join(root, "css", "components");
 for (const file of walk(join(root, "css"), [".css"])) {
   const src = readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
   for (const [, name] of src.matchAll(/@layer\s+([A-Za-z0-9_-]*)/g)) {
+    if (file === ENTRY && name === "theme") continue; // the order statement
+    if (file === join(root, "css", "literals.css")) continue; // Tailwind's own output
+    if (file === join(root, "css", "tailwind.css") && (name === "base" || name === "theme")) continue; // order statement, incoming's base rules
     if (name === "base" && file === RESET) continue;
-    // css/blocks.css keeps the precedence the blocks were drawn with: layered,
-    // so a component's own unlayered rule always wins (see its header).
     if (name === "ds-blocks" && file === BLOCKS_CSS) continue;
+    if ((name === "components" || name === "utilities") && file.startsWith(COMPONENTS_DIR)) continue;
     fail(
-      "no-cascade-layers",
-      `${relative(root, file)}: contains @layer ${name || "(anonymous)"} — the strip is paid upstream; only @layer base in css/base/reset.css is allowed`,
+      "cascade-layers",
+      `${relative(root, file)}: contains @layer ${name || "(anonymous)"} — components may use only components/utilities; base is the reset's, ds-blocks is blocks.css's`,
     );
   }
 }

@@ -13,14 +13,23 @@
    section and `px-3` on the theme toggle all computed to 0. `base` is the same
    layer name Tailwind's own preflight uses and the one incoming's globals.css
    puts its reset in, so the two resets interleave by source order instead of
-   fighting. The `.ds-*` component partials stay unlayered on purpose — they
-   must keep winning over utilities. */
+   fighting. The `.ds-*` component partials sit in `components`/`utilities`,
+   above this layer, as incoming orders them. */
 @layer base {
   *,
   *::before,
   *::after { box-sizing: border-box; }
 
   * { margin: 0; padding: 0; }
+
+  /* Incoming's baseline: Tailwind's preflight zeroes every border as `0 solid`
+     and its globals.css paints them all in the rule colour, so a lone
+     `border-t` draws a rule, not currentColor. */
+  *, *::before, *::after { border: 0 solid; }
+  * {
+    border-color: var(--ds-rule);
+    outline-color: color-mix(in oklab, var(--ds-focus-ring) 50%, transparent);
+  }
 
   html {
     scroll-behavior: smooth;
@@ -29,9 +38,11 @@
 
   body {
     font-family: var(--ds-font-sans);
-    font-weight: 300;
-    font-size: var(--ds-text-base);
-    line-height: var(--ds-leading-normal);
+    /* Incoming's baseline (Tailwind's preflight): 16px, 1.5, regular. Each
+       component sets its own size; this is only what bare text inherits. */
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5;
     color: var(--ds-ink);
     background: var(--ds-bg);
     min-height: 100vh;
@@ -57,7 +68,6 @@
   a, button { color: inherit; }
   button {
     appearance: none;
-    border: none;
     background: none;
     font: inherit;
   }

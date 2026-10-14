@@ -3,41 +3,20 @@
 import * as React from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { cx } from "../lib/cx.js"
-import { variants } from "../lib/variants.js"
-import { IconButton } from "./icon-button.js"
+import { cn } from "../lib/utils.js"
+import { Button } from "./button.js"
 
-/* Attachment — a file chip: media thumbnail or icon, title, description, and
-   actions, in a horizontal or vertical card that reports upload progress
-   through `state` (idle / uploading / processing / error / done).
-
-   Two re-wirings, both paid twice by design:
-
-   - `AttachmentAction` was the source's `Button` at `variant="ghost"
-     size="icon-xs"`. That is `IconButton` here, whose tone narrowed to
-     primary|danger and which requires a `label` — an icon-only action needs an
-     accessible name, and the source's ghost icon button carried none of its
-     own. Re-wired in 1.0.0-beta.7: `IconButton` composes `Button` now, so the
-     action reaches the source's symbol and its full variant set through it.
-   - The source's cva() call carried only the variant *keys* (its option values
-     were empty strings — attachment.css keys off `data-size`/`data-orientation`)
-     so class-variance-authority is not acquired for it either; `variants()`
-     (react/lib/variants.ts) keeps the cva-shaped block the docs site's
-     build-time playground extractor reads.
-
-   `scroll-fade-x` and `scrollbar-none` are gone from AttachmentGroup's
-   className: both were Tailwind classes with no Tailwind here to define them,
-   so they shipped silently doing nothing. Their behaviour is real CSS in
-   attachment.css now. */
-type AttachmentState = "idle" | "uploading" | "processing" | "error" | "done"
-
-const attachmentVariants = variants("ds-attachment", {
+// The variant classes are applied via `data-size`/`data-orientation`
+// attribute selectors in attachment.css, so cva only needs the shape (its
+// variant keys) for apps/web's build-time playground extraction — the
+// option values themselves are inert.
+const attachmentVariants = cva("ds-attachment", {
   variants: {
     size: { default: "", sm: "", xs: "" },
     orientation: { horizontal: "", vertical: "" },
   },
-  defaultVariants: { size: "default", orientation: "horizontal" },
 })
 
 function Attachment({
@@ -46,18 +25,17 @@ function Attachment({
   size = "default",
   orientation = "horizontal",
   ...props
-}: React.ComponentProps<"div"> & {
-  state?: AttachmentState
-  size?: "default" | "sm" | "xs"
-  orientation?: "horizontal" | "vertical"
-}) {
+}: React.ComponentProps<"div"> &
+  VariantProps<typeof attachmentVariants> & {
+    state?: "idle" | "uploading" | "processing" | "error" | "done"
+  }) {
   return (
     <div
       data-slot="attachment"
       data-state={state}
       data-size={size}
       data-orientation={orientation}
-      className={attachmentVariants({ size, orientation, className })}
+      className={cn(attachmentVariants({ size, orientation }), className)}
       {...props}
     />
   )
@@ -72,7 +50,7 @@ function AttachmentMedia({
     <div
       data-slot="attachment-media"
       data-variant={variant}
-      className={cx("ds-attachment-media", className)}
+      className={cn("ds-attachment-media", className)}
       {...props}
     />
   )
@@ -85,7 +63,7 @@ function AttachmentContent({
   return (
     <div
       data-slot="attachment-content"
-      className={cx("ds-attachment-content", className)}
+      className={cn("ds-attachment-content", className)}
       {...props}
     />
   )
@@ -98,7 +76,7 @@ function AttachmentTitle({
   return (
     <span
       data-slot="attachment-title"
-      className={cx("ds-attachment-title", className)}
+      className={cn("ds-attachment-title", className)}
       {...props}
     />
   )
@@ -111,7 +89,7 @@ function AttachmentDescription({
   return (
     <span
       data-slot="attachment-description"
-      className={cx("ds-attachment-description", className)}
+      className={cn("ds-attachment-description", className)}
       {...props}
     />
   )
@@ -124,7 +102,7 @@ function AttachmentActions({
   return (
     <div
       data-slot="attachment-actions"
-      className={cx("ds-attachment-actions", className)}
+      className={cn("ds-attachment-actions", className)}
       {...props}
     />
   )
@@ -132,13 +110,23 @@ function AttachmentActions({
 
 function AttachmentAction({
   className,
+  variant,
+  size = "icon-xs",
+  label,
   ...props
-}: React.ComponentProps<typeof IconButton>) {
+}: React.ComponentProps<typeof Button> & {
+  /** DiametralGroup addition: the icon-only action's accessible name, set as
+   *  its `aria-label` and `title`. */
+  label?: string
+}) {
   return (
-    <IconButton
+    <Button
       data-slot="attachment-action"
-      size="sm"
-      className={cx(className)}
+      variant={variant ?? "ghost"}
+      size={size}
+      className={cn(className)}
+      aria-label={label}
+      title={label}
       {...props}
     />
   )
@@ -155,9 +143,9 @@ function AttachmentTrigger({
     props: mergeProps<"button">(
       {
         type: render ? type : (type ?? "button"),
-        className: cx("ds-attachment-trigger", className),
+        className: cn("ds-attachment-trigger", className),
       },
-      props,
+      props
     ),
     render,
     state: {
@@ -171,11 +159,19 @@ function AttachmentGroup({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="attachment-group"
       tabIndex={0}
-      className={cx("ds-attachment-group", className)}
+      className={cn(
+        "ds-attachment-group scroll-fade-x scrollbar-none",
+        className
+      )}
       {...props}
     />
   )
 }
+
+// DiametralGroup addition: the upload state union as a named type.
+type AttachmentState = NonNullable<
+  React.ComponentProps<typeof Attachment>["state"]
+>
 
 export {
   Attachment,

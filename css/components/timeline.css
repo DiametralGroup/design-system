@@ -1,127 +1,131 @@
-/* ============================================================================
-   Timeline — .ds-timeline (an ordered list of events on a rail)
-   ----------------------------------------------------------------------------
-   Each item is an indicator on a 1px rail plus a content column. Tone sits on
-   the item, not the indicator: a timeline's semantics are per-event ("this
-   deploy failed"), and the indicator is the only slot that can carry colour
-   without competing with the content's own type styles.
+/* timeline.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/timeline.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   The source left `pb-8` and `last:pb-0` literal Tailwind utilities on the
-   item's className so a demo could override them with `pb-4`. There is no
-   tailwind-merge here for that dedupe to work against, so the spacing is baked
-   below and the override becomes --ds-timeline-gap, which a caller sets on the
-   item (or on the list, to move every row at once).
+@layer components {
+  .ds-timeline {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
 
-   Tones read --ds-*-solid rather than the source's --ds-*-ink, for the reason
-   meter.css records: only four of the six ink shades exist here, and a filled
-   indicator wants the fill family anyway.
+  /* pb-8 and last:pb-0 stay literal Tailwind utilities on the item's own
+     className (see timeline.tsx) — timeline/in-panel.tsx overrides pb-8
+     with pb-4, relying on tailwind-merge to dedupe against this exact
+     literal class. */
+  .ds-timeline-item {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+  }
 
-   Renamed from 0.x's __item / __dot / __body / __title / __time.
-   ============================================================================ */
-.ds-timeline {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-family: var(--ds-font-sans);
-}
+  .ds-timeline-item--neutral {
+    --tone: var(--ds-neutral-ink);
+  }
+  .ds-timeline-item--info {
+    --tone: var(--ds-info-ink);
+  }
+  .ds-timeline-item--success {
+    --tone: var(--ds-success-ink);
+  }
+  .ds-timeline-item--warning {
+    --tone: var(--ds-warning-ink);
+  }
+  .ds-timeline-item--danger {
+    --tone: var(--ds-danger-ink);
+  }
+  .ds-timeline-item--critical {
+    --tone: var(--ds-critical-ink);
+  }
 
-.ds-timeline-item {
-  position: relative;
-  display: flex;
-  gap: 1rem;
-  padding-bottom: var(--ds-timeline-gap, 2rem);
-}
-.ds-timeline-item:last-child {
-  padding-bottom: 0;
-}
-.ds-timeline-item::before {
-  content: "";
-  position: absolute;
-  inset-inline-start: 0.75rem;
-  top: 1.5rem;
-  bottom: 0;
-  width: 1px;
-  transform: translateX(-50%);
-  background: var(--ds-rule);
-}
-.ds-timeline-item:dir(rtl)::before {
-  transform: translateX(50%);
-}
-.ds-timeline-item:last-child::before {
-  display: none;
-}
+  .ds-timeline-indicator {
+    z-index: 10;
+    display: flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    border: 1px solid var(--ds-rule);
+    background: var(--ds-bg);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ds-ink-faint);
+  }
 
-.ds-timeline-item--neutral  { --tone: var(--ds-neutral-solid); --tone-on: var(--ds-on-status); }
-.ds-timeline-item--info     { --tone: var(--ds-info-solid); --tone-on: var(--ds-on-status); }
-.ds-timeline-item--success  { --tone: var(--ds-success-solid); --tone-on: var(--ds-on-status); }
-.ds-timeline-item--warning  { --tone: var(--ds-warning-solid); --tone-on: var(--ds-on-status); }
-.ds-timeline-item--danger   { --tone: var(--ds-danger-solid); --tone-on: var(--ds-on-status); }
-.ds-timeline-item--critical { --tone: var(--ds-critical-solid); --tone-on: var(--ds-on-status); }
+  .ds-timeline-content {
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.125rem;
+  }
 
-.ds-timeline-indicator {
-  z-index: 10;
-  display: flex;
-  width: 1.5rem;
-  height: 1.5rem;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--ds-radius-none);
-  border: 1px solid var(--ds-rule);
-  background: var(--ds-bg);
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--ds-ink-faint);
-}
-.ds-timeline-indicator svg {
-  width: 0.75rem;
-  height: 0.75rem;
-}
-.ds-timeline-item[data-state="completed"] .ds-timeline-indicator {
-  border-color: var(--tone, var(--ds-ink));
-  background: var(--tone, var(--ds-ink));
-  /* White on a solid status tone; the inverse of ink otherwise. */
-  color: var(--tone-on, var(--ds-bg));
-}
-.ds-timeline-item[data-state="active"] .ds-timeline-indicator {
-  border-color: var(--tone, var(--ds-ink));
-  color: var(--ds-ink);
-}
+  .ds-timeline-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
 
-.ds-timeline-content {
-  display: flex;
-  flex: 1 1 0%;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding-top: 0.125rem;
+  .ds-timeline-description {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--ds-ink-faint);
+    text-transform: none;
+  }
+
+  .ds-timeline-time {
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    letter-spacing: 0.025em;
+    color: var(--ds-ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
 }
 
-.ds-timeline-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: var(--ds-text-xs);
-  line-height: calc(1 / 0.75);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-timeline-item::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0.75rem;
+    top: 1.5rem;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+    background: var(--ds-rule);
+  }
+  .ds-timeline-item:dir(rtl)::before {
+    transform: translateX(50%);
+  }
+  .ds-timeline-item:last-child::before {
+    display: none;
+  }
+  .ds-timeline-indicator svg:not([class*="size-"]) {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+  .ds-timeline-item[data-state="completed"] .ds-timeline-indicator {
+    border-color: var(--tone, var(--ds-ink));
+    background: var(--tone, var(--ds-ink));
+    color: var(--ds-bg);
+  }
+  .ds-timeline-item[data-state="active"] .ds-timeline-indicator {
+    border-color: var(--tone, var(--ds-ink));
+    color: var(--ds-ink);
+  }
 }
 
-.ds-timeline-description {
-  margin: 0;
-  font-size: var(--ds-text-base);
-  line-height: 1.5;
-  color: var(--ds-ink-faint);
-  text-transform: none;
-}
-
-.ds-timeline-time {
-  font-size: var(--ds-text-xs);
-  line-height: calc(1 / 0.75);
-  letter-spacing: 0.025em;
-  color: var(--ds-ink-faint);
-  font-variant-numeric: tabular-nums;
-}

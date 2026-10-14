@@ -1,19 +1,21 @@
-/* ============================================================================
-   Radar chart — .ds-radar-chart-root
-   ----------------------------------------------------------------------------
-   A `RadarChart` is a `.ds-chart-container--square` with one recharts
-   <RadarChart> in it, so this file holds only the centring. The square box is
-   the load-bearing part and it lives in chart.css: the polar radius resolves
-   against the shorter side, and capping only the height leaves both axes
-   indefinite, the container measures 0 and recharts never draws.
+/* radar-chart.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/radar-chart.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   The source spent `aspect-square h-64` as literal Tailwind classes here so
-   `tailwind-merge` could dedupe a caller's `h-72`/`h-48` override — and so
-   `aspect-square` could dedupe against ChartContainer's own literal
-   `aspect-video`. There is no Tailwind in this package: the ratio and the
-   height are real declarations on the `--square` modifier and a caller retunes
-   the height through `--ds-chart-height`.
-   ============================================================================ */
-.ds-radar-chart-root {
-  margin-inline: auto;
+@layer components {
+  /* aspect-square and h-64 stay literal Tailwind utilities on RadarChart's own
+     className (see radar-chart.tsx) — radar-chart/dense.tsx and pinned.tsx
+     override h-64 with h-72/h-48, relying on tailwind-merge to dedupe against
+     the component's own default, and aspect-square itself has to dedupe
+     against ChartContainer's literal aspect-video default. Same constraint as
+     chart.css's note. */
+  .ds-radar-chart-root {
+    margin-inline: auto;
+  }
 }
+

@@ -5,7 +5,7 @@ import {
   PageHeaderIcon,
   PageHeaderTabs,
   PageHeaderTitle,
-  Tabs,
+  ItemTabs,
 } from "@diametral/design-system/react"
 import { BellIcon } from "@phosphor-icons/react"
 
@@ -60,7 +60,7 @@ export default function PageHeaderWithTabs() {
         </div>
       </PageHeaderHeading>
       <PageHeaderTabs>
-        <Tabs items={VIEWS} defaultValue="all" />
+        <ItemTabs items={VIEWS} defaultValue="all" />
       </PageHeaderTabs>
     </PageHeader>
   )

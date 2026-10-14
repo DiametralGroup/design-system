@@ -1,106 +1,109 @@
-/* ============================================================================
-   One-time code — .ds-input-otp  (stylesheet only)
-   ----------------------------------------------------------------------------
-   No React binding ships. The source's `input-otp.tsx` wraps the `input-otp`
-   package, whose whole substance is the hidden-input trick that makes a row of
-   boxes behave like one field — paste, backspace across a boundary, autofill
-   from an SMS. That dependency is not acquired, so these classes are the whole
-   contract, as with `carousel` here and `resizable` in batch 2.
+/* input-otp.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/input-otp.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   The shape: one hidden real input carrying the value, and a row of boxes that
-   only display it. Each box is an underlined cell matching `.ds-input`'s
-   treatment, and `data-active` marks the one the caret is in — a fake caret,
-   because the real input is invisible, which is what the blink keyframe is for.
+@layer components {
+  @keyframes ds-caret-blink {
+    0%,
+    70%,
+    100% {
+      opacity: 1;
+    }
+    20%,
+    50% {
+      opacity: 0;
+    }
+  }
 
-   Two charte edits on the way in. The source's `.dark`-scoped invalid colours
-   never painted here: this system's dark theme answers to
-   `[data-theme="dark"]`, the same defect batch 1 fixed in `navigation-menu`
-   and batch 2 in `bubble`. Rather than duplicate each rule under both
-   selectors, the invalid border is one colour on both themes — the softened
-   dark variant was a 50%-alpha mix of the same hue, and the charte separates
-   by a solid 1px rule. And `svg:not([class*="size-"])` on the separator is
-   gone: no Tailwind `size-*` class exists to escape.
-   ============================================================================ */
-@keyframes ds-caret-blink {
-  0%, 70%, 100% { opacity: 1; }
-  20%, 50%      { opacity: 0; }
+  .ds-input-otp {
+    display: flex;
+    align-items: center;
+  }
+
+  .ds-input-otp-input {
+    cursor: default;
+  }
+
+  .ds-input-otp-group {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 0;
+  }
+
+  .ds-input-otp-slot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid transparent;
+    border-bottom-color: var(--ds-rule);
+    background-color: transparent;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    transition-property: color, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    outline: none;
+    border-radius: 0;
+  }
+
+  .ds-input-otp-slot-caret {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ds-input-otp-slot-caret-line {
+    height: 1rem;
+    width: 1px;
+    background-color: var(--ds-ink);
+    animation: ds-caret-blink 1.25s ease-out infinite;
+  }
+
+  .ds-input-otp-separator {
+    display: flex;
+    align-items: center;
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-input-otp:has(input:disabled) {
+    opacity: 0.5;
+  }
+  .ds-input-otp-input:disabled {
+    cursor: not-allowed;
+  }
+  .ds-input-otp-group:has([aria-invalid="true"]) {
+    border-bottom-color: var(--ds-danger);
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-input-otp-group:has([aria-invalid="true"]) {
+    border-bottom-color: color-mix(in oklab, var(--ds-danger) 50%, transparent);
+  }
+  .ds-input-otp-slot[aria-invalid="true"] {
+    border-bottom-color: var(--ds-danger);
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-input-otp-slot[aria-invalid="true"] {
+    border-bottom-color: color-mix(in oklab, var(--ds-danger) 50%, transparent);
+  }
+  .ds-input-otp-slot[data-active="true"] {
+    z-index: 10;
+    border-bottom-color: var(--ds-focus-ring);
+  }
+  .ds-input-otp-separator svg:not([class*="size-"]) {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
 }
 
-.ds-input-otp {
-  display: flex;
-  align-items: center;
-}
-.ds-input-otp:has(input:disabled) {
-  opacity: 0.5;
-}
-
-/* The real input: present for the value and the keyboard, never seen. */
-.ds-input-otp-input {
-  cursor: default;
-}
-.ds-input-otp-input:disabled {
-  cursor: not-allowed;
-}
-
-.ds-input-otp-group {
-  display: flex;
-  align-items: center;
-  gap: var(--ds-space-1);
-  border-radius: var(--ds-radius-none);
-}
-.ds-input-otp-group:has([aria-invalid="true"]) {
-  border-bottom-color: var(--ds-danger);
-}
-
-.ds-input-otp-slot {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid transparent;
-  border-bottom-color: var(--ds-rule);
-  border-radius: var(--ds-radius-none);
-  background: transparent;
-  font-family: var(--ds-font-sans);
-  font-size: var(--ds-text-base);
-  color: var(--ds-ink);
-  font-variant-numeric: tabular-nums;
-  transition: border-color var(--ds-transition), color var(--ds-transition);
-}
-.ds-input-otp-slot[aria-invalid="true"] {
-  border-bottom-color: var(--ds-danger);
-}
-.ds-input-otp-slot[data-active="true"] {
-  z-index: 1;
-  border-bottom-color: var(--ds-focus-ring);
-}
-
-.ds-input-otp-slot-caret {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.ds-input-otp-slot-caret-line {
-  height: 16px;
-  width: 1px;
-  background: var(--ds-ink);
-  animation: ds-caret-blink 1.25s ease-out infinite;
-}
-@media (prefers-reduced-motion: reduce) {
-  .ds-input-otp-slot-caret-line { animation: none; }
-}
-
-.ds-input-otp-separator {
-  display: flex;
-  align-items: center;
-  color: var(--ds-ink-faint);
-}
-.ds-input-otp-separator svg {
-  width: 14px;
-  height: 14px;
-}

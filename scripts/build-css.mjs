@@ -12,7 +12,7 @@ import { dirname, join, resolve } from "node:path";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const cssDir = join(root, "css");
 
-const IMPORT_RE = /@import\s+url\(\s*["']([^"']+)["']\s*\)\s*;/g;
+const IMPORT_RE = /@import\s+(?:url\(\s*)?["']([^"']+)["']\s*\)?\s*;/g;
 
 function inline(file, seen = new Set()) {
   const abs = resolve(file);

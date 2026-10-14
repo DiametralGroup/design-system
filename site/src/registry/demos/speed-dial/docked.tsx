@@ -14,7 +14,7 @@ export default function SpeedDialDocked() {
         label="Share report"
         icon={<ShareNetworkIcon />}
         side="bottom"
-        className="ds-speed-dial--docked ds-speed-dial--docked-top"
+        className="absolute end-4 top-4 bottom-auto"
       >
         <SpeedDialAction icon={<LinkIcon />}>Copy link</SpeedDialAction>
         <SpeedDialAction icon={<EnvelopeIcon />}>Email a copy</SpeedDialAction>

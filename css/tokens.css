@@ -30,6 +30,20 @@
   --ds-bleu:      #23e2ff;
   --ds-jaune-vif: #fff73b;
 
+  /* The same primaries under the names @diametral/ui publishes. --ds-green-brand
+     takes the charter value (#53ff64), not incoming's #89fc79 — see
+     docs/absorption/corrections.md. */
+  --ds-black:        var(--ds-noir);
+  --ds-white:        var(--ds-blanc);
+  --ds-grey-brand:   var(--ds-gris);
+  --ds-brown:        var(--ds-marron);
+  --ds-khaki:        var(--ds-kaki);
+  --ds-yellow-pale:  var(--ds-jaune);
+  --ds-red-brand:    var(--ds-rouge);
+  --ds-green-brand:  var(--ds-vert);
+  --ds-blue:         var(--ds-bleu);
+  --ds-yellow-vivid: var(--ds-jaune-vif);
+
   /* Neutral UI ramp (greys the brand palette doesn't cover; from the app) */
   --ds-grey-light: #f5f5f5;
   --ds-grey-faint: #e4e4e6;

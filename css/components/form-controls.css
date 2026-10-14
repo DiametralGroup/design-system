@@ -1,81 +1,92 @@
-/* ============================================================================
-   Radio — .ds-radio-group, .ds-radio-group-item, .ds-radio-group-dot
-   ----------------------------------------------------------------------------
-   What is left of `form-controls.css` after the seven-way split (batch-plan
-   §1.3). The file kept its name because nothing outside the package reads it
-   and renaming it would move an `@import` for no gain.
+/* form-controls.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/radio-group.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   Batch 9 (#42, direction.md decision 2) reverses the hold this file's
-   comment used to record: incoming's CSS now wins here too, from
-   `migration-source-v1`'s `radio-group.css`. `Radio.js`'s own React has not
-   swapped yet (batch 13, #46, per api-swaps.md — "Radio, RadioGroup" is
-   renamed rather than replaced in place, so the import fails loudly rather
-   than silently misbehaving) and still renders the old `.ds-radio`/
-   `.ds-radio__dot` classnames this file no longer defines. That mismatch is
-   this batch's accepted, temporary cost — the same one every other
-   previously-held file in this batch carries — and closes when #46 lands
-   `RadioGroup`/`RadioGroupItem`.
-   ============================================================================ */
-.ds-radio-group {
-  display: grid;
+@layer components {
+  /* w-full and gap-3 stay literal Tailwind utilities on RadioGroup's own
+     className (see radio-group.tsx) — label/with-controls.tsx overrides
+     gap-3 with gap-2.5, and radio-group/inline.tsx overrides both (w-auto
+     grid-flow-col gap-6), relying on tailwind-merge to dedupe against these
+     exact literal classes. Nothing on this className is left to bake:
+     display is the only other property involved and already lives on
+     .ds-radio-group below. */
+  .ds-radio-group {
+    display: grid;
+  }
+
+  .ds-radio-group-item {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    aspect-ratio: 1 / 1;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 9999px;
+    border: 1px solid var(--ds-rule);
+    background: transparent;
+    outline: none;
+  }
+
+  .ds-radio-group-indicator {
+    display: flex;
+    width: 1.125rem;
+    height: 1.125rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ds-radio-group-dot {
+    position: absolute;
+    top: 50%;
+    inset-inline-start: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    translate: -50% -50%;
+    border-radius: 9999px;
+    background: var(--ds-ink);
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-radio-group-item::after {
+    content: "";
+    position: absolute;
+    inset-inline: -0.75rem;
+    inset-block: -0.5rem;
+  }
+  .ds-radio-group-item:focus-visible {
+    border-color: var(--ds-focus-ring);
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-focus-ring) 30%, transparent);
+  }
+  .ds-radio-group-item:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .ds-radio-group-item[aria-invalid="true"] {
+    border-color: var(--ds-danger);
+    box-shadow: 0 0 0 2px
+      color-mix(in oklab, var(--ds-danger) 20%, transparent);
+  }
+  .ds-radio-group-item[aria-invalid="true"][aria-checked="true"] {
+    border-color: var(--ds-ink);
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-radio-group-item[aria-invalid="true"] {
+    border-color: color-mix(in oklab, var(--ds-danger) 50%, transparent);
+    box-shadow: 0 0 0 2px
+      color-mix(in oklab, var(--ds-danger) 40%, transparent);
+  }
+  .ds-radio-group-item[data-checked] {
+    border-color: var(--ds-ink);
+  }
+  :where([dir="rtl"], [dir="rtl"] *) .ds-radio-group-dot {
+    translate: 50% -50%;
+  }
 }
 
-.ds-radio-group-item {
-  position: relative;
-  display: flex;
-  flex-shrink: 0;
-  aspect-ratio: 1 / 1;
-  width: 1.125rem;
-  height: 1.125rem;
-  border-radius: 9999px;
-  border: 1px solid var(--ds-rule);
-  background: transparent;
-  outline: none;
-}
-.ds-radio-group-item::after {
-  content: "";
-  position: absolute;
-  inset-inline: -0.75rem;
-  inset-block: -0.5rem;
-}
-.ds-radio-group-item:focus-visible {
-  border-color: var(--ds-focus-ring);
-  box-shadow: 0 0 0 2px color-mix(in oklab, var(--ds-focus-ring) 30%, transparent);
-}
-.ds-radio-group-item:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-.ds-radio-group-item[aria-invalid="true"] {
-  border-color: var(--ds-danger);
-  box-shadow: 0 0 0 2px
-    color-mix(in oklab, var(--ds-danger) 20%, transparent);
-}
-.ds-radio-group-item[aria-invalid="true"][aria-checked="true"] {
-  border-color: var(--ds-ink);
-}
-.ds-radio-group-item[data-checked] {
-  border-color: var(--ds-ink);
-}
-
-.ds-radio-group-indicator {
-  display: flex;
-  width: 1.125rem;
-  height: 1.125rem;
-  align-items: center;
-  justify-content: center;
-}
-
-.ds-radio-group-dot {
-  position: absolute;
-  top: 50%;
-  inset-inline-start: 50%;
-  width: 0.5rem;
-  height: 0.5rem;
-  translate: -50% -50%;
-  border-radius: 9999px;
-  background: var(--ds-ink);
-}
-:where([dir="rtl"], [dir="rtl"] *) .ds-radio-group-dot {
-  translate: 50% -50%;
-}

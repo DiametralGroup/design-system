@@ -1,50 +1,58 @@
-/* ============================================================================
-   Scroll area — .ds-scroll-area
-   ----------------------------------------------------------------------------
-   A scrolling region with a styled 10px scrollbar, for panels where the native
-   bar is either invisible (macOS overlay bars) or too heavy. The viewport is
-   keyboard-focusable, which is what keeps axe's scrollable-region-focusable
-   satisfied on a region with no other focus stop.
-   ============================================================================ */
-.ds-scroll-area {
-  position: relative;
+/* scroll-area.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/scroll-area.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-scroll-area {
+    position: relative;
+  }
+
+  .ds-scroll-area-viewport {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    outline: none;
+    transition-property: color, box-shadow;
+  }
+
+  .ds-scroll-area-scrollbar {
+    display: flex;
+    touch-action: none;
+    padding: 1px;
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill, stroke;
+    user-select: none;
+  }
+
+  .ds-scroll-area-thumb {
+    position: relative;
+    flex: 1 1 0%;
+    border-radius: 0;
+    background-color: var(--ds-rule);
+  }
+}
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-scroll-area-viewport:focus-visible {
+    outline: 1px solid var(--ds-focus-ring);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--ds-focus-ring) 50%, transparent);
+  }
+  .ds-scroll-area-scrollbar[data-orientation="horizontal"] {
+    height: 0.625rem;
+    flex-direction: column;
+    border-top: 1px solid transparent;
+  }
+  .ds-scroll-area-scrollbar[data-orientation="vertical"] {
+    height: 100%;
+    width: 0.625rem;
+    border-inline-start: 1px solid transparent;
+  }
 }
 
-.ds-scroll-area-viewport {
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  outline: none;
-  transition-property: color, box-shadow;
-}
-/* Charte focus convention: 2px outline, no glow. */
-.ds-scroll-area-viewport:focus-visible {
-  outline: 2px solid var(--ds-focus-ring);
-  outline-offset: -2px;
-}
-
-.ds-scroll-area-scrollbar {
-  display: flex;
-  touch-action: none;
-  padding: 1px;
-  transition-property:
-    color, background-color, border-color, text-decoration-color, fill, stroke;
-  user-select: none;
-}
-.ds-scroll-area-scrollbar[data-orientation="horizontal"] {
-  height: 0.625rem;
-  flex-direction: column;
-  border-top: 1px solid transparent;
-}
-.ds-scroll-area-scrollbar[data-orientation="vertical"] {
-  height: 100%;
-  width: 0.625rem;
-  border-inline-start: 1px solid transparent;
-}
-
-.ds-scroll-area-thumb {
-  position: relative;
-  flex: 1 1 0%;
-  border-radius: 0;
-  background-color: var(--ds-rule);
-}

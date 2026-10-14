@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { useControllableValue } from "../hooks/useControllableValue.js"
+import { useControllableValue } from "../hooks/use-controllable-value.js"
 import {
   Combobox,
   ComboboxChip,

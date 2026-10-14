@@ -2,7 +2,7 @@
 
 import * as ResizablePrimitive from "react-resizable-panels"
 
-import { cx } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 
 function ResizablePanelGroup({
   className,
@@ -11,7 +11,7 @@ function ResizablePanelGroup({
   return (
     <ResizablePrimitive.Group
       data-slot="resizable-panel-group"
-      className={cx("ds-resizable-panel-group h-full w-full", className)}
+      className={cn("ds-resizable-panel-group h-full w-full", className)}
       {...props}
     />
   )
@@ -31,7 +31,7 @@ function ResizableHandle({
   return (
     <ResizablePrimitive.Separator
       data-slot="resizable-handle"
-      className={cx("ds-resizable-handle", className)}
+      className={cn("ds-resizable-handle", className)}
       {...props}
     >
       {withHandle && <div className="ds-resizable-handle-grip" />}

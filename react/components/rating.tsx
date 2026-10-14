@@ -4,7 +4,7 @@ import * as React from "react"
 import { Radio as RadioPrimitive } from "@base-ui/react/radio"
 import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group"
 
-import { cx, type WithClassName } from "../lib/cx.js"
+import { cn } from "../lib/utils.js"
 import { StarIcon } from "@phosphor-icons/react"
 
 function Rating({
@@ -18,7 +18,7 @@ function Rating({
   disabled = false,
   ...props
 }: Omit<
-  WithClassName<RadioGroupPrimitive.Props>,
+  RadioGroupPrimitive.Props,
   "value" | "defaultValue" | "onValueChange"
 > & {
   max?: number
@@ -47,7 +47,7 @@ function Rating({
         onValueChange?.(next as number)
       }}
       onMouseLeave={() => setHovered(null)}
-      className={cx(
+      className={cn(
         "ds-rating",
         shape === "star" ? "ds-rating--star" : "ds-rating--default",
         className
@@ -66,7 +66,7 @@ function Rating({
             disabled={!interactive}
             aria-label={String(rank)}
             onMouseEnter={interactive ? () => setHovered(rank) : undefined}
-            className={cx(
+            className={cn(
               "ds-rating-item",
               rank <= shown && "ds-rating-item--active",
               interactive && shape !== "star" && "ds-rating-item--hover-lift",

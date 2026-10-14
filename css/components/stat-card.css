@@ -1,61 +1,85 @@
-.ds-stat-card {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--ds-rule);
-  background: var(--ds-surface);
-  padding: 1rem 1.25rem;
-  color: var(--ds-ink);
+/* stat-card.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/stat-card.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
+
+@layer components {
+  .ds-stat-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--ds-rule);
+    background: var(--ds-surface);
+    padding: 1rem 1.25rem;
+    color: var(--ds-ink);
+  }
+
+  .ds-stat-card-label {
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--ds-ink-faint);
+    text-transform: uppercase;
+  }
+
+  .ds-stat-card-value {
+    margin-top: 0.5rem;
+    font-family: var(--ds-font-title);
+    font-size: 1.5rem;
+    line-height: calc(2 / 1.5);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ds-stat-card-delta {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    color: var(--ds-ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .ds-stat-card-delta--positive {
+    color: var(--ds-success-ink);
+  }
+  .ds-stat-card-delta--negative {
+    color: var(--ds-danger-ink);
+  }
+
+  .ds-stat-card-spark {
+    margin-top: 0.75rem;
+    line-height: 1;
+  }
 }
 
-.ds-stat-card-label {
-  font-size: 0.6875rem;
-  line-height: calc(1 / 0.6875);
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  color: var(--ds-ink-soft);
-  text-transform: uppercase;
-}
-
-/* A key figure is a title: light, no added tracking (charter). */
-.ds-stat-card-value {
-  margin-top: 0.5rem;
-  font-family: var(--ds-font-title);
-  font-size: 2.125rem;
-  line-height: 1.05;
-  font-weight: var(--ds-font-weight-title);
-  letter-spacing: 0;
-  font-variant-numeric: tabular-nums;
-}
-
-.ds-stat-card-delta {
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  gap: 0.25rem;
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
-  line-height: calc(1 / 0.75);
-  color: var(--ds-ink-soft);
-  font-variant-numeric: tabular-nums;
-}
-.ds-stat-card-delta--up {
-  color: var(--ds-success-ink);
-}
-.ds-stat-card-delta--down {
-  color: var(--ds-danger-ink);
-}
-/* Tone overrides direction: declared after it, same specificity. */
-.ds-stat-card-delta--favorable {
-  color: var(--ds-success-ink);
-}
-.ds-stat-card-delta--unfavorable {
-  color: var(--ds-danger-ink);
-}
-.ds-stat-card-delta--neutral {
-  color: var(--ds-ink-soft);
-}
-
-.ds-stat-card-spark {
-  margin-top: 0.75rem;
-  line-height: 1;
+/* ============================================================================
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
+   ============================================================================ */
+@layer components {
+  .ds-stat-card-delta--up {
+    color: var(--ds-success-ink);
+  }
+  .ds-stat-card-delta--down {
+    color: var(--ds-danger-ink);
+  }
+  /* Tone overrides direction: declared after it, same specificity. */
+  .ds-stat-card-delta--favorable {
+    color: var(--ds-success-ink);
+  }
+  .ds-stat-card-delta--unfavorable {
+    color: var(--ds-danger-ink);
+  }
+  .ds-stat-card-delta--neutral {
+    color: var(--ds-ink-soft);
+  }
 }

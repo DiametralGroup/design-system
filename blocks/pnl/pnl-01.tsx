@@ -19,7 +19,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  Tabs,
+  ItemTabs,
   Wordmark,
 } from "@diametral/design-system/react"
 
@@ -110,7 +110,7 @@ export default function Pnl01() {
       </header>
 
       <div style={{ paddingInline: 32 }}>
-        <Tabs items={VIEWS.map((v) => ({ id: v, label: v }))} defaultValue="Restitution" />
+        <ItemTabs items={VIEWS.map((v) => ({ id: v, label: v }))} defaultValue="Restitution" />
       </div>
 
       <main className="ds-flex ds-flex-col ds-gap-5" style={{ padding: "18px 32px 48px" }}>
@@ -235,7 +235,9 @@ export default function Pnl01() {
               return (
                 <TableRow key={line.code} className={rowClass}>
                   <TableCell className="ds-table__code">{line.code}</TableCell>
-                  <TableCell>{line.label}</TableCell>
+                  {/* Incoming's cells are nowrap; a long account label wraps here so the
+                      statement fits its page instead of scrolling sideways. */}
+                  <TableCell style={{ whiteSpace: "normal" }}>{line.label}</TableCell>
                   <Num value={line.budget} />
                   <Num value={line.actual} />
                   <Num value={line.forecast} />

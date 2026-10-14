@@ -1,103 +1,115 @@
-/* ============================================================================
-   Toggle — .ds-toggle
-   ----------------------------------------------------------------------------
-   One two-state button. Not a Segmented: Segmented is a group of mutually
-   exclusive cells with a selected one, this is a single button that is either
-   pressed or not — bold, italic, mute, a filter chip that stays down.
+/* toggle.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/toggle.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-   `aria-pressed` is the whole state, so the pressed fill is keyed to the
-   attribute rather than to a modifier class: any binding that sets the ARIA
-   contract correctly gets the look for free.
+@layer components {
+  .ds-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    border-radius: 0;
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    text-transform: uppercase;
+    transition-property: color, background-color, border-color,
+      text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    outline: none;
+  }
 
-   Two axes, both from the source: variant (`default` transparent, `outline`
-   bordered) and size (default 40px, sm 36px, lg 44px). Each size tightens its
-   inline padding on the side an icon sits, so a label-plus-icon toggle reads
-   as one unit instead of a wide gap.
+  /* Variant axis */
+  .ds-toggle--default {
+    background: transparent;
+  }
 
-   Three charte edits on the way in. The source's focus ring was a 3px colour
-   ring in `box-shadow`; this system focuses with a 2px `outline` on
-   --ds-focus-ring. Its invalid state added a second colour glow on top of the
-   red border, and the charte separates by rule, not glow — the border alone
-   carries it, which also drops the `.dark`-only glow variant that never
-   painted here anyway. And its `svg:not([class*="size-"])` sizing escape hatch
-   is gone: there is no Tailwind `size-*` class to escape, and the negation
-   silently skipped any icon whose class happened to contain `size-`.
-   ============================================================================ */
-.ds-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: 1px solid transparent;
-  border-radius: var(--ds-radius-none);
-  font-family: var(--ds-font-sans);
-  font-size: var(--ds-text-xs);
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  white-space: nowrap;
-  text-transform: uppercase;
-  color: var(--ds-ink);
-  cursor: pointer;
-  transition: background-color var(--ds-transition), color var(--ds-transition),
-    border-color var(--ds-transition);
-}
-.ds-toggle svg {
-  pointer-events: none;
-  flex-shrink: 0;
-  width: 14px;
-  height: 14px;
-}
-.ds-toggle:hover {
-  background: var(--ds-bg-alt);
-  color: var(--ds-ink);
-}
-.ds-toggle:focus-visible {
-  outline: 2px solid var(--ds-focus-ring);
-  outline-offset: 2px;
-}
-.ds-toggle:disabled,
-.ds-toggle[aria-disabled="true"] {
-  pointer-events: none;
-  opacity: 0.5;
-}
-.ds-toggle[aria-invalid="true"] {
-  border-color: var(--ds-danger);
-}
-.ds-toggle[aria-pressed="true"] {
-  background: var(--ds-bg-alt);
+  .ds-toggle--outline {
+    border: 1px solid var(--ds-rule);
+    background: transparent;
+  }
+
+  /* Size axis */
+  .ds-toggle--size-default {
+    height: 2.5rem;
+    min-width: 2.5rem;
+    padding-inline: 1.5rem;
+  }
+
+  .ds-toggle--size-sm {
+    height: 2.25rem;
+    min-width: 2.25rem;
+    padding-inline: 1rem;
+  }
+
+  .ds-toggle--size-lg {
+    height: 2.75rem;
+    min-width: 2.75rem;
+    padding-inline: 2rem;
+  }
 }
 
-/* Variant axis */
-.ds-toggle--default {
-  background: transparent;
-}
-.ds-toggle--outline {
-  border-color: var(--ds-rule);
-  background: transparent;
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-toggle svg {
+    pointer-events: none;
+    flex-shrink: 0;
+  }
+  .ds-toggle svg:not([class*="size-"]) {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  .ds-toggle:hover {
+    background: var(--ds-bg-alt);
+    color: var(--ds-ink);
+  }
+  .ds-toggle:focus-visible {
+    border-color: var(--ds-focus-ring);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ds-focus-ring) 30%, transparent);
+  }
+  .ds-toggle:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .ds-toggle[aria-invalid="true"] {
+    border-color: var(--ds-danger);
+    box-shadow: 0 0 0 1px
+      color-mix(in oklch, var(--ds-danger) 20%, transparent);
+  }
+  :is([data-theme="dark"], .dark, .dark-theme) .ds-toggle[aria-invalid="true"] {
+    box-shadow: 0 0 0 1px
+      color-mix(in oklch, var(--ds-danger) 40%, transparent);
+  }
+  .ds-toggle[aria-pressed="true"] {
+    background: var(--ds-bg-alt);
+  }
+  .ds-toggle--size-default:has([data-icon="inline-end"]) {
+    padding-inline-end: 1rem;
+  }
+  .ds-toggle--size-default:has([data-icon="inline-start"]) {
+    padding-inline-start: 1rem;
+  }
+  .ds-toggle--size-sm:has([data-icon="inline-end"]) {
+    padding-inline-end: 0.75rem;
+  }
+  .ds-toggle--size-sm:has([data-icon="inline-start"]) {
+    padding-inline-start: 0.75rem;
+  }
+  .ds-toggle--size-lg:has([data-icon="inline-end"]) {
+    padding-inline-end: 1.25rem;
+  }
+  .ds-toggle--size-lg:has([data-icon="inline-start"]) {
+    padding-inline-start: 1.25rem;
+  }
 }
 
-/* Size axis. The `:has([data-icon])` narrowing pulls the padding in on
-   whichever side the icon sits, so the glyph is not marooned. */
-.ds-toggle--size-default {
-  height: 40px;
-  min-width: 40px;
-  padding-inline: var(--ds-space-5);
-}
-.ds-toggle--size-default:has([data-icon="inline-end"]) { padding-inline-end: var(--ds-space-4); }
-.ds-toggle--size-default:has([data-icon="inline-start"]) { padding-inline-start: var(--ds-space-4); }
-
-.ds-toggle--size-sm {
-  height: 36px;
-  min-width: 36px;
-  padding-inline: var(--ds-space-4);
-}
-.ds-toggle--size-sm:has([data-icon="inline-end"]) { padding-inline-end: var(--ds-space-3); }
-.ds-toggle--size-sm:has([data-icon="inline-start"]) { padding-inline-start: var(--ds-space-3); }
-
-.ds-toggle--size-lg {
-  height: 44px;
-  min-width: 44px;
-  padding-inline: var(--ds-space-6);
-}
-.ds-toggle--size-lg:has([data-icon="inline-end"]) { padding-inline-end: 20px; }
-.ds-toggle--size-lg:has([data-icon="inline-start"]) { padding-inline-start: 20px; }

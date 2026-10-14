@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { Pie, PieChart as RechartsPieChart } from "recharts";
+import * as React from "react"
+import { Pie, PieChart as RechartsPieChart } from "recharts"
 
-import { withSliceColors } from "../lib/chart-series.js";
-import { cx } from "../lib/cx.js";
+import { withSliceColors } from "../lib/chart-series.js"
+import { cn } from "../lib/utils.js"
 import {
   ChartContainer,
   ChartLegend,
@@ -12,26 +12,21 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "./chart.js";
+} from "./chart.js"
 
-/* PieChart — parts of one whole, no hole.
-   ---------------------------------------------------------------------------
-   The finished pie over recharts, replacing 0.11's hand-rolled SVG PieChart.
-   0.11's props land like this:
-
-     0.11 `value` / `label`  ->  `valueKey` / `nameKey`, the row fields holding
-                                  the number and the slice name
-     0.11 `color`            ->  a `config` entry per slice name
-     0.11 `legend`           ->  `legend`
-     0.11 `size`             ->  `className`; the container is responsive, so
-                                  the pie is sized by its box, not a px number
-
-   `nameKey` is also what the tooltip and legend look their labels up by, which
-   is why a slice name that is not a `config` key renders a swatch and no text.
-
-   `.ds-chart-container--square` is what gives the ratio a definite height to
-   resolve against; retune it with `--ds-chart-height` rather than a competing
-   height rule. */
+// The finished pie over v2's recharts primitives, standing in for v1's
+// hand-rolled SVG PieChart (react/components/PieChart.js). v1's props land
+// like this:
+//
+//   v1 `value` / `label`  ->  `valueKey` / `nameKey`, the row fields holding
+//                              the number and the slice name
+//   v1 `color`            ->  a `config` entry per slice name
+//   v1 `legend`           ->  `legend`
+//   v1 `size`             ->  `className`; the container is responsive, so the
+//                              pie is sized by its box rather than a px number
+//
+// `nameKey` is also what the tooltip and legend look their labels up by, which
+// is why a slice name that is not a `config` key renders a swatch and no text.
 function PieChart({
   className,
   config,
@@ -42,24 +37,27 @@ function PieChart({
   children,
   ...props
 }: Omit<React.ComponentProps<typeof ChartContainer>, "config" | "children"> & {
-  config: ChartConfig;
-  data: Record<string, unknown>[];
+  config: ChartConfig
+  data: Record<string, unknown>[]
   /** Row field holding the slice's number. */
-  valueKey: string;
+  valueKey: string
   /** Row field holding the slice's name — the key into `config`. */
-  nameKey: string;
-  legend?: boolean;
+  nameKey: string
+  legend?: boolean
   /** Extra recharts children — a second `Pie`, a `ReferenceLine`. */
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
   return (
     <ChartContainer
       config={config}
-      className={cx(
-        "ds-pie-chart-root",
-        "ds-chart-container--square",
-        className,
-      )}
+      // A definite height is what `aspect-square` resolves the width against:
+      // capping with `max-h-*` alone leaves both axes indefinite and the
+      // container measures 0, so recharts never draws. aspect-square and h-64
+      // stay literal Tailwind utilities — pie-chart/compact.tsx overrides h-64
+      // with h-28, relying on tailwind-merge to dedupe against the component's
+      // own default, and aspect-square itself has to dedupe against
+      // ChartContainer's literal aspect-video default.
+      className={cn("ds-pie-chart-root aspect-square h-64", className)}
       {...props}
     >
       <RechartsPieChart>
@@ -76,7 +74,7 @@ function PieChart({
         {children}
       </RechartsPieChart>
     </ChartContainer>
-  );
+  )
 }
 
-export { PieChart };
+export { PieChart }

@@ -6,8 +6,9 @@ import { expect, test } from "@playwright/test"
 
 import { routePath, settle } from "./harness"
 
-const SWATCHES = ".ds-colorpicker__swatches"
-const SWATCH = ".ds-colorpicker__swatch"
+// Incoming's ColorPicker parts (the 0.x `.ds-colorpicker__*` names are gone).
+const SWATCHES = '[data-slot="color-picker-swatches"]'
+const SWATCH = '[data-slot="color-picker-swatch"]'
 
 test.describe("colour swatch group keyboard navigation", () => {
   test.beforeEach(async ({ page }) => {

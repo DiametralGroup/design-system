@@ -19,6 +19,9 @@ name: Visual regression tests
 #   1. Run this workflow manually with `update_baselines: true`
 #   2. Download the `visual-baselines` artifact
 #   3. Commit it to site/tests/__screenshots__/
+#
+# Or add `commit_baselines: true` and the run commits them to the branch it
+# was dispatched on.
 
 on:
   pull_request:
@@ -28,10 +31,16 @@ on:
         description: "Generate baselines on this runner and upload them as an artifact instead of comparing"
         type: boolean
         default: false
+      commit_baselines:
+        description: "With update_baselines: commit the generated baselines to the dispatched branch"
+        type: boolean
+        default: false
 
 jobs:
   visual:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -76,6 +85,16 @@ jobs:
           path: site/tests/__screenshots__/
           retention-days: 14
           if-no-files-found: error
+
+      - name: Commit generated baselines to the branch
+        if: ${{ inputs.update_baselines && inputs.commit_baselines && github.ref != 'refs/heads/main' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/tests/__screenshots__
+          git diff --cached --quiet && { echo "Baselines unchanged."; exit 0; }
+          git commit -m "test(visual): regenerate site baselines on the CI runner"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
 
       # --- Compare ----------------------------------------------------------
       # Skipped rather than failed while the suite has no baselines, so the gate

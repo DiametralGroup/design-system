@@ -1,76 +1,94 @@
-.ds-hover-card-positioner {
-  isolation: isolate;
-  z-index: var(--ds-z-popover);
-}
+/* hover-card.css — generated from @diametral/ui (diamorval/design-system-diametral, main):
+   packages/ui/src/styles/components/hover-card.css
+   Incoming is the model: its rules come first, verbatim but for the slot
+   mapping (shadcn slots -> --ds-* as incoming's own :root resolves them),
+   @layer blocks kept (bare rules in components, qualified ones in
+   utilities, as incoming orders them), and .dark widened to this package's three dark
+   conventions. Regenerate with scripts/sync-incoming-css.mjs rather than
+   editing the incoming half by hand. */
 
-.ds-hover-card-content {
-  z-index: var(--ds-z-popover);
-  width: 18rem;
-  transform-origin: var(--transform-origin);
-  background-color: var(--ds-surface);
-  padding: 1rem;
-  font-size: 0.875rem;
-  line-height: calc(1.25 / 0.875);
-  color: var(--ds-ink);
-  /* Charte conformance: no drop shadows. The source lifted a popup with a
-     10%-ink ring plus two shadow layers; here a popup is a bordered flat
-     surface, the same 1px solid ink .ds-menu uses. */
-  border: 1px solid var(--ds-ink);
-  outline: none;
-  transition-duration: 100ms;
-  --ds-hover-card-slide-x: 0;
-  --ds-hover-card-slide-y: 0;
-}
+@layer components {
+  .ds-hover-card-positioner {
+    isolation: isolate;
+    z-index: 50;
+  }
 
-/* Slide direction mirrors ds-popover-content / ds-context-menu-content: each
-   side enters from the opposite edge, 0.5rem (spacing-2) away. */
-.ds-hover-card-content[data-side="bottom"] {
-  --ds-hover-card-slide-y: -0.5rem;
-}
-.ds-hover-card-content[data-side="top"] {
-  --ds-hover-card-slide-y: 0.5rem;
-}
-.ds-hover-card-content[data-side="left"] {
-  --ds-hover-card-slide-x: 0.5rem;
-}
-.ds-hover-card-content[data-side="right"] {
-  --ds-hover-card-slide-x: -0.5rem;
-}
-.ds-hover-card-content[data-side="inline-end"] {
-  --ds-hover-card-slide-x: -0.5rem;
-}
-:where(
-    [dir="rtl"],
-    [dir="rtl"] *
-  ).ds-hover-card-content[data-side="inline-end"] {
-  --ds-hover-card-slide-x: 0.5rem;
-}
-.ds-hover-card-content[data-side="inline-start"] {
-  --ds-hover-card-slide-x: 0.5rem;
-}
-:where(
-    [dir="rtl"],
-    [dir="rtl"] *
-  ).ds-hover-card-content[data-side="inline-start"] {
-  --ds-hover-card-slide-x: -0.5rem;
-}
+  .ds-hover-card-content {
+    z-index: 50;
+    width: 18rem;
+    transform-origin: var(--transform-origin);
+    background-color: var(--ds-surface);
+    padding: 1rem;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+    color: var(--ds-ink);
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--ds-ink) 10%, transparent),
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+    outline: none;
+    transition-duration: 100ms;
+    --ds-hover-card-slide-x: 0;
+    --ds-hover-card-slide-y: 0;
+  }
 
-@keyframes ds-hover-card-enter {
-  from {
-    opacity: 0;
-    scale: 0.95;
-    translate: var(--ds-hover-card-slide-x) var(--ds-hover-card-slide-y);
+  /* Slide direction mirrors ds-popover-content / ds-context-menu-content: each
+     side enters from the opposite edge, 0.5rem (spacing-2) away. */
+
+  @keyframes ds-hover-card-enter {
+    from {
+      opacity: 0;
+      scale: 0.95;
+      translate: var(--ds-hover-card-slide-x) var(--ds-hover-card-slide-y);
+    }
+  }
+  @keyframes ds-hover-card-exit {
+    to {
+      opacity: 0;
+      scale: 0.95;
+    }
   }
 }
-@keyframes ds-hover-card-exit {
-  to {
-    opacity: 0;
-    scale: 0.95;
+
+/* State, attribute and context rules sit in the utilities layer, as the
+   Tailwind variants they came from did, so they still beat a plain
+   utility on the same element. */
+@layer utilities {
+  .ds-hover-card-content[data-side="bottom"] {
+    --ds-hover-card-slide-y: -0.5rem;
+  }
+  .ds-hover-card-content[data-side="top"] {
+    --ds-hover-card-slide-y: 0.5rem;
+  }
+  .ds-hover-card-content[data-side="left"] {
+    --ds-hover-card-slide-x: 0.5rem;
+  }
+  .ds-hover-card-content[data-side="right"] {
+    --ds-hover-card-slide-x: -0.5rem;
+  }
+  .ds-hover-card-content[data-side="inline-end"] {
+    --ds-hover-card-slide-x: -0.5rem;
+  }
+  :where(
+      [dir="rtl"],
+      [dir="rtl"] *
+    ).ds-hover-card-content[data-side="inline-end"] {
+    --ds-hover-card-slide-x: 0.5rem;
+  }
+  .ds-hover-card-content[data-side="inline-start"] {
+    --ds-hover-card-slide-x: 0.5rem;
+  }
+  :where(
+      [dir="rtl"],
+      [dir="rtl"] *
+    ).ds-hover-card-content[data-side="inline-start"] {
+    --ds-hover-card-slide-x: -0.5rem;
+  }
+  .ds-hover-card-content[data-open] {
+    animation: ds-hover-card-enter 100ms ease;
+  }
+  .ds-hover-card-content[data-closed] {
+    animation: ds-hover-card-exit 100ms ease;
   }
 }
-.ds-hover-card-content[data-open] {
-  animation: ds-hover-card-enter 100ms ease;
-}
-.ds-hover-card-content[data-closed] {
-  animation: ds-hover-card-exit 100ms ease;
-}
+
