@@ -16,8 +16,8 @@ The workflow greps `version` from `package.json` for a `-`:
 
 | version | dist-tag | effect |
 | --- | --- | --- |
-| `5.0.0-beta`, `1.0.0-beta.13` — any `-` | `next` | `latest` untouched |
-| `5.0.0` — plain semver | `latest` | becomes the default install for everyone |
+| `1.0.0-beta.1`, `1.1.0-rc.2` — any `-` | `next` | `latest` untouched |
+| `1.0.0` — plain semver | `latest` | becomes the default install for everyone |
 
 Load-bearing: `latest` must keep pointing at a version the published docs
 actually describe. Never hand-run a bare `npm publish` — it would move `latest`.
@@ -88,7 +88,7 @@ and resolves subpath imports (`@diametral/design-system/react/tabs`) through the
 real exports map. CI never installs `site/`, so the link is absent and the same
 import is unresolvable.
 
-Two consecutive `5.0.0-beta` publishes died on this class of gap. Always run the
+Two consecutive beta publishes died on this class of gap. Always run the
 preflight, which reproduces the CI condition instead of trusting the working
 tree.
 

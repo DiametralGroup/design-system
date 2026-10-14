@@ -7,7 +7,7 @@
 # predictor: site/'s own `file:..` install leaves a pnpm link at
 # site/node_modules/@diametral/design-system that tsc walks up and finds, so
 # build:docs resolves subpath imports locally that CI cannot resolve at all.
-# Two consecutive 5.0.0-beta publishes failed on exactly that blind spot.
+# Two consecutive beta publishes failed on exactly that blind spot.
 #
 # Usage: scripts/preflight-publish.sh [ref]   (default: HEAD)
 
