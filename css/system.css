@@ -133,6 +133,7 @@
 @import "./components/vertical-nav.css";
 @import "./components/app-shell.css";
 @import "./components/signal.css";
+@import "./components/feedback.css";
 @import "./components/multi-select.css";
 @import "./components/grid.css";
 @import "./components/console-layout.css";

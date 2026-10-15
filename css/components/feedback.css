@@ -1,0 +1,118 @@
+/* ============================================================================
+   Feedback — .ds-feedback, .ds-feedback-trigger
+   ----------------------------------------------------------------------------
+   A form that asks "what happened?": an optional kind, note, topics and title,
+   a message, an optional anonymous box. It is composed from components that
+   already exist (field, textarea, rating, toggle-group, checkbox, alert,
+   button, dialog); this file only adds the stack they sit in and the few
+   elements that are the form's own.
+
+   A file only this package ships: incoming has no Feedback, so
+   scripts/sync-incoming-css.mjs never touches it (it regenerates only the
+   targets that have an incoming source).
+
+   Tokens are Tier 2/3 only. No corners, no shadows: the form is a vertical
+   pile separated by space, not by surfaces.
+   ============================================================================ */
+@layer components {
+  .ds-feedback {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-space-5);
+    inline-size: 100%;
+  }
+
+  /* The success state replaces the form: tighter, it is a confirmation. */
+  .ds-feedback--success {
+    gap: var(--ds-space-4);
+  }
+
+  .ds-feedback__kinds {
+    flex-wrap: wrap;
+  }
+
+  .ds-feedback__categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-space-3) var(--ds-space-5);
+  }
+  .ds-feedback__categories > .ds-field {
+    inline-size: auto;
+  }
+
+  .ds-feedback__required {
+    color: var(--ds-danger);
+  }
+
+  /* The text of the chosen note level ("Good"), under the stars. */
+  .ds-feedback__rating-label {
+    min-block-size: 1lh;
+    margin: 0;
+    font-size: var(--ds-text-sm);
+    color: var(--ds-ink-soft);
+  }
+
+  .ds-feedback__counter {
+    margin: 0;
+    font-size: var(--ds-text-xs);
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-feedback__context-note {
+    margin: 0;
+    font-size: var(--ds-text-xs);
+    color: var(--ds-ink-faint);
+  }
+
+  .ds-feedback__success {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-space-2);
+    padding-block: var(--ds-space-5);
+    border-block: 1px solid var(--ds-rule-soft);
+    outline: none;
+  }
+  .ds-feedback__success-title {
+    margin: 0;
+    font-family: var(--ds-font-title);
+    font-size: var(--ds-text-md);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ds-ink);
+  }
+  .ds-feedback__success-description {
+    margin: 0;
+    color: var(--ds-ink-soft);
+  }
+
+  .ds-feedback__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--ds-space-2);
+  }
+
+  .ds-feedback-trigger {
+    white-space: nowrap;
+  }
+
+  /* A long form must scroll inside the viewport rather than run off it. */
+  .ds-feedback-dialog {
+    max-block-size: calc(100dvh - 2rem);
+    overflow-y: auto;
+  }
+}
+
+/* The trigger's label folds away below the lg breakpoint (Tailwind's 64rem, the
+   one the docs chrome and Ophélie's header use), leaving the icon; the button
+   keeps its aria-label either way. */
+@layer utilities {
+  @media (width < 64rem) {
+    .ds-feedback-trigger__label {
+      display: none;
+    }
+  }
+}
