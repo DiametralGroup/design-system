@@ -4,6 +4,25 @@ All notable changes to the Diametral Design System are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.md](docs/versioning.md).
 
+## [1.1.0] — 2026-10-15
+
+### Added
+
+- **Feedback** — a form that asks "what happened?", in three layers so each stack takes what it can:
+  - **Core, no framework** — `@diametral/design-system/feedback` (new `exports` subpath,
+    `react/lib/feedback.ts`, no React import): `validateFeedback`, `buildFeedbackPayload`,
+    `emptyFeedbackDraft`, `captureFeedbackContext` (safe without `window`), `feedbackLabels` with complete
+    `en` and `fr` texts, `feedbackKindPresets`, plus the `FeedbackConfig` / `FeedbackPayload` types.
+    Also re-exported by the React barrel. Covered by `npm run test:unit` (`node:test`, no new dependency).
+  - **CSS** — `.ds-feedback`, `__kinds`, `__categories`, `__rating-label`, `__counter`, `__context-note`,
+    `__success`, `__actions`, `.ds-feedback-trigger` (`css/components/feedback.css`); everything else reuses
+    field, textarea, rating, toggle-group, checkbox, alert, button and dialog.
+  - **React** — `FeedbackForm` (inline), `FeedbackDialog`, `FeedbackTrigger`. Configurable fields: kind,
+    note, topics, title, message, anonymous; validation after the first send attempt with `aria-invalid`;
+    a failed send keeps the input; the dialog empties on close and cannot close while sending.
+  The transport stays with the application (`onSubmit(payload): Promise<void>`). Docs page and three demos
+  at `/docs/feedback`, integration spec `site/tests/feedback-regress.spec.ts`.
+
 ## [1.0.0] — 2026-10-14
 
 **First stable release, published to `latest`.** It is numbered `1.0.0`; the `5.0.0-beta.*`

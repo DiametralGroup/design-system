@@ -9,7 +9,7 @@ showcase page.
 
 ## React components
 
-The 123 components exported from [`@diametral/design-system/react`](react.md). Every row has a live page with runnable examples, and every page is what the visual and accessibility gates drive — so this table and the tested surface cannot disagree.
+The 124 components exported from [`@diametral/design-system/react`](react.md). Every row has a live page with runnable examples, and every page is what the visual and accessibility gates drive — so this table and the tested surface cannot disagree.
 
 > Generated from `site/src/registry/registry.ts` by `scripts/build-components-md.mjs`. Edit the registry, then run `npm run build`.
 
@@ -43,6 +43,7 @@ The 123 components exported from [`@diametral/design-system/react`](react.md). E
 | [DateRangePicker](https://diametralgroup.github.io/design-system/docs/date-range-picker) | `DateRangePicker`, `type DateRange` | A start and end date picked in one calendar. The value is `{ from, to }`. |
 | [DateTimePicker](https://diametralgroup.github.io/design-system/docs/date-time-picker) | `DateTimePicker` | A calendar and a time picker combined into one `Date` value. |
 | [Editable](https://diametralgroup.github.io/design-system/docs/editable) | `Editable` | Click-to-edit text: a preview that swaps to a field, saved on Enter or blur and discarded on Escape. |
+| [Feedback](https://diametralgroup.github.io/design-system/docs/feedback) | `FeedbackForm`, `FeedbackDialog`, `FeedbackTrigger` | A form that asks what happened, with only the fields you configure: kind, note, topics, title, message, anonymous. Inline on a page or in a dialog. The transport is yours; the validation also ships without React as `@diametral/design-system/feedback`. |
 | [Field](https://diametralgroup.github.io/design-system/docs/field) | `Field`, `FieldSet`, `FieldLegend`, `FieldGroup`, `FieldContent`, `FieldLabel`, `FieldTitle`, `FieldDescription`, `FieldSeparator`, `FieldError` | The form row: label, control, description and error in one accessible group. Use it for every labelled control. |
 | [Field Array](https://diametralgroup.github.io/design-system/docs/field-array) | `FieldArray`, `FieldArrayItem`, `FieldArrayItemContent`, `FieldArrayRemove`, `FieldArrayAdd` | Repeated entries for an array of objects — one removable block each, with an add button under the stack. |
 | [FileUpload](https://diametralgroup.github.io/design-system/docs/file-upload) | `FileUpload`, `FileUploadIcon`, `FileUploadTitle`, `FileUploadDescription` | A drop zone that also works as a file button. `accept` filters the picker but is not validation — check the files again on `onFiles`. |
@@ -2272,6 +2273,137 @@ display-only ratings (render the stars as `<span>`s, with `role="img"` on the ro
 ```
 
 Live: [../examples/components/rating.html](../examples/components/rating.html)
+
+## Feedback
+
+A form that asks "what happened?" — report a bug, suggest a change, rate an experience. You configure
+only the fields you need: a **kind** (single choice), a **note** (1..max stars), **topics** (multiple
+choice), a **title**, the **message**, an **anonymous** box. Validation shows after the first send
+attempt, under each field; a failed send keeps what was typed; a successful one leaves the confirmation on
+screen with "Send another". The component never sends anything itself: the transport is the app's.
+
+It ships in three layers, so an app takes the one its stack allows:
+
+| Layer | Where | For |
+| --- | --- | --- |
+| Core, no framework | `@diametral/design-system/feedback` (`react/lib/feedback.ts`) | validation, payload, labels, context capture — any JavaScript app |
+| CSS | `css/components/feedback.css` (in `diametral.css`) | `.ds-feedback*` layout, on top of the existing field, textarea, rating, toggle-group, checkbox, alert, button and dialog classes |
+| React | `@diametral/design-system/react` | `FeedbackForm`, `FeedbackDialog`, `FeedbackTrigger` |
+
+**Config** (`FeedbackConfig`) — every key is optional, a missing one means "no such field":
+`kinds: {value,label}[]` (+ `defaultKind`; required once configured), `rating: { max = 5, required = false,
+labels? }`, `categories: {value,label}[]`, `title: { required = false, maxLength = 200 }`,
+`message: { required = true, maxLength = 5000 }`, `allowAnonymous`. A character counter shows under the
+title and message when their `maxLength` is set explicitly; the input stops at the limit either way.
+
+**Payload** (`FeedbackPayload`) — trimmed, with only the configured fields: `{ kind?, rating?, categories?,
+title?, message, anonymous?, context }`. `anonymous` is present only when `allowAnonymous` is on; an optional
+title left empty is left out; `categories` the config does not list are dropped. `context` is
+`{ route, appVersion?, userAgent?, locale?, viewport?, …extra }`, captured safely on the server too.
+
+**React**
+
+```jsx
+import { FeedbackDialog, FeedbackTrigger, FeedbackForm } from "@diametral/design-system/react";
+
+// A "Report" button in a header; the label folds away below lg, the icon stays.
+<FeedbackDialog
+  trigger={<FeedbackTrigger />}
+  config={{ kinds: feedbackKindPresets(), title: { required: true }, message: {} }}
+  appVersion="2.4.1"
+  onSubmit={async (payload) => { await fetch("/api/support", { method: "POST", body: JSON.stringify(payload) }); }}
+/>
+
+// A whole page.
+<FeedbackForm config={{ rating: { required: true }, message: { required: false, maxLength: 500 } }} onSubmit={send} locale="fr" />
+```
+
+`onSubmit(payload): Promise<void>` resolves = success, rejects = the error is shown (`getErrorMessage(error)`
+or `labels.error`) and the input is kept. Other props: `locale` (`"en"` default, `"fr"`), `labels`
+(partial override of every visible text), `appVersion`, `context` (merged into the captured context, wins),
+`successActions`, `onCancel` (shows Cancel, and Close on the success state), `showContextNote`.
+`FeedbackDialog` adds `open` / `defaultOpen` / `onOpenChange`, `trigger`, `title`, `description`; it empties
+the form when it closes and cannot be closed while a send is in flight.
+
+**Parts** — `.ds-feedback` (the vertical stack), `__kinds`, `__categories`, `__rating-label` (text of the
+chosen level), `__counter`, `__context-note`, `__required`, `__success` (+ `__success-title`,
+`__success-description`), `__actions`; `.ds-feedback--success`, `.ds-feedback-dialog`,
+`.ds-feedback-trigger` with `__label` (hidden below the `lg` breakpoint, 64rem).
+
+**Without React (Angular, Vue, plain HTML)** — render the markup below with the existing `.ds-*` classes and
+let the core do the logic: no React import is involved, and the stylesheet is the one you already load.
+
+```html
+<form class="ds-feedback" novalidate>
+  <div class="ds-field" role="group" data-slot="field" data-orientation="vertical">
+    <div class="ds-field-title" id="fb-rating-label">How was your experience? <span class="ds-feedback__required" aria-hidden="true">*</span></div>
+    <div class="ds-rating ds-rating--star" role="radiogroup" aria-labelledby="fb-rating-label" aria-required="true" aria-invalid="true" aria-describedby="fb-rating-error">
+      <button type="button" role="radio" aria-checked="false" aria-label="1" data-shape="star" class="ds-rating-item ds-rating-item--interactive">
+        <svg class="ds-rating-star-icon" viewBox="0 0 256 256" aria-hidden="true"><!-- star --></svg>
+      </button>
+      <!-- …2 to 5; the chosen one and those before it add .ds-rating-item--active -->
+    </div>
+    <p class="ds-feedback__rating-label" aria-live="polite">Good</p>
+    <div class="ds-field-error" role="alert" id="fb-rating-error">This field is required.</div>
+  </div>
+
+  <div class="ds-field" role="group" data-slot="field" data-orientation="vertical">
+    <label class="ds-label ds-field-label" for="fb-message">Message</label>
+    <textarea class="ds-textarea" id="fb-message" rows="5" maxlength="500" aria-describedby="fb-count"></textarea>
+    <p class="ds-feedback__counter" id="fb-count">0/500</p>
+  </div>
+
+  <p class="ds-feedback__context-note">The page and the app version are attached.</p>
+  <div class="ds-feedback__actions">
+    <button type="submit" class="ds-button ds-button--default ds-button--tone-black ds-button--size-default">Send</button>
+  </div>
+</form>
+```
+
+The other fields reuse their own components' markup inside a `.ds-field`: kinds are a
+`.ds-toggle-group` of `.ds-toggle-group-item.ds-toggle.ds-toggle--outline` buttons (`.ds-feedback__kinds`),
+topics and the anonymous box are `.ds-checkbox` + `.ds-field-label` rows (`data-checked` on a ticked box),
+the title is a `.ds-input`, a failed send is a `.ds-alert.ds-alert--destructive`. For a dialog, put the
+form in `.ds-dialog-content.ds-feedback-dialog`. Set `aria-invalid="true"` on the control (not on a group
+that cannot carry it) and render the message under it only after the first send attempt.
+
+```ts
+// Angular 19, standalone — the core, no React.
+import { Component, signal } from "@angular/core";
+import {
+  buildFeedbackPayload, captureFeedbackContext, emptyFeedbackDraft, feedbackErrorMessage,
+  feedbackLabels, validateFeedback, type FeedbackConfig,
+} from "@diametral/design-system/feedback";
+
+const config: FeedbackConfig = {
+  rating: { required: true, labels: ["Terrible", "Bad", "Okay", "Good", "Excellent"] },
+  message: { required: false, maxLength: 500 },
+};
+
+@Component({ selector: "app-feedback", standalone: true, templateUrl: "./feedback.html" })
+export class FeedbackPage {
+  labels = feedbackLabels("en");
+  draft = signal(emptyFeedbackDraft(config));
+  attempted = signal(false);
+  errors = () => (this.attempted() ? validateFeedback(this.draft(), config).errors : {});
+  message = (code: "required" | "tooLong" | "outOfRange" | "unknownOption") =>
+    feedbackErrorMessage(this.labels, code, 500);
+
+  async submit() {
+    this.attempted.set(true);
+    if (!validateFeedback(this.draft(), config).valid) return;
+    const payload = buildFeedbackPayload(this.draft(), config, captureFeedbackContext({ appVersion: "5.0.0" }));
+    await fetch("/feedbacks", { method: "POST", body: JSON.stringify(payload) });
+  }
+}
+```
+
+Also exported by the core: `feedbackLabels(locale, overrides)`, `FEEDBACK_LABELS`, `feedbackKindPresets(locale)`
+(bug, feature, improvement, question), `formatFeedbackCounter`, `resolveFeedbackConfig`.
+
+Live: [feedback](https://diametralgroup.github.io/design-system/docs/feedback)
+
+---
 
 ## Date range picker
 
