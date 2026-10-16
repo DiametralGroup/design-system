@@ -37,6 +37,11 @@ jobs:
       - name: Contract checks
         run: node scripts/check-contracts.mjs
 
+      # The framework-free Feedback core (react/lib/feedback.ts), run against the
+      # compiled output exactly as a non-React consumer imports it.
+      - name: Unit tests
+        run: npm run test:unit
+
   # site/ is load-bearing: it IS the verification gate every absorption batch is
   # checked against, so it can never be dropped, left broken, or excluded here.
   # As a deliverable it is a PR check, not a release gate — the components it

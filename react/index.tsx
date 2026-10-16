@@ -226,6 +226,7 @@ export * from "./components/sheet.js";
 export * from "./components/command.js";
 export * from "./components/stat-card.js";
 export * from "./components/signal.js";
+export * from "./components/feedback.js";
 export * from "./components/rating.js";
 export * from "./components/date-range-picker.js";
 export * from "./components/color-picker.js";
@@ -313,6 +314,7 @@ export * from "./components/donut-chart.js";
 export * from "./components/gauge.js";
 export * from "./components/sparkline.js";
 export * from "./lib/chart-series.js";
+export * from "./lib/feedback.js";
 
 /* Batch 5 — net-new charts (1.0.0-beta.5)
    Eight forms 0.11 had no answer for, and no new dependency: six of them are

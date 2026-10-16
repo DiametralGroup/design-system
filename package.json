@@ -1,6 +1,6 @@
 {
   "name": "@diametral/design-system",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Diametral Design System — a minimal, flat, buildless CSS + tokens + Web Components design system. Welcome to (the real).",
   "license": "MIT",
   "type": "module",
@@ -60,6 +60,10 @@
       "types": "./dist/react/index.d.ts",
       "default": "./dist/react/index.js"
     },
+    "./feedback": {
+      "types": "./dist/react/lib/feedback.d.ts",
+      "default": "./dist/react/lib/feedback.js"
+    },
     "./react/*": {
       "types": "./dist/react/components/*.d.ts",
       "default": "./dist/react/components/*.js"
@@ -79,6 +83,7 @@
   "scripts": {
     "build": "npm run build:react && npm run build:literals && node scripts/build-tokens.mjs && node scripts/build-css.mjs && node scripts/build-components.mjs && node scripts/build-figma.mjs && node scripts/build-migration-guide.mjs && node scripts/build-components-md.mjs && node scripts/build-agent-index.mjs && npm run build:blocks && npm run build:docs",
     "build:react": "tsc -p tsconfig.build.json",
+    "test:unit": "npm run build:react && node --test test/*.test.mjs",
     "build:docs": "tsc -p tsconfig.docs.json",
     "build:blocks": "tsc -p tsconfig.blocks.json",
     "build:tokens": "node scripts/build-tokens.mjs",

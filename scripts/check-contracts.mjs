@@ -294,6 +294,7 @@ const KNOWN_SCAFFOLDING = new Set([
   "site",
   "scripts",
   "tests",
+  "test",
   "deploy",
   "starters",
   ".claude",

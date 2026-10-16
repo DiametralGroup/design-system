@@ -455,6 +455,34 @@
       ]
     },
     {
+      "slug": "feedback",
+      "name": "Feedback",
+      "category": "Forms",
+      "exports": [
+        "FeedbackForm",
+        "FeedbackDialog",
+        "FeedbackTrigger"
+      ],
+      "description": "A form that asks what happened, with only the fields you configure: kind, note, topics, title, message, anonymous. Inline on a page or in a dialog. The transport is yours; the validation also ships without React as `@diametral/design-system/feedback`.",
+      "css": "css/components/feedback.css",
+      "url": "https://diametralgroup.github.io/design-system/docs/feedback",
+      "examples": [
+        {
+          "demo": "feedback/dialog",
+          "title": "Report button in a header",
+          "featured": true
+        },
+        {
+          "demo": "feedback/inline",
+          "title": "A feedback page"
+        },
+        {
+          "demo": "feedback/failing",
+          "title": "A send that fails, in French"
+        }
+      ]
+    },
+    {
       "slug": "tags-input",
       "name": "TagsInput",
       "category": "Forms",

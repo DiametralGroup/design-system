@@ -586,6 +586,41 @@ export const COMPONENTS: ComponentDoc[] = [
       "Built on the same radio-group mechanics, plus a hover preview: mouse-enter on an item has to visually fill up to that rank without committing the value, mouse-leave clears the preview back to the committed selection, and a click (or arrow-key move) commits it. `readOnly`/`disabled` must suppress both the hover preview and the click handler.",
   },
   {
+    slug: "feedback",
+    name: "Feedback",
+    category: "Forms",
+    exports: ["FeedbackForm", "FeedbackDialog", "FeedbackTrigger"],
+    description:
+      "A form that asks what happened, with only the fields you configure: kind, note, topics, title, message, anonymous. Inline on a page or in a dialog. The transport is yours; the validation also ships without React as `@diametral/design-system/feedback`.",
+    examples: [
+      {
+        demo: "feedback/dialog",
+        title: "Report button in a header",
+        featured: true,
+        description:
+          "A `FeedbackTrigger` opens a `FeedbackDialog` asking for a kind, a title and a message. Closing, with Escape or the close button, throws the draft away, and the dialog cannot be closed while a send is in flight.",
+      },
+      {
+        demo: "feedback/inline",
+        title: "A feedback page",
+        description:
+          "`FeedbackForm` on its own: a required five-level note with its level labels, topics, a 500-character message with a counter that stops at the limit, and an anonymous box. The success state offers `Send another`.",
+      },
+      {
+        demo: "feedback/failing",
+        title: "A send that fails, in French",
+        description:
+          "`onSubmit` rejects, so the error is shown above the actions and the input stays. `getErrorMessage` picks the text; without it the form shows `labels.error`. `locale=\"fr\"` switches every visible string.",
+      },
+    ],
+    parts: {
+      FeedbackTrigger:
+        "Its label folds away below the `lg` breakpoint and the icon stays; the `aria-label` is always set.",
+    },
+    wiring:
+      "A from-scratch binding takes the `.ds-*` classes and calls `validateFeedback` and `buildFeedbackPayload` from `@diametral/design-system/feedback` on submit: show the returned error codes under the fields only after the first attempt, disable the send button while the request is in flight, and keep the input when the request fails. The note is the `.ds-rating` radio group, the kind a single-choice toggle group.",
+  },
+  {
     slug: "tags-input",
     name: "TagsInput",
     category: "Forms",
