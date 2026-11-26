@@ -3,6 +3,8 @@
 The official Diametral design system, published to npm as `@diametral/design-system` (see `package.json` for the version).
 
 Build: `npm run build` (tokens → css → components → figma). Tests live in `site/` — `cd site && npm run test:visual`, `npm run test:a11y`.
+Running them as an AI agent (shared server, pre-installed headless shell, CI-identical
+results): `site/tests/README.md` → "Running the suites as an AI agent".
 Root is the published package; `site/` is the docs site — serve it locally with `cd site && npm run dev` (after `npm run build` at root, which `site/`'s `file:..` install needs).
 
 For generating on-brand UI with `.ds-*` classes and `--ds-*` tokens, read `docs/for-claude.md`.

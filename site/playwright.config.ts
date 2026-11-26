@@ -60,6 +60,17 @@ export default defineConfig({
     // the animation still has one gate that runs it for real — it landed with
     // the charts in 1.0.0-beta.4 and runs under `npm run test:regress`.
     contextOptions: { reducedMotion: "reduce" },
+    // Text width follows the machine's fontconfig hinting unless pinned, so a
+    // cloud agent's container wrapped lines differently from the CI runner and
+    // failed 10 baselines. Full hinting is what ubuntu-latest does by default:
+    // pinning it keeps the committed baselines valid on every machine.
+    launchOptions: {
+      args: ["--font-render-hinting=full"],
+      // Agent containers ship one pre-installed Chromium that may not be the
+      // build this Playwright expects. Point at its headless shell, which is
+      // what CI runs: full Chrome ignores the hinting flag above.
+      executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || undefined,
+    },
   },
 
   // One Chromium project keeps baselines stable and CI fast.
