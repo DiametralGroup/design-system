@@ -146,9 +146,12 @@ A cloud agent's container should get exactly CI's results. To get there:
    It must be the headless shell, which is what CI runs. The full `chrome` binary
    ignores the hinting pin and fails 10 baselines.
 4. Pass `--trace off` unless you are debugging one test.
-5. Restart the preview server between full runs. After several back-to-back suites,
-   block pages (several iframes each) start missing `networkidle` and time out at 90s.
-   That is the server, not the page: on a fresh server they pass.
+5. Known flake, root cause not found: `blocks/sidebar (dark)` sometimes never reaches
+   `networkidle` and times out at 90s, in either suite and with or without the
+   hinting pin. It shows up under load (parallel copies of the page, or late in
+   back-to-back suites) and passes when re-run alone
+   (`-g "blocks/sidebar \(dark\)"`). Re-run it before treating it as a failure.
+   When traced with CDP, every frame reached `networkIdle` within 2s.
 
 A visual failure that reproduces on a fresh server is a real diff. Look at
 `test-results/<test>/…-diff.png` before you think about baselines. Baselines
