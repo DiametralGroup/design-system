@@ -8,7 +8,7 @@ page and a login screen — running in minutes.
 
 ## Stack
 
-- **Vite 5** + **React 18** + **TypeScript 5**
+- **Vite 5** + **React 19** + **TypeScript 5**
 - **react-router-dom 6** for routing
 - **`@diametral/design-system`** for every UI piece (CSS + React components)
 
@@ -39,7 +39,7 @@ npm run preview  # serve the production build
   the `active` item derived from the current route, an `onNavigate` that calls
   `navigate(...)`, the theme switcher (`themes`), a `user`, and `<Routes>` as its
   children.
-- **`src/pages/`** — `Dashboard` (StatCards + an AreaChart), `Items` (a `DataGrid`
+- **`src/pages/`** — `Dashboard` (StatCards + an AreaChart), `Items` (a `DataTable`
   with a local `loadPage` that filters/sorts/paginates in memory), `ItemDetail`
   (reached from the grid via the route param) and `Login`.
 

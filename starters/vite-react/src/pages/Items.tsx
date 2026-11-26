@@ -2,6 +2,9 @@ import { useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
   PageHeader,
+  PageHeaderHeading,
+  PageHeaderTitle,
+  PageHeaderDescription,
   DataTable,
   Tag,
   type ColumnDef,
@@ -48,7 +51,7 @@ const columns: ColumnDef<Item>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
-      <Tag status={STATUS_TONE[row.original.status]}>{row.original.status}</Tag>
+      <Tag tone={STATUS_TONE[row.original.status]}>{row.original.status}</Tag>
     ),
   },
   {
@@ -102,8 +105,15 @@ export default function Items() {
 
   return (
     <>
-      <PageHeader title="Items" subtitle="A server-style DataTable over local data." />
-      <DataTable<Item>
+      <PageHeader>
+        <PageHeaderHeading>
+          <div className="ds-flex ds-flex-col ds-gap-1">
+            <PageHeaderTitle>Items</PageHeaderTitle>
+            <PageHeaderDescription>A server-style DataTable over local data.</PageHeaderDescription>
+          </div>
+        </PageHeaderHeading>
+      </PageHeader>
+      <DataTable
         columns={columns}
         rowKey={(row) => String(row.id)}
         loadPage={loadPage}
