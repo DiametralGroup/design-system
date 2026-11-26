@@ -311,9 +311,9 @@ real app, prefer npm + a bundler.
 
 <script type="importmap">
 { "imports": {
-  "react": "https://esm.sh/react@18.3.1",
-  "react-dom": "https://esm.sh/react-dom@18.3.1?external=react",
-  "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?external=react",
+  "react": "https://esm.sh/react@19.3.1",
+  "react-dom": "https://esm.sh/react-dom@19.3.1?external=react",
+  "react-dom/client": "https://esm.sh/react-dom@19.3.1/client?external=react",
   "@diametral/design-system/react": "https://esm.sh/@diametral/design-system/react"
 } }
 </script>

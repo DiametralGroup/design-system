@@ -128,7 +128,7 @@ system (principles, tokens, and every component as copy‑paste HTML) in a form 
 Claude that file once; then it builds screens using the real `.ds-*` classes.
 
 Its raw URL (handy for pasting):
-`https://raw.githubusercontent.com/LittleBigCode/design-system/main/docs/for-claude.md`
+`https://raw.githubusercontent.com/DiametralGroup/design-system/main/docs/for-claude.md`
 
 **Pick one of these — all work:**
 

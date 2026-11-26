@@ -1,6 +1,6 @@
 # Issue tracker: GitHub
 
-Issues for this repo live as GitHub issues on `LittleBigCode/design-system`. Use the `gh` CLI
+Issues for this repo live as GitHub issues on `DiametralGroup/design-system`. Use the `gh` CLI
 for all operations. Infer the repo from `git remote -v` — `gh` does this automatically when run
 inside a clone.
 

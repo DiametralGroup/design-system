@@ -43,5 +43,5 @@ fonts. The committed baselines are for running the check locally on Linux.
 Because the package is linked from `../..` rather than installed from the
 registry, two settings make the app resolve one copy of everything:
 `resolve.dedupe` in `vite.config.ts` (React, recharts, Phosphor) and `paths`
-in `tsconfig.json` (React 19 types — the repo root has React 18's). An app
+in `tsconfig.json` (one copy of React's types, not the repo root's too). An app
 installing `@diametral/design-system` from npm needs neither.
