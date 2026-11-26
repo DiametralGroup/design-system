@@ -63,6 +63,9 @@ export const RUNTIME_DATA_ATTRIBUTES = new Set([
   "data-input-otp-mse",
   "data-input-otp-mss",
   "data-input-otp-placeholder-shown",
+  // UI SDK's agent-bridge marker (ADR 0004). The React bridge reads it; no CSS
+  // does, and the buildless HTML tab has no bridge to hide anything from.
+  "data-agent-hidden",
   // Generic runtime state a component sets on itself and styles in JS, or
   // identifiers with no styling meaning at all.
   "data-complete",

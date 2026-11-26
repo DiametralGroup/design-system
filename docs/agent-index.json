@@ -3131,6 +3131,10 @@
         {
           "demo": "switch/in-toolbar",
           "title": "Toolbar filter"
+        },
+        {
+          "demo": "switch/agent",
+          "title": "Operated by an agent"
         }
       ]
     },
