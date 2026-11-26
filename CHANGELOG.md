@@ -4,6 +4,39 @@ All notable changes to the Diametral Design System are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the project
 adheres to [Semantic Versioning](https://semver.org/) — see [docs/versioning.md](docs/versioning.md).
 
+## [2.0.0] — 2026-11-26
+
+**Agent-ready, starting with Switch.** The React layer moves onto UI SDK, whose agent bridge lets
+an AI agent read and operate the UI without screenshots ([ADR 0004](docs/adr/0004-ui-sdk-as-the-agent-substrate.md)).
+How to move the next component and wire the bridge in an app: [`ADOPTION.md`](ADOPTION.md).
+
+### Changed (breaking)
+
+- **React 19 is required.** The peer range is `react >=19` / `react-dom >=19` (was `>=18`):
+  `@ui-sdk/react` needs React 19.
+- **`Switch` is built on UI SDK** instead of Base UI. Same export, props type, `.ds-*` classes,
+  `data-slot`s and `data-checked`/`data-unchecked`/`data-disabled`, so it looks the same.
+  - The root is a `role="switch"` `<button>` (was a `<span>`), followed by a visually hidden
+    `<input data-slot="switch-input">` that submits its value with a native form.
+  - **Enter no longer toggles it**; Space does. Enter submits the form, as on a native checkbox.
+
+### Added
+
+- **`@diametral/design-system/agent`** — `createAgent`, `registerTools`, `agentTools` and their
+  types, re-exported from the same `@ui-sdk/react` the components use, so an app has one core.
+- `Switch` is visible to the bridge: `snapshot()` reads it by its label, `act()` sets it, and
+  `onCheckedChange` gets `details.source === "agent"` for an agent's change.
+- New dependencies, pinned exactly: `@ui-sdk/core` and `@ui-sdk/react` `0.1.0-beta.17`.
+- Docs: Switch's "Operated by an agent" example, where `allow()` visibly refuses one step.
+
+### Fixed
+
+- **Breadcrumb without Tailwind** no longer draws a "1." list marker over the first crumb
+  (`ol.ds-breadcrumb-list { list-style: none }`).
+- **`starters/vite-react`** is ported from the 0.x API to this version and React 19: composed
+  `PageHeader`, `Breadcrumb`, `DescriptionList`, `Card` and `Field` parts, `AreaChart` with
+  `config`/`data`, and `Tag tone`.
+
 ## [1.1.0] — 2026-10-15
 
 ### Added
