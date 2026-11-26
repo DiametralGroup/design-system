@@ -1,6 +1,6 @@
 {
   "name": "@diametral/design-system",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Diametral Design System — a minimal, flat, buildless CSS + tokens + Web Components design system. Welcome to (the real).",
   "license": "MIT",
   "type": "module",
@@ -64,6 +64,10 @@
       "types": "./dist/react/lib/feedback.d.ts",
       "default": "./dist/react/lib/feedback.js"
     },
+    "./agent": {
+      "types": "./dist/react/lib/agent.d.ts",
+      "default": "./dist/react/lib/agent.js"
+    },
     "./react/*": {
       "types": "./dist/react/components/*.d.ts",
       "default": "./dist/react/components/*.js"
@@ -102,11 +106,11 @@
   "devDependencies": {
     "@shadcn/react": "^0.2.1",
     "@tailwindcss/cli": "^4.3.3",
-    "@types/react": "^18.3.31",
-    "@types/react-dom": "^18.3.7",
+    "@types/react": "^19.3.3",
+    "@types/react-dom": "^19.3.0",
     "postcss": "^8.5.30",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "tailwindcss": "^4.3.3",
     "typescript": "~5.7"
   },
@@ -115,8 +119,8 @@
   },
   "peerDependencies": {
     "@shadcn/react": "^0.2.1",
-    "react": ">=18",
-    "react-dom": ">=18"
+    "react": ">=19",
+    "react-dom": ">=19"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -138,6 +142,8 @@
     "@fontsource-variable/geist-mono": "^5.3.0",
     "@phosphor-icons/react": "^2.1.10",
     "@tanstack/react-table": "^8.21.3",
+    "@ui-sdk/core": "0.1.0-beta.17",
+    "@ui-sdk/react": "0.1.0-beta.17",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",

@@ -3,6 +3,8 @@
 The official Diametral design system, published to npm as `@diametral/design-system` (see `package.json` for the version).
 
 Build: `npm run build` (tokens → css → components → figma). Tests live in `site/` — `cd site && npm run test:visual`, `npm run test:a11y`.
+Running them as an AI agent (shared server, pre-installed headless shell, CI-identical
+results): `site/tests/README.md` → "Running the suites as an AI agent".
 Root is the published package; `site/` is the docs site — serve it locally with `cd site && npm run dev` (after `npm run build` at root, which `site/`'s `file:..` install needs).
 
 For generating on-brand UI with `.ds-*` classes and `--ds-*` tokens, read `docs/for-claude.md`.
@@ -19,7 +21,8 @@ by the absorption, not deprecated.
 `docs/absorption/audit-2026-10.md`). `css/components/*.css` are generated from it by
 `node scripts/sync-incoming-css.mjs <incoming checkout>` — edit only the "DiametralGroup
 additions" block of a generated file; `react/components/*.tsx` are incoming's files plus
-marked additions. `starters/ops-dashboard` (incoming's example app on this package) must keep
+marked additions, except components moved to UI SDK, which this repo owns
+([ADR 0004](docs/adr/0004-ui-sdk-as-the-agent-substrate.md), `ADOPTION.md`). `starters/ops-dashboard` (incoming's example app on this package) must keep
 passing its parity test. The earlier batches read the frozen `migration-source-v1` tag
 ([issue #171](https://github.com/diamorval/design-system-diametral/issues/171)).
 
@@ -50,7 +53,7 @@ The batch queue itself lives here, as issues in this repo.
 
 ### Issue tracker
 
-Issues live in GitHub Issues on `LittleBigCode/design-system`, via the `gh` CLI.
+Issues live in GitHub Issues on `DiametralGroup/design-system`, via the `gh` CLI.
 See `docs/agents/issue-tracker.md`.
 
 ### Triage labels

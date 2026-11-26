@@ -6,7 +6,8 @@
     "rootDir": "site/src/registry",
     "paths": {
       "@diametral/design-system/react": ["./dist/react/index.d.ts"],
-      "@diametral/design-system/react/*": ["./dist/react/components/*"]
+      "@diametral/design-system/react/*": ["./dist/react/components/*"],
+      "@diametral/design-system/agent": ["./dist/react/lib/agent.d.ts"]
     }
   },
   "include": [

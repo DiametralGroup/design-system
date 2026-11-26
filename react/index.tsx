@@ -22,7 +22,7 @@ import { cx } from "./lib/cx.js";
 import React from "react";
 import { createPortal } from "react-dom";
 
-import type { HTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, JSX, ReactNode } from "react";
 
 /* The `Status` union type that lived here is `StatusTone`, in
    components/status.tsx. It could not be kept as a deprecated alias: `Status`

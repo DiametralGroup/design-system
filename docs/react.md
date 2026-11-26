@@ -101,9 +101,9 @@ map — this is exactly what the live demo does:
 ```html
 <script type="importmap">
 { "imports": {
-  "react": "https://esm.sh/react@18.3.1",
-  "react-dom": "https://esm.sh/react-dom@18.3.1?external=react",
-  "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?external=react"
+  "react": "https://esm.sh/react@19.3.1",
+  "react-dom": "https://esm.sh/react-dom@19.3.1?external=react",
+  "react-dom/client": "https://esm.sh/react-dom@19.3.1/client?external=react"
 } }
 </script>```
 
@@ -114,6 +114,8 @@ import map that omits these resolves nothing:
 <script type="importmap">
 { "imports": {
   "@base-ui/react/": "https://esm.sh/@base-ui/react@1.6.0/?external=react,react-dom",
+  "@ui-sdk/react/": "https://esm.sh/@ui-sdk/react@0.1.0-beta.17/?external=react,react-dom,@ui-sdk/core",
+  "@ui-sdk/core/": "https://esm.sh/@ui-sdk/core@0.1.0-beta.17/",
   "@phosphor-icons/react": "https://esm.sh/@phosphor-icons/react@2.1.10?external=react"
 } }
 </script>

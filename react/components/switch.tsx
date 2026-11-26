@@ -1,6 +1,13 @@
 "use client"
 
-import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
+// Owned here since ADR 0004: built on UI SDK rather than incoming's Base UI
+// switch, so the agent bridge can read and change it. Same export, same
+// `.ds-switch` classes and `data-slot`s, same `data-checked`/`data-unchecked`.
+import type { ComponentProps, ReactNode } from "react"
+import {
+  Switch as SwitchPrimitive,
+  SwitchThumb,
+} from "@ui-sdk/react/switch"
 
 import { cn } from "../lib/utils.js"
 
@@ -8,25 +15,27 @@ function Switch({
   className,
   size = "default",
   ...props
-}: SwitchPrimitive.Root.Props & {
-  size?: "sm" | "default"
-}) {
+}: SwitchProps) {
   return (
-    <SwitchPrimitive.Root
+    <SwitchPrimitive
       data-slot="switch"
       data-size={size}
       className={cn("peer ds-switch", className)}
       {...props}
     >
-      <SwitchPrimitive.Thumb
-        data-slot="switch-thumb"
-        className="ds-switch-thumb"
-      />
-    </SwitchPrimitive.Root>
+      <SwitchThumb data-slot="switch-thumb" className="ds-switch-thumb" />
+    </SwitchPrimitive>
   )
 }
 
 // DiametralGroup addition: the props type, named for callers.
-export type SwitchProps = SwitchPrimitive.Root.Props & { size?: "sm" | "default" }
+export type SwitchProps = Omit<
+  ComponentProps<typeof SwitchPrimitive>,
+  "className" | "children"
+> & {
+  className?: string
+  children?: ReactNode
+  size?: "sm" | "default"
+}
 
 export { Switch }

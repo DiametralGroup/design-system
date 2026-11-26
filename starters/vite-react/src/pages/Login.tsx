@@ -3,6 +3,7 @@ import {
   Wordmark,
   Card,
   Field,
+  FieldLabel,
   Input,
   Button,
   SectionHeading,
@@ -30,11 +31,13 @@ export default function Login({ onSignIn }: { onSignIn: () => void }) {
             Welcome back. Any credentials work in this starter.
           </p>
           <div style={{ display: "grid", gap: "14px" }}>
-            <Field label="Email">
-              <Input type="email" defaultValue="you@diametral.io" required />
+            <Field>
+              <FieldLabel htmlFor="login-email">Email</FieldLabel>
+              <Input id="login-email" type="email" defaultValue="you@diametral.io" required />
             </Field>
-            <Field label="Password">
-              <Input type="password" defaultValue="password" required />
+            <Field>
+              <FieldLabel htmlFor="login-password">Password</FieldLabel>
+              <Input id="login-password" type="password" defaultValue="password" required />
             </Field>
             <Button variant="primary" block loading={loading} type="submit">
               Sign in

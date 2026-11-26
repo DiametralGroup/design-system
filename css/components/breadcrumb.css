@@ -74,3 +74,17 @@
   }
 }
 
+
+/* ============================================================================
+   DiametralGroup additions — rules incoming does not define: the 0.x class
+   grammar that <ds-*> web components, Streamlit/Keycloak HTML and the
+   additive variants still write. Bare rules in @layer components, qualified ones in
+   @layer utilities, the same split incoming uses.
+   ============================================================================ */
+@layer utilities {
+  /* fix-forward: incoming's list relies on Tailwind preflight for list-style;
+     without Tailwind its <ol> draws "1." markers (docs/absorption/corrections.md). */
+  ol.ds-breadcrumb-list {
+    list-style: none;
+  }
+}

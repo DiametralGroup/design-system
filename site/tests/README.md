@@ -126,3 +126,33 @@ for animation that CSS neutralisation cannot reach — Recharts animates via
 `requestAnimationFrame`, not transitions. The visual suite additionally injects a
 stylesheet killing animations, transitions and the blinking caret, after load so
 it wins on ordering.
+
+Text is measured with `--font-render-hinting=full`, pinned in `playwright.config.ts`.
+Without it, line widths follow the machine's fontconfig: a container with lighter
+hinting wrapped some lines differently from the CI runner, so pages came out
+20–40px shorter and 10 baselines failed. Full hinting is ubuntu-latest's own
+default, so the pin changes nothing on CI and the committed baselines hold everywhere.
+
+## Running the suites as an AI agent
+
+A cloud agent's container should get exactly CI's results. To get there:
+
+1. Build first: `npm run build` at the root, then `npm --prefix site run build`.
+2. Serve once and leave it running: `cd site && npx vite preview --port 4173 --strictPort`.
+   `reuseExistingServer` picks it up, so each suite skips its own rebuild.
+3. If the container ships a Chromium that this Playwright version doesn't expect,
+   don't download one. Point at the installed **headless shell** instead:
+   `PLAYWRIGHT_CHROMIUM_EXECUTABLE=/path/to/chrome-headless-shell npx playwright test …`.
+   It must be the headless shell, which is what CI runs. The full `chrome` binary
+   ignores the hinting pin and fails 10 baselines.
+4. Pass `--trace off` unless you are debugging one test.
+5. Known flake, root cause not found: `blocks/sidebar (dark)` sometimes never reaches
+   `networkidle` and times out at 90s, in either suite and with or without the
+   hinting pin. It shows up under load (parallel copies of the page, or late in
+   back-to-back suites) and passes when re-run alone
+   (`-g "blocks/sidebar \(dark\)"`). Re-run it before treating it as a failure.
+   When traced with CDP, every frame reached `networkIdle` within 2s.
+
+A visual failure that reproduces on a fresh server is a real diff. Look at
+`test-results/<test>/…-diff.png` before you think about baselines. Baselines
+still come only from CI (see above).

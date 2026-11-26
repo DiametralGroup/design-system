@@ -240,12 +240,12 @@ jobs:
             </Card>
           )
           TSX
-          npm install --no-audit --no-fund react@18 react-dom@18 @types/react@18 \
-            @types/react-dom@18 typescript /tmp/diametral-design-system-*.tgz
+          npm install --no-audit --no-fund react@19 react-dom@19 @types/react@19 \
+            @types/react-dom@19 typescript /tmp/diametral-design-system-*.tgz
 
-      # The peer range is `>=18` and no React-19-only API is used. This is the
-      # compile that keeps that claim honest (#155 decision 3).
-      - name: Consumer typechecks against the tarball on React 18
+      # The peer range is `>=19` since ADR 0004 (UI SDK needs React 19). This is
+      # the compile that keeps the floor of that range honest.
+      - name: Consumer typechecks against the tarball on React 19
         run: cd /tmp/consumer && npx tsc --noEmit
 
       - name: Consumer resolves the package under plain Node ESM

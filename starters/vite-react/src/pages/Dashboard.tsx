@@ -1,5 +1,8 @@
 import {
   PageHeader,
+  PageHeaderHeading,
+  PageHeaderTitle,
+  PageHeaderDescription,
   StatCard,
   StatCardDelta,
   StatCardLabel,
@@ -7,20 +10,40 @@ import {
   StatCardValue,
   Sparkline,
   Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
   AreaChart,
+  type ChartConfig,
 } from "@diametral/design-system/react";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"];
 const REVENUE = [12, 19, 14, 23, 28, 26, 34, 41];
 const SIGNUPS = [4, 6, 5, 9, 8, 12, 14, 18];
 
+const TREND = MONTHS.map((month, i) => ({
+  month,
+  revenue: REVENUE[i],
+  signups: SIGNUPS[i],
+}));
+const TREND_CONFIG = {
+  revenue: { label: "Revenue", color: "var(--ds-chart-1)" },
+  signups: { label: "Sign-ups", color: "var(--ds-chart-2)" },
+} satisfies ChartConfig;
+
 export default function Dashboard() {
   return (
     <>
-      <PageHeader
-        title="Dashboard"
-        subtitle="A snapshot of how the workspace is doing."
-      />
+      <PageHeader>
+        <PageHeaderHeading>
+          <div className="ds-flex ds-flex-col ds-gap-1">
+            <PageHeaderTitle>Dashboard</PageHeaderTitle>
+            <PageHeaderDescription>
+              A snapshot of how the workspace is doing.
+            </PageHeaderDescription>
+          </div>
+        </PageHeaderHeading>
+      </PageHeader>
 
       <div
         style={{
@@ -58,17 +81,13 @@ export default function Dashboard() {
         </StatCard>
       </div>
 
-      <Card title="Revenue vs. sign-ups">
-        <AreaChart
-          width={760}
-          height={240}
-          labels={MONTHS}
-          series={[
-            { name: "Revenue", data: REVENUE },
-            { name: "Sign-ups", data: SIGNUPS },
-          ]}
-          style={{ width: "100%" }}
-        />
+      <Card>
+        <CardHeader>
+          <CardTitle>Revenue vs. sign-ups</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <AreaChart config={TREND_CONFIG} data={TREND} xAxisKey="month" grid />
+        </CardContent>
       </Card>
     </>
   );

@@ -10,7 +10,7 @@ import type {
   RefAttributes,
 } from "react";
 
-export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
+export interface AppShellProps extends Omit<HTMLAttributes<HTMLDivElement>, "onToggle"> {
   /** Content of the full-width top header region (e.g. a Wordmark + actions). */
   header?: ReactNode;
   /** Content of the left sidebar region (typically a `Sidebar`). Omit to render a header + main only. */

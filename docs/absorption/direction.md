@@ -34,7 +34,7 @@ not a veto on what incoming does have.
 | 10 | `diametral.css` declares `--ds-*` only. | Codemod incoming's ~20 unprefixed global slots (`--border`→`--ds-rule`, `--ring`→`--ds-focus-ring`, `--foreground`→`--ds-ink`, …) across its 110 CSS files. Nothing unprefixed reaches a consumer's `:root`. `themes/{dark,ocean,sepia}.css` keep working unchanged — they are additives. |
 | 11 | Keep the 11-PR stack; add a reversal series on top. | Batches 1–5 are net-new and untouched by this reset. Batches 9+ stack on [#27](https://github.com/LittleBigCode/design-system/pull/27) and apply decisions 1–10. Nothing merges until the queue is done. Batch 0.3's charte pass, batch 6 and batch 7 get written then unwritten inside the unmerged stack; this file is why. |
 | 12 | Restore incoming's docs chrome verbatim, retokenised to `--ds-*`. | `docs-layout`, `docs-search`, `component-page`, `overview`, `playground`, `workbench`, `anatomy`. The local copy diverged (209 lines changed) only to route around the missing `Sidebar`; decision 3 removes that reason. The docs site is then built from the library's own components. |
-| 13 | Peer stays `react >=18`. | No React-19-only API is used and `@base-ui/react` accepts `17 \|\| 18 \|\| 19`. CI must run an 18 job to keep the claim honest, and each of decision 4's five new deps needs its 18 support confirmed. |
+| 13 | ~~Peer stays `react >=18`.~~ Superseded by [ADR 0004](../adr/0004-ui-sdk-as-the-agent-substrate.md): peer is `react >=19`. | No React-19-only API is used and `@base-ui/react` accepts `17 \|\| 18 \|\| 19`. CI must run an 18 job to keep the claim honest, and each of decision 4's five new deps needs its 18 support confirmed. |
 
 ## What this does not change
 

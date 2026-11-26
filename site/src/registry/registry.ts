@@ -4072,9 +4072,15 @@ export const COMPONENTS: ComponentDoc[] = [
         description:
           '`size="sm"` is the dense pairing — a switch reading as one word of chrome in a bar, where a checkbox would read as part of a form.',
       },
+      {
+        demo: "switch/agent",
+        title: "Operated by an agent",
+        description:
+          "Built on UI SDK, so the agent bridge sees it: `snapshot()` reads each switch by its label, `act()` toggles it, and `onCheckedChange` reports `details.source === \"agent\"`. The bridge's `allow` callback refuses any step on \"Share publicly\", so that switch never moves. The demo's own buttons sit in `data-agent-hidden`.",
+      },
     ],
     wiring:
-      "The real root is a `role=\"switch\"` button that IS the track (`data-checked`/`data-unchecked`, no hidden input), so a from-scratch binding must wire its own click/Space/Enter handler that flips those two data attributes and, if the value needs to reach a native form, add a hidden input itself — Base UI's switch doesn't render one. `<ds-switch>` does not cover this: it renders the older grammar entirely (a `<label>` wrapping a real checkbox `<input>` plus a `.ds-switch__track` span), and while `switch.css` disambiguates the shared `.ds-switch` class name by `:has(> .ds-switch__track)`, the two are different DOM shapes with a different state model.",
+      "The real root is a `role=\"switch\"` button that IS the track (`data-checked`/`data-unchecked`), followed by a visually hidden checkbox (`data-slot=\"switch-input\"`) that carries the value into a native form. A from-scratch binding must wire its own click/Space/Enter handler that flips those two data attributes. The agent bridge only sees the UI SDK switch, not a hand-wired one (ADR 0004). `<ds-switch>` does not cover this: it renders the older grammar entirely (a `<label>` wrapping a real checkbox `<input>` plus a `.ds-switch__track` span), and while `switch.css` disambiguates the shared `.ds-switch` class name by `:has(> .ds-switch__track)`, the two are different DOM shapes with a different state model.",
   },
   {
     slug: "slider",
